@@ -1,0 +1,10 @@
+installer nest
+installer extention : npm i ejs //front   https://www.youtube.com/watch?v=4l9lGt15XYw
+
+
+npm i --save class-validator class-transformer //transformer et valider les donnee  https://www.youtube.com/watch?v=hMxuqzKTKHo&t=594s
+
+
+npm install --save @nestjs/typeorm typeorm pg // pour la base de donnee postgres https://docs.nestjs.com/techniques/database https://blog.devgenius.io/setting-up-nestjs-with-postgresql-ac2cce9045fe
+
+

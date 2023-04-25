@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+    postgre:
+        image: postgres
+        container_name: postgres
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: mysecretpassword
+        restart: always
+            

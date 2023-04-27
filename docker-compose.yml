@@ -6,5 +6,25 @@ services:
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: mysecretpassword
+        networks:  
+            - transcendence
         restart: always
-            
+
+    back:
+        tty: true
+        build: docker/back
+        ports:
+            - '3000:3000'
+        container_name: back
+        volumes:
+            - "./nestjs:/usr/src/app"
+        networks:
+            - transcendence
+        working_dir: /usr/src/app
+        restart: always
+
+networks:
+    transcendence:
+        driver: bridge
+volumes:
+    back:

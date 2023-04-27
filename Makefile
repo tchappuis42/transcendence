@@ -15,8 +15,10 @@ build:
 down:
 		sudo docker-compose down
 
+re:			down all
+
 clean:		down
-		sudo docker system prune -a
+		sudo docker system prune -a -f
 
 ps:
 		sudo docker ps

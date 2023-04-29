@@ -7,13 +7,9 @@ npm i --save class-validator class-transformer //transformer et valider les donn
 
 npm install --save @nestjs/typeorm typeorm pg // pour la base de donnee postgres https://docs.nestjs.com/techniques/database https://blog.devgenius.io/setting-up-nestjs-with-postgresql-ac2cce9045fe
 
-TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'user',
-      password: 'mysecretpassword',
-      database: 'test',
-      entities: [],
-      synchronize: true,
-  }), 
+npm i -D @types/bcrypt // cryptage du mdp
+
+psql -h localhost -p 5432 -U user -d test // voir ma db test 
+\d voir les table
+\d "nom de la table " voir les finfom d'une table
+

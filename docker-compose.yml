@@ -1,13 +1,16 @@
 version: "3.9"
 services:
     postgre:
-        image: postgres
+        image: postgres:15.2
         container_name: postgres
         environment:
-            POSTGRES_USER: user
-            POSTGRES_PASSWORD: mysecretpassword
+            POSTGRES_DB: test
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: pswd
         networks:  
             - transcendence
+        volumes:
+            - /home/tchapp/dbdata:/var/lib/postgresql/data
         restart: always
 
     back:
@@ -25,6 +28,6 @@ services:
 
 networks:
     transcendence:
-        driver: bridge
+        #driver: bridge
 volumes:
     back:

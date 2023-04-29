@@ -20,5 +20,8 @@ re:			down all
 clean:		down
 		sudo docker system prune -a -f
 
+fclean: 	clean
+		sudo rm -rf /home/tchapp/dbdata/*
+		
 ps:
 		sudo docker ps

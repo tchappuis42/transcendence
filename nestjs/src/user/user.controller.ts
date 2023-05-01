@@ -1,11 +1,18 @@
-import { Controller, Get, Render, Post, Body, Redirect, UseInterceptors, ClassSerializerInterceptor} from '@nestjs/common';
+import { Controller, Get, Render, Post, Body, Redirect, UseInterceptors, ClassSerializerInterceptor, Session} from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { UserService } from './user.service';
 import { LoginDto } from './dtos/loginDto';
+import { SupportOptionRange } from 'prettier';
+import { AvatarDto } from './dtos/AvatarDto';
+import { error } from 'console';
 
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService : UserService) {}
+
+	@Get()
+	@Render("user/user")
+	getUser(){}
 
 	@Get("/signup")
 	@Render("user/signup")
@@ -15,6 +22,10 @@ export class UserController {
 	@Render("user/login")
 	getLogin(){}
 
+	@Get("/avatar")
+	@Render("user/avatar")
+	getAvatar(){}
+
 	@Post("/signup")
 	@Redirect("/user/login")
 	async postSignup(@Body() body : SignupDto){
@@ -23,7 +34,24 @@ export class UserController {
 
 	@Post("/login")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async postLogin(@Body() body : LoginDto){
-		return await this.userService.postLogin(body)
+	@Redirect("/")
+	async postLogin(@Body() body : LoginDto, @Session() session : Record<string, any>){
+		const user = await this.userService.postLogin(body)
+		session.user = user
+		session.connected = true
+		return session
 	}
+
+	@Post("/logout")
+	@Redirect("/")
+	postLogout(@Session() session : Record<string, any>) {
+		session.destroy(err => {});
+	}
+
+
+
+	/*@Post("/avatar")
+	async postAvatar(@Body() body : AvatarDto){
+		return {message : await this.userService.postAvatar(body)}
+	}*/
 }

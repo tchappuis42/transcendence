@@ -12,6 +12,12 @@ export class User {
   @Column({unique : true})
   email: string;
 
+  @Column({ default: "512x512bb.jpg" })
+  avatar: string;
+
+  @Column({ default: false })
+  connected: boolean;
+
   @Column()
   @Exclude()
   password: string;

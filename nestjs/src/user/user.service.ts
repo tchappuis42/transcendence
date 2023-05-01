@@ -5,13 +5,14 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { LoginDto } from './dtos/loginDto';
+import { AvatarDto } from './dtos/AvatarDto';
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>,) {}
 
-	async postSignup(body: SignupDto) {
+	async postSignup(body: SignupDto): Promise<string>{
 		try{
 			const {password} = body
 			const hash = await bcrypt.hash(password, 10)
@@ -20,6 +21,8 @@ export class UserService {
 			return "User Created!"
 		} catch (error) {
 			throw new ConflictException("email deja utilise")
+		   // console.error(error); // Log l'erreur dans la console
+   	 		//throw new Error('Error during signup'); // Renvoie une erreur pour l'afficher dans l'API
 		}
 	}
 
@@ -29,6 +32,14 @@ export class UserService {
 		if(!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
+		user.connected = true;
 		return user
 	}
+
+	/*async postAvatar(body: AvatarDto) {
+		const {avatar} = body
+		const user = this.usersRepository.create({...body})
+		await this.usersRepository.save(user)
+		return "avatar mis a jour"
+	}*/
 }

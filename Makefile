@@ -21,6 +21,7 @@ clean:		down
 		sudo docker system prune -a -f
 
 fclean: 	clean
+		sudo chmod 777 /home/tchapp/dbdata/*
 		sudo rm -rf /home/tchapp/dbdata/*
 		
 ps:

@@ -1,0 +1,9 @@
+<%- include("./partials/header", {title : "home page"}) %>
+	<h1>home page</h1>
+	<% if (locals.connected) { %>
+		<h1>bonjour <%= locals.user.username  %></h1>
+		<% } else { %>
+		 <h1> pas connecter </h1>
+	<% } %>
+	<img src="pong-video-game.gif" alt="Computer man" style="width:480px;height: 480px;">
+<%- include("./partials/footer") %>

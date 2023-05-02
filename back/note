@@ -1,0 +1,21 @@
+installer nest
+installer extention :
+npm i ejs //front   https://www.youtube.com/watch?v=4l9lGt15XYw
+npm i --save class-validator class-transformer //transformer et valider les donnee  https://www.youtube.com/watch?v=hMxuqzKTKHo&t=594s
+npm install --save @nestjs/typeorm typeorm pg // pour la base de donnee postgres https://docs.nestjs.com/techniques/database https://blog.devgenius.io/setting-up-nestjs-with-postgresql-ac2cce9045fe
+npm i -D @types/bcrypt // cryptage du mdp
+npm i -D @types/express-session //https://docs.nestjs.com/techniques/session
+npm install --save @nestjs/swagger // https://docs.nestjs.com/openapi/introduction
+
+psql -h localhost -p 5432 -U root -d test // voir ma db test 
+\d voir les table
+\d "nom de la table " voir les finfom d'une table
+
+
+gestion des images / telechargement :
+nestjs/platform-express
+nestjs/multer
+
+communication front back:   https://docs.nestjs.com/techniques/http-module
+axios?
+

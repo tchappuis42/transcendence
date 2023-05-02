@@ -10,17 +10,32 @@ services:
         networks:  
             - transcendence
         volumes:
-            - /home/tchapp/dbdata:/var/lib/postgresql/data
+            - db:/var/lib/postgresql/data
         restart: always
 
     back:
-        tty: true
+        #tty: true
         build: docker/back
         ports:
             - '3000:3000'
+        depends_on:
+            - postgre
         container_name: back
         volumes:
-            - "./nestjs:/usr/src/app"
+            - "./back:/usr/src/app"
+        networks:
+            - transcendence
+        working_dir: /usr/src/app
+        restart: always
+    
+    front:
+        tty: true
+        build: docker/front
+        ports:
+            - '4000:4000'
+        container_name: front
+        volumes:
+            - "./front:/usr/src/app"
         networks:
             - transcendence
         working_dir: /usr/src/app
@@ -28,6 +43,5 @@ services:
 
 networks:
     transcendence:
-        #driver: bridge
 volumes:
-    back:
+    db:

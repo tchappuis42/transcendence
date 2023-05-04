@@ -17,7 +17,7 @@ services:
         #tty: true
         build: docker/back
         ports:
-            - '3000:3000'
+            - '4000:4000'
         depends_on:
             - postgre
         container_name: back
@@ -32,7 +32,7 @@ services:
         tty: true
         build: docker/front
         ports:
-            - '4000:4000'
+            - '3000:3000'
         container_name: front
         volumes:
             - "./front:/usr/src/app"

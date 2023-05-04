@@ -4,4 +4,4 @@ COPY ./js.sh .
 
 WORKDIR /usr/src/app
 
-#CMD ["sh", "/js.sh"]
+CMD ["sh", "/js.sh"]

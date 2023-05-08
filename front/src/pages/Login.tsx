@@ -1,18 +1,55 @@
-import React from 'react';
 import Navigation from '../components/Navigation';
+import axios from 'axios';
+import { useState } from 'react';
+import React, { SyntheticEvent } from "react";
 
 const Login = () => {
+	const [data, setData] = useState({
+		email: "",
+		password: ""
+	});
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setData({ ...data, [e.target.name]: e.target.value });
+	}
+
+	const handleSubmit = (e: SyntheticEvent) => {
+		e.preventDefault();
+		const userData = {
+			email: data.email,
+			password: data.password,
+		};
+		axios.post("http://localhost:4000/user/login", userData).then((response) => {
+			console.log(response.status, response.data.token);
+		});
+	};
+
 	return (
 		<div>
 			<Navigation />
-			<form action="http://localhost:4000/user/signup" method="POST">
-				<label>Nom : <input name="name" /></label>
-				<label>Adresse mél : <input name="email" /></label>
-				<label>Commentaire : <textarea name="comment"></textarea></label>
-				<button>Laisser un commentaire</button>
+			<h1>Login page</h1>
+			<form onSubmit={handleSubmit}>
+				<label htmlFor="email">
+					Email
+					<input
+						type="email"
+						name="email"
+						value={data.email}
+						onChange={handleChange}
+					/>
+				</label>
+				<label htmlFor="password">
+					Password
+					<input
+						type="password"
+						name="password"
+						value={data.password}
+						onChange={handleChange}
+					/>
+				</label>
+				<button type="submit">Login</button>
 			</form>
 		</div >
 	);
 };
-
 export default Login;

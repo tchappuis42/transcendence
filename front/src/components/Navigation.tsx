@@ -15,6 +15,9 @@ const Navigation = () => {
 					<NavLink to="/signup">
 						<li>signup</li>
 					</NavLink>
+					<NavLink to="/pong">
+						<li>pong</li>
+					</NavLink>
 				</ul>
 			</div>
 		</div>

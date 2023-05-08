@@ -26,6 +26,10 @@ export class UserController {
 	@Render("user/avatar")
 	getAvatar() { }
 
+	@Get("/pong")
+	@Render("user/pong")
+	getpong() { }
+
 	@Post("/signup")
 	//@Redirect("/user/login")
 	async postSignup(@Body() body: SignupDto) {

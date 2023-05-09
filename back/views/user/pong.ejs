@@ -12,7 +12,7 @@
 		}
 
 		body {
-			background: rgb(99, 2, 83);
+			background: hsl(0, 63%, 12%);
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -29,7 +29,7 @@
 		const paddleHeight = grid * 5; // 80
 		const maxPaddleY = canvas.height - grid - paddleHeight;
 
-		var paddleSpeed = 6;
+		var paddleSpeed = 5;
 		var ballSpeed = 2;
 
 		const leftPaddle = {
@@ -100,6 +100,7 @@
 			context.font = "30px Arial"
 			context.fillText(game.score_left, 650, 70);
 			context.fillText(game.score_right, 100, 70);
+			//context.fillText(ball.dx, 300, 70);
 
 			// draw paddles
 			context.fillStyle = 'white';
@@ -161,6 +162,8 @@
 
 					// give some time for the player to recover before launching the ball again
 					setTimeout(() => {
+						ball.dx = ballSpeed;
+						ball.dy = ballSpeed;
 						ball.resetting = false;
 						ball.x = canvas.width / 2;
 						ball.y = canvas.height / 2;
@@ -178,6 +181,12 @@
 					// move ball next to the paddle otherwise the collision will happen again
 					// in the next frame
 					ball.x = leftPaddle.x + leftPaddle.width;
+
+					//increases the speed of the ball by 0.2 each time it touches a pad
+					if (ball.dx < 6) {
+						ball.dx += 0.2;
+						ball.dy += 0.2;
+					}
 				}
 				else if (collides(ball, rightPaddle)) {
 					ball.dx *= -1;
@@ -185,6 +194,12 @@
 					// move ball next to the paddle otherwise the collision will happen again
 					// in the next frame
 					ball.x = rightPaddle.x - ball.width;
+
+					//increases the speed of the ball by 0.2 each time it touches a pad
+					if (ball.dx > -6) {
+						ball.dx -= 0.2;
+						ball.dy -= 0.2;
+					}
 				}
 
 				// draw ball
@@ -217,6 +232,8 @@
 				game.start = 1;
 				game.score_left = 0;
 				game.score_right = 0;
+				ball.dx = ballSpeed;
+				ball.dy = ballSpeed;
 				rightPaddle.y = canvas.height / 2 - paddleHeight / 2;
 				leftPaddle.y = canvas.height / 2 - paddleHeight / 2;
 			}

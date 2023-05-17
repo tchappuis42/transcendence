@@ -4,6 +4,7 @@ npm i ejs
 npm i --save class-validator class-transformer
 npm install --save @nestjs/typeorm typeorm pg
 #npm i -D @types/bcrypt
+#npm install @nestjs/cors
 npm i bcrypt
 npm install --save @nestjs/swagger
 npm i express-session

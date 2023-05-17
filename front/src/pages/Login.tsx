@@ -21,14 +21,17 @@ const Login = () => {
 		};
 		axios.post("http://localhost:4000/user/login", userData).then((response) => {
 			console.log(response.status, response.data.token);
-		});
+		})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
 		<div>
 			<Navigation />
 			<h1>Login page</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className='form'>
 				<label htmlFor="email">
 					Email
 					<input

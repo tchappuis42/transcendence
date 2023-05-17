@@ -33,8 +33,8 @@ export class UserController {
 	@Post("/signup")
 	//@Redirect("/user/login")
 	async postSignup(@Body() body: SignupDto) {
-		return body
-		//return { message: await this.userService.postSignup(body) }
+		//return body
+		return { message: await this.userService.postSignup(body) }
 	}
 
 	@Post("/login")

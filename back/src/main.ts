@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { APP_FILTER, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -21,6 +21,8 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
+
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('example')

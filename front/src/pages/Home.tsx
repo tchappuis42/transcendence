@@ -5,8 +5,7 @@ const Home = () => {
 	return (
 		<div>
 			<Navigation />
-			<h1>home page</h1>
-			<img src="pong-video-game.gif" alt="Computer man" />
+			<div className='body'></div>
 		</div>
 	);
 };

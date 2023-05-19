@@ -34,7 +34,7 @@ const Pong = () => {
 	const paddleHeight = grid * 5; // 80
 	const maxPaddleY = 585 - grid - paddleHeight;
 	const paddleSpeed = 7;
-	const ballSpeed = 7;
+	const ballSpeed = 4;
 
 	const [ball, setBall] = useState<Ball>({
 		x: width / 2,
@@ -131,66 +131,26 @@ const Pong = () => {
 		}
 		if (e.key === "q") {
 			setBall({ ...ball, x: width / 2, y: height / 2 })
+			setGameinfo({ ...gameInfo, score_left: 0, score_right: 0 })
 		}
 	}
 
 	const keyUpHandler = (e: KeyboardEvent) => {
-		if (e.key === "w") {
+		if (e.key === "w" && leftPaddle.dy < 0) {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
-		if (e.key === "s") {
+		if (e.key === "s" && leftPaddle.dy > 0) {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
-		if (e.key === "i") {
+		if (e.key === "i" && rightPaddle.dy < 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
-		if (e.key === "k") {
+		if (e.key === "k" && rightPaddle.dy > 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
 	}
 
-	useEffect(() => {
-		const handleGameUpdate = () => {
-			setleftpaddle((prevPaddle) => ({
-				...prevPaddle,
-				y: prevPaddle.y + prevPaddle.dy
-			}));
-			setrightpaddle((prevPaddle) => ({
-				...prevPaddle,
-				y: prevPaddle.y + prevPaddle.dy
-			}));
-			setBall((prevBall) => ({
-				...prevBall,
-				x: prevBall.x + prevBall.dx,
-				y: prevBall.y + prevBall.dy,
-			}));
-		};
-		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);
-
-		return () => {
-			clearInterval(gameLoop);
-		};
-	}, []);
-
-
-
-	useEffect(() => {
-		const canvas = canvasRef.current;
-		if (!canvas)
-			return;
-		canvas.width = width;
-		canvas.height = height;
-		canvas.id = "pong";
-		const context = canvas.getContext("2d");
-		if (!context)
-			return;
-		drawMap(context, canvas);
-		drawPaddle(context, leftPaddle, rightPaddle);
-		drawGame(context, gameInfo);
-		drawBall(context, ball);
-		window.addEventListener('keydown', keyDownHandler);
-		window.addEventListener('keyup', keyUpHandler);
-
+	const paddlelogic = () => {
 		//left paddle logic
 		if (leftPaddle.y < grid) {
 			setleftpaddle((prevPaddle) => ({
@@ -217,7 +177,9 @@ const Pong = () => {
 				y: maxPaddleY,
 			}));
 		}
+	}
 
+	const ballLogic = () => {
 		//ball logic
 		//collision avec les murs
 		if (ball.y < grid) {
@@ -269,14 +231,14 @@ const Pong = () => {
 		}
 
 		// reset ball if it goes past paddle (but only if we haven't already done so)
-		if ((ball.x < 0 || ball.x > canvas.width) && !ball.resetting) {
+		if ((ball.x < 0 || ball.x > width) && !ball.resetting) {
 			if (ball.x < 0) {
 				setGameinfo((prevGame) => ({
 					...prevGame,
 					score_left: prevGame.score_left + 1,
 				}));
 			}
-			if (ball.x > canvas.width) {
+			if (ball.x > width) {
 				setGameinfo((prevGame) => ({
 					...prevGame,
 					score_right: prevGame.score_right + 1,
@@ -301,7 +263,51 @@ const Pong = () => {
 				// ball.y = canvas.height / 2;
 			}, 400);
 		}
+	}
 
+	useEffect(() => {
+		const handleGameUpdate = () => {
+			setleftpaddle((prevPaddle) => ({
+				...prevPaddle,
+				y: prevPaddle.y + prevPaddle.dy
+			}));
+			setrightpaddle((prevPaddle) => ({
+				...prevPaddle,
+				y: prevPaddle.y + prevPaddle.dy
+			}));
+			setBall((prevBall) => ({
+				...prevBall,
+				x: prevBall.x + prevBall.dx,
+				y: prevBall.y + prevBall.dy,
+			}));
+		};
+		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);
+
+		return () => {
+			clearInterval(gameLoop);
+		};
+	}, []);
+
+
+
+	useEffect(() => {
+		const canvas = canvasRef.current;
+		if (!canvas)
+			return;
+		canvas.width = width;
+		canvas.height = height;
+		canvas.id = "pong";
+		const context = canvas.getContext("2d");
+		if (!context)
+			return;
+		drawMap(context, canvas);
+		drawPaddle(context, leftPaddle, rightPaddle);
+		drawGame(context, gameInfo);
+		drawBall(context, ball);
+		window.addEventListener('keydown', keyDownHandler);
+		window.addEventListener('keyup', keyUpHandler);
+		paddlelogic();
+		ballLogic();
 		return () => {
 			window.removeEventListener("keydown", keyDownHandler);
 			window.removeEventListener("keyup", keyUpHandler);

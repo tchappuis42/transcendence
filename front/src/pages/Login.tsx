@@ -1,4 +1,4 @@
-import Navigation from '../components/Navigation';
+import Navigation from '../ui/organisms/Navigation';
 import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
@@ -29,7 +29,6 @@ const Login = () => {
 
 	return (
 		<div>
-			<Navigation />
 			<h1>Login page</h1>
 			<form onSubmit={handleSubmit} className='form'>
 				<label htmlFor="email">

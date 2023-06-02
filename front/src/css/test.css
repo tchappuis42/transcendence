@@ -1,11 +1,5 @@
-.body {
-	display: flex;
-	background: url('../../public/pong-video-game.gif') no-repeat;
-	background-size: cover;
-	background-position: center;
+#root {
 	min-height: 100vh;
-	justify-content: center;
-	align-items: center;
 }
 
 .form {
@@ -17,12 +11,16 @@
 	flex-direction: vertical;
 }
 
-.navigation {
+#header {
 	display: flex;
-	background-color: #eee;
-	list-style-type: none;
-	margin-right: -4px;
+	flex-direction: row;
+	justify-content: space-around;
 	padding: 10px;
-	border-right: 1px solid white;
-	flex-direction: column;
+	background-color: #eee;
+}
+
+.modal {
+	position: fixed;
+	z-index: 1;
+	top: 50;
 }

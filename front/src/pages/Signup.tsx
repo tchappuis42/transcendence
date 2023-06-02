@@ -1,4 +1,4 @@
-import Navigation from '../components/Navigation';
+import Navigation from '../ui/organisms/Navigation';
 import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
@@ -30,7 +30,6 @@ const Signup = () => {
 
 	return (
 		<div>
-			<Navigation />
 			<h1>Signup page</h1>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="text">

@@ -1,4 +1,4 @@
-import Navigation from '../../components/Navigation';
+import Navigation from '../../ui/organisms/Navigation';
 import React, { useRef, useEffect, useState } from 'react';
 
 interface Paddle {
@@ -316,7 +316,6 @@ const Pong = () => {
 
 	return (
 		<div>
-			<Navigation />
 			<h1>pong page</h1>
 			<div className='pong'>
 				<canvas ref={canvasRef} />

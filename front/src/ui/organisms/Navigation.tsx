@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+const currentPath = window.location.pathname;
+
 type Props = {
 	options: Option[];
 };
@@ -11,17 +13,16 @@ export type Option = {
 };
 
 const NavigationItem = ({ option }: { option: Option }) => {
-	const currentPath = window.location.pathname;
-	return <Link to={option.url} className={currentPath === option.url ? 'active' : 'link'}>
+	return <NavLink to={option.url} className='link'>
 		{option.label}
-	</Link >
+	</NavLink >
 }
 
 const Navigation = ({ options }: Props) => {
 	return (
-		<div id="header">
+		<div className="header">
 			{
-				options.map((option) => <NavigationItem option={option} key={option.url} />)
+				options.map((option) => <NavigationItem option={option} />)
 			}
 		</div>
 	);

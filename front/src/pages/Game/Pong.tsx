@@ -315,9 +315,8 @@ const Pong = () => {
 	}, [leftPaddle, ball, rightPaddle]);
 
 	return (
-		<div>
-			<h1>pong page</h1>
-			<div className='pong'>
+		<div className='signup'>
+			<div id="pong">
 				<canvas ref={canvasRef} />
 			</div>
 		</div>

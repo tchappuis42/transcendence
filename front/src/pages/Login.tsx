@@ -28,28 +28,28 @@ const Login = () => {
 	};
 
 	return (
-		<div>
-			<h1>Login page</h1>
-			<form onSubmit={handleSubmit} className='form'>
+		<div className='signup'>
+			<form onSubmit={handleSubmit} id="form">
+				<h1 className='text'>Login</h1>
 				<label htmlFor="email">
-					Email
-					<input
+					<input className='input'
 						type="email"
 						name="email"
 						value={data.email}
 						onChange={handleChange}
+						placeholder='email@exemple.com'
 					/>
 				</label>
 				<label htmlFor="password">
-					Password
-					<input
+					<input className='input'
 						type="password"
 						name="password"
 						value={data.password}
 						onChange={handleChange}
+						placeholder='password'
 					/>
 				</label>
-				<button type="submit">Login</button>
+				<button type="submit" className='button'>Login</button>
 			</form>
 		</div >
 	);

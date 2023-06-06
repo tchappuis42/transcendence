@@ -1,26 +1,83 @@
-#root {
-	min-height: 100vh;
+#form {
+	display: flex;
+	width: 450px;
+	height: 500px;
+	background: rgba(255, 255, 255, 0);
+	border-radius: 50px;
+	box-shadow: 5px 20px 50px #000000;
+	flex-direction: column;
+	align-items: center;
+	color: white;
+	font-size: xx-large;
 }
 
-.form {
-	color: rgb(252, 101, 0);
+.text {
+	margin-top: 60px;
+	font-size: 70px;
+	color: rgb(0, 0, 0);
+	height: 60px;
+	font-family: sans-serif;
+}
+
+.signup {
+	position: absolute;
+	height: 95%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
-	font-family: Arial, Helvetica, sans-serif;
 	align-items: center;
-	flex-direction: vertical;
 }
+
+.input {
+	margin-top: 20px;
+	border: none;
+	border-radius: 50px;
+	height: 50px;
+	width: 400px;
+	line-height: normal;
+	color: #000000;
+	display: block;
+	box-sizing: border-box;
+	user-select: auto;
+	font-size: 16px;
+	padding: 0 6px;
+	padding-left: 12px;
+}
+
 
 #header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	padding: 10px;
-	background-color: #eee;
+	background-color: #ffffffb2;
 }
 
 .modal {
 	position: fixed;
 	z-index: 1;
 	top: 50;
+}
+
+.button {
+	background-color: #ffffff2a;
+	color: rgb(0, 0, 0);
+	padding: 15px 32px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 50px;
+	margin-top: 35px;
+}
+
+#pong {
+	display: flex;
+	justify-content: center;
+}
+
+.link {
+	color: #ff0000;
+}
+
+.active {
+	color: aqua;
 }

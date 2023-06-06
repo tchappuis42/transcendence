@@ -2,15 +2,16 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
 
-const navigationOptions: Option[] = [
-	{
-
-	}
-]
+const navigationOptions = [
+	{ label: 'Home', url: '/' },
+	{ label: 'login', url: '/login' },
+	{ label: 'signup', url: '/signup' },
+	{ label: 'pong', url: '/pong' },
+];
 
 const Home = () => {
-	return <div id="home">
-		<Navigation />
+	return <div>
+		<Navigation options={navigationOptions} />
 		<Outlet />
 	</div>
 };

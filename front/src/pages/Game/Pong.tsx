@@ -10,7 +10,7 @@ interface Paddle {
 }
 
 interface Game {
-	start: number;
+	start: boolean;
 	score_left: number;
 	score_right: number;
 	winner: number;
@@ -48,9 +48,9 @@ const Pong = () => {
 
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		// start in the middle of the game on the left side
-		x: grid * 2,
+		x: (grid * 2) + 15,
 		y: height / 2 - paddleHeight / 2,
-		width: grid,
+		width: 1,
 		height: paddleHeight,
 
 		// paddle velocity
@@ -61,7 +61,7 @@ const Pong = () => {
 		// start in the middle of the game on the left side
 		x: 750 - (grid * 3),
 		y: 585 / 2 - paddleHeight / 2,
-		width: grid,
+		width: 1,
 		height: paddleHeight,
 
 		// paddle velocity
@@ -69,7 +69,7 @@ const Pong = () => {
 	});
 
 	const [gameInfo, setGameinfo] = useState<Game>({
-		start: 0,
+		start: false,
 		score_left: 0,
 		score_right: 0,
 		winner: 0,
@@ -112,8 +112,9 @@ const Pong = () => {
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
 		context.fillStyle = 'white';
-		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
+		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
+		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
+		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
 	}
 
 	const keyDownHandler = (e: KeyboardEvent) => {
@@ -132,6 +133,9 @@ const Pong = () => {
 		if (e.key === "q") {
 			setBall({ ...ball, x: width / 2, y: height / 2 })
 			setGameinfo({ ...gameInfo, score_left: 0, score_right: 0 })
+		}
+		if (e.key === "z") {
+			setGameinfo({ ...gameInfo, start: true })
 		}
 	}
 
@@ -204,12 +208,18 @@ const Pong = () => {
 				...prevBall,
 				dx: prevBall.dx * -1,
 				x: prevBall.x + prevBall.width,
+
 			}));
 			//increases the speed of the ball by 0.2 each time it touches a pad
-			//if (ball.dx < 6) {
-			//	ball.dx += 0.2;
-			//	ball.dy += 0.2;
-			//}
+			if (ball.dx < 6) {
+				setBall((prevBall) => ({
+					...prevBall,
+					dx: prevBall.dx += 0.2,
+					dy: prevBall.dy += 0.2,
+					x: prevBall.x += 0.2,
+					y: prevBall.y += 0.2,
+				}));
+			}
 		}
 		console.log("ball.dx = ", ball.dx);
 		if (collides(ball, rightPaddle)) {
@@ -224,10 +234,15 @@ const Pong = () => {
 			// 	ball.x = rightPaddle.x - ball.width;
 
 			// 	//increases the speed of the ball by 0.2 each time it touches a pad
-			// 	if (ball.dx > -6) {
-			// 		ball.dx -= 0.2;
-			// 		ball.dy -= 0.2;
-			// 	}
+			if (ball.dx > -8) {
+				setBall((prevBall) => ({
+					...prevBall,
+					dx: prevBall.dx -= 0.2,
+					dy: prevBall.dy -= 0.2,
+					x: prevBall.x -= 0.2,
+					y: prevBall.y -= 0.2,
+				}));
+			}
 		}
 
 		// reset ball if it goes past paddle (but only if we haven't already done so)
@@ -255,17 +270,15 @@ const Pong = () => {
 					resetting: false,
 					x: width / 2,
 					y: height / 2,
+					dx: ballSpeed,
+					dy: ballSpeed,
 				}));
-				// ball.dx = ballSpeed;
-				// ball.dy = ballSpeed;
-				// ball.resetting = false;
-				// ball.x = canvas.width / 2;
-				// ball.y = canvas.height / 2;
 			}, 400);
 		}
 	}
 
 	useEffect(() => {
+		//if (gameInfo.start == true) {
 		const handleGameUpdate = () => {
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
@@ -282,12 +295,11 @@ const Pong = () => {
 			}));
 		};
 		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);
-
 		return () => {
 			clearInterval(gameLoop);
 		};
+		//}
 	}, []);
-
 
 
 	useEffect(() => {

@@ -99,6 +99,9 @@ const Pong = () => {
 
 	const drawBall = (context: CanvasRenderingContext2D, ball: Ball) => {
 		context.fillRect(ball.x, ball.y, ball.width, ball.height);
+		context.fillStyle = 'white';
+		context.beginPath();
+		context.arc(ball.x, ball.y, 50, 0, 2 * Math.PI);
 	}
 
 	const drawGame = (context: CanvasRenderingContext2D, gameInfo: Game) => {

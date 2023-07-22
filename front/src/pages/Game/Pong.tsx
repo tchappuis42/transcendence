@@ -7,6 +7,7 @@ interface Paddle {
 	width: number;
 	height: number;
 	dy: number;
+	color: number;
 }
 
 interface Game {
@@ -24,6 +25,7 @@ interface Ball {
 	resetting: boolean,
 	dx: number,
 	dy: number,
+	color: number;
 }
 
 const Pong = () => {
@@ -43,7 +45,8 @@ const Pong = () => {
 		height: grid,
 		resetting: false,
 		dx: ballSpeed,
-		dy: -ballSpeed
+		dy: -ballSpeed,
+		color: 1,
 	})
 
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
@@ -52,7 +55,7 @@ const Pong = () => {
 		y: height / 2 - paddleHeight / 2,
 		width: 1,
 		height: paddleHeight,
-
+		color: 1,
 		// paddle velocity
 		dy: 0,
 	});
@@ -63,7 +66,7 @@ const Pong = () => {
 		y: 585 / 2 - paddleHeight / 2,
 		width: 1,
 		height: paddleHeight,
-
+		color: 1,
 		// paddle velocity
 		dy: 0,
 	});
@@ -87,7 +90,12 @@ const Pong = () => {
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
 		// draw walls
-		context.fillStyle = 'lightgrey';
+		if (ball.color % 30 < 10)
+			context.fillStyle = 'red';
+		else if (ball.color % 30 < 20)
+			context.fillStyle = 'blue';
+		else
+			context.fillStyle = 'yellow';
 		context.fillRect(0, 0, canvas.width, grid);
 		context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
 
@@ -98,8 +106,13 @@ const Pong = () => {
 	}
 
 	const drawBall = (context: CanvasRenderingContext2D, ball: Ball) => {
+		if (ball.color % 30 < 10)
+			context.fillStyle = 'red';
+		else if (ball.color % 30 < 20)
+			context.fillStyle = 'blue';
+		else
+			context.fillStyle = 'yellow';
 		context.fillRect(ball.x, ball.y, ball.width, ball.height);
-		context.fillStyle = 'white';
 		context.beginPath();
 		context.arc(ball.x, ball.y, 50, 0, 2 * Math.PI);
 	}
@@ -114,9 +127,20 @@ const Pong = () => {
 
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
-		context.fillStyle = 'white';
+		if (leftPaddle.color % 3 == 0)
+			context.fillStyle = 'red';
+		if (leftPaddle.color % 3 == 1)
+			context.fillStyle = 'blue';
+		if (leftPaddle.color % 3 == 2)
+			context.fillStyle = 'yellow';
 		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
+		if (rightPaddle.color % 3 == 0)
+			context.fillStyle = 'red';
+		if (rightPaddle.color % 3 == 1)
+			context.fillStyle = 'blue';
+		if (rightPaddle.color % 3 == 2)
+			context.fillStyle = 'yellow';
 		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
 	}
 
@@ -213,6 +237,7 @@ const Pong = () => {
 				x: prevBall.x + prevBall.width,
 
 			}));
+			setleftpaddle({ ...leftPaddle, color: leftPaddle.color + 1 })
 			//increases the speed of the ball by 0.2 each time it touches a pad
 			if (ball.dx < 6) {
 				setBall((prevBall) => ({
@@ -232,6 +257,7 @@ const Pong = () => {
 				dx: prevBall.dx * (-1),
 				x: prevBall.x - prevBall.width,
 			}));
+			setrightpaddle({ ...rightPaddle, color: rightPaddle.color + 1 })
 			// 	// move ball next to the paddle otherwise the collision will happen again
 			// 	// in the next frame
 			// 	ball.x = rightPaddle.x - ball.width;
@@ -295,6 +321,7 @@ const Pong = () => {
 				...prevBall,
 				x: prevBall.x + prevBall.dx,
 				y: prevBall.y + prevBall.dy,
+				color: prevBall.color + 1,
 			}));
 		};
 		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);

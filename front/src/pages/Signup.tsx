@@ -18,12 +18,7 @@ const Signup = () => {
 
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		const userData = {
-			email: data.email,
-			password: data.password,
-			username: data.username
-		};
-		axios.post("http://localhost:4000/user/signup", userData).then((response) => {
+		axios.post("http://localhost:4000/user/signup", data).then((response) => {
 			console.log(response.status, response.data.token);
 		});
 	};

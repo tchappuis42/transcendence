@@ -15,11 +15,7 @@ const Login = () => {
 
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		const userData = {
-			email: data.email,
-			password: data.password,
-		};
-		axios.post("http://localhost:4000/user/login", userData).then((response) => {
+		axios.post("http://localhost:4000/user/login", data).then((response) => {
 			console.log(response.status, response.data.token);
 		})
 			.catch((error) => {

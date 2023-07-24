@@ -2,6 +2,7 @@ import Navigation from '../ui/organisms/Navigation';
 import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 	const [data, setData] = useState({
@@ -46,6 +47,7 @@ const Login = () => {
 					/>
 				</label>
 				<button type="submit" className='button'>Login</button>
+				<Link to="/signup" >test</Link>
 			</form>
 		</div >
 	);

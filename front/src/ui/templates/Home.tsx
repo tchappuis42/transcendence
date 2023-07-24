@@ -1,19 +1,34 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, redirect } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
+import Login from '../../pages/Login';
+import Signup from '../../pages/Signup';
+import Test from '../../pages/test';
+
 
 const navigationOptions = [
-	{ label: 'Home', url: '/' },
 	{ label: 'login', url: '/login' },
 	{ label: 'signup', url: '/signup' },
 	{ label: 'pong', url: '/pong' },
 ];
 
 const Home = () => {
-	return <div>
-		<Navigation options={navigationOptions} />
-		<Outlet />
-	</div>
+	var a = 0;
+	if (a === 1) {
+		return (
+			<div>
+				redirect("/login"),
+				<Outlet />
+			</div>
+		)
+	}
+	else {
+		return <div>
+			<Navigation options={navigationOptions} />
+			<Outlet />
+		</div>
+	}
 };
 
 export default Home;
+

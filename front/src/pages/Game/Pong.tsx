@@ -15,6 +15,7 @@ interface Game {
 	score_left: number;
 	score_right: number;
 	winner: number;
+	rgb: boolean;
 }
 
 interface Ball {
@@ -76,6 +77,7 @@ const Pong = () => {
 		score_left: 0,
 		score_right: 0,
 		winner: 0,
+		rgb: false,
 	});
 
 	function collides(obj1: Ball, obj2: Paddle) {
@@ -90,12 +92,16 @@ const Pong = () => {
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
 		// draw walls
-		if (ball.color % 30 < 10)
-			context.fillStyle = 'red';
-		else if (ball.color % 30 < 20)
-			context.fillStyle = 'blue';
+		if (gameInfo.rgb === true) {
+			if (ball.color % 30 < 10)
+				context.fillStyle = 'red';
+			else if (ball.color % 30 < 20)
+				context.fillStyle = 'blue';
+			else
+				context.fillStyle = 'yellow';
+		}
 		else
-			context.fillStyle = 'yellow';
+			context.fillStyle = 'white';
 		context.fillRect(0, 0, canvas.width, grid);
 		context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
 
@@ -106,12 +112,16 @@ const Pong = () => {
 	}
 
 	const drawBall = (context: CanvasRenderingContext2D, ball: Ball) => {
-		if (ball.color % 30 < 10)
-			context.fillStyle = 'red';
-		else if (ball.color % 30 < 20)
-			context.fillStyle = 'blue';
+		if (gameInfo.rgb === true) {
+			if (ball.color % 30 < 10)
+				context.fillStyle = 'red';
+			else if (ball.color % 30 < 20)
+				context.fillStyle = 'blue';
+			else
+				context.fillStyle = 'yellow';
+		}
 		else
-			context.fillStyle = 'yellow';
+			context.fillStyle = 'white';
 		context.fillRect(ball.x, ball.y, ball.width, ball.height);
 		context.beginPath();
 		context.arc(ball.x, ball.y, 50, 0, 2 * Math.PI);
@@ -127,20 +137,28 @@ const Pong = () => {
 
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
-		if (leftPaddle.color % 3 == 0)
-			context.fillStyle = 'red';
-		if (leftPaddle.color % 3 == 1)
-			context.fillStyle = 'blue';
-		if (leftPaddle.color % 3 == 2)
-			context.fillStyle = 'yellow';
+		if (gameInfo.rgb) {
+			if (leftPaddle.color % 3 == 0)
+				context.fillStyle = 'red';
+			if (leftPaddle.color % 3 == 1)
+				context.fillStyle = 'blue';
+			if (leftPaddle.color % 3 == 2)
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
 		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
-		if (rightPaddle.color % 3 == 0)
-			context.fillStyle = 'red';
-		if (rightPaddle.color % 3 == 1)
-			context.fillStyle = 'blue';
-		if (rightPaddle.color % 3 == 2)
-			context.fillStyle = 'yellow';
+		if (gameInfo.rgb) {
+			if (rightPaddle.color % 3 == 0)
+				context.fillStyle = 'red';
+			if (rightPaddle.color % 3 == 1)
+				context.fillStyle = 'blue';
+			if (rightPaddle.color % 3 == 2)
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
 		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
 	}
 
@@ -163,6 +181,12 @@ const Pong = () => {
 		}
 		if (e.key === "z") {
 			setGameinfo({ ...gameInfo, start: true })
+		}
+		if (e.key === "p") {
+			if (gameInfo.rgb === true)
+				setGameinfo({ ...gameInfo, rgb: false })
+			else
+				setGameinfo({ ...gameInfo, rgb: true })
 		}
 	}
 

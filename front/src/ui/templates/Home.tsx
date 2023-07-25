@@ -10,6 +10,7 @@ const navigationOptions = [
 	{ label: 'login', url: '/login' },
 	{ label: 'signup', url: '/signup' },
 	{ label: 'pong', url: '/pong' },
+	{ label: 'chat', url: '/chat' },
 ];
 
 const Home = () => {

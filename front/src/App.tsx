@@ -4,7 +4,7 @@ import Home from './ui/templates/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Pong from './pages/Game/Pong';
-import Test from './pages/test';
+import Chat from './pages/chat';
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
           <Route path='login' element={<Login />} />
           <Route path='signup' element={<Signup />} />
           <Route path='pong' element={<Pong />} />
-          <Route path='test' element={<Test />} />
+          <Route path='chat' element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>

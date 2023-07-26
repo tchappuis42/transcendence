@@ -13,13 +13,10 @@ const navigationOptions = [
 ];
 
 const Home = () => {
-	var a = 0;
+	var a = 1;
 	if (a === 1) {
 		return (
-			<div>
-				redirect("/login"),
-				<Outlet />
-			</div>
+			Login()
 		)
 	}
 	else {

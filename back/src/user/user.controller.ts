@@ -43,7 +43,7 @@ export class UserController {
 	async postLogin(@Body() body: LoginDto, @Session() session: Record<string, any>) {
 		const user = await this.userService.postLogin(body)
 		session.user = user
-		session.connected = true
+		//session.connected = true
 		return session
 	}
 

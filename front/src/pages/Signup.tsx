@@ -2,6 +2,7 @@ import Navigation from '../ui/organisms/Navigation';
 import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
+import { Link } from 'react-router-dom';
 
 
 
@@ -55,6 +56,7 @@ const Signup = () => {
 					/>
 				</label>
 				<button className='button' type="submit">Signup</button>
+				<Link to="/login">Login</Link>
 			</form>
 		</div >
 	);

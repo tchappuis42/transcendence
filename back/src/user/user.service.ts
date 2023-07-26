@@ -32,7 +32,6 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
-		//user.connected = true;
 		return user
 	}
 

@@ -18,6 +18,8 @@ const Login = () => {
 		e.preventDefault();
 		axios.post("http://localhost:4000/user/login", data).then((response) => {
 			console.log(response.status, response.data.token);
+			console.log(document.cookie)
+
 		})
 			.catch((error) => {
 				console.log(error);
@@ -47,7 +49,7 @@ const Login = () => {
 					/>
 				</label>
 				<button type="submit" className='button'>Login</button>
-				<Link to="/signup" >test</Link>
+				<Link to="/signup">Signup</Link>
 			</form>
 		</div >
 	);

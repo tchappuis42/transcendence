@@ -10,26 +10,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class UserController {
 	constructor(private readonly userService: UserService) { }
 
-	@Get()
-	@Render("user/user")
-	getUser() { }
-
-	@Get("/signup")
-	@Render("user/signup")
-	getSignup() { }
-
-	@Get("/login")
-	@Render("user/login")
-	getLogin() { }
-
-	@Get("/avatar")
-	@Render("user/avatar")
-	getAvatar() { }
-
-	@Get("/pong")
-	@Render("user/pong")
-	getpong() { }
-
 	@Post("/signup")
 	//@Redirect("/user/login")
 	async postSignup(@Body() body: SignupDto) {

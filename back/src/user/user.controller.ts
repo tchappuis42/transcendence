@@ -22,9 +22,9 @@ export class UserController {
 	//@Redirect("/")
 	async postLogin(@Body() body: LoginDto, @Session() session: Record<string, any>) {
 		const user = await this.userService.postLogin(body)
-		session.user = user
+		//session.user = user
 		//session.connected = true
-		return session
+		return user
 	}
 
 	@Post("/logout")

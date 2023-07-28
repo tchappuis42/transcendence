@@ -6,11 +6,12 @@ import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class UserService {
 	constructor(
-		@InjectRepository(User) private usersRepository: Repository<User>,) { }
+		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
 	async postSignup(body: SignupDto): Promise<string> {
 		try {
@@ -32,7 +33,12 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
-		return user
+
+		//return la cle jwt au login
+		const payload = { sub: user.id, username: user.username };
+		return {
+			access_token: await this.jwtService.signAsync(payload),
+		};
 	}
 
 	/*async postAvatar(body: AvatarDto) {

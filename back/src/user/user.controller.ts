@@ -1,36 +1,40 @@
-import { Controller, Get, Render, Post, Body, Redirect, UseInterceptors, ClassSerializerInterceptor, Session, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Render, Post, Body, Request, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards } from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { UserService } from './user.service';
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
-import { error } from 'console';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from './auth.guard';
 
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) { }
 
 	@Post("/signup")
-	//@Redirect("/user/login")
 	async postSignup(@Body() body: SignupDto) {
-		//return body
 		return { message: await this.userService.postSignup(body) }
 	}
 
 	@Post("/login")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	//@Redirect("/")
-	async postLogin(@Body() body: LoginDto, @Session() session: Record<string, any>) {
-		const user = await this.userService.postLogin(body)
-		//session.user = user
-		//session.connected = true
-		return user
+	async postLogin(@Body() body: LoginDto) {
+		const token = await this.userService.postLogin(body)
+		return token
 	}
 
+	@UseGuards(AuthGuard)
+	@Get("/profile")
+	getProfile(@Request() req: any) {
+		return req.user;
+	}
+
+	//todo a faire
+
+	@Get("/test")
+	gettest() { }
+
 	@Post("/logout")
-	@Redirect("/")
-	postLogout(@Session() session: Record<string, any>) {
-		session.destroy(err => { });
+	postLogout() {
 	}
 
 

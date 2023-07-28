@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -7,6 +7,7 @@ import * as bcrypt from "bcrypt"
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { JwtService } from '@nestjs/jwt'
+
 
 @Injectable()
 export class UserService {
@@ -40,11 +41,13 @@ export class UserService {
 			access_token: await this.jwtService.signAsync(payload),
 		};
 	}
-
-	/*async postAvatar(body: AvatarDto) {
-		const {avatar} = body
-		const user = this.usersRepository.create({...body})
-		await this.usersRepository.save(user)
-		return "avatar mis a jour"
-	}*/
 }
+
+
+/*async postAvatar(body: AvatarDto) {
+	const {avatar} = body
+	const user = this.usersRepository.create({...body})
+	await this.usersRepository.save(user)
+	return "avatar mis a jour"
+}*/
+

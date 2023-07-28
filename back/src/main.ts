@@ -4,8 +4,6 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as session from 'express-session';
-import { localData } from "./middlewares/localData"
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -14,14 +12,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, "..", "public"))
   app.setViewEngine("ejs")
 
-  app.use(
-    session({
-      secret: 'my-secret',
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
-
   app.enableCors();
 
   const config = new DocumentBuilder()
@@ -29,10 +19,10 @@ async function bootstrap() {
     .setDescription('API description')
     .setVersion('1.0')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.use(localData);
   await app.listen(4000);
 }
 bootstrap();

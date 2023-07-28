@@ -10,6 +10,9 @@ import { AuthGuard } from './auth.guard';
 export class UserController {
 	constructor(private readonly userService: UserService) { }
 
+	@Get("/test")
+	gettest() { }
+
 	@Post("/signup")
 	async postSignup(@Body() body: SignupDto) {
 		return { message: await this.userService.postSignup(body) }
@@ -18,20 +21,18 @@ export class UserController {
 	@Post("/login")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async postLogin(@Body() body: LoginDto) {
-		const token = await this.userService.postLogin(body)
-		return token
+		return this.userService.postLogin(body);
 	}
 
 	@UseGuards(AuthGuard)
-	@Get("/profile")
+	@Get("/me")
 	getProfile(@Request() req: any) {
 		return req.user;
 	}
 
 	//todo a faire
 
-	@Get("/test")
-	gettest() { }
+
 
 	@Post("/logout")
 	postLogout() {

@@ -14,6 +14,10 @@ export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
+	async validateUser(body: LoginDto): Promise<any> {
+
+	}
+
 	async postSignup(body: SignupDto): Promise<string> {
 		try {
 			const { password } = body

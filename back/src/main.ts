@@ -1,6 +1,5 @@
-import { APP_FILTER, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -9,14 +8,13 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe())
-  app.setBaseViewsDir(join(__dirname, "..", "views"))
-  app.useStaticAssets(join(__dirname, "..", "public"))
-  app.setViewEngine("ejs")
 
   app.enableCors({
     credentials: true,
-    allowedHeaders: 'Cookie'
+    // allowedHeaders: 'Cookie',
+    origin: 'http://localhost:3000'
   });
+
   app.use(cookieParser());
 
   const config = new DocumentBuilder()

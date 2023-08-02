@@ -38,13 +38,15 @@ export class UserService {
 	}
 
 	async postLogin(body: LoginDto): Promise<{ access_token: string }> {
-		const user = await this.validateUser(body)
-		if (user) {
-			//return la cle jwt au login
-			const payload = { sub: user.id, username: user.username };
-			return {
-				access_token: await this.jwtService.signAsync(payload),
-			}
+		const { password, email } = body
+		const user = await this.usersRepository.findOne({ where: { email: email } })
+		if (!user) throw new NotFoundException("user not found")
+		const match = await bcrypt.compare(password, user.password)
+		if (!match) throw new UnauthorizedException("Ivalide password")
+		//return la cle jwt au login
+		const payload = { sub: user.id, username: user.username, };
+		return {
+			access_token: await this.jwtService.signAsync(payload),
 		};
 	}
 }

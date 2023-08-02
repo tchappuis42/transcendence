@@ -1,15 +1,16 @@
-import { Controller, Get, Post, Body, Request, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { UserService } from './user.service';
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './auth.guard';
-import { Response, response } from 'express';
-import { promises } from 'dns';
+import { Request, Response, request, response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
 export class UserController {
+	private jwtService: JwtService;
 	constructor(private readonly userService: UserService) { }
 
 	@Get("/test")
@@ -26,17 +27,17 @@ export class UserController {
 		const access_token = this.userService.postLogin(body);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
-			secure: false,
-			sameSite: 'lax',
-			expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
 		});
 		return access_token;
 	}
 
-	@UseGuards(JwtAuthGuard)
+	//@UseGuards(JwtAuthGuard)
 	@Get("/me")
-	getProfile(@Request() req: any) {
-		return req.user;
+	async getProfile(@Req() req: Request) {
+		Logger.log(req.cookies);
+		const token = req.cookies['access_token'];
+		const data = await this.jwtService.verifyAsync(token);
+		return data;
 	}
 
 	//todo a faire

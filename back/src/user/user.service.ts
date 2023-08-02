@@ -14,12 +14,9 @@ export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
-	async validateUser(body: LoginDto): Promise<any> {
-		const { password, email } = body
-		const user = await this.usersRepository.findOne({ where: { email: email } })
+	async validateUser(username: string): Promise<any> {
+		const user = await this.usersRepository.findOne({ where: { username: username } })
 		if (!user) throw new NotFoundException("user not found")
-		const match = await bcrypt.compare(password, user.password)
-		if (!match) throw new UnauthorizedException("Ivalide password")
 		return user;
 	}
 
@@ -37,7 +34,7 @@ export class UserService {
 		}
 	}
 
-	async postLogin(body: LoginDto): Promise<{ access_token: string }> {
+	async postLogin(body: LoginDto) {
 		const { password, email } = body
 		const user = await this.usersRepository.findOne({ where: { email: email } })
 		if (!user) throw new NotFoundException("user not found")
@@ -47,9 +44,7 @@ export class UserService {
 
 		//return la cle jwt au login
 		const payload = { sub: user.id, username: user.username };
-		return {
-			access_token: await this.jwtService.signAsync(payload),
-		};
+		return await this.jwtService.signAsync(payload)
 	}
 }
 

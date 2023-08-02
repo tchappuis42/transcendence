@@ -10,11 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
 export class UserController {
-	private jwtService: JwtService;
-	constructor(private readonly userService: UserService) { }
-
-	@Get("/test")
-	gettest() { }
+	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
 	@Post("/signup")
 	async postSignup(@Body() body: SignupDto) {
@@ -22,46 +18,23 @@ export class UserController {
 	}
 
 	@Post("/login")
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
 		const access_token = await this.userService.postLogin(body);
-		res.cookie('access_token', access_token.access_token, {
+		res.cookie('access_token', access_token, {
 			httpOnly: true,
 			secure: false
 		});
-		return access_token;
+		return access_token; // msg succes
 	}
 
-	//@UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	@Get("/me")
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getProfile(@Req() req: Request, @Req() request: any) {
-		Logger.log(req.cookies);
-		//Logger.log(req.cookies['access_token']);
-
-		//Logger.log(request.headers.cookie);
-
-		//const cookie = request.headers.cookie;
-		//Logger.log("cookie = ", cookie);
-		//const parts = cookie.split('=');
-		//const key = parts[0].trim();
-		//const value = parts[1].trim();
-		//Logger.log("value = ", value);
-		/*const data = await this.jwtService.verifyAsync(value);
-		Logger.log("data = ", data);
-		return data*/
-
-		/*
-		const token = req.cookies['access_token'];
-		if (token) {
-			const data = await this.jwtService.verifyAsync(token);
-			return data;
-		}*/
+		return req.user
 	}
 
 	//todo a faire
-
-
-
 	@Post("/logout")
 	postLogout() {
 	}

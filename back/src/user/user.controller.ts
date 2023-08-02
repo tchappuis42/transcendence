@@ -24,8 +24,8 @@ export class UserController {
 	@Post("/login")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
-		const access_token = this.userService.postLogin(body);
-		res.cookie('access_token', access_token, {
+		const access_token = await this.userService.postLogin(body);
+		res.cookie('access_token', access_token.access_token, {
 			httpOnly: true,
 			secure: false
 		});
@@ -35,15 +35,17 @@ export class UserController {
 	//@UseGuards(JwtAuthGuard)
 	@Get("/me")
 	async getProfile(@Req() req: Request, @Req() request: any) {
-		Logger.log(req.cookies['access_token']);
-		Logger.log(request.headers.cookie);
+		Logger.log(req.cookies);
+		//Logger.log(req.cookies['access_token']);
 
-		const cookie = request.headers.cookie;
-		Logger.log("cookie = ", cookie);
-		const parts = cookie.split('=');
-		const key = parts[0].trim();
-		const value = parts[1].trim();
-		Logger.log("value = ", value);
+		//Logger.log(request.headers.cookie);
+
+		//const cookie = request.headers.cookie;
+		//Logger.log("cookie = ", cookie);
+		//const parts = cookie.split('=');
+		//const key = parts[0].trim();
+		//const value = parts[1].trim();
+		//Logger.log("value = ", value);
 		/*const data = await this.jwtService.verifyAsync(value);
 		Logger.log("data = ", data);
 		return data*/

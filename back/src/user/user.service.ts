@@ -43,8 +43,10 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
+
+
 		//return la cle jwt au login
-		const payload = { sub: user.id, username: user.username, };
+		const payload = { sub: user.id, username: user.username };
 		return {
 			access_token: await this.jwtService.signAsync(payload),
 		};

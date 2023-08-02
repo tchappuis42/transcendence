@@ -5,7 +5,7 @@ import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './auth.guard';
-import { Request, Response, request, response } from 'express';
+import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
@@ -27,17 +27,33 @@ export class UserController {
 		const access_token = this.userService.postLogin(body);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
+			secure: false
 		});
 		return access_token;
 	}
 
 	//@UseGuards(JwtAuthGuard)
 	@Get("/me")
-	async getProfile(@Req() req: Request) {
-		Logger.log(req.cookies);
+	async getProfile(@Req() req: Request, @Req() request: any) {
+		Logger.log(req.cookies['access_token']);
+		Logger.log(request.headers.cookie);
+
+		const cookie = request.headers.cookie;
+		Logger.log("cookie = ", cookie);
+		const parts = cookie.split('=');
+		const key = parts[0].trim();
+		const value = parts[1].trim();
+		Logger.log("value = ", value);
+		/*const data = await this.jwtService.verifyAsync(value);
+		Logger.log("data = ", data);
+		return data*/
+
+		/*
 		const token = req.cookies['access_token'];
-		const data = await this.jwtService.verifyAsync(token);
-		return data;
+		if (token) {
+			const data = await this.jwtService.verifyAsync(token);
+			return data;
+		}*/
 	}
 
 	//todo a faire

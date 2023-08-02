@@ -11,7 +11,7 @@ import { JwtStrategy } from './user.strategy';
 @Module({
   imports: [TypeOrmModule.forFeature([User]), JwtModule.register({
     global: true,
-    secret: "test",
+    secret: 'test',
     signOptions: { expiresIn: '60d' },
   }),
   PassportModule.register({

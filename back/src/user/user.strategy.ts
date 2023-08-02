@@ -9,13 +9,11 @@ import { Logger } from '@nestjs/common';
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	usersRepository: any;
 	constructor(private readonly userService: UserService) {
-		Logger.log("test")
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			ignoreExpiration: false,
 			secretOrKey: "test",
 		});
-		Logger.log("test2")
 	}
 
 	async validate(payload: any) {

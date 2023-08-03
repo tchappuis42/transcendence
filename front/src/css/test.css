@@ -11,6 +11,19 @@
 	font-size: xx-large;
 }
 
+#formsignup {
+	display: flex;
+	width: 450px;
+	height: 550px;
+	background: rgba(0, 0, 0, 0);
+	border-radius: 50px;
+	box-shadow: 5px 20px 50px #000000;
+	flex-direction: column;
+	align-items: center;
+	color: white;
+	font-size: xx-large;
+}
+
 .text {
 	margin-top: 60px;
 	font-size: 70px;
@@ -67,6 +80,12 @@
 	font-size: 16px;
 	border-radius: 50px;
 	margin-top: 35px;
+	cursor: pointer;
+}
+
+button:hover {
+	color: red;
+	text-decoration: underline;
 }
 
 #pong {
@@ -81,5 +100,24 @@
 
 .active {
 	color: aqua;
+}
 
+.divtest {
+	font-size: 26px;
+	display: flex;
+	align-items: center;
+	color: #ffffff;
+	font-family: sans-serif;
+}
+
+.p {
+	margin-left: 5px;
+	/* Espacement entre les deux textes */
+	cursor: pointer;
+}
+
+p:hover {
+	text-decoration: underline;
+	color: rgb(255, 8, 0);
+	/* Taille de texte lorsqu'il est survolé */
 }

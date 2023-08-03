@@ -56,6 +56,7 @@ const Signup = () => {
 					/>
 				</label>
 				<button className='button' type="submit">Signup</button>
+
 				<Link to="/login">Login</Link>
 			</form>
 		</div >

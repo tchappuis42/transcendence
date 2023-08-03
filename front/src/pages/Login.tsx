@@ -16,7 +16,7 @@ const Login = () => {
 
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		axios.post("http://localhost:4000/user/login", data).then((response) => {
+		axios.post("http://localhost:4000/user/login", data, { withCredentials: true }).then((response) => {
 			console.log(response.status, response.data.token);
 			console.log(document.cookie)
 

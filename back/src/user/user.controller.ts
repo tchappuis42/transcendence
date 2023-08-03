@@ -22,7 +22,8 @@ export class UserController {
 		const access_token = await this.userService.postLogin(body);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
-			secure: false
+			secure: false,
+			sameSite: "lax",
 		});
 		return access_token; // msg succes
 	}
@@ -30,7 +31,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getProfile(@Req() req: Request, @Req() request: any) {
+	async getProfile(@Req() req: Request) {
 		return req.user
 	}
 

@@ -3,6 +3,7 @@ import { Outlet, redirect } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
 import Login from '../../pages/Login';
 import { AuthStatus, useAuth } from '../organisms/useAuth';
+import Testuser from '../../pages/testuser';
 
 
 const navigationOptions = [
@@ -28,7 +29,7 @@ const Home = () => {
 	else {
 		return <div>
 			<Navigation options={navigationOptions} />
-			<Outlet />
+			<Testuser />
 		</div>
 	}
 };

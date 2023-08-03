@@ -1,6 +1,12 @@
 import Navigation from '../../ui/organisms/Navigation';
 import React, { useRef, useEffect, useState } from 'react';
 
+const navigationOptions = [
+	{ label: 'home', url: '/' },
+	{ label: 'test', url: '/test' },
+	{ label: 'pong', url: '/pong' },
+];
+
 interface Paddle {
 	x: number;
 	y: number;
@@ -28,6 +34,7 @@ interface Ball {
 	dy: number,
 	color: number;
 }
+
 
 const Pong = () => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -381,9 +388,12 @@ const Pong = () => {
 	}, [leftPaddle, ball, rightPaddle]);
 
 	return (
-		<div className='signup'>
-			<div id="pong">
-				<canvas ref={canvasRef} />
+		<div>
+			<Navigation options={navigationOptions} />
+			<div className='signup'>
+				<div id="pong">
+					<canvas ref={canvasRef} />
+				</div>
 			</div>
 		</div>
 	);

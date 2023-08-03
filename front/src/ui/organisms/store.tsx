@@ -4,7 +4,7 @@ import { Account } from "../types";
 
 export const useAccountStore = create(
 	combine({
-		account: null as null | Account,
+		account: undefined as undefined | null | Account,
 	},
 		(set) => ({
 			setAccount: (account: Account | null) => set({ account }),

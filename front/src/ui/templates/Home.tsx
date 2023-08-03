@@ -13,12 +13,14 @@ const navigationOptions = [
 
 const Home = () => {
 	const { status, authenticate } = useAuth();
-	console.log(status);
-
+	console.log(status)
 	useEffect(() => {
 		authenticate();
 	}, []);
 
+	if (status === AuthStatus.Unknown) {
+		return <div></div>
+	}
 	if (status === AuthStatus.Guest) {
 		return <Login />
 	}

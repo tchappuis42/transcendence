@@ -3,8 +3,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
 import { Link, redirect } from 'react-router-dom';
+import { useAuth } from '../ui/organisms/useAuth';
 
 const Login = () => {
+	const { login } = useAuth()
 	const [data, setData] = useState({
 		email: "",
 		password: ""
@@ -16,13 +18,13 @@ const Login = () => {
 
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		axios.post("http://localhost:4000/user/login", data, { withCredentials: true }).then((response) => {
+		/*axios.post("http://localhost:4000/user/login", data, { withCredentials: true }).then((response) => {
 			console.log(response.status, response.data.token);
-			redirect("/");
 		})
 			.catch((error) => {
 				console.log(error);
-			});
+			});*/
+		login(data.email, data.password);
 	};
 
 	return (

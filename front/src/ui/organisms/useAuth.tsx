@@ -4,15 +4,25 @@ import { useAccountStore } from "./store";
 import axios from "axios";
 
 export enum AuthStatus {
-	Guest = 0,
-	Authenticated = 1,
+	Unknown = 0,
+	Guest = 1,
+	Authenticated = 2,
 }
 
 export function useAuth() {
 	const { account, setAccount } = useAccountStore();
-	let status = AuthStatus.Guest
-	if (account)
-		status = AuthStatus.Authenticated;
+	let status = AuthStatus.Unknown
+	switch (account) {
+		case null:
+			status = AuthStatus.Guest;
+			break;
+		case undefined:
+			status = AuthStatus.Unknown;
+			break;
+		default:
+			status = AuthStatus.Authenticated;
+			break;
+	}
 
 	const authenticate = useCallback(async () => {
 		try {
@@ -23,9 +33,19 @@ export function useAuth() {
 		}
 	}, []);
 
+	const login = useCallback(async (email: string, password: string) => {
+		try {
+			const response = await axios.post("http://localhost:4000/user/login", { email, password }, { withCredentials: true });
+			setAccount(response.data);
+		} catch (error) {
+			setAccount(null);
+		}
+	}, []);
+
 	return {
 		account,
 		status,
 		authenticate,
+		login,
 	};
 }

@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, redirect } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
 import Login from '../../pages/Login';
-import Signup from '../../pages/Signup';
-import Test from '../../pages/test';
+import { AuthStatus, useAuth } from '../organisms/useAuth';
 
 
 const navigationOptions = [
-	{ label: 'login', url: '/login' },
-	{ label: 'signup', url: '/signup' },
+	{ label: 'home', url: '/' },
+	{ label: 'test', url: '/test' },
 	{ label: 'pong', url: '/pong' },
 ];
 
 const Home = () => {
-	var a = 1;
-	if (a === 1) {
-		return (
-			Login()
-		)
+	const { status, authenticate } = useAuth();
+	console.log(status);
+
+	useEffect(() => {
+		authenticate();
+	}, []);
+
+	if (status === AuthStatus.Guest) {
+		return <Login />
 	}
+
 	else {
 		return <div>
 			<Navigation options={navigationOptions} />

@@ -28,7 +28,7 @@ export class UserService {
 			await this.usersRepository.save(user)
 			return "User Created!"
 		} catch (error) {
-			throw new ConflictException("email deja utilise")
+			throw new ConflictException(error.driverError.detail) // peux mieux faire
 			// console.error(error); // Log l'erreur dans la console
 			//throw new Error('Error during signup'); // Renvoie une erreur pour l'afficher dans l'API
 		}

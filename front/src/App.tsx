@@ -1,8 +1,5 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './ui/templates/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import Pong from './pages/Game/Pong';
 import Test from './pages/test';
 

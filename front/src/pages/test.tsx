@@ -1,12 +1,5 @@
-import Navigation from "../ui/organisms/Navigation";
 import Login from "./Login";
 import Signup from "./Signup";
-
-const navigationOptions = [
-	{ label: 'home', url: '/' },
-	{ label: 'test', url: '/test' },
-	{ label: 'pong', url: '/pong' },
-];
 
 const Test = () => {
 	const a = true;

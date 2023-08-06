@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, redirect, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
 import Login from '../../pages/Login';
 import { AuthStatus, useAuth } from '../organisms/useAuth';

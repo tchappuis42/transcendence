@@ -1,11 +1,4 @@
-import Navigation from '../../ui/organisms/Navigation';
 import React, { useRef, useEffect, useState } from 'react';
-
-const navigationOptions = [
-	{ label: 'home', url: '/' },
-	{ label: 'test', url: '/test' },
-	{ label: 'pong', url: '/pong' },
-];
 
 interface Paddle {
 	x: number;
@@ -145,11 +138,11 @@ const Pong = () => {
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
 		if (gameInfo.rgb) {
-			if (leftPaddle.color % 3 == 0)
+			if (leftPaddle.color % 3 === 0)
 				context.fillStyle = 'red';
-			if (leftPaddle.color % 3 == 1)
+			if (leftPaddle.color % 3 === 1)
 				context.fillStyle = 'blue';
-			if (leftPaddle.color % 3 == 2)
+			if (leftPaddle.color % 3 === 2)
 				context.fillStyle = 'yellow';
 		}
 		else
@@ -157,11 +150,11 @@ const Pong = () => {
 		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
 		if (gameInfo.rgb) {
-			if (rightPaddle.color % 3 == 0)
+			if (rightPaddle.color % 3 === 0)
 				context.fillStyle = 'red';
-			if (rightPaddle.color % 3 == 1)
+			if (rightPaddle.color % 3 === 1)
 				context.fillStyle = 'blue';
-			if (rightPaddle.color % 3 == 2)
+			if (rightPaddle.color % 3 === 2)
 				context.fillStyle = 'yellow';
 		}
 		else

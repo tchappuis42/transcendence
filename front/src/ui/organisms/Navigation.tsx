@@ -1,9 +1,6 @@
 import React, { SyntheticEvent } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useAccount } from './useAccount';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from './useAuth';
-
-const currentPath = window.location.pathname;
 
 type Props = {
 	options: Option[];

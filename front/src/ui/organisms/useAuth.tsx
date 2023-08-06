@@ -42,10 +42,16 @@ export function useAuth() {
 		}
 	}, []);
 
+	const logout = useCallback(async () => {
+		const response = await axios.get("http://localhost:4000/user/logout", { withCredentials: true });
+		setAccount(null);
+	}, []);
+
 	return {
 		account,
 		status,
 		authenticate,
 		login,
+		logout,
 	};
 }

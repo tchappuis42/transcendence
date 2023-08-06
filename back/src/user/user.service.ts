@@ -30,7 +30,6 @@ export class UserService {
 		} catch (error) {
 			throw new ConflictException(error.driverError.detail) // peux mieux faire
 			// console.error(error); // Log l'erreur dans la console
-			//throw new Error('Error during signup'); // Renvoie une erreur pour l'afficher dans l'API
 		}
 	}
 
@@ -40,7 +39,6 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
-
 
 		//return la cle jwt au login
 		const payload = { sub: user.id, username: user.username };

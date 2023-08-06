@@ -14,7 +14,6 @@ const navigationOptions = [
 
 const Home = () => {
 	const { status, authenticate } = useAuth();
-	console.log(status)
 	useEffect(() => {
 		authenticate();
 	}, []);

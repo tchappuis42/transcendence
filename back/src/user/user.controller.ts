@@ -36,8 +36,10 @@ export class UserController {
 	}
 
 	//todo a faire
-	@Post("/logout")
-	postLogout() {
+	@UseGuards(JwtAuthGuard)
+	@Get("/logout")
+	postLogout(@Res({ passthrough: true }) res: Response) {
+		res.clearCookie('access_token');
 	}
 
 

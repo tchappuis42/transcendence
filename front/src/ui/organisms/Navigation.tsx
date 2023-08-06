@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAccount } from './useAccount';
+import { useAuth } from './useAuth';
 
 const currentPath = window.location.pathname;
 
@@ -19,11 +21,18 @@ const NavigationItem = ({ option }: { option: Option }) => {
 }
 
 const Navigation = ({ options }: Props) => {
+	//const { account } = useAccount()
+	const { logout } = useAuth();
+	const LogoutSubmit = (e: SyntheticEvent) => {
+		e.preventDefault();
+		logout();
+	}
 	return (
 		<div className="header">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
+			<button onClick={LogoutSubmit}></button>
 		</div>
 	);
 };

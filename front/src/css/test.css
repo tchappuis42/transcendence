@@ -112,12 +112,10 @@ button:hover {
 
 .p {
 	margin-left: 5px;
-	/* Espacement entre les deux textes */
 	cursor: pointer;
 }
 
 p:hover {
 	text-decoration: underline;
 	color: rgb(255, 8, 0);
-	/* Taille de texte lorsqu'il est survolé */
 }

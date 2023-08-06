@@ -35,13 +35,11 @@ export class UserController {
 		return req.user
 	}
 
-	//todo a faire
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
 	postLogout(@Res({ passthrough: true }) res: Response) {
 		res.clearCookie('access_token');
 	}
-
 
 	@Post("/avatar")
 	@UseInterceptors(FileInterceptor('files'))

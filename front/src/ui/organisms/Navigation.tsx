@@ -32,7 +32,7 @@ const Navigation = ({ options }: Props) => {
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
-			<button onClick={LogoutSubmit}></button>
+			<button onClick={LogoutSubmit}>logout</button>
 		</div>
 	);
 };

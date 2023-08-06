@@ -1,28 +1,121 @@
-.body {
+#form {
 	display: flex;
-	background: url('../../public/pong-video-game.gif') no-repeat;
-	background-size: cover;
-	background-position: center;
-	min-height: 100vh;
-	justify-content: center;
-	align-items: center;
-}
-
-.form {
-	color: rgb(252, 101, 0);
-	display: flex;
-	justify-content: center;
-	font-family: Arial, Helvetica, sans-serif;
-	align-items: center;
-	flex-direction: vertical;
-}
-
-.navigation {
-	display: flex;
-	background-color: #eee;
-	list-style-type: none;
-	margin-right: -4px;
-	padding: 10px;
-	border-right: 1px solid white;
+	width: 450px;
+	height: 500px;
+	background: rgba(0, 0, 0, 0);
+	border-radius: 50px;
+	box-shadow: 5px 20px 50px #000000;
 	flex-direction: column;
+	align-items: center;
+	color: white;
+	font-size: xx-large;
+}
+
+#formsignup {
+	display: flex;
+	width: 450px;
+	height: 550px;
+	background: rgba(0, 0, 0, 0);
+	border-radius: 50px;
+	box-shadow: 5px 20px 50px #000000;
+	flex-direction: column;
+	align-items: center;
+	color: white;
+	font-size: xx-large;
+}
+
+.text {
+	margin-top: 60px;
+	font-size: 70px;
+	color: rgb(0, 0, 0);
+	height: 60px;
+	font-family: sans-serif;
+}
+
+.signup {
+	position: absolute;
+	height: 95%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.input {
+	margin-top: 20px;
+	border: none;
+	border-radius: 50px;
+	height: 50px;
+	width: 400px;
+	line-height: normal;
+	color: #000000;
+	display: block;
+	box-sizing: border-box;
+	user-select: auto;
+	font-size: 16px;
+	padding: 0 6px;
+	padding-left: 12px;
+}
+
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	padding: 10px;
+	background-color: #ffffffb2;
+}
+
+.modal {
+	position: fixed;
+	z-index: 1;
+	top: 50;
+}
+
+.button {
+	background-color: #ffffff2a;
+	color: rgb(0, 0, 0);
+	padding: 15px 32px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 50px;
+	margin-top: 35px;
+	cursor: pointer;
+}
+
+button:hover {
+	color: red;
+	text-decoration: underline;
+}
+
+#pong {
+	display: flex;
+	justify-content: center;
+}
+
+.link {
+	color: #000000;
+
+}
+
+.active {
+	color: aqua;
+}
+
+.divtest {
+	font-size: 26px;
+	display: flex;
+	align-items: center;
+	color: #ffffff;
+	font-family: sans-serif;
+}
+
+.p {
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+p:hover {
+	text-decoration: underline;
+	color: rgb(255, 8, 0);
 }

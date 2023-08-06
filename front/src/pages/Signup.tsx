@@ -1,7 +1,8 @@
-import Navigation from '../components/Navigation';
+import Navigation from '../ui/organisms/Navigation';
 import axios from 'axios';
 import { useState } from 'react';
 import React, { SyntheticEvent } from "react";
+import { Link } from 'react-router-dom';
 
 
 
@@ -18,49 +19,45 @@ const Signup = () => {
 
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		const userData = {
-			email: data.email,
-			password: data.password,
-			username: data.username
-		};
-		axios.post("http://localhost:4000/user/signup", userData).then((response) => {
+		axios.post("http://localhost:4000/user/signup", data).then((response) => {
 			console.log(response.status, response.data.token);
 		});
 	};
 
 	return (
-		<div>
-			<Navigation />
-			<h1>Signup page</h1>
-			<form onSubmit={handleSubmit}>
+		<div className='signup'>
+			<form onSubmit={handleSubmit} id="form">
+				<h1 className='text'>Signup</h1>
 				<label htmlFor="text">
-					Username
-					<input
+					<input className='input'
 						type="text"
 						name="username"
 						value={data.username}
 						onChange={handleChange}
+						placeholder='user'
 					/>
 				</label>
 				<label htmlFor="email">
-					Email
-					<input
+					<input className='input'
 						type="email"
 						name="email"
 						value={data.email}
 						onChange={handleChange}
+						placeholder='email@exemple.com'
 					/>
 				</label>
 				<label htmlFor="password">
-					Password
-					<input
+					<input className='input'
 						type="password"
 						name="password"
 						value={data.password}
 						onChange={handleChange}
+						placeholder='password'
 					/>
 				</label>
-				<button type="submit">Signup</button>
+				<button className='button' type="submit">Signup</button>
+
+				<Link to="/login">Login</Link>
 			</form>
 		</div >
 	);

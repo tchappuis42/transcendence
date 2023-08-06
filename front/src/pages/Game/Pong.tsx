@@ -1,5 +1,11 @@
-import Navigation from '../../components/Navigation';
+import Navigation from '../../ui/organisms/Navigation';
 import React, { useRef, useEffect, useState } from 'react';
+
+const navigationOptions = [
+	{ label: 'home', url: '/' },
+	{ label: 'test', url: '/test' },
+	{ label: 'pong', url: '/pong' },
+];
 
 interface Paddle {
 	x: number;
@@ -7,13 +13,15 @@ interface Paddle {
 	width: number;
 	height: number;
 	dy: number;
+	color: number;
 }
 
 interface Game {
-	start: number;
+	start: boolean;
 	score_left: number;
 	score_right: number;
 	winner: number;
+	rgb: boolean;
 }
 
 interface Ball {
@@ -24,7 +32,9 @@ interface Ball {
 	resetting: boolean,
 	dx: number,
 	dy: number,
+	color: number;
 }
+
 
 const Pong = () => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -43,16 +53,17 @@ const Pong = () => {
 		height: grid,
 		resetting: false,
 		dx: ballSpeed,
-		dy: -ballSpeed
+		dy: -ballSpeed,
+		color: 1,
 	})
 
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		// start in the middle of the game on the left side
-		x: grid * 2,
+		x: (grid * 2) + 15,
 		y: height / 2 - paddleHeight / 2,
-		width: grid,
+		width: 1,
 		height: paddleHeight,
-
+		color: 1,
 		// paddle velocity
 		dy: 0,
 	});
@@ -61,18 +72,19 @@ const Pong = () => {
 		// start in the middle of the game on the left side
 		x: 750 - (grid * 3),
 		y: 585 / 2 - paddleHeight / 2,
-		width: grid,
+		width: 1,
 		height: paddleHeight,
-
+		color: 1,
 		// paddle velocity
 		dy: 0,
 	});
 
 	const [gameInfo, setGameinfo] = useState<Game>({
-		start: 0,
+		start: false,
 		score_left: 0,
 		score_right: 0,
 		winner: 0,
+		rgb: false,
 	});
 
 	function collides(obj1: Ball, obj2: Paddle) {
@@ -87,7 +99,16 @@ const Pong = () => {
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
 		// draw walls
-		context.fillStyle = 'lightgrey';
+		if (gameInfo.rgb === true) {
+			if (ball.color % 30 < 10)
+				context.fillStyle = 'red';
+			else if (ball.color % 30 < 20)
+				context.fillStyle = 'blue';
+			else
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
 		context.fillRect(0, 0, canvas.width, grid);
 		context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
 
@@ -98,7 +119,19 @@ const Pong = () => {
 	}
 
 	const drawBall = (context: CanvasRenderingContext2D, ball: Ball) => {
+		if (gameInfo.rgb === true) {
+			if (ball.color % 30 < 10)
+				context.fillStyle = 'red';
+			else if (ball.color % 30 < 20)
+				context.fillStyle = 'blue';
+			else
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
 		context.fillRect(ball.x, ball.y, ball.width, ball.height);
+		context.beginPath();
+		context.arc(ball.x, ball.y, 50, 0, 2 * Math.PI);
 	}
 
 	const drawGame = (context: CanvasRenderingContext2D, gameInfo: Game) => {
@@ -111,9 +144,29 @@ const Pong = () => {
 
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
-		context.fillStyle = 'white';
-		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
+		if (gameInfo.rgb) {
+			if (leftPaddle.color % 3 == 0)
+				context.fillStyle = 'red';
+			if (leftPaddle.color % 3 == 1)
+				context.fillStyle = 'blue';
+			if (leftPaddle.color % 3 == 2)
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
+		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
+		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
+		if (gameInfo.rgb) {
+			if (rightPaddle.color % 3 == 0)
+				context.fillStyle = 'red';
+			if (rightPaddle.color % 3 == 1)
+				context.fillStyle = 'blue';
+			if (rightPaddle.color % 3 == 2)
+				context.fillStyle = 'yellow';
+		}
+		else
+			context.fillStyle = 'white';
+		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
 	}
 
 	const keyDownHandler = (e: KeyboardEvent) => {
@@ -132,6 +185,15 @@ const Pong = () => {
 		if (e.key === "q") {
 			setBall({ ...ball, x: width / 2, y: height / 2 })
 			setGameinfo({ ...gameInfo, score_left: 0, score_right: 0 })
+		}
+		if (e.key === "z") {
+			setGameinfo({ ...gameInfo, start: true })
+		}
+		if (e.key === "p") {
+			if (gameInfo.rgb === true)
+				setGameinfo({ ...gameInfo, rgb: false })
+			else
+				setGameinfo({ ...gameInfo, rgb: true })
 		}
 	}
 
@@ -204,12 +266,19 @@ const Pong = () => {
 				...prevBall,
 				dx: prevBall.dx * -1,
 				x: prevBall.x + prevBall.width,
+
 			}));
+			setleftpaddle({ ...leftPaddle, color: leftPaddle.color + 1 })
 			//increases the speed of the ball by 0.2 each time it touches a pad
-			//if (ball.dx < 6) {
-			//	ball.dx += 0.2;
-			//	ball.dy += 0.2;
-			//}
+			if (ball.dx < 6) {
+				setBall((prevBall) => ({
+					...prevBall,
+					dx: prevBall.dx += 0.2,
+					dy: prevBall.dy += 0.2,
+					x: prevBall.x += 0.2,
+					y: prevBall.y += 0.2,
+				}));
+			}
 		}
 		console.log("ball.dx = ", ball.dx);
 		if (collides(ball, rightPaddle)) {
@@ -219,15 +288,21 @@ const Pong = () => {
 				dx: prevBall.dx * (-1),
 				x: prevBall.x - prevBall.width,
 			}));
+			setrightpaddle({ ...rightPaddle, color: rightPaddle.color + 1 })
 			// 	// move ball next to the paddle otherwise the collision will happen again
 			// 	// in the next frame
 			// 	ball.x = rightPaddle.x - ball.width;
 
 			// 	//increases the speed of the ball by 0.2 each time it touches a pad
-			// 	if (ball.dx > -6) {
-			// 		ball.dx -= 0.2;
-			// 		ball.dy -= 0.2;
-			// 	}
+			if (ball.dx > -8) {
+				setBall((prevBall) => ({
+					...prevBall,
+					dx: prevBall.dx -= 0.2,
+					dy: prevBall.dy -= 0.2,
+					x: prevBall.x -= 0.2,
+					y: prevBall.y -= 0.2,
+				}));
+			}
 		}
 
 		// reset ball if it goes past paddle (but only if we haven't already done so)
@@ -255,17 +330,15 @@ const Pong = () => {
 					resetting: false,
 					x: width / 2,
 					y: height / 2,
+					dx: ballSpeed,
+					dy: ballSpeed,
 				}));
-				// ball.dx = ballSpeed;
-				// ball.dy = ballSpeed;
-				// ball.resetting = false;
-				// ball.x = canvas.width / 2;
-				// ball.y = canvas.height / 2;
 			}, 400);
 		}
 	}
 
 	useEffect(() => {
+		//if (gameInfo.start == true) {
 		const handleGameUpdate = () => {
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
@@ -279,15 +352,15 @@ const Pong = () => {
 				...prevBall,
 				x: prevBall.x + prevBall.dx,
 				y: prevBall.y + prevBall.dy,
+				color: prevBall.color + 1,
 			}));
 		};
 		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);
-
 		return () => {
 			clearInterval(gameLoop);
 		};
+		//}
 	}, []);
-
 
 
 	useEffect(() => {
@@ -316,10 +389,10 @@ const Pong = () => {
 
 	return (
 		<div>
-			<Navigation />
-			<h1>pong page</h1>
-			<div className='pong'>
-				<canvas ref={canvasRef} />
+			<div className='signup'>
+				<div id="pong">
+					<canvas ref={canvasRef} />
+				</div>
 			</div>
 		</div>
 	);

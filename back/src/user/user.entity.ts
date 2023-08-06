@@ -6,17 +6,14 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
-  @Column({unique : true})
+  @Column({ unique: true })
   email: string;
 
   @Column({ default: "512x512bb.jpg" })
   avatar: string;
-
-  @Column({ default: false })
-  connected: boolean;
 
   @Column()
   @Exclude()

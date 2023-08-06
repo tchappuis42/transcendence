@@ -1,58 +1,45 @@
-import { Controller, Get, Render, Post, Body, Redirect, UseInterceptors, ClassSerializerInterceptor, Session, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { UserService } from './user.service';
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
-import { error } from 'console';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from './auth.guard';
+import { Request, Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService) { }
-
-	@Get()
-	@Render("user/user")
-	getUser() { }
-
-	@Get("/signup")
-	@Render("user/signup")
-	getSignup() { }
-
-	@Get("/login")
-	@Render("user/login")
-	getLogin() { }
-
-	@Get("/avatar")
-	@Render("user/avatar")
-	getAvatar() { }
-
-	@Get("/pong")
-	@Render("user/pong")
-	getpong() { }
+	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
 	@Post("/signup")
-	//@Redirect("/user/login")
 	async postSignup(@Body() body: SignupDto) {
-		//return body
 		return { message: await this.userService.postSignup(body) }
 	}
 
 	@Post("/login")
+	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
+		const access_token = await this.userService.postLogin(body);
+		res.cookie('access_token', access_token, {
+			httpOnly: true,
+			secure: false,
+			sameSite: "lax",
+		});
+		return access_token; // msg succes
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	//@Redirect("/")
-	async postLogin(@Body() body: LoginDto, @Session() session: Record<string, any>) {
-		const user = await this.userService.postLogin(body)
-		session.user = user
-		session.connected = true
-		return session
+	async getProfile(@Req() req: Request) {
+		return req.user
 	}
 
-	@Post("/logout")
-	@Redirect("/")
-	postLogout(@Session() session: Record<string, any>) {
-		session.destroy(err => { });
+	@UseGuards(JwtAuthGuard)
+	@Get("/logout")
+	postLogout(@Res({ passthrough: true }) res: Response) {
+		res.clearCookie('access_token');
 	}
-
 
 	@Post("/avatar")
 	@UseInterceptors(FileInterceptor('files'))

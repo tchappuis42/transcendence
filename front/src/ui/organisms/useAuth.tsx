@@ -36,7 +36,7 @@ export function useAuth() {
 	const login = useCallback(async (email: string, password: string) => {
 		try {
 			const response = await axios.post("http://localhost:4000/user/login", { email, password }, { withCredentials: true });
-			setAccount(response.data);
+			authenticate()
 		} catch (error) {
 			setAccount(null);
 		}

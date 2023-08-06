@@ -14,9 +14,8 @@ const Test = () => {
 	if (a === true) {
 		return (
 			<div>
-				<Navigation options={navigationOptions} />
+				page de test
 				<Login />
-				<Signup />
 			</div>
 
 		);

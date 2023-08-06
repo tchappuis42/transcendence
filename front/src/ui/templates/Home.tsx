@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, redirect } from 'react-router-dom';
+import { Outlet, redirect, useLocation } from 'react-router-dom';
 import Navigation from '../organisms/Navigation';
 import Login from '../../pages/Login';
 import { AuthStatus, useAuth } from '../organisms/useAuth';
@@ -14,6 +14,7 @@ const navigationOptions = [
 
 const Home = () => {
 	const { status, authenticate } = useAuth();
+	const location = useLocation();
 	useEffect(() => {
 		authenticate();
 	}, []);
@@ -21,16 +22,24 @@ const Home = () => {
 	if (status === AuthStatus.Unknown) {
 		return <div></div>
 	}
+
 	if (status === AuthStatus.Guest) {
 		return <Login />
 	}
 
-	else {
-		return <div>
-			<Navigation options={navigationOptions} />
-			<Testuser />
-		</div>
+	if (location.pathname === '/') {
+		return (
+			<div>
+				<Navigation options={navigationOptions} />
+				<Testuser />
+			</div>
+		);
 	}
+
+	return <div>
+		<Navigation options={navigationOptions} />
+		<Outlet />
+	</div>
 };
 
 export default Home;

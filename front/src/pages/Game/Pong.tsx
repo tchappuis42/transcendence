@@ -389,7 +389,6 @@ const Pong = () => {
 
 	return (
 		<div>
-			<Navigation options={navigationOptions} />
 			<div className='signup'>
 				<div id="pong">
 					<canvas ref={canvasRef} />

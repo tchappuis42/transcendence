@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './ui/templates/Home';
+import Home from './pages/Home';
 import Pong from './pages/Game/Pong';
 import Test from './pages/test';
 

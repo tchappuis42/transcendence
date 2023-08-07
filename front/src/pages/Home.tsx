@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Navigation from '../organisms/Navigation';
-import Login from '../../pages/Login';
-import { AuthStatus, useAuth } from '../organisms/useAuth';
-import Testuser from '../../pages/testuser';
+import Navigation from '../ui/organisms/Navigation';
+import Login from './Login';
+import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
+import Testuser from './testuser';
 
 
 const navigationOptions = [

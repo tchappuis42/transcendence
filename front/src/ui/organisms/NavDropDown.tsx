@@ -7,12 +7,12 @@ const NavDropDown = () => {
 	const { account } = useAccount()
 	const [open, setOpen] = useState(false);
 
-	useEffect(() => {
+	/*useEffect(() => {
 		let handler = () => {
 			setOpen(false);
 		};
 		document.addEventListener("mousedown", handler);
-	});
+	});*/
 
 	const handleOpen = () => {
 		setOpen(!open);
@@ -21,6 +21,7 @@ const NavDropDown = () => {
 	const { logout } = useAuth();
 	const LogoutSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
+		console.log("test");
 		logout();
 	}
 
@@ -37,7 +38,6 @@ const NavDropDown = () => {
 					</li>
 				</ul>
 			) : null}
-
 		</div>
 	);
 };

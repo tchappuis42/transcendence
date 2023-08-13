@@ -12,7 +12,8 @@ const Login = () => {
 		username: ""
 	});
 
-	const [page, setPage] = useState("login");
+	const [page, setPage] = useState(true);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setData({ ...data, [e.target.name]: e.target.value });
@@ -26,11 +27,20 @@ const Login = () => {
 	const signupSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
 		axios.post("http://localhost:4000/user/signup", data).then((response) => {
-			setPage("login")
+			setPage(true)
 		});
 	};
 
-	if (page === "login") {
+	const settingPage = () => {
+		setPage(!page)
+		setShowPassword(false)
+	}
+
+	const togglePassword = () => {
+		setShowPassword(!showPassword)
+	}
+
+	if (page) {
 		return (
 			<div className='signup'>
 				<form onSubmit={loginSubmit} id="form">
@@ -46,17 +56,18 @@ const Login = () => {
 					</label>
 					<label htmlFor="password">
 						<input className='input'
-							type="password"
+							type={showPassword ? "text" : "password"}
 							name="password"
 							value={data.password}
 							onChange={handleChange}
 							placeholder='password'
 						/>
+						<input type="checkbox" onClick={togglePassword}></input>
 					</label>
 					<button type="submit" className='button'>Login</button>
 					<div className='divtest'>
 						Don't have an account?
-						<span onClick={() => setPage("signup")}>
+						<span onClick={settingPage} >
 							<p className='p'>signup</p>
 						</span>
 					</div>
@@ -89,17 +100,18 @@ const Login = () => {
 					</label>
 					<label htmlFor="password">
 						<input className='input'
-							type="password"
+							type={showPassword ? "text" : "password"}
 							name="password"
 							value={data.password}
 							onChange={handleChange}
 							placeholder='password'
 						/>
+						<input type="checkbox" onClick={togglePassword}></input>
 					</label>
 					<button className='button' type="submit">Signup</button>
 					<div className='divtest'>
 						Already have an account?
-						<span onClick={() => setPage("login")}>
+						<span onClick={settingPage}>
 							<p className='p'>login</p>
 						</span>
 					</div>

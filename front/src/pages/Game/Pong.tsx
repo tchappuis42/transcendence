@@ -169,10 +169,10 @@ const Pong = () => {
 		if (e.key === "s") {
 			setleftpaddle({ ...leftPaddle, dy: paddleSpeed })
 		}
-		if (e.key === "i") {
+		if (e.key === "ArrowUp") {
 			setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
 		}
-		if (e.key === "k") {
+		if (e.key === "ArrowDown") {
 			setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
 		}
 		if (e.key === "q") {
@@ -197,10 +197,10 @@ const Pong = () => {
 		if (e.key === "s" && leftPaddle.dy > 0) {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
-		if (e.key === "i" && rightPaddle.dy < 0) {
+		if (e.key === "ArrowUp" && rightPaddle.dy < 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
-		if (e.key === "k" && rightPaddle.dy > 0) {
+		if (e.key === "ArrowDown" && rightPaddle.dy > 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
 	}

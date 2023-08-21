@@ -7,6 +7,7 @@ import * as bcrypt from "bcrypt"
 import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { JwtService } from '@nestjs/jwt'
+import { UserDto } from './dtos/UserDto';
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
-	async validateUser(username: string): Promise<any> {
+	async validateUser(username: string): Promise<UserDto> {
 		const user = await this.usersRepository.findOne({ where: { username: username } })
 		if (!user) throw new NotFoundException("user not found")
 		return user;
@@ -43,6 +44,11 @@ export class UserService {
 		//return la cle jwt au login
 		const payload = { sub: user.id, username: user.username };
 		return await this.jwtService.signAsync(payload)
+	}
+
+	async getUsers(user: UserDto) {
+		const currentUser = user.username;
+		return currentUser
 	}
 }
 

@@ -7,6 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './auth.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { UserDto } from './dtos/UserDto';
 
 @Controller('user')
 export class UserController {
@@ -31,7 +32,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getProfile(@Req() req: Request) {
+	getProfile(@Req() req: Request) {
 		return req.user
 	}
 
@@ -41,11 +42,22 @@ export class UserController {
 		res.clearCookie('access_token');
 	}
 
+
+
+
 	@Post("/avatar")
 	@UseInterceptors(FileInterceptor('files'))
 	uploadFile(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
 		//console.log(file);
 		//async postAvatar(@Body() body : any){
 		return body
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/users")
+	async getUsers(@Req() req: Request) {
+		const user = req.user;
+		return req.user
+		//return await this.userService.getUsers(body)
 	}
 }

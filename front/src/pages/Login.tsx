@@ -28,7 +28,10 @@ const Login = () => {
 		e.preventDefault();
 		axios.post("http://localhost:4000/user/signup", data).then((response) => {
 			setPage(true)
-		});
+		})
+			.catch((error) => {
+				alert("user dejs utiliser fdp")
+			});
 	};
 
 	const settingPage = () => {
@@ -63,6 +66,7 @@ const Login = () => {
 							placeholder='password'
 						/>
 						<input type="checkbox" onClick={togglePassword}></input>
+						<a>show password</a>
 					</label>
 					<button type="submit" className='button'>Login</button>
 					<div className='divtest'>
@@ -107,6 +111,7 @@ const Login = () => {
 							placeholder='password'
 						/>
 						<input type="checkbox" onClick={togglePassword}></input>
+						show password
 					</label>
 					<button className='button' type="submit">Signup</button>
 					<div className='divtest'>

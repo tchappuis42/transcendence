@@ -4,6 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dtos/loginDto';
 import { Logger } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserDto } from './dtos/UserDto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,11 +21,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		});
 	}
 
-	async validate(payload: any) {
+	async validate(payload: UserDto) {
 		const user = await this.usersService.validateUser(payload.username)
 		if (!user) {
 			throw new UnauthorizedException();
 		}
-		return user;
+		return user
 	}
 }

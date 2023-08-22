@@ -1,7 +1,7 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from './dtos/loginDto';
+import { LoginDto } from '../authentication/dtos/loginDto';
 import { Logger } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dtos/UserDto';

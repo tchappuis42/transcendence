@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
-import { SignupDto } from './dtos/signupDto';
+import { SignupDto } from '../authentication/dtos/signupDto';
 import { UserService } from './user.service';
-import { LoginDto } from './dtos/loginDto';
+import { LoginDto } from '../authentication/dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from './auth.guard';
+import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from './dtos/UserDto';
@@ -13,37 +13,12 @@ import { UserDto } from './dtos/UserDto';
 export class UserController {
 	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
-	@Post("/signup")
-	async postSignup(@Body() body: SignupDto) {
-		return { message: await this.userService.postSignup(body) }
-	}
-
-	@Post("/login")
-	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
-		const access_token = await this.userService.postLogin(body);
-		res.cookie('access_token', access_token, {
-			httpOnly: true,
-			secure: false,
-			sameSite: "lax",
-		});
-		return access_token; // msg succes
-	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	getProfile(@Req() req: Request) {
 		return req.user
 	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get("/logout")
-	postLogout(@Res({ passthrough: true }) res: Response) {
-		res.clearCookie('access_token');
-	}
-
-
-
 
 	@Post("/avatar")
 	@UseInterceptors(FileInterceptor('files'))

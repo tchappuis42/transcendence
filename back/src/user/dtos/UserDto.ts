@@ -4,4 +4,6 @@ export class UserDto {
 	email: string
 	avatar: string
 	password: string
+	twoFa: boolean
+	twoFaSecret: string
 }

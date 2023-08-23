@@ -22,7 +22,7 @@ const Testuser = () => {
 		<div className="divtest">
 			<h1>salut {account.username}</h1>
 			<div className="divtest">
-				<h1>qrcode = {qrcode}</h1>
+				<img src={qrcode} />
 			</div>
 		</div>
 

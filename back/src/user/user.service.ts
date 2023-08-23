@@ -8,6 +8,7 @@ import { LoginDto } from '../authentication/dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
 import { JwtService } from '@nestjs/jwt'
 import { UserDto } from './dtos/UserDto';
+import { authenticator } from 'otplib';
 
 
 @Injectable()
@@ -24,6 +25,23 @@ export class UserService {
 	async getUsers(user: UserDto) {
 		const currentUser = user.username;
 		return currentUser
+	}
+
+	async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
+		await this.usersRepository.update(userId, { twoFaSecret: secret })
+	}
+
+	async generateTwoFactorAuthenticationSecret(user: UserDto) {
+		const secret = authenticator.generateSecret();
+
+		const otpauthUrl = authenticator.keyuri(user.email, 'AUTH_APP_NAME', secret);
+
+		await this.setTwoFactorAuthenticationSecret(secret, user.id);
+
+		return {
+			secret,
+			otpauthUrl
+		}
 	}
 }
 

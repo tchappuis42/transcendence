@@ -35,7 +35,7 @@ export function useAuth() {
 
 	const login = useCallback(async (email: string, password: string) => {
 		try {
-			await axios.post("http://localhost:4000/user/login", { email, password }, { withCredentials: true });
+			await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
 			authenticate()
 		} catch (error) {
 			setAccount(null);
@@ -43,7 +43,7 @@ export function useAuth() {
 	}, []);
 
 	const logout = useCallback(async () => {
-		await axios.get("http://localhost:4000/user/logout", { withCredentials: true });
+		await axios.get("http://localhost:4000/authentication/logout", { withCredentials: true });
 		setAccount(null);
 	}, []);
 

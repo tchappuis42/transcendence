@@ -1,8 +1,5 @@
 import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
-import { SignupDto } from '../authentication/dtos/signupDto';
 import { UserService } from './user.service';
-import { LoginDto } from '../authentication/dtos/loginDto';
-import { AvatarDto } from './dtos/AvatarDto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
@@ -31,8 +28,15 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	async getUsers(@Req() req: Request) {
-		const user = req.user;
 		return req.user
-		//return await this.userService.getUsers(body)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/2fa")
+	async get2fa(@Req() req: Request) {
+		const user = req.user as UserDto;
+		await this.userService.generateTwoFactorAuthenticationSecret(user)
+		// doit retourner un qrcode 
+
 	}
 }

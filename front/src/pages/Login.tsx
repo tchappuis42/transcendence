@@ -9,7 +9,8 @@ const Login = () => {
 	const [data, setData] = useState({
 		email: "",
 		password: "",
-		username: ""
+		username: "",
+		twoFA: false
 	});
 
 	const [page, setPage] = useState(true);
@@ -26,7 +27,7 @@ const Login = () => {
 
 	const signupSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		axios.post("http://localhost:4000/user/signup", data).then((response) => {
+		axios.post("http://localhost:4000/authentication/signup", data).then((response) => {
 			setPage(true)
 		})
 			.catch((error) => {
@@ -37,10 +38,15 @@ const Login = () => {
 	const settingPage = () => {
 		setPage(!page)
 		setShowPassword(false)
+		setData({ ...data, twoFA: false })
 	}
 
 	const togglePassword = () => {
 		setShowPassword(!showPassword)
+	}
+
+	const toggletfa = () => {
+		setData({ ...data, twoFA: true })
 	}
 
 	if (page) {
@@ -112,7 +118,10 @@ const Login = () => {
 						/>
 						<input type="checkbox" onClick={togglePassword}></input>
 						show password
+						<input type="checkbox" onClick={toggletfa}></input>
+						2FA
 					</label>
+
 					<button className='button' type="submit">Signup</button>
 					<div className='divtest'>
 						Already have an account?

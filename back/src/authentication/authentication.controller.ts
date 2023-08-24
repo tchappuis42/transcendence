@@ -5,14 +5,20 @@ import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dtos/signupDto';
 import { LoginDto } from './dtos/loginDto';
 import { JwtAuthGuard } from 'src/user/user.guard';
+import { UserService } from 'src/user/user.service';
 
 @Controller('authentication')
 export class AuthenticationController {
-	constructor(private readonly authService: AuthenticationService, private readonly jwtService: JwtService) { }
+	constructor(private readonly authService: AuthenticationService, private readonly jwtService: JwtService, private readonly userService: UserService) { }
 
 	@Post("/signup")
 	async postSignup(@Body() body: SignupDto) {
-		return { message: await this.authService.postSignup(body) }
+		if (!body.twoFa)
+			return { message: await this.authService.postSignup(body) }
+		await this.authService.postSignup(body);
+		const code = await this.userService.generateTfaSecret(body.email);
+		const qrcode = this.userService.generateQrCode(code);
+		return qrcode
 	}
 
 	@Post("/login")

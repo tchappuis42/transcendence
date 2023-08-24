@@ -20,25 +20,20 @@ export class UserService {
 		return user;
 	}
 
-	async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
-		await this.usersRepository.update(userId, { twoFaSecret: secret })
+	async setTfaSecret(secret: string, email: string) {
+		const user = await this.usersRepository.findOne({ where: { email: email } })
+		await this.usersRepository.update(user.id, { twoFaSecret: secret })
 	}
 
-	async generateTwoFactorAuthenticationSecret(user: UserDto) {
+	async generateTfaSecret(email: string) {
 		const secret = authenticator.generateSecret();
-
-		const otpauthUrl = authenticator.keyuri(user.email, 'AUTH_APP_NAME', secret);
-
-		await this.setTwoFactorAuthenticationSecret(secret, user.id);
-
-		return {
-			secret,
-			otpauthUrl
-		}
+		const otpauthUrl = authenticator.keyuri(email, 'AUTH_APP_NAME', secret);
+		await this.setTfaSecret(secret, email);
+		return otpauthUrl
 	}
 
-	async generateQrCode(twoFaSecret: string) {
-		return toDataURL(twoFaSecret);
+	async generateQrCode(otpauthUrl: string) {
+		return toDataURL(otpauthUrl);
 	}
 
 

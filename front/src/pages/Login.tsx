@@ -10,7 +10,7 @@ const Login = () => {
 		email: "",
 		password: "",
 		username: "",
-		twoFA: false
+		twoFa: false
 	});
 
 	const [page, setPage] = useState(true);
@@ -28,17 +28,23 @@ const Login = () => {
 	const signupSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
 		axios.post("http://localhost:4000/authentication/signup", data).then((response) => {
-			setPage(true)
+			if (response.data.message) {
+				alert("user create")
+				setPage(true)
+			}
+			else
+				alert(response.data) // mettre une page en avant avec le qrcode et la prosedure
+
 		})
 			.catch((error) => {
-				alert("user dejs utiliser fdp")
+				alert("user dejs utiliser")
 			});
 	};
 
 	const settingPage = () => {
 		setPage(!page)
 		setShowPassword(false)
-		setData({ ...data, twoFA: false })
+		setData({ ...data, twoFa: false })
 	}
 
 	const togglePassword = () => {
@@ -46,7 +52,7 @@ const Login = () => {
 	}
 
 	const toggletfa = () => {
-		setData({ ...data, twoFA: true })
+		setData({ ...data, twoFa: !data.twoFa })
 	}
 
 	return (

@@ -14,5 +14,5 @@ export class SignupDto {
 	@Length(8, 20)
 	password: string
 
-	twoFA: boolean
+	twoFa: boolean
 }

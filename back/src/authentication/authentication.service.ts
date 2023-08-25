@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { SignupDto } from './dtos/signupDto';
 import { LoginDto } from './dtos/loginDto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,8 @@ import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { JwtService } from '@nestjs/jwt';
+import { UserDto } from 'src/user/dtos/UserDto';
+import { authenticator } from 'otplib';
 
 @Injectable()
 export class AuthenticationService {
@@ -38,7 +40,17 @@ export class AuthenticationService {
 			access_token: await this.jwtService.signAsync(payload),
 			user: user
 		}
-
 	}
 
+	async postTwoFa(user: UserDto, code: string) {
+		const isCodeValid = authenticator.verify({
+			token: code,
+			secret: user.twoFaSecret,
+		});
+		if (!isCodeValid) {
+			throw new UnauthorizedException('Wrong authentication code');
+		}
+		const payload = { sub: user.id, username: user.username };
+		return await this.jwtService.signAsync(payload)
+	}
 }

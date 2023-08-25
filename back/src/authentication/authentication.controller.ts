@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AuthenticationService } from './authentication.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dtos/signupDto';
 import { LoginDto } from './dtos/loginDto';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { UserService } from 'src/user/user.service';
+import { TempJwtAuthGuard } from './authentication.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { UserDto } from 'src/user/dtos/UserDto';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -25,7 +28,7 @@ export class AuthenticationController {
 	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
 		const userInfo = await this.authService.postLogin(body);
 		if (userInfo.user.twoFa) {
-			res.cookie('access_token', userInfo.access_token, {
+			res.cookie('2fa_tokken', userInfo.access_token, {
 				httpOnly: true,
 				secure: false,
 				sameSite: "lax",
@@ -39,6 +42,19 @@ export class AuthenticationController {
 			sameSite: "lax",
 		});
 		return { message: "succces" }; // msg succes
+	}
+
+	@Post("/twoFa")
+	@UseGuards(TempJwtAuthGuard)
+	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('code') code: string) {
+		const user = req.user as UserDto;
+		const access_token = await this.authService.postTwoFa(user, code);
+		res.cookie('access_token', access_token, {
+			httpOnly: true,
+			secure: false,
+			sameSite: "lax",
+		});
+		return { message: user.twoFaSecret }; // msg succes
 	}
 
 	@UseGuards(JwtAuthGuard)

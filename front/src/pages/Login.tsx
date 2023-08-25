@@ -4,7 +4,7 @@ import { useAuth } from '../ui/organisms/useAuth';
 import axios from 'axios';
 
 const Login = () => {
-	const { login } = useAuth();
+	const { login, authenticate } = useAuth();
 
 	const [data, setData] = useState({
 		email: "",
@@ -18,11 +18,13 @@ const Login = () => {
 	const [twoFa, settwoFa] = useState({
 		qrCode: false,
 		qrCodeImage: "",
-		sendQrCode: false
+		sendQrCode: false,
+		code: "",
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setData({ ...data, [e.target.name]: e.target.value });
+		settwoFa({ ...twoFa, [e.target.name]: e.target.value });
 	}
 
 	const loginSubmit = async (e: SyntheticEvent) => {
@@ -53,6 +55,21 @@ const Login = () => {
 				alert("user dejs utiliser")
 			});
 	};
+
+	const qrCodeSubmit = (e: SyntheticEvent) => {
+		e.preventDefault();
+
+		const requestData = {
+			code: twoFa.code
+		};
+
+		axios.post("http://localhost:4000/authentication/twoFa", requestData, { withCredentials: true }).then((response) => {
+			authenticate();
+		})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	const settingPage = () => {
 		setPage(!page)
@@ -127,8 +144,20 @@ const Login = () => {
 						<img src={twoFa.qrCodeImage} />
 					</div>}
 				{twoFa.sendQrCode &&
-					<div className="divtest">
-						<h1>send qr code</h1>
+					<div>
+						<form onSubmit={qrCodeSubmit} id="form">
+							<h1 className='text'>code qrcode</h1>
+							<label htmlFor="text">
+								<input className='input'
+									type="number"
+									name="code"
+									value={twoFa.code}
+									onChange={handleChange}
+									placeholder='code'
+								/>
+							</label>
+							<button type="submit" className='button'>send</button>
+						</form>
 					</div>
 				}
 				<button onClick={() => settwoFa({ ...twoFa, qrCode: false })}></button>

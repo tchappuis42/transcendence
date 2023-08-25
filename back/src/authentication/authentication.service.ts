@@ -34,7 +34,11 @@ export class AuthenticationService {
 
 		//return la cle jwt au login
 		const payload = { sub: user.id, username: user.username };
-		return await this.jwtService.signAsync(payload)
+		return {
+			access_token: await this.jwtService.signAsync(payload),
+			user: user
+		}
+
 	}
 
 }

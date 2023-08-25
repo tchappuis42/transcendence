@@ -23,13 +23,22 @@ export class AuthenticationController {
 
 	@Post("/login")
 	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
-		const access_token = await this.authService.postLogin(body);
-		res.cookie('access_token', access_token, {
+		const userInfo = await this.authService.postLogin(body);
+		if (userInfo.user.twoFa) {
+			res.cookie('access_token', userInfo.access_token, {
+				httpOnly: true,
+				secure: false,
+				sameSite: "lax",
+				expires: new Date(Date.now() + 60 * 60 * 100),
+			});
+			return { twofa: "twacode" }
+		}
+		res.cookie('access_token', userInfo.access_token, {
 			httpOnly: true,
 			secure: false,
 			sameSite: "lax",
 		});
-		return access_token; // msg succes
+		return { message: "succces" }; // msg succes
 	}
 
 	@UseGuards(JwtAuthGuard)

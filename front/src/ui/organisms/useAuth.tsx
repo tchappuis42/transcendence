@@ -35,10 +35,17 @@ export function useAuth() {
 
 	const login = useCallback(async (email: string, password: string) => {
 		try {
-			await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
-			authenticate()
+			const response = await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
+
+			if (response.data.message) {
+				authenticate();
+				return false;
+			} else {
+				return true;
+			}
 		} catch (error) {
 			setAccount(null);
+			throw error; // Vous pouvez également gérer les erreurs ici ou les propager plus haut
 		}
 	}, []);
 

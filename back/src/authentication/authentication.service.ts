@@ -42,9 +42,9 @@ export class AuthenticationService {
 		}
 	}
 
-	async postTwoFa(user: UserDto, code: string) {
+	async postTwoFa(user: UserDto, token: string) {
 		const isCodeValid = authenticator.verify({
-			token: code,
+			token: token,
 			secret: user.twoFaSecret,
 		});
 		if (!isCodeValid) {

@@ -28,7 +28,7 @@ export class AuthenticationController {
 	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
 		const userInfo = await this.authService.postLogin(body);
 		if (userInfo.user.twoFa) {
-			res.cookie('2fa_tokken', userInfo.access_token, {
+			res.cookie('2fa_token', userInfo.access_token, {
 				httpOnly: true,
 				secure: false,
 				sameSite: "lax",
@@ -46,9 +46,9 @@ export class AuthenticationController {
 
 	@Post("/twoFa")
 	@UseGuards(TempJwtAuthGuard)
-	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('code') code: string) {
+	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
 		const user = req.user as UserDto;
-		const access_token = await this.authService.postTwoFa(user, code);
+		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
 			secure: false,

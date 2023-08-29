@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navigation from '../ui/organisms/Navigation';
-import Login from './Login';
+import Login from './Auth/Login';
 import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
 import Testuser from './testuser';
 

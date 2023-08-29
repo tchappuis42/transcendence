@@ -9,7 +9,7 @@ export class tempJwtStrategy extends PassportStrategy(Strategy, 'temp-jwt') {
 		super({
 			jwtFromRequest: ExtractJwt.fromExtractors([
 				(request) => {
-					return request.cookies['2fa_tokken'];
+					return request.cookies['2fa_token'];
 				},
 			]),
 			ignoreExpiration: false,

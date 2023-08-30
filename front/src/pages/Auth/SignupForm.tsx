@@ -21,8 +21,6 @@ const SignupForm: React.FC<FormProps> = ({
 			}
 			else
 				setQrCode(response.data)
-
-
 		})
 			.catch((error) => {
 				alert("user dejs utiliser")

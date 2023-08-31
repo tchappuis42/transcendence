@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useSocket } from '../../ui/organisms/SocketContext';
 
 interface Paddle {
 	x: number;
@@ -29,7 +30,11 @@ interface Ball {
 }
 
 
-const Pong = () => {
+const PongTest = () => {
+
+	const socket = useSocket();
+
+
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const height = 585;
 	const width = 750;
@@ -38,6 +43,8 @@ const Pong = () => {
 	const maxPaddleY = 585 - grid - paddleHeight;
 	const paddleSpeed = 7;
 	const ballSpeed = 4;
+
+	const [oui, setoui] = useState(0);
 
 	const [ball, setBall] = useState<Ball>({
 		x: width / 2,
@@ -207,6 +214,11 @@ const Pong = () => {
 
 	const paddlelogic = () => {
 		//left paddle logic
+		if (socket && oui === 0) {
+			socket.emit("pong", { leftPaddle });
+			setoui(1);
+		}
+
 		if (leftPaddle.y < grid) {
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
@@ -389,4 +401,4 @@ const Pong = () => {
 	);
 };
 
-export default Pong;
+export default PongTest;

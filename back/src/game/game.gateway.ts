@@ -24,6 +24,19 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	@SubscribeMessage('message')
 	handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		this.server.emit('message', data)
+		//Logger.log("la")
+		this.server.emit('message', data, client.id)
+	}
+
+	@SubscribeMessage('test')
+	testEvent(@MessageBody() @ConnectedSocket() client: Socket) {
+		//Logger.log("lo")
+		this.server.emit('test', "la")
+	}
+
+	@SubscribeMessage('game')
+	testpong(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		Logger.log(data)
+		this.server.emit('pong', data)
 	}
 }

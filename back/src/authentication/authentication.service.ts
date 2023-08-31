@@ -53,4 +53,14 @@ export class AuthenticationService {
 		const payload = { sub: user.id, username: user.username };
 		return await this.jwtService.signAsync(payload)
 	}
+
+	async setConnection(user: UserDto) {
+		await this.usersRepository.update(user.id, { connected: true })
+		Logger.log("user connected")
+	}
+
+	async setDisconnect(user: UserDto) {
+		await this.usersRepository.update(user.id, { connected: false })
+		Logger.log("user disconnected")
+	}
 }

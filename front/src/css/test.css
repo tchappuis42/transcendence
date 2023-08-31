@@ -91,11 +91,11 @@ button:hover {
 #pong {
 	display: flex;
 	justify-content: center;
+	padding-left: 8px;
 }
 
 .link {
 	color: #000000;
-
 }
 
 .active {
@@ -118,4 +118,20 @@ button:hover {
 p:hover {
 	text-decoration: underline;
 	color: rgb(255, 8, 0);
+}
+
+#chat {
+	display: flex;
+	width: 450px;
+	height: 500px;
+	background: rgb(255, 254, 254);
+	border-radius: 50px;
+	box-shadow: 5px 20px 50px #000000;
+	flex-direction: column;
+	justify-content: flex-end;
+	color: rgb(0, 0, 0);
+}
+
+#b {
+	font-size: 70px;
 }

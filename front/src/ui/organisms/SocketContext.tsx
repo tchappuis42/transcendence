@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 import { AuthStatus, useAuth } from "./useAuth";
+import { useAccount } from "./useAccount";
 
 const SocketContext = createContext<Socket | null>(null);
 
@@ -17,6 +18,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 	const { status } = useAuth();
 
 	useEffect(() => {
+		console.log(status)
 		if (status === AuthStatus.Authenticated) {
 			const newSocket = io("http://localhost:4000");
 			setSocket(newSocket);

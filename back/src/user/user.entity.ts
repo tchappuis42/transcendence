@@ -24,4 +24,7 @@ export class User {
 
   @Column({ nullable: true })
   twoFaSecret: string;
+
+  @Column({ default: false })
+  connected: boolean;
 }

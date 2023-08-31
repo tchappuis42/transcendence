@@ -7,7 +7,6 @@ import { LoginDto } from './dtos/loginDto';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { UserService } from 'src/user/user.service';
 import { TempJwtAuthGuard } from './authentication.guard';
-import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from 'src/user/dtos/UserDto';
 
 @Controller('authentication')
@@ -41,6 +40,7 @@ export class AuthenticationController {
 			secure: false,
 			sameSite: "lax",
 		});
+		await this.authService.setConnection(userInfo.user);
 		return { message: "succces" }; // msg succes
 	}
 
@@ -59,7 +59,9 @@ export class AuthenticationController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
-	postLogout(@Res({ passthrough: true }) res: Response) {
+	async postLogout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+		const user = req.user as UserDto;
+		await this.authService.setDisconnect(user);
 		res.clearCookie('access_token');
 	}
 }

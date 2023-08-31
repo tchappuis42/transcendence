@@ -6,4 +6,5 @@ export class UserDto {
 	password: string
 	twoFa: boolean
 	twoFaSecret: string
+	connected: boolean
 }

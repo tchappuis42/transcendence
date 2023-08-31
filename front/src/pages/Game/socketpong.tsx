@@ -8,7 +8,7 @@ interface Message {
 
 const SocketPong = () => {
 	const [data, setData] = useState("");
-	const [messages, setMessages] = useState<Message[]>([]); // Utilisez "messages" au lieu de "message"
+	const [messages, setMessages] = useState<Message[]>([]);
 	const socket = useSocket();
 
 	useEffect(() => {

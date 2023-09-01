@@ -1,6 +1,7 @@
 import { Logger } from "@nestjs/common";
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
+import { TestDto } from "src/user/dtos/TestDto";
 
 @WebSocketGateway({
 	cors: {
@@ -13,8 +14,9 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	server: Server;
 
 	//connection
-	handleConnection(client: Socket) {
-		Logger.log("client Connected:", client.id)
+	handleConnection(@ConnectedSocket() socket: Socket) {
+		const user = socket.handshake.query.user;
+		console.log("client Connected:", socket.id, user)
 	}
 
 	//deconnexion

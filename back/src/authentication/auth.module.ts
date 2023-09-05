@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationController } from './authentication.controller';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationController } from './auth.controller';
+import { AuthenticationService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
-import { TempJwtAuthGuard } from './authentication.guard';
+import { TempJwtAuthGuard } from './auth.guard';
 import { tempJwtStrategy } from './authentication.strategy';
 
 

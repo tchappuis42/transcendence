@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dtos/signupDto';
 import { LoginDto } from './dtos/loginDto';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { UserService } from 'src/user/user.service';
-import { TempJwtAuthGuard } from './authentication.guard';
+import { TempJwtAuthGuard } from './auth.guard';
 import { UserDto } from 'src/user/dtos/UserDto';
 
 @Controller('authentication')

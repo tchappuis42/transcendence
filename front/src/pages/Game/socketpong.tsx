@@ -40,6 +40,7 @@ const SocketPong = () => {
 		if (socket) {
 			socket.emit("message", data);
 		}
+		setData("")
 	};
 
 	return (

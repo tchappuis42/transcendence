@@ -1,58 +1,21 @@
-import { Controller, Get, Render, Post, Body, Redirect, UseInterceptors, ClassSerializerInterceptor, Session, UploadedFile } from '@nestjs/common';
-import { SignupDto } from './dtos/signupDto';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { LoginDto } from './dtos/loginDto';
-import { AvatarDto } from './dtos/AvatarDto';
-import { error } from 'console';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from './user.guard';
+import { Request, Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
+import { UserDto } from './dtos/UserDto';
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService) { }
+	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
-	@Get()
-	@Render("user/user")
-	getUser() { }
-
-	@Get("/signup")
-	@Render("user/signup")
-	getSignup() { }
-
-	@Get("/login")
-	@Render("user/login")
-	getLogin() { }
-
-	@Get("/avatar")
-	@Render("user/avatar")
-	getAvatar() { }
-
-	@Get("/pong")
-	@Render("user/pong")
-	getpong() { }
-
-	@Post("/signup")
-	//@Redirect("/user/login")
-	async postSignup(@Body() body: SignupDto) {
-		//return body
-		return { message: await this.userService.postSignup(body) }
-	}
-
-	@Post("/login")
+	@UseGuards(JwtAuthGuard)
+	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	//@Redirect("/")
-	async postLogin(@Body() body: LoginDto, @Session() session: Record<string, any>) {
-		const user = await this.userService.postLogin(body)
-		session.user = user
-		session.connected = true
-		return session
+	getProfile(@Req() req: Request) {
+		return req.user
 	}
-
-	@Post("/logout")
-	@Redirect("/")
-	postLogout(@Session() session: Record<string, any>) {
-		session.destroy(err => { });
-	}
-
 
 	@Post("/avatar")
 	@UseInterceptors(FileInterceptor('files'))
@@ -60,5 +23,20 @@ export class UserController {
 		//console.log(file);
 		//async postAvatar(@Body() body : any){
 		return body
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/users")
+	async getUsers(@Req() req: Request) {
+		return req.user
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/2fa")
+	async get2fa(@Req() req: Request) {
+		const user = req.user as UserDto;
+		const code = await this.userService.generateTfaSecret(user.email);
+		const qrcode = this.userService.generateQrCode(code);
+		return qrcode
 	}
 }

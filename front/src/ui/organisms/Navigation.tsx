@@ -1,7 +1,6 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-
-const currentPath = window.location.pathname;
+import React, { SyntheticEvent } from 'react';
+import { NavLink } from 'react-router-dom';
+import NavDropDown from './NavDropDown';
 
 type Props = {
 	options: Option[];
@@ -24,6 +23,7 @@ const Navigation = ({ options }: Props) => {
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
+			<NavDropDown />
 		</div>
 	);
 };

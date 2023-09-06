@@ -1,4 +1,3 @@
-import Navigation from '../../ui/organisms/Navigation';
 import React, { useRef, useEffect, useState } from 'react';
 
 interface Paddle {
@@ -28,6 +27,7 @@ interface Ball {
 	dy: number,
 	color: number;
 }
+
 
 const Pong = () => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -138,11 +138,11 @@ const Pong = () => {
 	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
 		// draw paddles
 		if (gameInfo.rgb) {
-			if (leftPaddle.color % 3 == 0)
+			if (leftPaddle.color % 3 === 0)
 				context.fillStyle = 'red';
-			if (leftPaddle.color % 3 == 1)
+			if (leftPaddle.color % 3 === 1)
 				context.fillStyle = 'blue';
-			if (leftPaddle.color % 3 == 2)
+			if (leftPaddle.color % 3 === 2)
 				context.fillStyle = 'yellow';
 		}
 		else
@@ -150,11 +150,11 @@ const Pong = () => {
 		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
 		if (gameInfo.rgb) {
-			if (rightPaddle.color % 3 == 0)
+			if (rightPaddle.color % 3 === 0)
 				context.fillStyle = 'red';
-			if (rightPaddle.color % 3 == 1)
+			if (rightPaddle.color % 3 === 1)
 				context.fillStyle = 'blue';
-			if (rightPaddle.color % 3 == 2)
+			if (rightPaddle.color % 3 === 2)
 				context.fillStyle = 'yellow';
 		}
 		else
@@ -169,10 +169,10 @@ const Pong = () => {
 		if (e.key === "s") {
 			setleftpaddle({ ...leftPaddle, dy: paddleSpeed })
 		}
-		if (e.key === "i") {
+		if (e.key === "ArrowUp") {
 			setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
 		}
-		if (e.key === "k") {
+		if (e.key === "ArrowDown") {
 			setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
 		}
 		if (e.key === "q") {
@@ -197,10 +197,10 @@ const Pong = () => {
 		if (e.key === "s" && leftPaddle.dy > 0) {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
-		if (e.key === "i" && rightPaddle.dy < 0) {
+		if (e.key === "ArrowUp" && rightPaddle.dy < 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
-		if (e.key === "k" && rightPaddle.dy > 0) {
+		if (e.key === "ArrowDown" && rightPaddle.dy > 0) {
 			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
 	}
@@ -381,9 +381,11 @@ const Pong = () => {
 	}, [leftPaddle, ball, rightPaddle]);
 
 	return (
-		<div className='signup'>
-			<div id="pong">
-				<canvas ref={canvasRef} />
+		<div>
+			<div className='signup'>
+				<div id="pong">
+					<canvas ref={canvasRef} />
+				</div>
 			</div>
 		</div>
 	);

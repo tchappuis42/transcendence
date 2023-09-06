@@ -8,11 +8,17 @@ import { typeormconfig } from './config/typeorm.config';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { GameModule } from './game/game.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forRoot(typeormconfig),
+    AuthenticationModule,
+    GameModule,
+    ChatModule,
     // CorsModule.forRoot({ origin: '*' })
     // MulterModule.register({dest: './files'}),
     //  ServeStaticModule.forRoot({rootPath: join(__dirname, '..', 'files')})

@@ -1,45 +1,49 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { SignupDto } from './dtos/signupDto';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from "bcrypt"
-import { LoginDto } from './dtos/loginDto';
 import { AvatarDto } from './dtos/AvatarDto';
+import { JwtService } from '@nestjs/jwt'
+import { UserDto } from './dtos/UserDto';
+import { authenticator } from 'otplib';
+import { toDataURL } from 'qrcode';
+
 
 @Injectable()
 export class UserService {
 	constructor(
-		@InjectRepository(User) private usersRepository: Repository<User>,) { }
+		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
-	async postSignup(body: SignupDto): Promise<string> {
-		try {
-			const { password } = body
-			const hash = await bcrypt.hash(password, 10)
-			const user = this.usersRepository.create({ ...body, password: hash })
-			await this.usersRepository.save(user)
-			return "User Created!"
-		} catch (error) {
-			throw new ConflictException("email deja utilise")
-			// console.error(error); // Log l'erreur dans la console
-			//throw new Error('Error during signup'); // Renvoie une erreur pour l'afficher dans l'API
-		}
-	}
-
-	async postLogin(body: LoginDto) {
-		const { password, email } = body
-		const user = await this.usersRepository.findOne({ where: { email: email } })
+	async validateUser(username: string): Promise<UserDto> {
+		const user = await this.usersRepository.findOne({ where: { username: username } })
 		if (!user) throw new NotFoundException("user not found")
-		const match = await bcrypt.compare(password, user.password)
-		if (!match) throw new UnauthorizedException("Ivalide password")
-		//user.connected = true;
-		return user
+		return user;
 	}
 
-	/*async postAvatar(body: AvatarDto) {
-		const {avatar} = body
-		const user = this.usersRepository.create({...body})
-		await this.usersRepository.save(user)
-		return "avatar mis a jour"
-	}*/
+	async setTfaSecret(secret: string, email: string) {
+		const user = await this.usersRepository.findOne({ where: { email: email } })
+		await this.usersRepository.update(user.id, { twoFaSecret: secret })
+	}
+
+	async generateTfaSecret(email: string) {
+		const secret = authenticator.generateSecret();
+		const otpauthUrl = authenticator.keyuri(email, 'AUTH_APP_NAME', secret);
+		await this.setTfaSecret(secret, email);
+		return otpauthUrl
+	}
+
+	async generateQrCode(otpauthUrl: string) {
+		return toDataURL(otpauthUrl);
+	}
+
+
 }
+
+
+/*async postAvatar(body: AvatarDto) {
+	const {avatar} = body
+	const user = this.usersRepository.create({...body})
+	await this.usersRepository.save(user)
+	return "avatar mis a jour"
+}*/
+

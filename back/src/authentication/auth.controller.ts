@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { AuthenticationService } from './auth.service';
+import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dtos/signupDto';
 import { LoginDto } from './dtos/loginDto';
@@ -10,8 +10,8 @@ import { TempJwtAuthGuard } from './auth.guard';
 import { UserDto } from 'src/user/dtos/UserDto';
 
 @Controller('authentication')
-export class AuthenticationController {
-	constructor(private readonly authService: AuthenticationService, private readonly jwtService: JwtService, private readonly userService: UserService) { }
+export class AuthController {
+	constructor(private readonly authService: AuthService, private readonly jwtService: JwtService, private readonly userService: UserService) { }
 
 	@Post("/signup")
 	async postSignup(@Body() body: SignupDto) {

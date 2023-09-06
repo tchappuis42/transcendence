@@ -10,7 +10,7 @@ import { UserDto } from 'src/user/dtos/UserDto';
 import { authenticator } from 'otplib';
 
 @Injectable()
-export class AuthenticationService {
+export class AuthService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 

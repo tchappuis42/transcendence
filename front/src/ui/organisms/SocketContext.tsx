@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 import { AuthStatus, useAuth } from "./useAuth";
-import { useAccount } from "./useAccount";
 
 const SocketContext = createContext<Socket | null>(null);
 
@@ -16,11 +15,11 @@ interface SocketProviderProps {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const { status } = useAuth();
+	const { account } = useAuth();
 
 	useEffect(() => {
-		console.log(status)
 		if (status === AuthStatus.Authenticated) {
-			const newSocket = io("http://localhost:4000", { query: { user: "test" } });
+			const newSocket = io("http://localhost:4000", { query: { user: account?.username } });
 			setSocket(newSocket);
 			return () => {
 				newSocket.disconnect();

@@ -1,7 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Account } from "../types";
 import { useAccountStore } from "./store";
 import axios from "axios";
+import { useSocket } from "./SocketContext";
 
 export enum AuthStatus {
 	Unknown = 0,
@@ -45,7 +46,7 @@ export function useAuth() {
 			}
 		} catch (error) {
 			setAccount(null);
-			throw error; // Vous pouvez également gérer les erreurs ici ou les propager plus haut
+			throw error;
 		}
 	}, []);
 

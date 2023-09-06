@@ -2,6 +2,7 @@ import { Logger } from "@nestjs/common";
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { TestDto } from "src/user/dtos/TestDto";
+import { UserDto } from "src/user/dtos/UserDto";
 import { UserService } from "src/user/user.service";
 
 @WebSocketGateway({
@@ -15,11 +16,11 @@ export class GameGateway {
 	server: Server;
 
 	@SubscribeMessage('message')
-	handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		//Logger.log("la")
-		const user = this.userService.SocketUser(client)
-		this.server.emit('message', data, user)
+	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		this.server.emit('message', data, user.username)
 	}
+
 
 	@SubscribeMessage('test')
 	testEvent(@MessageBody() @ConnectedSocket() client: Socket) {

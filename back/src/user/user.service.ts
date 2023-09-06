@@ -9,17 +9,10 @@ import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Socket } from 'socket.io';
 
-interface SocketUser {
-	socket: Socket;
-	user: string;
-}
-
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
-
-	socketUsers: SocketUser[] = [];
 
 	async validateUser(username: string): Promise<UserDto> {
 		const user = await this.usersRepository.findOne({ where: { username: username } })
@@ -41,26 +34,6 @@ export class UserService {
 
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
-	}
-
-	SocketConnect(client: Socket, username: string) {
-		let element: SocketUser = {
-			socket: client,
-			user: username
-		}
-		this.socketUsers.push(element);
-		console.log(this.socketUsers)
-	}
-
-	SocketDisconnect(client: Socket) {
-		this.socketUsers = this.socketUsers.filter((element) => element.socket !== client)
-	}
-
-	SocketUser(client: Socket) {
-		const find = this.socketUsers.find((element) => element.socket.id === client.id)
-		if (find)
-			console.log(find.user)
-		return "find.user";
 	}
 }
 

@@ -1,0 +1,49 @@
+html {
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+div {
+    background-color: #806DFF;
+    background-size: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    width: 90%;
+    max-width: 900px;
+    margin: 10px auto;
+    color: white;
+}
+
+p {
+    line-height: 2;
+    word-spacing: 0.1rem;
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+button {
+    padding: 5px;
+    margin: 10px auto;
+}
+
+.box {
+    box-sizing: border-box;
+    background-color: white;
+    width: 200px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.box_historic {
+    box-sizing: border-box;
+    background-color: white;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow-y: auto;
+}

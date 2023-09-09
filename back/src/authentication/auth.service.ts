@@ -28,6 +28,8 @@ export class AuthService {
 	}
 
 	async postLogin(body: LoginDto) {
+		console.log("pq")
+
 		const { password, email } = body
 		const user = await this.usersRepository.findOne({ where: { email: email } })
 		if (!user) throw new NotFoundException("user not found")

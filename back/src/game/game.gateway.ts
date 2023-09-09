@@ -23,10 +23,18 @@ export class GameGateway {
 	}
 
 	@SubscribeMessage('matchmaking')
-	matchmaking(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+	matchmaking(@ConnectedSocket() client: Socket) {
+		console.log("ici")
 		const user = client.data.user as UserDto;
 		const game = this.gameService.matchmaking(user, client);
 		if (game)
-			this.server.to(game.roomName).emit('game', game.Opponent.username)
+			this.server.to(game.roomName).emit('game', game)
+	}
+
+	@SubscribeMessage('gamelife')
+	gamelife(@ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		const game = this.gameService.gamelife();
+		this.server.to(game).emit('gamelife', user.username)
 	}
 }

@@ -12,7 +12,6 @@ interface roomName {
 
 @Injectable()
 export class GameService {
-
 	waitingGame: Socket;
 	room: roomName;
 
@@ -29,15 +28,25 @@ export class GameService {
 
 			const data: CreatGameDTO = {
 				roomName: this.room.name,
-				Opponent: this.waitingGame.data.user
+				player1: client.data.user,
+				player2: this.waitingGame.data.user
 			}
 			console.log(this.room)
 			return data;
 		}
+		else if (this.waitingGame === client) {
+			console.log("la")
+			this.waitingGame = null;
+		}
 		else {
+			console.log("lo")
 			this.waitingGame = client;
 			console.log("waiting =", this.waitingGame.id)
 			return;
 		}
+	}
+
+	gamelife() {
+		return this.room.name;
 	}
 }

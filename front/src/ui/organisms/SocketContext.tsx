@@ -17,7 +17,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 	const { status, account } = useAuth();
 
 	useEffect(() => {
-		if (status !== AuthStatus.Guest && account) {
+		if (status === AuthStatus.Authenticated) {
 			const newSocket = io("http://localhost:4000", { query: { user: account?.username } });
 			setSocket(newSocket);
 			return () => {

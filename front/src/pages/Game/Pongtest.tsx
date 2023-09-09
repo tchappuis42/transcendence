@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useSocket } from '../../ui/organisms/SocketContext';
+
 
 interface Paddle {
 	x: number;
@@ -31,9 +31,6 @@ interface Ball {
 
 
 const PongTest = () => {
-
-	const socket = useSocket();
-
 
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const height = 585;
@@ -214,10 +211,6 @@ const PongTest = () => {
 
 	const paddlelogic = () => {
 		//left paddle logic
-		if (socket && oui === 0) {
-			socket.emit("pong", { leftPaddle });
-			setoui(1);
-		}
 
 		if (leftPaddle.y < grid) {
 			setleftpaddle((prevPaddle) => ({

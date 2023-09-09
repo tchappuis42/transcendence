@@ -2,5 +2,6 @@ import { UserDto } from "src/user/dtos/UserDto";
 
 export class CreatGameDTO {
 	roomName: string;
-	Opponent: UserDto;
+	player1: UserDto;
+	player2: UserDto;
 }

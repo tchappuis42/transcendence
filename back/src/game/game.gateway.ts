@@ -4,6 +4,7 @@ import { Server, Socket } from "socket.io";
 import { TestDto } from "src/user/dtos/TestDto";
 import { UserDto } from "src/user/dtos/UserDto";
 import { UserService } from "src/user/user.service";
+import { GameService } from "./game.service";
 
 @WebSocketGateway({
 	cors: {
@@ -11,7 +12,7 @@ import { UserService } from "src/user/user.service";
 	}
 })
 export class GameGateway {
-	constructor(private readonly userService: UserService) { }
+	constructor(private readonly userService: UserService, private readonly gameService: GameService) { }
 	@WebSocketServer()
 	server: Server;
 
@@ -21,16 +22,11 @@ export class GameGateway {
 		this.server.emit('message', data, user.username)
 	}
 
-
-	@SubscribeMessage('test')
-	testEvent(@MessageBody() @ConnectedSocket() client: Socket) {
-		//Logger.log("lo")
-		this.server.emit('test', "la")
-	}
-
-	@SubscribeMessage('game')
-	testpong(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		Logger.log(data)
-		this.server.emit('pong', data)
+	@SubscribeMessage('matchmaking')
+	matchmaking(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		const game = this.gameService.matchmaking(user, client);
+		if (game)
+			this.server.to(game.roomName).emit('game', game.Opponent.username)
 	}
 }

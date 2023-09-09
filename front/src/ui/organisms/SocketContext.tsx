@@ -14,11 +14,10 @@ interface SocketProviderProps {
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
-	const { status } = useAuth();
-	const { account } = useAuth();
+	const { status, account } = useAuth();
 
 	useEffect(() => {
-		if (status === AuthStatus.Authenticated) {
+		if (status !== AuthStatus.Guest && account) {
 			const newSocket = io("http://localhost:4000", { query: { user: account?.username } });
 			setSocket(newSocket);
 			return () => {

@@ -1,69 +1,49 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
-
-interface Message {
-	text: string;
-	id: string;
-}
+import { useAccount } from "../../ui/organisms/useAccount";
 
 const SocketPong = () => {
-	const [data, setData] = useState("");
-	const [messages, setMessages] = useState<Message[]>([]);
 	const socket = useSocket();
+	const { account } = useAccount();
+	const [page, setPage] = useState(false);
+	const [opponent, setOpponent] = useState("");
 
 	useEffect(() => {
 		if (socket) {
-			socket.on("message", (data, id) => {
-				setMessages((prevMessages) => [
-					...prevMessages,
-					{ text: data, id: id }
-				]);
-			});
-
-			socket.on("test", (data) => {
+			socket.on("game", (data) => {
 				console.log(data);
-				alert(data);
+				setPage(true);
+				setOpponent(data)
 			});
 		}
 
 		return () => {
 			if (socket) {
-				socket.off("message");
-				socket.off("test");
+				socket.off("matchmaking");
 			}
 		};
 	}, [socket]);
 
-	const sendMessage = (e: SyntheticEvent) => {
+	const matchmaking = (e: SyntheticEvent) => {
 		e.preventDefault();
 
 		if (socket) {
-			socket.emit("message", data);
+			socket.emit("matchmaking");
 		}
-		setData("")
 	};
 
 	return (
 		<div className="signup">
-			<form onSubmit={sendMessage} id="chat">
-				{messages.map((msg, index) => (
-					<b className="b" key={index}>
-						{msg.id} : {msg.text}
-					</b>
-				))}
-				<label htmlFor="text">
-					<input
-						type="text"
-						name="data"
-						value={data}
-						onChange={(e) => setData(e.target.value)}
-					/>
-					<button type="submit" className="button">
-						send
-					</button>
-				</label>
-			</form>
-			<button onClick={(e) => socket?.emit("test")}>test</button>
+			{!page &&
+				<button onClick={matchmaking} className="button">
+					trouver un match
+				</button>
+			}
+			{page &&
+				<div className="text">
+					{account.username} vs {opponent}
+				</div>
+			}
 		</div>
 	);
 };

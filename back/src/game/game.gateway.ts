@@ -16,6 +16,15 @@ export class GameGateway {
 	@WebSocketServer()
 	server: Server;
 
+	async handleConnection(@ConnectedSocket() socket: Socket) {
+		//Logger.log(socket.id, "CLIENT CONNECTED")
+	}
+
+	//deconnexionls
+	handleDisconnect(client: Socket) {
+		this.gameService.cleanMM(client);
+	}
+
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
@@ -24,11 +33,17 @@ export class GameGateway {
 
 	@SubscribeMessage('matchmaking')
 	matchmaking(@ConnectedSocket() client: Socket) {
-		console.log("ici")
+		console.log("matchmaking")
 		const user = client.data.user as UserDto;
 		const game = this.gameService.matchmaking(user, client);
 		if (game)
 			this.server.to(game.roomName).emit('game', game)
+	}
+
+	@SubscribeMessage('clean')
+	clean(@ConnectedSocket() client: Socket) {
+		console.log("clean")
+		this.gameService.clean();
 	}
 
 	@SubscribeMessage('gamelife')

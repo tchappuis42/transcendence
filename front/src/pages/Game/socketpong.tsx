@@ -84,9 +84,12 @@ const SocketPong = () => {
 	return (
 		<div className="divpong">
 			{!page &&
-				<button onClick={matchmaking} className="button">
-					trouver un match
-				</button>
+				<div>
+					<button onClick={matchmaking} className="button">
+						trouver un match
+					</button>
+					<button onClick={clean}>clean</button>
+				</div>
 			}
 			{page &&
 				<div>

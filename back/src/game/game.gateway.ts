@@ -50,6 +50,15 @@ export class GameGateway {
 	gamelife(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		const game = this.gameService.gamelife();
-		this.server.to(game).emit('gamelife', user.username)
+		console.log(game)
+		this.server.to(game).emit('gamelife', user.username);
+	}
+
+	@SubscribeMessage('paddle')
+	paddle(@MessageBody() data: string, @ConnectedSocket() client: Socket,) {
+		console.log(data)
+		const game = this.gameService.gamelife();
+		console.log(game)
+		this.server.to(game).emit('paddle', data)
 	}
 }

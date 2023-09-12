@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import { useAccount } from "../../ui/organisms/useAccount";
+import PongTest from "./Pongtest";
 
 const SocketPong = () => {
 	const socket = useSocket();
@@ -23,23 +24,33 @@ const SocketPong = () => {
 				console.log("la il egal a ", player1) // ----> pas ok : player1 = ""
 				setPage(true);
 			});
+		}
+		return () => {
+			if (socket) {
+				socket.off("game");
+			}
+		};
+	}, [socket]);
+
+	useEffect(() => {
+		if (socket) {
 			socket.on("gamelife", (data) => {
 				console.log("player1 = ", player1)
+				console.log(data)
 				if (data === player1) {
 					setscore1(prevscore => prevscore + 1);
-					console.log(data)
+
 				}
-				else
+				else if (data === player2)
 					setscore2(prevscore => prevscore + 1);
 			});
 		}
 		return () => {
 			if (socket) {
-				socket.off("game");
 				socket.off("gamelife");
 			}
 		};
-	}, [socket]);
+	}, [socket, player1, player2]);
 
 	const matchmaking = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -71,20 +82,27 @@ const SocketPong = () => {
 	};
 
 	return (
-		<div className="signup">
+		<div className="divpong">
 			{!page &&
 				<button onClick={matchmaking} className="button">
 					trouver un match
 				</button>
 			}
 			{page &&
-				<div className="text">
-					<div>{player1} vs {player2}</div>
-					{score1} - {score2}
+				<div>
+					<div className="players">
+						<div className="player">{player1}</div>
+						<div className="player">{player2}</div>
+					</div>
+					<div className="players">
+						<div className="player">{score1}</div>
+						<div className="player">{score2}</div>
+					</div>
 					<button onClick={incrementScore}>+1</button>
+					<PongTest />
+					<button onClick={clean}>clean</button>
 				</div>
 			}
-			<button onClick={clean}>clean</button>
 		</div>
 	);
 };

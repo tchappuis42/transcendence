@@ -45,22 +45,22 @@ export class GameGateway {
 	@SubscribeMessage('clean')
 	clean(@ConnectedSocket() client: Socket) {
 		console.log("clean")
-		this.gameService.clean();
+		this.gameService.clean(client);
 	}
 
 	@SubscribeMessage('gamelife')
 	gamelife(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
-		const game = this.gameService.gamelife();
-		console.log(game)
-		this.server.to(game).emit('gamelife', user.username);
+		const game = this.gameService.findRoom(client);
+		//console.log(game)
+		this.server.to(game.name).emit('gamelife', user.username);
 	}
 
 	@SubscribeMessage('paddle')
 	paddle(@MessageBody() data: string, @ConnectedSocket() client: Socket,) {
 		console.log(data)
-		const game = this.gameService.gamelife();
-		console.log(game)
-		this.server.to(game).emit('paddle', data)
+		const game = this.gameService.findRoom(client);
+		console.log(game.name)
+		this.server.to(game.name).emit('paddle', data)
 	}
 }

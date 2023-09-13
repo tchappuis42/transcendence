@@ -4,6 +4,7 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { UserDto } from 'src/user/dtos/UserDto';
 import { CreatGameDTO } from './dtos/creatGame.dto';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import { UserService } from 'src/user/user.service';
 
 interface roomName {
 	name: string;
@@ -13,8 +14,10 @@ interface roomName {
 
 @Injectable()
 export class GameService {
+	constructor(private readonly userservice: UserService) { }
+
 	waitingGame: Socket;
-	room: roomName;
+	rooms: roomName[] = []; //tableau de room 
 
 	matchmaking(user: UserDto, client: Socket): string | CreatGameDTO {
 		//check si le joueur et deja en game ---> retourner un message "vous etes deja en game" todo attendre le systeme de status
@@ -25,21 +28,23 @@ export class GameService {
 				this.waitingGame = null;
 				return "fin de la recherche de partie";
 			}
+
 			if (client.data.user.id === this.waitingGame.data.user.id)
 				return "vous etes deja en rechecher de partie"
+
 			let element: roomName = {
 				name: user.username,
 				socket1: client,
 				socket2: this.waitingGame
 			}
-			this.room = element;
-			client.join(this.room.name);
-			this.waitingGame.join(this.room.name);
+			this.rooms.push(element);
+			client.join(element.name);
+			this.waitingGame.join(element.name);
 
 			const data: CreatGameDTO = {
-				roomName: this.room.name,
-				player1: client.data.user,
-				player2: this.waitingGame.data.user
+				roomName: element.name,
+				player1: element.socket1.data.user,
+				player2: element.socket2.data.user
 			}
 			this.waitingGame = null;
 			return data;
@@ -50,22 +55,27 @@ export class GameService {
 		}
 	}
 
-	gamelife() {
-		if (this.room)
-			return this.room.name;
+	findRoom(client: Socket) {
+		console.log("rooms = ", this.rooms)
+		let room = this.rooms.find(room => room.socket1 === client)
+		if (room)
+			return room;
+
+		let room2 = this.rooms.find(room => room.socket2 === client)
+		if (room2)
+			return room2;
 	}
 
-	clean() {
-		if (this.room) {
-			console.log(this.room);
-			this.room.socket1.leave(this.room.name)
-			this.room.socket2.leave(this.room.name)
-			this.room = null
+	clean(client: Socket) {
+		const room = this.findRoom(client)
+		if (room) {
+			room.socket1.leave(room.name)
+			room.socket2.leave(room.name)
+			this.rooms = this.rooms.filter((r) => r.name !== room.name)
 		}
 	}
 
 	cleanMM(client: Socket) {
-		console.log("sa clean")
 		if (client === this.waitingGame)
 			this.waitingGame = null;
 	}

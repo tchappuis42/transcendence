@@ -3,7 +3,6 @@ export class UserDto {
 	username: string
 	email: string
 	avatar: string
-	password: string
 	twoFa: boolean
 	twoFaSecret: string
 	connected: boolean

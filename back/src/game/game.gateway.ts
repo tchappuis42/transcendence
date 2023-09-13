@@ -36,8 +36,10 @@ export class GameGateway {
 		console.log("matchmaking")
 		const user = client.data.user as UserDto;
 		const game = this.gameService.matchmaking(user, client);
-		if (game)
+		if (typeof game === 'object')
 			this.server.to(game.roomName).emit('game', game)
+		if (typeof game === 'string')
+			this.server.to(client.id).emit('game', game)
 	}
 
 	@SubscribeMessage('clean')

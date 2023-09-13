@@ -90,10 +90,15 @@ button:hover {
 }
 
 #pong {
-	display: flex;
+	/*display: flex;
 	justify-content: center;
 	align-items: center;
 	padding-left: 8px;
+	#pongCanvas {*/
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 auto;
 }
 
 .link {
@@ -165,4 +170,11 @@ p:hover {
 	font-size: 70px;
 	color: rgb(255, 255, 255);
 	font-family: sans-serif;
+}
+
+#pongCanvas {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 auto;
 }

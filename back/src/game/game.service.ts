@@ -7,8 +7,6 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 
 interface roomName {
 	name: string;
-	player1: string;
-	player2: string;
 	socket1: Socket;
 	socket2: Socket
 }
@@ -18,12 +16,19 @@ export class GameService {
 	waitingGame: Socket;
 	room: roomName;
 
-	matchmaking(user: UserDto, client: Socket): void | CreatGameDTO {
-		if (this.waitingGame && this.waitingGame !== client) {
+	matchmaking(user: UserDto, client: Socket): string | CreatGameDTO {
+		//check si le joueur et deja en game ---> retourner un message "vous etes deja en game" todo attendre le systeme de status
+		//check si le joueur et deja en machtmaking ---> retourner un message "vous etes deja en recheche de partie"
+		//check si y'a un joueur en matchmaking ---> oui creer la game, non mettre le joueur en matchmaking, et si la socket et la meme sortie de la recheche de game
+		if (this.waitingGame) {
+			if (this.waitingGame === client) {
+				this.waitingGame = null;
+				return "fin de la recherche de partie";
+			}
+			if (client.data.user.id === this.waitingGame.data.user.id)
+				return "vous etes deja en rechecher de partie"
 			let element: roomName = {
 				name: user.username,
-				player1: client.id,
-				player2: this.waitingGame.id,
 				socket1: client,
 				socket2: this.waitingGame
 			}
@@ -37,18 +42,11 @@ export class GameService {
 				player2: this.waitingGame.data.user
 			}
 			this.waitingGame = null;
-			//	console.log(this.room)
 			return data;
 		}
-		else if (this.waitingGame === client) {
-			console.log("la")
-			this.waitingGame = null;
-		}
 		else {
-			console.log("lo")
 			this.waitingGame = client;
-			console.log("waiting =", this.waitingGame.id)
-			return;
+			return "recherche de partie";
 		}
 	}
 

@@ -7,11 +7,7 @@ import { JwtService } from '@nestjs/jwt'
 import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
-<<<<<<< HEAD
 import { Socket } from 'socket.io';
-=======
-
->>>>>>> chat
 
 @Injectable()
 export class UserService {
@@ -20,10 +16,7 @@ export class UserService {
 
 	async validateUser(username: string): Promise<UserDto> {
 		const user = await this.usersRepository.findOne({ where: { username: username } })
-<<<<<<< HEAD
 		//console.log(username)
-=======
->>>>>>> chat
 		if (!user) throw new NotFoundException("user not found")
 		return user;
 	}
@@ -43,11 +36,6 @@ export class UserService {
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> chat
 }
 
 

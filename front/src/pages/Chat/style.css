@@ -1,0 +1,77 @@
+#chat {
+	display: flex;
+	align-items: center;
+	width: 450px;
+	height: 500px;
+	background: rgb(255 255 255 / 66%);
+	border-radius: 20px;
+	box-shadow: 10px 10px 20px 0px #f90;
+	flex-direction: column;
+	justify-content: flex-end;
+	color: rgb(8 18 238);
+
+	height: 95%;
+  	max-width: 450px;
+	margin: 0 auto;
+	padding: 3em;
+	font: 100%/1.4 serif;
+	border: 1px solid #f90;
+	
+}
+
+.lol {
+	display: flex;
+	flex-direction: column;
+	
+	height: 700px;
+	width: 350px;
+	
+	border: 1px solid #f90;
+	border-radius: 5px;
+	padding: 2px 5px;
+	white-space: nowrap;
+	overflow: scroll;
+}
+
+.button {
+	background-color: rgb(10 15 235 / 20%);
+	color: #f90;
+	padding: 8px 16px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 15px;
+	margin-top: 20px;
+	cursor: pointer;
+	border: 1px solid #f90;
+}
+
+.b {
+	font-size: 13px;
+}
+
+.lol::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+}
+
+.lol::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+.lol::-webkit-scrollbar-thumb
+{
+  background-color: #F909;
+  
+  background-image: -webkit-gradient(linear, 0 0, 0 100%,
+                     color-stop(.5, rgba(255, 255, 255, .2)),
+             color-stop(.5, transparent), to(transparent));
+}
+
+
+
+* {
+  box-sizing: border-box;
+}

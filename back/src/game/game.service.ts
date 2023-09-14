@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Injectable, Logger } from '@nestjs/common';
 import { Socket } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
@@ -80,3 +81,9 @@ export class GameService {
 			this.waitingGame = null;
 	}
 }
+=======
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class GameService {}
+>>>>>>> chat

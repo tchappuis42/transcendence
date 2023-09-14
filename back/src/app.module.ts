@@ -10,6 +10,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './authentication/auth.module';
 import { GameModule } from './game/game.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { GameModule } from './game/game.module';
     TypeOrmModule.forRoot(typeormconfig),
     AuthModule,
     GameModule,
+    ChatModule,
     // CorsModule.forRoot({ origin: '*' })
     // MulterModule.register({dest: './files'}),
     //  ServeStaticModule.forRoot({rootPath: join(__dirname, '..', 'files')})

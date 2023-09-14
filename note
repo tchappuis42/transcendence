@@ -3,9 +3,6 @@ npm i axios // pour la connection avec l'api // probleme CORS  (Cross-Origin Res
 npm i react-router-dom // 
 npm start
 
-
-
-
 plugin react
 simple react snippets
 Reactjs code snippets // rsc

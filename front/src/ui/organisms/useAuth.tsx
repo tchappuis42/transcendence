@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Account } from "../types";
 import { useAccountStore } from "./store";
 import axios from "axios";
@@ -35,15 +35,22 @@ export function useAuth() {
 
 	const login = useCallback(async (email: string, password: string) => {
 		try {
-			await axios.post("http://localhost:4000/user/login", { email, password }, { withCredentials: true });
-			authenticate()
+			const response = await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
+
+			if (response.data.message) {
+				authenticate();
+				return false;
+			} else {
+				return true;
+			}
 		} catch (error) {
 			setAccount(null);
+			throw error;
 		}
 	}, []);
 
 	const logout = useCallback(async () => {
-		await axios.get("http://localhost:4000/user/logout", { withCredentials: true });
+		await axios.get("http://localhost:4000/authentication/logout", { withCredentials: true });
 		setAccount(null);
 	}, []);
 

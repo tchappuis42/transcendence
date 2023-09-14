@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from './useAuth';
+import NavDropDown from './NavDropDown';
 
 type Props = {
 	options: Option[];
@@ -18,18 +18,12 @@ const NavigationItem = ({ option }: { option: Option }) => {
 }
 
 const Navigation = ({ options }: Props) => {
-	//const { account } = useAccount()
-	const { logout } = useAuth();
-	const LogoutSubmit = (e: SyntheticEvent) => {
-		e.preventDefault();
-		logout();
-	}
 	return (
 		<div className="header">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
-			<button onClick={LogoutSubmit}>logout</button>
+			<NavDropDown />
 		</div>
 	);
 };

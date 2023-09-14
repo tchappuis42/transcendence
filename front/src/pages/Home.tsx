@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Navigation from '../organisms/Navigation';
-import Login from '../../pages/Login';
-import { AuthStatus, useAuth } from '../organisms/useAuth';
-import Testuser from '../../pages/testuser';
+import Navigation from '../ui/organisms/Navigation';
+import Login from './Auth/Login';
+import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
+import Testuser from './testuser';
+import { io } from 'socket.io-client';
+import { SocketProvider } from '../ui/organisms/SocketContext';
 
 
 const navigationOptions = [
@@ -15,6 +17,7 @@ const navigationOptions = [
 const Home = () => {
 	const { status, authenticate } = useAuth();
 	const location = useLocation();
+
 	useEffect(() => {
 		authenticate();
 	}, []);

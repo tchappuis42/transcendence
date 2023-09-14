@@ -18,4 +18,13 @@ export class User {
   @Column()
   @Exclude()
   password: string;
+
+  @Column({ default: false })
+  twoFa: boolean;
+
+  @Column({ nullable: true })
+  twoFaSecret: string;
+
+  @Column({ default: false })
+  connected: boolean;
 }

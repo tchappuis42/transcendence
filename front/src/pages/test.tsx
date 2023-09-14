@@ -1,5 +1,5 @@
-import Login from "./Login";
-import Signup from "./Signup";
+import Login from "./Auth/Login";
+import SignupForm from "./Auth/SignupForm";
 
 const Test = () => {
 	const a = true;
@@ -15,7 +15,6 @@ const Test = () => {
 	}
 	else {
 		return (
-			Signup(),
 			<h1>test</h1>
 		)
 	}

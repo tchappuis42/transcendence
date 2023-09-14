@@ -1,44 +1,20 @@
 import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
-import { SignupDto } from './dtos/signupDto';
 import { UserService } from './user.service';
-import { LoginDto } from './dtos/loginDto';
-import { AvatarDto } from './dtos/AvatarDto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from './auth.guard';
+import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { UserDto } from './dtos/UserDto';
 
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
-	@Post("/signup")
-	async postSignup(@Body() body: SignupDto) {
-		return { message: await this.userService.postSignup(body) }
-	}
-
-	@Post("/login")
-	async postLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
-		const access_token = await this.userService.postLogin(body);
-		res.cookie('access_token', access_token, {
-			httpOnly: true,
-			secure: false,
-			sameSite: "lax",
-		});
-		return access_token; // msg succes
-	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getProfile(@Req() req: Request) {
+	getProfile(@Req() req: Request) {
 		return req.user
-	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get("/logout")
-	postLogout(@Res({ passthrough: true }) res: Response) {
-		res.clearCookie('access_token');
 	}
 
 	@Post("/avatar")
@@ -47,5 +23,20 @@ export class UserController {
 		//console.log(file);
 		//async postAvatar(@Body() body : any){
 		return body
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/users")
+	async getUsers(@Req() req: Request) {
+		return req.user
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/2fa")
+	async get2fa(@Req() req: Request) {
+		const user = req.user as UserDto;
+		const code = await this.userService.generateTfaSecret(user.email);
+		const qrcode = this.userService.generateQrCode(code);
+		return qrcode
 	}
 }

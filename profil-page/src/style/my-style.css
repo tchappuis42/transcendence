@@ -1,0 +1,202 @@
+body {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+p {
+    line-height: 2;
+    word-spacing: 0.1rem;
+    background-color: rgb(207, 232, 220);
+    border: 2px outset rgb(79, 185, 227);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.red-text {
+    color: red;
+}
+
+.large-text {
+    font-size: 32px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.wrapper > p {
+    border-radius: 10px;
+    background-color: beige;
+    padding: 1cm;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.wrapper > p {
+    flex: 1;
+}
+
+.grid > p {
+    border-radius: 10px;
+    background-color: brown;
+    padding: 1cm;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    gap: 10px;
+}
+
+.boxing > div {
+    border-radius: 10px;
+    background-color: darkcyan;
+    padding: 1em;
+}
+
+.boxing {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    gap: 10px;
+}
+
+.boxA {
+    grid-column: 2/4;
+    grid-row: 1;
+}
+
+.boxB {
+    grid-column: 1;
+    grid-row: 1/3;
+}
+
+.boxC {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.legend {
+    background: unset;
+    border: unset;
+}
+
+.description {
+    background-color: rgb(207, 232, 220);
+    border: 2px outset rgb(79, 185, 227);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.description {
+    float: left;
+    width: 150px;
+    height: 190px;
+    margin-right: 30px;
+}
+
+.positioned {
+    background: rgba(255, 84, 104, 0.3);
+    border: 2px solid rgb(255, 84, 104);
+}
+
+.positionedR {
+    position: relative;
+    top: 40px;
+    left: 40px;
+}
+
+.positionedR {
+    background: rgba(255, 84, 104, 0.3);
+    border: 2px solid rgb(255, 84, 104);
+}
+
+.positionedA {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.positionedA {
+    background: rgba(255, 84, 104, 0.3);
+    border: 2px solid rgb(255, 84, 104);
+}
+
+.positionedF {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+}
+
+.positionedF {
+    background: rgba(255, 84, 104, 0.3);
+    border: 2px solid rgb(255, 84, 104);
+}
+
+.positionedS {
+    position: sticky;
+    top: 30px;
+    left: 30px;
+}
+
+.positionedS {
+    background: rgba(255, 84, 104, 0.3);
+    border: 2px solid rgb(255, 84, 104);
+}
+
+html {
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+form {
+    display: table;
+    margin: 10px auto;
+}
+
+form div {
+    display: table-row;
+    margin: 10px auto;
+}
+
+form label, form input {
+    display: table-cell;
+    margin-bottom: 10px;
+}
+
+form label {
+    width: 100px;
+    padding-right: 5%;
+    text-align: left;
+}
+
+form input {
+    width: 300px;
+}
+
+form h3 {
+    display: table-caption;
+    caption-side: top;
+    width: 300px;
+    color: #999;
+    font-style: italic;
+}
+
+.header {
+    color: darkolivegreen;
+}
+
+.counter {
+    color: darkslategrey;
+    font-style: normal;
+}

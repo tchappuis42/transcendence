@@ -20,7 +20,7 @@ export class GameGateway {
 		//Logger.log(socket.id, "CLIENT CONNECTED")
 	}
 
-	//deconnexionls
+	//deconnexion
 	handleDisconnect(client: Socket) {
 		this.gameService.cleanMM(client);
 	}
@@ -62,5 +62,6 @@ export class GameGateway {
 		const game = this.gameService.findRoom(client);
 		console.log(game.name)
 		this.server.to(game.name).emit('paddle', data)
+
 	}
 }

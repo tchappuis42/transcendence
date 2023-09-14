@@ -14,22 +14,21 @@ export class UserService {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
-	async validateUser(username: string): Promise<UserDto> {
-		const user = await this.usersRepository.findOne({ where: { username: username } })
-		//console.log(username)
+	async validateUser(id: number): Promise<UserDto> {
+		const user = await this.usersRepository.findOne({ where: { id: id } })
 		if (!user) throw new NotFoundException("user not found")
 		return user;
 	}
 
-	async setTfaSecret(secret: string, email: string) {
-		const user = await this.usersRepository.findOne({ where: { email: email } })
+	async setTfaSecret(secret: string, username: string) {
+		const user = await this.usersRepository.findOne({ where: { username: username } })
 		await this.usersRepository.update(user.id, { twoFaSecret: secret })
 	}
 
-	async generateTfaSecret(email: string) {
+	async generateTfaSecret(username: string) {
 		const secret = authenticator.generateSecret();
-		const otpauthUrl = authenticator.keyuri(email, 'AUTH_APP_NAME', secret);
-		await this.setTfaSecret(secret, email);
+		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
+		await this.setTfaSecret(secret, username);
 		return otpauthUrl
 	}
 

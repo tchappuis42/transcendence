@@ -18,7 +18,7 @@ export class AuthController {
 		if (!body.twoFa)
 			return { message: await this.authService.postSignup(body) }
 		await this.authService.postSignup(body);
-		const code = await this.userService.generateTfaSecret(body.email);
+		const code = await this.userService.generateTfaSecret(body.username);
 		const qrcode = this.userService.generateQrCode(code);
 		return qrcode
 	}
@@ -54,6 +54,7 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
+		res.clearCookie('2fa_token');
 		return { message: user.twoFaSecret }; // msg succes
 	}
 

@@ -46,15 +46,6 @@ const SignupForm: React.FC<FormProps> = ({
 							placeholder='user'
 						/>
 					</label>
-					<label htmlFor="email">
-						<input className='input'
-							type="email"
-							name="email"
-							value={data.email}
-							onChange={handleChange}
-							placeholder='email@exemple.com'
-						/>
-					</label>
 					<label htmlFor="password">
 						<input className='input'
 							type={showPassword ? "text" : "password"}

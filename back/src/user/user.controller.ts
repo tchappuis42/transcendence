@@ -35,7 +35,7 @@ export class UserController {
 	@Get("/2fa")
 	async get2fa(@Req() req: Request) {
 		const user = req.user as UserDto;
-		const code = await this.userService.generateTfaSecret(user.email);
+		const code = await this.userService.generateTfaSecret(user.username);
 		const qrcode = this.userService.generateQrCode(code);
 		return qrcode
 	}

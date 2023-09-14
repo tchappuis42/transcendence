@@ -33,9 +33,9 @@ export function useAuth() {
 		}
 	}, []);
 
-	const login = useCallback(async (email: string, password: string) => {
+	const login = useCallback(async (username: string, password: string) => {
 		try {
-			const response = await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
+			const response = await axios.post("http://localhost:4000/authentication/login", { username, password }, { withCredentials: true });
 
 			if (response.data.message) {
 				authenticate();

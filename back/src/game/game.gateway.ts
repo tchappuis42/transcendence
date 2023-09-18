@@ -62,6 +62,5 @@ export class GameGateway {
 		const game = this.gameService.findRoom(client);
 		console.log(game.name)
 		this.server.to(game.name).emit('paddle', data)
-
 	}
 }

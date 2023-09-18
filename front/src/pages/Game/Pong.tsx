@@ -163,6 +163,7 @@ const Pong = () => {
 	}
 
 	const keyDownHandler = (e: KeyboardEvent) => {
+		e.preventDefault();
 		if (e.key === "w") {
 			setleftpaddle({ ...leftPaddle, dy: -paddleSpeed })
 		}

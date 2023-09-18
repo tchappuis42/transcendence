@@ -16,7 +16,7 @@ const LoginForm: React.FC<FormProps> = ({
 		e.preventDefault();
 
 		try {
-			const twofa = await login(data.email, data.password);
+			const twofa = await login(data.username, data.password);
 
 			if (twofa) {
 				settingPage("twofa")
@@ -28,13 +28,13 @@ const LoginForm: React.FC<FormProps> = ({
 	return (
 		<form onSubmit={loginSubmit} id={"form"}>
 			<h1 className='text'>Login</h1>
-			<label htmlFor="email">
+			<label htmlFor="text">
 				<input className='input'
-					type="email"
-					name="email"
-					value={data.email}
+					type="text"
+					name="username"
+					value={data.username}
 					onChange={handleChange}
-					placeholder='email@exemple.com'
+					placeholder='username'
 				/>
 			</label>
 			<label htmlFor="password">

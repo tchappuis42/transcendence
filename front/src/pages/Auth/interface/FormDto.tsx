@@ -1,6 +1,5 @@
 interface FormProps {
 	data: {
-		email: string;
 		password: string;
 		username: string;
 		twoFa: boolean;

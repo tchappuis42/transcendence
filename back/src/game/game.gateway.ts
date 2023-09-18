@@ -1,7 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-import { TestDto } from "src/user/dtos/TestDto";
 import { UserDto } from "src/user/dtos/UserDto";
 import { UserService } from "src/user/user.service";
 import { GameService } from "./game.service";

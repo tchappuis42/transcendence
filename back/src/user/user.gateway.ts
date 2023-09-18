@@ -17,8 +17,8 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	//connection
 	async handleConnection(@ConnectedSocket() socket: Socket) {
-		const username = socket.handshake.query.user as string;
-		const user = await this.userService.validateUser(username);
+		const id = parseInt(socket.handshake.query.user as string);
+		const user = await this.userService.validateUser(id);
 		socket.data.user = user;
 		Logger.log(socket.id, "CLIENT CONNECTED")
 	}

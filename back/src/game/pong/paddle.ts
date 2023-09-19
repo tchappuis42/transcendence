@@ -14,16 +14,25 @@ export class Paddle {
 		this.height = 80
 		this.dy = 0
 		this.speed = 7
-		console.log("x ===", this.x)
-		console.log("y ===", this.y)
+	}
+
+	life() {
+		this.y = this.y + this.dy
+		//console.log("speed = ", this.speed)
 	}
 
 	moveUp() {
-		this.y -= this.speed;
+		//this.y -= this.speed;
+		this.dy -= this.speed
 	}
 
 	moveDown() {
-		this.y += this.speed;
+		//this.y += this.speed;
+		this.dy += this.speed;
+	}
+
+	moveEnd() {
+		this.dy = 0;
 	}
 
 	getY() {

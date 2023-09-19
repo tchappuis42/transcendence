@@ -103,23 +103,24 @@ const PongTest = () => {
 		if (e.key === "s" && leftPaddle.dy > 0) {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
-		if (e.key === "ArrowUp" && rightPaddle.dy < 0) {
-			if (socket)
-				socket.emit("paddle", "fup")
-			//setrightpaddle({ ...rightPaddle, dy: 0 })
-		}
-		if (e.key === "ArrowDown" && rightPaddle.dy > 0) {
-			if (socket)
-				socket.emit("paddle", "fdown")
-			//setrightpaddle({ ...rightPaddle, dy: 0 })
-		}
+		//	if (e.key === "ArrowUp" && rightPaddle.dy < 0) {
+		if (socket)
+			socket.emit("paddle", "keyup")
+		//setrightpaddle({ ...rightPaddle, dy: 0 })
+		//}
+		//if (e.key === "ArrowDown" && rightPaddle.dy > 0) {
+		if (socket)
+			socket.emit("paddle", "keyup")
+		//setrightpaddle({ ...rightPaddle, dy: 0 })
+		//	}
 	}
 
 	useEffect(() => {
 		if (socket) {
 			socket.on("life", (data) => {
-				console.log("data = ", data);  // -----> data ok
-				setrightpaddle({ ...rightPaddle, y: data })
+				console.log("data = ", data.playTwo);  // -----> data ok
+				setrightpaddle({ ...rightPaddle, y: data.playTwo })
+				setleftpaddle({ ...leftPaddle, y: data.playOne })
 				/*if (data === "up")
 					setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
 				if (data === "down")
@@ -140,7 +141,7 @@ const PongTest = () => {
 	const paddlelogic = () => {
 		//left paddle logic
 
-		if (leftPaddle.y < grid) {
+		/*if (leftPaddle.y < grid) {
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: grid,
@@ -151,7 +152,7 @@ const PongTest = () => {
 				...prevPaddle,
 				y: maxPaddleY,
 			}));
-		}
+		}*/
 		//rightpaddle logic
 		/*if (rightPaddle.y < grid) {
 			setrightpaddle((prevPaddle) => ({
@@ -194,7 +195,7 @@ const PongTest = () => {
 				x: prevBall.x + prevBall.width,
 
 			}));
-			setleftpaddle({ ...leftPaddle, color: leftPaddle.color + 1 })
+			//setleftpaddle({ ...leftPaddle, color: leftPaddle.color + 1 })
 			//increases the speed of the ball by 0.2 each time it touches a pad
 			if (ball.dx < 6) {
 				setBall((prevBall) => ({
@@ -263,18 +264,18 @@ const PongTest = () => {
 		}
 	}
 
-	useEffect(() => {
+	/*useEffect(() => {
 		//if (gameInfo.start == true) {
 		const handleGameUpdate = () => {
 			//console.log(rightPaddle.y)
-			setleftpaddle((prevPaddle) => ({
+			/*setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: prevPaddle.y + prevPaddle.dy
 			}));
 			/*setrightpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: prevPaddle.y + prevPaddle.dy
-			}));*/
+			}));
 			setBall((prevBall) => ({
 				...prevBall,
 				x: prevBall.x + prevBall.dx,
@@ -287,7 +288,7 @@ const PongTest = () => {
 			clearInterval(gameLoop);
 		};
 		//}
-	}, [rightPaddle]);
+	}, [rightPaddle]);*/
 
 
 	useEffect(() => {

@@ -61,7 +61,7 @@ export class GameService {
 	}
 
 	findRoom(client: Socket) {
-		console.log("rooms = ", this.rooms)
+		//console.log("rooms = ", this.rooms)
 		let room = this.rooms.find(room => room.socket1 === client)
 		if (room)
 			return room;
@@ -94,11 +94,14 @@ export class GameService {
 			player = room.pong.getPlayer2();
 
 		if (player) {
-			console.log(player)
+			console.log("data = ", data)
 			if (data === 'up') {
 				player.moveUp();
 			} else if (data === 'down') {
 				player.moveDown();
+			}
+			else if (data === 'keyup') {
+				player.moveEnd();
 			}
 			console.log("y = ", player.y)
 		}
@@ -108,8 +111,9 @@ export class GameService {
 		const room = this.findRoom(client)
 		if (room) {
 			setInterval(() => {
-				const data = room.pong.player2.getY();
-				console.log(data)
+				room.pong.pongLife();
+				const data = room.pong.getdata();
+				//	console.log(data)
 				server.to(room.name).emit('life', data);
 			}, 1000 / 40);
 		}

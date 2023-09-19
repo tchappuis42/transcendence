@@ -101,11 +101,6 @@ const SocketPong = () => {
 						<div className="player">{player1}</div>
 						<div className="player">{player2}</div>
 					</div>
-					<div className="players">
-						<div className="player">{score1}</div>
-						<div className="player">{score2}</div>
-					</div>
-					<button onClick={incrementScore}>+1</button>
 					<PongTest />
 					<button onClick={clean}>clean</button>
 				</div>
@@ -115,3 +110,14 @@ const SocketPong = () => {
 };
 
 export default SocketPong;
+
+/*
+					<div className="players">
+						<div className="player">{player1}</div>
+						<div className="player">{player2}</div>
+					</div>
+					<div className="players">
+						<div className="player">{score1}</div>
+						<div className="player">{score2}</div>
+					</div>
+					*/

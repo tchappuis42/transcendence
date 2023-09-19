@@ -1,35 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
-
-
-interface Paddle {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
-	dy: number;
-	color: number;
-}
-
-interface Game {
-	start: boolean;
-	score_left: number;
-	score_right: number;
-	winner: number;
-	rgb: boolean;
-}
-
-interface Ball {
-	x: number,
-	y: number,
-	width: number,
-	height: number,
-	resetting: boolean,
-	dx: number,
-	dy: number,
-	color: number;
-}
-
+import GameRules from './gamerules';
+import { Ball, Game, Paddle } from './gameInterface';
+import { drawBall, drawGame, drawMap, drawPaddle } from './drawfunctions';
 
 const PongTest = () => {
 	const socket = useSocket();
@@ -41,9 +14,6 @@ const PongTest = () => {
 	const maxPaddleY = 585 - grid - paddleHeight;
 	const paddleSpeed = 7;
 	const ballSpeed = 4;
-
-
-	const [oui, setoui] = useState(0);
 
 	const [ball, setBall] = useState<Ball>({
 		x: width / 2,
@@ -92,81 +62,6 @@ const PongTest = () => {
 			obj1.x + obj1.width > obj2.x &&
 			obj1.y < obj2.y + obj2.height &&
 			obj1.y + obj1.height > obj2.y;
-	}
-
-	const drawMap = (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-		context.fillStyle = 'black';
-		context.fillRect(0, 0, canvas.width, canvas.height);
-
-		// draw walls
-		if (gameInfo.rgb === true) {
-			if (ball.color % 30 < 10)
-				context.fillStyle = 'red';
-			else if (ball.color % 30 < 20)
-				context.fillStyle = 'blue';
-			else
-				context.fillStyle = 'yellow';
-		}
-		else
-			context.fillStyle = 'white';
-		context.fillRect(0, 0, canvas.width, grid);
-		context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
-
-		// draw dotted line down the middle
-		for (let i = grid; i < canvas.height - grid; i += grid * 2) {
-			context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
-		}
-	}
-
-	const drawBall = (context: CanvasRenderingContext2D, ball: Ball) => {
-		if (gameInfo.rgb === true) {
-			if (ball.color % 30 < 10)
-				context.fillStyle = 'red';
-			else if (ball.color % 30 < 20)
-				context.fillStyle = 'blue';
-			else
-				context.fillStyle = 'yellow';
-		}
-		else
-			context.fillStyle = 'white';
-		context.fillRect(ball.x, ball.y, ball.width, ball.height);
-		context.beginPath();
-		context.arc(ball.x, ball.y, 50, 0, 2 * Math.PI);
-	}
-
-	const drawGame = (context: CanvasRenderingContext2D, gameInfo: Game) => {
-		// draw score
-		context.fillStyle = 'white';
-		context.font = "30px Arial"
-		context.fillText(gameInfo.score_left.toString(), 650, 70);
-		context.fillText(gameInfo.score_right.toString(), 100, 70);
-	}
-
-	const drawPaddle = (context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) => {
-		// draw paddles
-		if (gameInfo.rgb) {
-			if (leftPaddle.color % 3 === 0)
-				context.fillStyle = 'red';
-			if (leftPaddle.color % 3 === 1)
-				context.fillStyle = 'blue';
-			if (leftPaddle.color % 3 === 2)
-				context.fillStyle = 'yellow';
-		}
-		else
-			context.fillStyle = 'white';
-		//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-		context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
-		if (gameInfo.rgb) {
-			if (rightPaddle.color % 3 === 0)
-				context.fillStyle = 'red';
-			if (rightPaddle.color % 3 === 1)
-				context.fillStyle = 'blue';
-			if (rightPaddle.color % 3 === 2)
-				context.fillStyle = 'yellow';
-		}
-		else
-			context.fillStyle = 'white';
-		context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
 	}
 
 	const keyDownHandler = (e: KeyboardEvent) => {
@@ -222,24 +117,25 @@ const PongTest = () => {
 
 	useEffect(() => {
 		if (socket) {
-			socket.on("paddle", (data) => {
-				console.log(data);  // -----> data ok
-				if (data === "up")
+			socket.on("life", (data) => {
+				console.log("data = ", data);  // -----> data ok
+				setrightpaddle({ ...rightPaddle, y: data })
+				/*if (data === "up")
 					setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
 				if (data === "down")
 					setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
 				if (data === "fup")
 					setrightpaddle({ ...rightPaddle, dy: 0 })
 				if (data === "fdown")
-					setrightpaddle({ ...rightPaddle, dy: 0 })
+					setrightpaddle({ ...rightPaddle, dy: 0 })*/
 			});
 		}
 		return () => {
 			if (socket) {
-				socket.off("paddle");
+				socket.off("life");
 			}
 		};
-	}, [socket, rightPaddle]);
+	}, [socket]);
 
 	const paddlelogic = () => {
 		//left paddle logic
@@ -257,7 +153,7 @@ const PongTest = () => {
 			}));
 		}
 		//rightpaddle logic
-		if (rightPaddle.y < grid) {
+		/*if (rightPaddle.y < grid) {
 			setrightpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: grid,
@@ -268,7 +164,7 @@ const PongTest = () => {
 				...prevPaddle,
 				y: maxPaddleY,
 			}));
-		}
+		}*/
 	}
 
 	const ballLogic = () => {
@@ -370,15 +266,15 @@ const PongTest = () => {
 	useEffect(() => {
 		//if (gameInfo.start == true) {
 		const handleGameUpdate = () => {
-			console.log(rightPaddle.y)
+			//console.log(rightPaddle.y)
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: prevPaddle.y + prevPaddle.dy
 			}));
-			setrightpaddle((prevPaddle) => ({
+			/*setrightpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: prevPaddle.y + prevPaddle.dy
-			}));
+			}));*/
 			setBall((prevBall) => ({
 				...prevBall,
 				x: prevBall.x + prevBall.dx,
@@ -420,6 +316,7 @@ const PongTest = () => {
 
 	return (
 		<div >
+			<GameRules />
 			<div id="pong" className='pong'>
 				<canvas ref={canvasRef} />
 			</div>

@@ -288,7 +288,7 @@ const Pong = () => {
 			// 	ball.x = rightPaddle.x - ball.width;
 
 			// 	//increases the speed of the ball by 0.2 each time it touches a pad
-			if (ball.dx > -8) {
+			if (ball.dx > -6) {
 				setBall((prevBall) => ({
 					...prevBall,
 					dx: prevBall.dx -= 0.2,
@@ -355,6 +355,7 @@ const Pong = () => {
 		};
 		//}
 	}, []);
+
 
 
 	useEffect(() => {

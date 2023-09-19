@@ -34,7 +34,7 @@ export class GameGateway {
 	matchmaking(@ConnectedSocket() client: Socket) {
 		console.log("matchmaking")
 		const user = client.data.user as UserDto;
-		const game = this.gameService.matchmaking(user, client);
+		const game = this.gameService.matchmaking(user, client, this.server);
 		if (typeof game === 'object')
 			this.server.to(game.roomName).emit('game', game)
 		if (typeof game === 'string')
@@ -57,9 +57,14 @@ export class GameGateway {
 
 	@SubscribeMessage('paddle')
 	paddle(@MessageBody() data: string, @ConnectedSocket() client: Socket,) {
-		console.log(data)
+		this.gameService.paddle(client, data);
+	}
+
+	@SubscribeMessage('life')
+	life(@ConnectedSocket() client: Socket) {
+
 		const game = this.gameService.findRoom(client);
-		console.log(game.name)
-		this.server.to(game.name).emit('paddle', data)
+		//console.log(game)
+		this.server.to(game.name).emit('gamelife');
 	}
 }

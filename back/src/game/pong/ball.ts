@@ -50,7 +50,7 @@ export class Ball {
 		this.x -= this.width
 	}
 
-	q() {
+	reset() {
 		this.x = 750 / 2
 		this.y = 585 / 2
 	}

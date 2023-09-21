@@ -57,4 +57,8 @@ export class Paddle {
 		this.ready = true;
 		console.log("ready = ", this.ready)
 	}
+
+	reset() {
+		this.score = 0;
+	}
 }

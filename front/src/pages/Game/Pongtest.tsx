@@ -11,19 +11,12 @@ const PongTest = () => {
 	const width = 750;
 	const grid = 15;
 	const paddleHeight = grid * 5; // 80
-	const maxPaddleY = 585 - grid - paddleHeight;
-	const paddleSpeed = 7;
-	const ballSpeed = 4;
 
 	const [ball, setBall] = useState<Ball>({
-		x: width / 2,
-		y: height / 2,
-		width: grid,
-		height: grid,
-		resetting: false,
-		dx: ballSpeed,
-		dy: -ballSpeed,
-		color: 1,
+		x: 0,
+		y: 0,
+		width: 15,
+		height: 15,
 	})
 
 	//console.log("la")
@@ -33,9 +26,7 @@ const PongTest = () => {
 		y: height / 2 - paddleHeight / 2,
 		width: 1,
 		height: paddleHeight,
-		color: 1,
-		// paddle velocity
-		dy: 0,
+		score: 0,
 	});
 
 	const [rightPaddle, setrightpaddle] = useState<Paddle>({
@@ -44,17 +35,7 @@ const PongTest = () => {
 		y: 585 / 2 - paddleHeight / 2,
 		width: 1,
 		height: paddleHeight,
-		color: 1,
-		// paddle velocity
-		dy: 0,
-	});
-
-	const [gameInfo, setGameinfo] = useState<Game>({
-		start: false,
-		score_left: 0,
-		score_right: 0,
-		winner: 0,
-		rgb: false,
+		score: 0,
 	});
 
 	const keyDownHandler = useCallback(
@@ -83,14 +64,17 @@ const PongTest = () => {
 		if (socket) {
 			socket.on("life", (data) => {
 				//console.log("data = ", data);  // -----> data ok
-				setrightpaddle((prevState) => ({ ...prevState, y: data.playTwo }));
-				setleftpaddle((prevState) => ({ ...prevState, y: data.playOne }));
-				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX }));
-				setGameinfo((prevState) => ({
+				setrightpaddle((prevState) => ({
 					...prevState,
-					score_left: data.score1,
-					score_right: data.score2,
+					y: data.playTwo,
+					score: data.score2,
 				}));
+				setleftpaddle((prevState) => ({
+					...prevState,
+					y: data.playOne,
+					score: data.score1,
+				}));
+				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX }));
 			});
 		}
 		return () => {
@@ -112,7 +96,7 @@ const PongTest = () => {
 			return;
 		drawMap(context, canvas);
 		drawPaddle(context, leftPaddle, rightPaddle);
-		drawGame(context, gameInfo);
+		drawGame(context, leftPaddle, rightPaddle);
 		drawBall(context, ball);
 		window.addEventListener('keydown', keyDownHandler);
 		window.addEventListener('keyup', keyUpHandler);

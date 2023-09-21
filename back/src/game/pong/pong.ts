@@ -92,7 +92,7 @@ export class Pong {
 				// give some time for the player to recover before launching the ball again
 				setTimeout(() => {
 					this.ball.resetting = false
-					this.ball.q();
+					this.ball.reset();
 				}, 400);
 			}
 		}

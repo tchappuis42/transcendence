@@ -3,8 +3,7 @@ export interface Paddle {
 	y: number;
 	width: number;
 	height: number;
-	dy: number;
-	color: number;
+	score: number;
 }
 
 export interface Game {
@@ -20,8 +19,4 @@ export interface Ball {
 	y: number,
 	width: number,
 	height: number,
-	resetting: boolean,
-	dx: number,
-	dy: number,
-	color: number;
 }

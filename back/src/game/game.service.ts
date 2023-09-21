@@ -108,7 +108,7 @@ export class GameService {
 				player.playerReady();
 			}
 			else if (data === 'q')
-				room.pong.ball.q();
+				room.pong.q();
 			console.log("y = ", player.y)
 		}
 	}
@@ -118,11 +118,11 @@ export class GameService {
 	life(server: Server, client: Socket) {
 		const room = this.findRoom(client)
 		if (room) {
-			setInterval(() => {
-				room.pong.pongLife();
-				const data = room.pong.getdata();
-				server.to(room.name).emit('life', data);
-			}, 1000 / 60);
+			/*	setInterval(() => {
+					room.pong.pongLife();
+					const data = room.pong.getdata();
+					server.to(room.name).emit('life', data);
+				}, 1000 / 60);*/
 		}
 	}
 }

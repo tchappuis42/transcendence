@@ -40,12 +40,12 @@ export function drawBall(context: CanvasRenderingContext2D, ball: Ball) {
 	context.fillRect(ball.x, ball.y, ball.width, ball.height);
 }
 
-export function drawGame(context: CanvasRenderingContext2D, gameInfo: Game) {
+export function drawGame(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) {
 	// draw score
 	context.fillStyle = 'white';
 	context.font = "30px Arial"
-	context.fillText(gameInfo.score_left.toString(), 650, 70);
-	context.fillText(gameInfo.score_right.toString(), 100, 70);
+	context.fillText(leftPaddle.score.toString(), 650, 70);
+	context.fillText(rightPaddle.score.toString(), 100, 70);
 }
 
 export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) {

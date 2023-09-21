@@ -10,16 +10,16 @@ export class Ball {
 
 	constructor(height: number, width: number) {
 		this.speed = 4
-		this.x = height / 2
-		this.y = width / 2
+		this.x = width / 2
+		this.y = height / 2
 		this.height = 15
 		this.width = 15
 		this.resetting = false
 		this.dx = this.speed
-		this.dy -= this.speed
+		this.dy = -this.speed
 	}
 
-	ballLife() {
+	life() {
 		this.x = this.x + this.dx;
 		this.y = this.y + this.dy;
 	}
@@ -33,10 +33,25 @@ export class Ball {
 	}
 
 	down() {
-		this.dy -= this.speed
+		this.dy = -this.speed
 	}
 
 	up() {
 		this.dy = this.speed
+	}
+
+	lefftePaddle() {
+		this.dx *= -1
+		this.x += this.width
+	}
+
+	rightPaddle() {
+		this.dx *= -1
+		this.x -= this.width
+	}
+
+	q() {
+		this.x = 750 / 2
+		this.y = 585 / 2
 	}
 }

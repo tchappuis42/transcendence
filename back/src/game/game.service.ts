@@ -51,6 +51,7 @@ export class GameService {
 				player2: element.socket2.data.user
 			}
 			this.waitingGame = null;
+			console.log("ici")
 			this.life(server, client);
 			return data;
 		}
@@ -103,19 +104,25 @@ export class GameService {
 			else if (data === 'keyup') {
 				player.moveEnd();
 			}
+			else if (data === 'ready') {
+				player.playerReady();
+			}
+			else if (data === 'q')
+				room.pong.ball.q();
 			console.log("y = ", player.y)
 		}
 	}
 
+	//a la fin clean la room et sauv le score
+	//trouver solution pour faire lier la boucle a la room et la sup a la fin 
 	life(server: Server, client: Socket) {
 		const room = this.findRoom(client)
 		if (room) {
 			setInterval(() => {
 				room.pong.pongLife();
 				const data = room.pong.getdata();
-				//	console.log(data)
 				server.to(room.name).emit('life', data);
-			}, 1000 / 40);
+			}, 1000 / 60);
 		}
 	}
 }

@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useSocket } from "../../ui/organisms/SocketContext";
 
 const GameRules = () => {
-
+	const socket = useSocket();
 	const [rules, setRules] = useState(true)
 	const Rules = () => {
 		setRules(false)
+		if (socket)
+			socket.emit("paddle", "ready")
 	};
 
 	return <div>

@@ -35,6 +35,7 @@ export function drawBall(context: CanvasRenderingContext2D, ball: Ball) {
 			context.fillStyle = 'yellow';
 	}
 	else*/
+	//console.log("ici ball =", ball)
 	context.fillStyle = 'white';
 	context.fillRect(ball.x, ball.y, ball.width, ball.height);
 }

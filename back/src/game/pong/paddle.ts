@@ -6,14 +6,18 @@ export class Paddle {
 	height: number;
 	dy: number;
 	speed: number;
+	score: number;
+	ready: boolean;
 
 	constructor(x: number, y: number) {
 		this.x = x
 		this.y = y
 		this.width = 1
-		this.height = 80
+		this.height = 75
 		this.dy = 0
 		this.speed = 7
+		this.score = 0
+		this.ready = false
 	}
 
 	life() {
@@ -21,14 +25,16 @@ export class Paddle {
 		//console.log("speed = ", this.speed)
 	}
 
+	incrementScore() {
+		this.score += 1;
+	}
+
 	moveUp() {
-		//this.y -= this.speed;
-		this.dy -= this.speed
+		this.dy = -this.speed
 	}
 
 	moveDown() {
-		//this.y += this.speed;
-		this.dy += this.speed;
+		this.dy = this.speed;
 	}
 
 	moveEnd() {
@@ -37,5 +43,18 @@ export class Paddle {
 
 	getY() {
 		return this.y
+	}
+
+	up() {
+		this.y = 15
+	}
+
+	down() {
+		this.y = 585 - 15 - this.height
+	}
+
+	playerReady() {
+		this.ready = true;
+		console.log("ready = ", this.ready)
 	}
 }

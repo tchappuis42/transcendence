@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 import GameRules from './gamerules';
-import { Ball, Game, Paddle } from './gameInterface';
+import { Ball, Paddle } from './gameInterface';
 import { drawBall, drawGame, drawMap, drawPaddle } from './drawfunctions';
 
 const PongTest = () => {
@@ -10,7 +10,8 @@ const PongTest = () => {
 	const height = 585;
 	const width = 750;
 	const grid = 15;
-	const paddleHeight = grid * 5; // 80
+	const paddleHeight = grid * 5;
+	let i = 0;
 
 	const [ball, setBall] = useState<Ball>({
 		x: 0,
@@ -21,49 +22,56 @@ const PongTest = () => {
 
 	//console.log("la")
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
-		// start in the middle of the game on the left side
-		x: (grid * 2) + 15,
+		x: (grid * 2),
 		y: height / 2 - paddleHeight / 2,
-		width: 1,
+		width: 15,
 		height: paddleHeight,
 		score: 0,
 	});
 
 	const [rightPaddle, setrightpaddle] = useState<Paddle>({
-		// start in the middle of the game on the left side
 		x: 750 - (grid * 3),
 		y: 585 / 2 - paddleHeight / 2,
-		width: 1,
+		width: 15,
 		height: paddleHeight,
 		score: 0,
 	});
 
 	const keyDownHandler = useCallback(
 		(e: KeyboardEvent) => {
+			e.preventDefault();
 			if (e.key === "ArrowUp") {
 				if (socket)
-					socket.emit("paddle", "up")
+					socket.emit("action", "up")
 			}
 			if (e.key === "ArrowDown") {
 				if (socket)
-					socket.emit("paddle", "down")
+					socket.emit("action", "down")
 			}
+
+			//debug
 			if (e.key === "q") {
 				if (socket)
-					socket.emit("paddle", "q")
+					socket.emit("action", "q")
 			}
 		}, [socket])
 
 	const keyUpHandler = useCallback(
 		(e: KeyboardEvent) => {
-			if (socket)
-				socket.emit("paddle", "keyup")
+			if (e.key === "ArrowUp") {
+				if (socket)
+					socket.emit("action", "keyup")
+			}
+			if (e.key === "ArrowDown") {
+				if (socket)
+					socket.emit("action", "keydown")
+			}
 		}, [socket])
 
 	useEffect(() => {
 		if (socket) {
 			socket.on("life", (data) => {
-				//console.log("data = ", data);  // -----> data ok
+				console.log("data = ", data);  // -----> data ok
 				setrightpaddle((prevState) => ({
 					...prevState,
 					y: data.playTwo,
@@ -94,9 +102,10 @@ const PongTest = () => {
 		const context = canvas.getContext("2d");
 		if (!context)
 			return;
-		drawMap(context, canvas);
+		if (i++ === 0)
+			drawMap(context, canvas);
 		drawPaddle(context, leftPaddle, rightPaddle);
-		drawGame(context, leftPaddle, rightPaddle);
+		//drawGame(context, leftPaddle, rightPaddle);
 		drawBall(context, ball);
 		window.addEventListener('keydown', keyDownHandler);
 		window.addEventListener('keyup', keyUpHandler);

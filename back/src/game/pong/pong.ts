@@ -80,8 +80,8 @@ export class Pong {
 	}
 
 	score() {
-		if ((this.ball.x < 0 || this.ball.x > this.width) && !this.ball.resetting) {
-			if (this.ball.x < 0) {
+		if ((this.ball.x < -15 || this.ball.x > this.width) && !this.ball.resetting) {
+			if (this.ball.x < -15) {
 				this.player1.incrementScore();
 			}
 			if (this.ball.x > this.width) {
@@ -98,8 +98,16 @@ export class Pong {
 		}
 	}
 
+
+	//debug
+	q() {
+		this.ball.reset()
+		this.player1.reset()
+		this.player2.reset()
+	}
+
 	getdata() {
-		const ret = {
+		const data = {
 			playOne: this.player1.getY(),
 			playTwo: this.player2.getY(),
 			ballX: this.ball.getX(),
@@ -107,6 +115,6 @@ export class Pong {
 			score1: this.player1.score,
 			score2: this.player2.score,
 		}
-		return ret;
+		return data;
 	}
 }

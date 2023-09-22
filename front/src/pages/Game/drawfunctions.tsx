@@ -1,4 +1,4 @@
-import { Ball, Game, Paddle } from "./gameInterface";
+import { Ball, Paddle } from "./gameInterface";
 
 export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 	const grid = 15
@@ -61,7 +61,7 @@ export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle
 		else*/
 	context.fillStyle = 'white';
 	//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-	context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width - 14, leftPaddle.height);
+	context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 	/*if (gameInfo.rgb) {
 		if (rightPaddle.color % 3 === 0)
 			context.fillStyle = 'red';
@@ -72,5 +72,8 @@ export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle
 	}
 	else*/
 	context.fillStyle = 'white';
-	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width + 14, rightPaddle.height);
+	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
+	context.font = "30px Arial"
+	context.fillText(leftPaddle.score.toString(), 650, 70);
+	context.fillText(rightPaddle.score.toString(), 100, 70);
 }

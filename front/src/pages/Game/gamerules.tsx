@@ -7,7 +7,7 @@ const GameRules = () => {
 	const Rules = () => {
 		setRules(false)
 		if (socket)
-			socket.emit("paddle", "ready")
+			socket.emit("action", "ready")
 	};
 
 	return <div>

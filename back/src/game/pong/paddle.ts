@@ -22,7 +22,6 @@ export class Paddle {
 
 	life() {
 		this.y = this.y + this.dy
-		//console.log("speed = ", this.speed)
 	}
 
 	incrementScore() {
@@ -37,8 +36,14 @@ export class Paddle {
 		this.dy = this.speed;
 	}
 
-	moveEnd() {
-		this.dy = 0;
+	upEnd() {
+		if (this.dy < 0)
+			this.dy = 0;
+	}
+
+	downEnd() {
+		if (this.dy > 0)
+			this.dy = 0;
 	}
 
 	getY() {
@@ -55,9 +60,10 @@ export class Paddle {
 
 	playerReady() {
 		this.ready = true;
-		console.log("ready = ", this.ready)
 	}
 
+
+	//debug
 	reset() {
 		this.score = 0;
 	}

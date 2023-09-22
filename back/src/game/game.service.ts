@@ -7,17 +7,22 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { UserService } from 'src/user/user.service';
 import { Paddle } from './pong/paddle';
 import { Pong } from './pong/pong';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Game } from './game.entity';
+import { Repository } from 'typeorm';
 
 interface roomName {
 	name: string;
 	socket1: Socket;
 	socket2: Socket
 	pong: Pong;
+	intervalId?: NodeJS.Timer;
 }
 
 @Injectable()
 export class GameService {
-	constructor(private readonly userservice: UserService) { }
+	constructor(
+		@InjectRepository(Game) private gameRepository: Repository<Game>, private readonly userservice: UserService) { }
 
 	waitingGame: Socket;
 	rooms: roomName[] = []; //tableau de room
@@ -39,7 +44,8 @@ export class GameService {
 				name: user.username,
 				socket1: client,
 				socket2: this.waitingGame,
-				pong: new Pong()
+				pong: new Pong(),
+				intervalId: setInterval(() => this.life(server, client), 1000 / 60)
 			}
 			this.rooms.push(element);
 			client.join(element.name);
@@ -51,8 +57,7 @@ export class GameService {
 				player2: element.socket2.data.user
 			}
 			this.waitingGame = null;
-			console.log("ici")
-			this.life(server, client);
+			//this.life(server, element);
 			return data;
 		}
 		else {
@@ -72,15 +77,27 @@ export class GameService {
 			return room2;
 	}
 
+	//debug
 	clean(client: Socket) {
 		const room = this.findRoom(client)
 		if (room) {
 			room.socket1.leave(room.name)
 			room.socket2.leave(room.name)
+			clearInterval(room.intervalId);
 			this.rooms = this.rooms.filter((r) => r.name !== room.name)
 		}
 	}
 
+	cleanRoom(room: roomName) {
+		if (room) {
+			room.socket1.leave(room.name)
+			room.socket2.leave(room.name)
+			clearInterval(room.intervalId);
+			this.rooms = this.rooms.filter((r) => r.name !== room.name)
+		}
+	}
+
+	//sort du matchmaking
 	cleanMM(client: Socket) {
 		if (client === this.waitingGame)
 			this.waitingGame = null;
@@ -95,34 +112,54 @@ export class GameService {
 			player = room.pong.getPlayer2();
 
 		if (player) {
-			console.log("data = ", data)
+			//console.log("data = ", data)
 			if (data === 'up') {
 				player.moveUp();
-			} else if (data === 'down') {
+			}
+			else if (data === 'down') {
 				player.moveDown();
 			}
 			else if (data === 'keyup') {
-				player.moveEnd();
+				player.upEnd();
+			}
+			else if (data === 'keydown') {
+				player.downEnd();
 			}
 			else if (data === 'ready') {
 				player.playerReady();
 			}
+
+			//debug
 			else if (data === 'q')
 				room.pong.q();
-			console.log("y = ", player.y)
+			//	console.log("y = ", player.y)
 		}
 	}
 
 	//a la fin clean la room et sauv le score
-	//trouver solution pour faire lier la boucle a la room et la sup a la fin 
-	life(server: Server, client: Socket) {
-		const room = this.findRoom(client)
+	async life(server: Server, client: Socket) {
+		const room = this.findRoom(client);
 		if (room) {
-			/*	setInterval(() => {
-					room.pong.pongLife();
-					const data = room.pong.getdata();
-					server.to(room.name).emit('life', data);
-				}, 1000 / 60);*/
+			room.pong.pongLife();
+			server.to(room.name).emit('life', room.pong.getdata());
+			if (room.pong.player1.score === 10 || room.pong.player2.score === 10) {
+				console.log("cleaning room")
+				const newGame = new Game();
+				newGame.playerOne = room.socket1.data.user;
+				newGame.playertwo = room.socket2.data.user;
+				newGame.scoreOne = room.pong.player1.score;
+				newGame.scoreTwo = room.pong.player2.score;
+				await this.gameRepository.save(newGame);
+				this.cleanRoom(room)
+				//saver le score dans un base de donnee 
+			}
 		}
+	}
+
+	async getGameByUser(userId: number): Promise<Game[]> { //probleme retourne pas les users
+		const user = await this.userservice.validateUser(userId)
+		const games = await this.gameRepository.find({ where: [{ playerOne: user }, { playertwo: user }] })
+		console.log(games)
+		return games;
 	}
 }

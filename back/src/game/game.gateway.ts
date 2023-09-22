@@ -55,7 +55,7 @@ export class GameGateway {
 		this.server.to(game.name).emit('gamelife', user.username);
 	}
 
-	@SubscribeMessage('paddle')
+	@SubscribeMessage('action')
 	paddle(@MessageBody() data: string, @ConnectedSocket() client: Socket,) {
 		this.gameService.paddle(client, data);
 	}

@@ -82,10 +82,10 @@ export class Pong {
 	score() {
 		if ((this.ball.x < -15 || this.ball.x > this.width) && !this.ball.resetting) {
 			if (this.ball.x < -15) {
-				this.player1.incrementScore();
+				this.player2.incrementScore();
 			}
 			if (this.ball.x > this.width) {
-				this.player2.incrementScore();
+				this.player1.incrementScore();
 			}
 			if (this.player1.score < 10 && this.player2.score < 10) {
 				this.ball.resetting = true

@@ -44,8 +44,8 @@ export function drawGame(context: CanvasRenderingContext2D, leftPaddle: Paddle, 
 	// draw score
 	context.fillStyle = 'white';
 	context.font = "30px Arial"
-	context.fillText(leftPaddle.score.toString(), 650, 70);
-	context.fillText(rightPaddle.score.toString(), 100, 70);
+	context.fillText(leftPaddle.score.toString(), 100, 70);
+	context.fillText(rightPaddle.score.toString(), 650, 70);
 }
 
 export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) {
@@ -74,6 +74,6 @@ export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle
 	context.fillStyle = 'white';
 	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
 	context.font = "30px Arial"
-	context.fillText(leftPaddle.score.toString(), 650, 70);
-	context.fillText(rightPaddle.score.toString(), 100, 70);
+	context.fillText(leftPaddle.score.toString(), 100, 70);
+	context.fillText(rightPaddle.score.toString(), 650, 70);
 }

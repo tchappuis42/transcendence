@@ -2,7 +2,8 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 import GameRules from './gamerules';
 import { Ball, Paddle } from './gameInterface';
-import { drawBall, drawGame, drawMap, drawPaddle } from './drawfunctions';
+import { drawBall, drawMap, drawPaddle } from './drawfunctions';
+import GameScore from './gameScore';
 
 const PongTest = () => {
 	const socket = useSocket();
@@ -105,7 +106,6 @@ const PongTest = () => {
 		if (i++ === 0)
 			drawMap(context, canvas);
 		drawPaddle(context, leftPaddle, rightPaddle);
-		//drawGame(context, leftPaddle, rightPaddle);
 		drawBall(context, ball);
 		window.addEventListener('keydown', keyDownHandler);
 		window.addEventListener('keyup', keyUpHandler);
@@ -118,6 +118,7 @@ const PongTest = () => {
 	return (
 		<div >
 			<GameRules />
+			<GameScore />
 			<div id="pong" className='pong'>
 				<canvas ref={canvasRef} />
 			</div>

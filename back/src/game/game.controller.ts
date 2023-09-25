@@ -7,7 +7,7 @@ export class GameController {
 
 	@Post('user')
 	async getGameByUser() {
-		const games = await this.gameService.getGameByUser(1);
+		const games = await this.gameService.getGameByUser(2);
 		return games;
 	}
 }

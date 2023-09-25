@@ -7,8 +7,6 @@ const SocketPong = () => {
 	const [page, setPage] = useState(false);
 	const [player1, setplayer1] = useState("");
 	const [player2, setplayer2] = useState("");
-	const [score1, setscore1] = useState(0);
-	const [score2, setscore2] = useState(0);
 	const [search, setsearch] = useState("trouver un match")
 
 	useEffect(() => {
@@ -41,12 +39,6 @@ const SocketPong = () => {
 			socket.on("gamelife", (data) => {
 				console.log("player1 = ", player1)
 				console.log(data)
-				if (data === player1) {
-					setscore1(prevscore => prevscore + 1);
-
-				}
-				else if (data === player2)
-					setscore2(prevscore => prevscore + 1);
 			});
 		}
 		return () => {
@@ -73,8 +65,6 @@ const SocketPong = () => {
 			socket.emit("clean");
 			setPage(false)
 		}
-		setscore1(0);
-		setscore2(0);
 	};
 
 	return (

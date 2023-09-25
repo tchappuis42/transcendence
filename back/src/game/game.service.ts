@@ -36,7 +36,6 @@ export class GameService {
 				this.waitingGame = null;
 				return "fin de la recherche de partie";
 			}
-
 			if (client.data.user.id === this.waitingGame.data.user.id)
 				return "vous etes deja en rechecher de partie"
 
@@ -57,7 +56,6 @@ export class GameService {
 				player2: element.socket2.data.user
 			}
 			this.waitingGame = null;
-			//this.life(server, element);
 			return data;
 		}
 		else {
@@ -149,8 +147,19 @@ export class GameService {
 				newGame.playertwo = room.socket2.data.user;
 				newGame.scoreOne = room.pong.player1.score;
 				newGame.scoreTwo = room.pong.player2.score;
-				await this.gameRepository.save(newGame);
+
+				if (room.pong.player1.score === 10) {
+					const data = 'victoir de ' + room.socket1.data.user.username
+					server.to(room.name).emit('score', data)
+				}
+				if (room.pong.player2.score === 10) {
+					const data = 'victoir de ' + room.socket2.data.user.username
+					server.to(room.name).emit('score', data)
+				}
 				this.cleanRoom(room)
+
+				await this.gameRepository.save(newGame);
+
 				//saver le score dans un base de donnee 
 			}
 		}
@@ -159,7 +168,7 @@ export class GameService {
 	async getGameByUser(userId: number): Promise<Game[]> { //probleme retourne pas les users
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ playerOne: user }, { playertwo: user }] })
-		console.log(games)
+		//console.log(games)
 		return games;
 	}
 }

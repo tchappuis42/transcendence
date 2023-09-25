@@ -12,9 +12,15 @@ export class Game {
 	@Column()
 	scoreTwo: number;
 
-	@ManyToOne(() => User)
-	playerOne: User
+	@Column()
+	playerOne: string;
+
+	@Column()
+	playerTwo: string;
 
 	@ManyToOne(() => User)
-	playertwo: User
+	userOne: User
+
+	@ManyToOne(() => User)
+	userTwo: User
 }

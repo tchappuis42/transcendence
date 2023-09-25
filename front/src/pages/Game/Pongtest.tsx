@@ -118,7 +118,6 @@ const PongTest = () => {
 	return (
 		<div >
 			<GameRules />
-			<GameScore />
 			<div id="pong" className='pong'>
 				<canvas ref={canvasRef} />
 			</div>

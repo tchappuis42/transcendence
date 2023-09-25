@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 
-const GameScore = () => {
+type props = {
+	SetPage: (bool: boolean) => void
+}
+
+const GameScore = ({ SetPage }: props) => {
 
 	const socket = useSocket();
 	const [score, setScore] = useState("")
 
-	const Score = () => {
-
+	const Page = () => {
+		SetPage(false);
 	}
 
 	useEffect(() => {
@@ -28,7 +32,7 @@ const GameScore = () => {
 		{score &&
 			<div className='rules'>
 				<h1> {score} </h1>
-				<span onClick={Score}>retourner a la page de jeu</span>
+				<span onClick={Page}>retourner a la page de jeu</span>
 			</div>
 		}
 	</div>

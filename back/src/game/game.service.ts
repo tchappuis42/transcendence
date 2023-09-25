@@ -87,6 +87,7 @@ export class GameService {
 	}
 
 	cleanRoom(room: roomName) {
+		console.log("cleaning room")
 		if (room) {
 			room.socket1.leave(room.name)
 			room.socket2.leave(room.name)
@@ -141,34 +142,35 @@ export class GameService {
 			room.pong.pongLife();
 			server.to(room.name).emit('life', room.pong.getdata());
 			if (room.pong.player1.score === 10 || room.pong.player2.score === 10) {
-				console.log("cleaning room")
+
 				const newGame = new Game();
-				newGame.playerOne = room.socket1.data.user;
-				newGame.playertwo = room.socket2.data.user;
+				newGame.playerOne = room.socket1.data.user.username;
+				newGame.playerTwo = room.socket2.data.user.username;
 				newGame.scoreOne = room.pong.player1.score;
 				newGame.scoreTwo = room.pong.player2.score;
+				newGame.userOne = room.socket1.data.user;
+				newGame.userTwo = room.socket2.data.user;
 
 				if (room.pong.player1.score === 10) {
 					const data = 'victoir de ' + room.socket1.data.user.username
 					server.to(room.name).emit('score', data)
 				}
+
 				if (room.pong.player2.score === 10) {
 					const data = 'victoir de ' + room.socket2.data.user.username
 					server.to(room.name).emit('score', data)
 				}
+
 				this.cleanRoom(room)
-
 				await this.gameRepository.save(newGame);
-
-				//saver le score dans un base de donnee 
 			}
 		}
 	}
 
 	async getGameByUser(userId: number): Promise<Game[]> { //probleme retourne pas les users
 		const user = await this.userservice.validateUser(userId)
-		const games = await this.gameRepository.find({ where: [{ playerOne: user }, { playertwo: user }] })
-		//console.log(games)
+		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
+		console.log(games)
 		return games;
 	}
 }

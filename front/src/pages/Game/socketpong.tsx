@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import PongTest from "./Pongtest";
 import GameScore from "./gameScore";
+import MatchHistory from "./matchHistory";
 
 const SocketPong = () => {
 	const socket = useSocket();
@@ -63,10 +64,15 @@ const SocketPong = () => {
 	return (
 		<div className="divpong">
 			{!page &&
-				<div>
-					<button onClick={matchmaking} className="button">
-						{search}
-					</button>
+				<div className="container">
+					<div className="box">
+						<button onClick={matchmaking} className="box1">
+							{search}
+						</button>
+					</div>
+					<div className="box"></div>
+					<MatchHistory />
+					<div className="box"></div>
 					<button onClick={clean}>clean</button>
 				</div>
 			}

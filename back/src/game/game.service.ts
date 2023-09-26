@@ -167,10 +167,11 @@ export class GameService {
 		}
 	}
 
-	async getGameByUser(userId: number): Promise<Game[]> { //probleme retourne pas les users
+	async getGameByUser(userId: number): Promise<String[]> {
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
 		console.log(games)
-		return games;
+		const matchs = games.map(match => match.playerOne + ' ' + match.scoreOne + ' - ' + match.scoreTwo + ' ' + match.playerTwo);
+		return matchs;
 	}
 }

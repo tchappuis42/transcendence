@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Pong from './pages/Game/Pongmodel';
 import SocketPong from './pages/Game/socketpong';
-import GamePage from './pages/Game/gamePage';
 import Chat from './pages/Chat/chat';
 
 const App = () => {

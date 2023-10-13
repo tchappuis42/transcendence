@@ -87,7 +87,7 @@ export class GameService {
 	}
 
 	cleanRoom(room: roomName) {
-		console.log("cleaning room")
+		//console.log("cleaning room")
 		if (room) {
 			room.socket1.leave(room.name)
 			room.socket2.leave(room.name)
@@ -162,6 +162,7 @@ export class GameService {
 				}
 
 				this.cleanRoom(room)
+				await this.userservice.saveScore(newGame);
 				await this.gameRepository.save(newGame);
 			}
 		}
@@ -170,7 +171,7 @@ export class GameService {
 	async getGameByUser(userId: number): Promise<String[]> {
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
-		console.log(games)
+		//console.log(games)
 		const matchs = games.map(match => match.playerOne + ' ' + match.scoreOne + ' - ' + match.scoreTwo + ' ' + match.playerTwo);
 		return matchs;
 	}

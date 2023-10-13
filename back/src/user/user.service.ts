@@ -8,9 +8,11 @@ import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Socket } from 'socket.io';
+import { Game } from 'src/game/game.entity';
 
 @Injectable()
 export class UserService {
+
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
@@ -35,7 +37,50 @@ export class UserService {
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
+
+	async saveScore(scores: Game) {
+		if (scores.scoreOne > scores.scoreTwo) {
+			const number = (scores.scoreOne - scores.scoreTwo) * 10;
+			const playerOne = await this.usersRepository.findOne({ where: { id: scores.userOne.id } })
+			if (!playerOne) {
+				throw new Error("joueur non trouve")
+			}
+			playerOne.score += number;
+			await this.usersRepository.save(playerOne);
+
+			const playerTwo = await this.usersRepository.findOne({ where: { id: scores.userTwo.id } })
+			if (!playerTwo) {
+				throw new Error("joueur non trouve")
+			}
+			playerTwo.score -= number;
+			await this.usersRepository.save(playerTwo);
+		}
+		else {
+			const number = (scores.scoreTwo - scores.scoreOne) * 10;
+			const playerOne = await this.usersRepository.findOne({ where: { id: scores.userOne.id } })
+			if (!playerOne) {
+				throw new Error("joueur non trouve")
+			}
+			playerOne.score -= number;
+			await this.usersRepository.save(playerOne);
+
+			const playerTwo = await this.usersRepository.findOne({ where: { id: scores.userTwo.id } })
+			if (!playerTwo) {
+				throw new Error("joueur non trouve")
+			}
+			playerTwo.score += number;
+			await this.usersRepository.save(playerTwo);
+
+		}
+	}
+
+	async getRanking() {
+		const scores = await this.usersRepository.find({ select: { username: true, score: true } })
+		scores.sort((a, b) => b.score - a.score)
+		return scores
+	}
 }
+
 
 
 /*async postAvatar(body: AvatarDto) {

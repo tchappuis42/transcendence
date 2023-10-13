@@ -5,6 +5,7 @@ import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from './dtos/UserDto';
+import { get } from 'http';
 
 @Controller('user')
 export class UserController {
@@ -38,5 +39,11 @@ export class UserController {
 		const code = await this.userService.generateTfaSecret(user.username);
 		const qrcode = this.userService.generateQrCode(code);
 		return qrcode
+	}
+
+	@Get("ranking")
+	async getRanking() {
+		const rank = await this.userService.getRanking();
+		return rank;
 	}
 }

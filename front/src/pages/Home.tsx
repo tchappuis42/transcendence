@@ -10,7 +10,6 @@ import { SocketProvider } from '../ui/organisms/SocketContext';
 
 const navigationOptions = [
 	{ label: 'home', url: '/' },
-	{ label: 'test', url: '/test' },
 	{ label: 'chat', url: '/chat' },
 	{ label: 'pong', url: '/pong' },
 ];

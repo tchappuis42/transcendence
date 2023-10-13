@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Pong from './pages/Game/Pong';
+import Pong from './pages/Game/Pongmodel';
 import SocketPong from './pages/Game/socketpong';
 import GamePage from './pages/Game/gamePage';
 import Chat from './pages/Chat/chat';
@@ -10,9 +10,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} >
-          <Route path='pong' element={<GamePage />} />
-          <Route path='test' element={<SocketPong />} />
-          <Route path='pong' element={<Pong />} />
+          <Route path='pong' element={<SocketPong />} />
           <Route path='chat' element={<Chat />} />
         </Route >
       </Routes >

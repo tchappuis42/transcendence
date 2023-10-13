@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
-import PongTest from "./Pongtest";
+import PongTest from "./Pong";
 import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
 

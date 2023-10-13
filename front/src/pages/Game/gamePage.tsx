@@ -1,5 +1,5 @@
-import Pong from "./Pong";
-import PongTest from "./Pongtest";
+import Pong from "./Pongmodel";
+import PongTest from "./Pong";
 
 const GamePage = () => {
 	return <div className='signup'>

@@ -17,7 +17,7 @@ const GameScore = ({ SetPage }: props) => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("score", (data) => {
-				console.log("data = ", data);  // -----> data ok
+				console.log("kevin = ", data);  // -----> data ok
 				setScore(data);
 			});
 		}

@@ -3,6 +3,7 @@ import { useSocket } from "../../ui/organisms/SocketContext";
 import PongTest from "./Pong";
 import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
+import Ranking from "./gameRanking";
 
 const SocketPong = () => {
 	const socket = useSocket();
@@ -70,7 +71,7 @@ const SocketPong = () => {
 							{search}
 						</button>
 					</div>
-					<div className="box"></div>
+					<Ranking />
 					<MatchHistory />
 					<div className="box"></div>
 					<button onClick={clean}>clean</button>

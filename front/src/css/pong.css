@@ -42,7 +42,7 @@
 	box-sizing: border-box;
 	justify-content: center;
 	align-items: center;
-
+	overflow: scroll;
 }
 
 .box1 {

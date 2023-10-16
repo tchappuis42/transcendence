@@ -38,6 +38,15 @@ const PongTest = () => {
 		score: 0,
 	});
 
+	/*const [lastGameInfo, setLastGameInfo] = useState<{ playTwo: number, playOne: number, score2: number, score1: number, ballY: number, ballX: number }>({
+		playOne: 0,
+		playTwo: 0,
+		score1: 0,
+		score2: 0,
+		ballX: 0,
+		ballY: 0
+	});*/
+
 	const keyDownHandler = useCallback(
 		(e: KeyboardEvent) => {
 			e.preventDefault();
@@ -69,10 +78,23 @@ const PongTest = () => {
 			}
 		}, [socket])
 
+
+
 	useEffect(() => {
 		if (socket) {
 			socket.on("life", (data) => {
 				console.log("data = ", data);  // -----> data ok
+				//setInfo(data)
+				/*setLastGameInfo((prevState) => ({
+					...prevState,
+					playOne: data.playOne,
+					playTwo: data.playTwo,
+					score1: data.score1,
+					score2: data.score2,
+					ballX: data.ballX,
+					ballY: data.ballY
+				}));
+				console.log(lastGameInfo)*/
 				setrightpaddle((prevState) => ({
 					...prevState,
 					y: data.playTwo,
@@ -93,6 +115,35 @@ const PongTest = () => {
 		};
 	}, [socket]);
 
+
+	/*
+		const draw = useCallback(() => {
+			console.log("LA = ", lastGameInfo)
+			if (!lastGameInfo || lastGameInfo === undefined)
+				return;
+			setrightpaddle((prevState) => ({
+				...prevState,
+				y: lastGameInfo.playTwo,
+				score: lastGameInfo.score2,
+			}));
+			setleftpaddle((prevState) => ({
+				...prevState,
+				y: lastGameInfo.playOne,
+				score: lastGameInfo.score1,
+			}));
+			setBall((prevState) => ({ ...prevState, y: lastGameInfo.ballY, x: lastGameInfo.ballX }));
+		}, [ball, leftPaddle, rightPaddle, lastGameInfo])
+	
+		const timerGameLoop = useRef<NodeJS.Timer>()
+	
+		useEffect(() => {
+	
+			timerGameLoop.current = setInterval(draw, 1000 / 30)
+			return () => {
+				clearInterval(timerGameLoop.current);
+			}
+		}, []);*/
+
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		if (!canvas)
@@ -103,8 +154,7 @@ const PongTest = () => {
 		const context = canvas.getContext("2d");
 		if (!context)
 			return;
-		if (i++ === 0)
-			drawMap(context, canvas);
+		drawMap(context, canvas);
 		drawPaddle(context, leftPaddle, rightPaddle);
 		drawBall(context, ball);
 		window.addEventListener('keydown', keyDownHandler);
@@ -113,6 +163,18 @@ const PongTest = () => {
 			window.removeEventListener("keydown", keyDownHandler);
 			window.removeEventListener("keyup", keyUpHandler);
 		};
+	}, []);
+
+	useEffect(() => {
+		const canvas = canvasRef.current;
+		if (!canvas)
+			return;
+		const context = canvasRef.current?.getContext("2d");
+		if (!context)
+			return;
+		drawMap(context, canvas);
+		drawPaddle(context, leftPaddle, rightPaddle);
+		drawBall(context, ball);
 	}, [ball]);
 
 	return (

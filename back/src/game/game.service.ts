@@ -21,6 +21,7 @@ interface roomName {
 
 @Injectable()
 export class GameService {
+
 	constructor(
 		@InjectRepository(Game) private gameRepository: Repository<Game>, private readonly userservice: UserService) { }
 
@@ -38,7 +39,6 @@ export class GameService {
 			}
 			if (client.data.user.id === this.waitingGame.data.user.id)
 				return "vous etes deja en rechecher de partie"
-
 			let element: roomName = {
 				name: user.username,
 				socket1: client,
@@ -46,9 +46,11 @@ export class GameService {
 				pong: new Pong(),
 				intervalId: setInterval(() => this.life(server, client), 1000 / 60)
 			}
+
 			this.rooms.push(element);
 			client.join(element.name);
 			this.waitingGame.join(element.name);
+			this.life(server, client);
 
 			const data: CreatGameDTO = {
 				roomName: element.name,
@@ -144,8 +146,6 @@ export class GameService {
 			if (room.pong.player1.score === 10 || room.pong.player2.score === 10) {
 
 				const newGame = new Game();
-				newGame.playerOne = room.socket1.data.user.username;
-				newGame.playerTwo = room.socket2.data.user.username;
 				newGame.scoreOne = room.pong.player1.score;
 				newGame.scoreTwo = room.pong.player2.score;
 				newGame.userOne = room.socket1.data.user;
@@ -166,13 +166,18 @@ export class GameService {
 				await this.gameRepository.save(newGame);
 			}
 		}
+
 	}
 
 	async getGameByUser(userId: number): Promise<String[]> {
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
-		//console.log(games)
-		const matchs = games.map(match => match.playerOne + ' ' + match.scoreOne + ' - ' + match.scoreTwo + ' ' + match.playerTwo);
+		const matchs = games.map(match => match.userOne.username + ' ' + match.scoreOne + ' - ' + match.scoreTwo + ' ' + match.userTwo.username);
 		return matchs;
+	}
+
+	async cleanData(userId: number) {
+		const user = await this.userservice.validateUser(userId)
+		//await this.gameRepository.delete({ where: [{ userOne: user }, { userTwo: user }] })
 	}
 }

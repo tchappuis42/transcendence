@@ -20,6 +20,7 @@ const MatchHistory = () => {
 
 	return (
 		<div className="box2">
+			<h1>Match history</h1>
 			{matchs.length === 0 && // si y-a pas de match
 				<div>pas de match</div>}
 			{matchs.map(match => <p>{match}</p>)}

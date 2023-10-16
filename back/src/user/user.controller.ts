@@ -4,8 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from './dtos/UserDto';
-import { get } from 'http';
+import { UserDto } from './dtos/UserDto';;
 
 @Controller('user')
 export class UserController {

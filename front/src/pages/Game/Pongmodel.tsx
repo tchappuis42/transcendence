@@ -350,7 +350,7 @@ const Pong = () => {
 				color: prevBall.color + 1,
 			}));
 		};
-		const gameLoop = setInterval(handleGameUpdate, 1000 / 60);
+		const gameLoop = setInterval(handleGameUpdate, 1000 / 40);
 		return () => {
 			clearInterval(gameLoop);
 		};

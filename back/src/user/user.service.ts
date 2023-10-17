@@ -20,6 +20,12 @@ export class UserService {
 		return user;
 	}
 
+	async validateUserByName(username: string): Promise<UserDto> {
+		const user = await this.usersRepository.findOne({ where: { username: username } })
+		if (!user) throw new NotFoundException("user not found")
+		return user;
+	}
+
 	async setTfaSecret(secret: string, username: string) {
 		const user = await this.usersRepository.findOne({ where: { username: username } })
 		await this.usersRepository.update(user.id, { twoFaSecret: secret })

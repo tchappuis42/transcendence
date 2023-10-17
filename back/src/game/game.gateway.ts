@@ -23,12 +23,12 @@ export class GameGateway {
 	handleDisconnect(client: Socket) {
 		this.gameService.cleanMM(client);
 	}
-
+/*
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		this.server.emit('message', data, user.username)
-	}
+	}*/
 
 	@SubscribeMessage('matchmaking')
 	matchmaking(@ConnectedSocket() client: Socket) {

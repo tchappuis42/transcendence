@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException, } from '@nestjs/common';
+import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +11,7 @@ import { Socket } from 'socket.io';
 
 @Injectable()
 export class UserService {
+
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
@@ -40,6 +41,21 @@ export class UserService {
 
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
+	}
+
+	async getUsers() {
+		return await this.usersRepository.find();
+	}
+
+
+	async setConnection(user: User) {
+		await this.usersRepository.update(user.id, { connected: true })
+		Logger.log("user connected")
+	}
+
+	async setDisconnect(user: User) {
+		await this.usersRepository.update(user.id, { connected: false })
+		Logger.log("user disconnected")
 	}
 }
 

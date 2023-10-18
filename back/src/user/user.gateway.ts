@@ -21,6 +21,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		const user = await this.userService.validateUser(id);
 		socket.data.user = user;
 		Logger.log(socket.id, "CLIENT CONNECTED")
+
 	}
 
 	//deconnexionls

@@ -20,8 +20,22 @@ export class FriendsController {
 	@Get("friends")
 	async getFriends(@Req() req: Request) {
 		const user = req.user as User
-		const freinds = await this.frindsService.getFriends(user)
-		return freinds;
+		const friends = await this.frindsService.getFriends(user)
+		return friends;
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/acceptFriend/:friendName")
+	async acceptFriend(@Param('friendName') friendName: string, @Req() req: Request) {
+		const user = req.user as User
+		return await this.frindsService.acceptFriend(user, friendName)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/removeFriend/:friendName")
+	async removeFriend(@Param('friendName') friendName: string, @Req() req: Request) {
+		const user = req.user as User
+		return await this.frindsService.removeFriend(user, friendName)
 	}
 }
 

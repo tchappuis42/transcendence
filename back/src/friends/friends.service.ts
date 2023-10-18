@@ -13,11 +13,9 @@ export class FriendsService {
 
 	async addFriend(user: User, friend: string) {
 		const friendUser = await this.userservice.validateUserByName(friend);
-		let check = await this.friendsRepository.find({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
-		if (check[0]) {
-			console.log(check[0])
+		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
+		if (check)
 			return "demande d'ami déjà envoyé"
-		}
 		const friends = new Friends()
 		friends.first_User = user;
 		friends.second_User = friendUser;
@@ -27,5 +25,25 @@ export class FriendsService {
 
 	async getFriends(user: User) {
 		return await this.friendsRepository.find({ where: [{ first_User: user }, { second_User: user }] })
+	}
+
+	async acceptFriend(user: User, friend: string) {
+		const friendUser = await this.userservice.validateUserByName(friend);
+		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
+		if (check && check.friend_status === false) {
+			await this.friendsRepository.update(check.id, { friend_status: true })
+			return "ami ajouté";
+		}
+		return "erreur";
+	}
+
+	async removeFriend(user: User, friend: string) {
+		const friendUser = await this.userservice.validateUserByName(friend);
+		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
+		if (check) {
+			await this.friendsRepository.delete(check.id)
+			return "ami suprimé";
+		}
+		return "erreur";
 	}
 }

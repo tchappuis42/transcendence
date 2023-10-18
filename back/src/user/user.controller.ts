@@ -25,10 +25,12 @@ export class UserController {
 		return body
 	}
 
-	@UseGuards(JwtAuthGuard)
+
 	@Get("/users")
-	async getUsers(@Req() req: Request) {
-		return req.user
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getUsers() {
+		//return "test"
+		return await this.userService.getUsers();
 	}
 
 	@UseGuards(JwtAuthGuard)

@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/user/user.service';
 import { TextChannel } from '../entity/textChannel';
 import { channel } from 'diagnostics_channel';
+import { Msg } from '../entity/Msg.entity';
 
 
 
@@ -23,6 +24,9 @@ export class TextChannelService {
 
     @InjectRepository(TextChannel)
     private readonly textChannelRepository: Repository<TextChannel>,
+
+    @InjectRepository(Msg)
+    private readonly msgRepository: Repository<Msg>,
 
   ) {}
 
@@ -78,7 +82,7 @@ export class TextChannelService {
       });
     if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-    console.log(channel)
+   // console.log(channel)
     return channel;
   }
 
@@ -144,6 +148,7 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       )};
 
+    await this.msgRepository.remove(channel.msgs);
     await this.textChannelRepository.remove(channel);
   }
 
@@ -273,5 +278,31 @@ export class TextChannelService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
     console.log(curchannel);
+  }
+
+  async addMsgForChannel(
+    message: string,
+    channel_name: string,
+    userId: number,
+  ): Promise<void> {
+      const channel = await this.getChannelMe(channel_name);
+      const user = await this.userService.validateUser(userId);
+
+      const msg = this.msgRepository.create({
+        message: message,
+        username: user.username,
+      });
+
+      try {
+        await this.msgRepository.save(msg);
+        await this.textChannelRepository
+          .createQueryBuilder()
+          .relation(TextChannel, 'msgs')
+          .of(channel)
+          .add(msg);
+      } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+      console.log("l'actuelle channel ou il y a le message", channel)
   }
 }

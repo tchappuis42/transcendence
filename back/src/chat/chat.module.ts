@@ -9,10 +9,11 @@ import { TextChannel } from './entity/textChannel';
 import { UserService } from 'src/user/user.service';
 import { MeController } from './controllers/me.controller';
 import { IdController } from './controllers/id.controller';
+import {Msg} from './entity/Msg.entity'
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, TextChannel])],
+  imports: [TypeOrmModule.forFeature([User, Msg, TextChannel])],
   controllers: [ChatController],
   providers: [ChatGateway, ChatService, UserService, TextChannelService],
 })

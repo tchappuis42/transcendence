@@ -3,8 +3,11 @@ import {
   PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
   TableInheritance,
+  JoinColumn,
 } from 'typeorm';
+import { Msg } from './Msg.entity';
 import { User } from 'src/user/user.entity';
 
 @Entity()
@@ -16,4 +19,8 @@ export class Channel {
   @ManyToMany(() => User, {eager: true })
   @JoinTable()
   users: User[];
+
+  @ManyToMany(() => Msg, { eager: true })
+  @JoinTable()
+  msgs: Msg[];
 }

@@ -11,7 +11,7 @@ export class TextChannel extends Channel {
   @JoinColumn()
   owner: User;
 
-  @ManyToMany(() => User, {eager: true })
+  @ManyToMany(() => User, { eager: true })
   @JoinTable()
   adminId: User[];
 }

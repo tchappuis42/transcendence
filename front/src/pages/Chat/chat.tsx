@@ -7,8 +7,8 @@ import { cleanup } from "@testing-library/react";
 
 
 interface Message {
-	text: string;
-	id: string;
+	message: string;
+	username: string;
 }
 interface Chan {
 	name: string;
@@ -20,8 +20,9 @@ const Chat = () => {
 	const [all_channels, setChannels] = useState<Chan[]>([]);
 //	let [count, setCount] = useState(0)
 	const [set_channel, setSetChannel] = useState("");
+//	let [ref_channel, setRef_channel] = useState("");
 	const socket = useSocket();
-	const channels = useState<Chan[]>([])
+//	const channels = useState<Chan[]>([])
 	
 
 	useEffect(() => {
@@ -29,11 +30,8 @@ const Chat = () => {
 			socket.on("message", (data, id) => {
 				setMessages((prevMessages) => [
 					...prevMessages,
-					{ text: data, id: id }
+					{ message: data, username: id }
 				]);
-			});
-
-			socket.on("test", (data) => {
 			});
 		}
 		
@@ -54,62 +52,64 @@ const Chat = () => {
 	}, [socket]);
 
 	useEffect(() => {
-// faire une requette a l'api sans socket lors de la connection et renvoyer les infos avec getAllChannels 
-// lors d'une creation de channel renvoyer l'infos a tous le monde, retirer le bouton getAllChannels, utiliser la fonction getChannel pour dire dans quel channel on est
-// et ansi transmettre les infos a l'api, 
-		//if (count != 0) {
-		//	for (let i = 0; all_channels[i]; i++) {
-			//	console.log(all_channels[i].name)
-			//	console.log("le all_channels")
-		//	}
-		//	console.log("le all_channels")
-		//}
-		setChannels([])
 		if (socket ) {
-		//	socket.emit("getAllChannels")
 			socket.on("getAllChannels", (data) => {
-				console.log(data[0].name)
-			//	console.log(data.length)
-				for (let i = 0; i<data.length; i++) {
-					setChannels((all_channell) => [
-						...all_channell,
-						{ name: data[i].name}
-					])};
+				console.log(socket);
+				setChannels(data);
 			});
-		//	count++;
+			socket.on("getChannelMeOne", (data) => {
+				console.log(data)
+			});
+			socket.on("createchannel", (data, channel) => {
+					console.log(data);
+					setChannels(data);
+					setSetChannel(channel.name);
+					setMessages([]);
+			});
+			socket.on("deleteChannel", (data) => {
+				setChannels(data);
+				if (data.length != 0){
+					setSetChannel(data[((data.length) - 1)].name);
+				}
+				else {
+					setSetChannel("create a channel!")
+					setMessages([]);
+				}
+			});
+			socket.on("messages", (data, id) => {
+				setMessages((prevMesssage) => [
+					...prevMesssage, 
+					{message: data, username: id}
+				]); 	
+			});
 		}
-	
-	//	console.log(count)
-	//	console.log("le count")
 		return () => {
 			if (socket) {
 				socket.off("getAllChannels");
+				socket.off("getChannelMeOne");
+				socket.off("createchannel");
+				socket.off("deleteChannel");
+				socket.off("messages");
 			}
 		};
 	}, [socket]);
-/*
-	useEffect(() => {
-		if (!set_channel) {
-			setSetChannel(all_channels[0].name)
-		}
-	}, [])
-*/
+
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
 
 		if (socket) {
-			socket.emit("message", data);
+			socket.emit("message", data, set_channel, '0');
 			setData("");
 		}
 	};
-
+/*
 	const channelMe = (e: SyntheticEvent) => {
 		e.preventDefault();
 
 		if (socket) {
 			socket.emit("channelMe");
 		}
-	};
+	};*/
 
 	const createchannel = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -141,14 +141,14 @@ const Chat = () => {
 			socket.emit("addUserToChannel", set_channel, nameUser);
 		}
 	};
-
+/*
 	const getAllChannels = (e: SyntheticEvent) => {
 		e.preventDefault();
 
 		if (socket) {
 			socket.emit("getAllChannels");
 		}
-	};
+	};*/
 
 	const removeUserFromChannel = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -187,21 +187,12 @@ const Chat = () => {
 	};
 
 	function takeChan(lol: string) {
-	//	console.log(lol)
 		setSetChannel(lol)
 		if (socket){
-			socket.emit("getChannelMeOne", lol)
-			socket.on("getChannelMeOne", (data) => {
-				console.log(data)
-			//	console.log(socket)
-				console.log("yop")
-				});
+			socket.emit("getChannelMeOne", lol);
+			socket.emit("message", data, lol, '1');
+			setMessages([]);
 		}
-		return () => {
-			if (socket) {
-				socket.off("getChannelMeOne");
-			}
-		};
 	  }
 
 	return (
@@ -210,16 +201,15 @@ const Chat = () => {
 				<button onClick={removeAdmin}>removeAdmin</button>
 				<button onClick={addAdmin}>addAdmin</button>
 				<button onClick={removeUserFromChannel}>removeUserFromChannel</button>
-				<button onClick={getAllChannels}>getAllChannels</button>
+				
 				<button onClick={addUserToChannel}>addUserToChannel</button>
 				<button onClick={deleteChannel}>deleteChannel</button>
 				<button onClick={createchannel}>createchannel</button>
-				<button onClick={channelMe}>channelMe</button>
+				
 			</div>
 			<div className="channel">
 				<div className="chann">
-					<h1> channels </h1>
-											
+					<h1> channels </h1>			
 						{all_channels.map((msg, index) => (
 							<b className="b" key={index}>
 								{msg.name} <button onClick={() => takeChan(msg.name)}>.</button>
@@ -230,10 +220,9 @@ const Chat = () => {
 			<form onSubmit={sendMessage} id="chat">
 				<h1> {set_channel} </h1>
 				<div className="lol">
-					
 					{messages.map((msg, index) => (
 						<b className="b" key={index}>
-							{msg.id} : {msg.text}
+							{msg.username} : {msg.message}
 						</b>
 					))}
 				</div>

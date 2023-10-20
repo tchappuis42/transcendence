@@ -6,7 +6,7 @@ import { UserService } from "src/user/user.service";
 import { TextChannelService } from './services/textChannel.service';
 import { TextChannel } from "./entity/textChannel";
 import { channel } from "diagnostics_channel";
-import { Client } from "pg";
+
 
 @WebSocketGateway({
 	cors: {
@@ -29,35 +29,51 @@ export class ChatGateway {
 
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		const user = client.data.user as UserDto;
-		this.server.emit('message', data, user.username)
+		if (data[2] == '0') {
+			const user = client.data.user as UserDto;
+			const admin = await this.userService.validateUser(user.id);
+			const channel = await this.textChannelService.getChannelMe(data[1]);
+			await this.textChannelService.addMsgForChannel(data[0], data[1], admin.id);
+			console.log("channel dans gateway", channel)
+			client.emit('message', data[0], user.username)
+			//client.in(channel.name).emit("message", data[0], user.username)
+		}
+		else {
+			const channel = await this.textChannelService.getChannelMe(data[1]);
+			console.log("coukie")
+			for(let i = 0; channel.msgs[i]; i++){
+				client.emit("messages", channel.msgs[i].message, channel.msgs[i].username);
+				//client.in(channel.name).emit("messages", channel.msgs[i].message, channel.msgs[i].username)
+			}
+		}
 	}
 
 	@SubscribeMessage('createchannel')
 	async createchannel(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
 		//console.log(name)
 		const user = client.data.user as UserDto;
-		await this.textChannelService.createChannel(name, user.id)
-		await this.textChannelService.getAllChannels();
+		await this.textChannelService.createChannel(name, user.id);
+		const channel = await this.textChannelService.getChannelMe(name);
+		const all_channels = await this.textChannelService.getAllChannels();
+		this.server.emit('createchannel', all_channels, channel);
 		console.log(channel)
 	}
 
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
-			const channel = await this.textChannelService.getChannelMe(name
-			);
+			const channel = await this.textChannelService.getChannelMe(name);
 			client.emit('getChannelMeOne', channel);
 		} catch {}
 	}
 
 	@SubscribeMessage('channel')
-	async getChannel( client: Socket, id: number): Promise<void> {
+	async getChannel(id: number): Promise<void> {
 		try {
 			const channel = await this.textChannelService.getChannel(id, [
 				'users',
 			]);
-			this.server.emit('channel', channel);
+			//this.server.emit('channel', channel);
 		} catch {}
 	}
 
@@ -79,7 +95,8 @@ export class ChatGateway {
 		const admin = await this.userService.validateUser(user.id);
 		const channel = await this.textChannelService.getChannelByName(name);
 		await this.textChannelService.deleteChannel(channel.id, admin.id)
-
+		const all_channels = await this.textChannelService.getAllChannels();
+		this.server.emit('deleteChannel', all_channels);
 	}
 
 	@SubscribeMessage('addUserToChannel')
@@ -92,8 +109,7 @@ export class ChatGateway {
 	}
 
 	@SubscribeMessage('getAllChannels')
-	async getAllChannels(@ConnectedSocket() client: Socket, data: string) {
-		console.log(data);
+	async getAllChannels(@ConnectedSocket() client: Socket) {
 		const all_channels = await this.textChannelService.getAllChannels();
 		client.emit('getAllChannels', all_channels);
 		console.log(all_channels);

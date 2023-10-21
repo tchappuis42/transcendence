@@ -8,9 +8,11 @@ import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Socket } from 'socket.io';
+import { PipelinePromise } from 'stream';
 
 @Injectable()
 export class UserService {
+
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
@@ -34,6 +36,12 @@ export class UserService {
 
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
+	}
+
+	async usersListe(): Promise<string[]> {
+		const users = await this.usersRepository.find()
+		const liste = users.map(user => user.username)
+		return liste
 	}
 }
 

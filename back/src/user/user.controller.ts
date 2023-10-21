@@ -14,6 +14,7 @@ export class UserController {
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	getProfile(@Req() req: Request) {
+		console.log("encore")
 		return req.user
 	}
 
@@ -27,8 +28,9 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/users")
-	async getUsers(@Req() req: Request) {
-		return req.user
+	async getUsers() {
+		const users = await this.userService.usersListe();
+		return users
 	}
 
 	@UseGuards(JwtAuthGuard)

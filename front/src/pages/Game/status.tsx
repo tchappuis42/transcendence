@@ -16,7 +16,6 @@ const Status = () => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
-				//const updateUsers: user[] = response.data.map((username) => ({ username, status: 'offline' }))
 				console.log("data = ", response.data)
 				setUsers(response.data)
 			} catch (error) {
@@ -44,7 +43,7 @@ const Status = () => {
 	return (
 		<div className="status">
 			<h1>Liste des Users</h1>
-			{users.map(u => <p>{u.username} {u.status && "online"} {!u.status && "offline"}</p>)}
+			{users.map(u => <p style={{ color: u.status ? 'green' : 'red' }}>{u.username}</p>)}
 		</div>
 	);
 };

@@ -40,7 +40,6 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
-		await this.authService.setConnection(userInfo.user);
 		return { message: "succces" }; // msg succes
 	}
 
@@ -62,7 +61,6 @@ export class AuthController {
 	@Get("/logout")
 	async postLogout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 		const user = req.user as UserDto;
-		await this.authService.setDisconnect(user);
 		res.clearCookie('access_token');
 	}
 }

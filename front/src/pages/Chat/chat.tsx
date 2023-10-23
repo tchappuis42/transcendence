@@ -20,7 +20,7 @@ const Chat = () => {
 	const [all_channels, setChannels] = useState<Chan[]>([]);
 //	let [count, setCount] = useState(0)
 	const [set_channel, setSetChannel] = useState("");
-//	let [ref_channel, setRef_channel] = useState("");
+	let [ref_channel, setRef_channel] = useState("");
 	const socket = useSocket();
 //	const channels = useState<Chan[]>([])
 	
@@ -52,6 +52,9 @@ const Chat = () => {
 	}, [socket]);
 
 	useEffect(() => {
+		if (!set_channel) {
+			setSetChannel("create a channel!")
+		}
 		if (socket ) {
 			socket.on("getAllChannels", (data) => {
 				console.log(socket);
@@ -97,9 +100,11 @@ const Chat = () => {
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		if (socket) {
-			socket.emit("message", data, set_channel, '0');
-			setData("");
+		if (set_channel != "create a channel!") {
+			if (socket) {
+				socket.emit("message", data, set_channel, '0');
+				setData("");
+			}
 		}
 	};
 /*
@@ -114,7 +119,7 @@ const Chat = () => {
 	const createchannel = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const namechannel = prompt("what is the name of channel");
+		const namechannel = prompt("what is the name of new channel");
 		if (socket) {
 			socket.emit("createchannel", namechannel);
 		}
@@ -135,7 +140,7 @@ const Chat = () => {
 		e.preventDefault();
 
 		if(!set_channel)
-			prompt("select a cahnnel")
+			prompt("select a channel")
 		const nameUser = prompt('the name of User for add of channel');
 		if (socket) {
 			socket.emit("addUserToChannel", set_channel, nameUser);
@@ -187,7 +192,12 @@ const Chat = () => {
 	};
 
 	function takeChan(lol: string) {
+		if (set_channel != "create a channel!") {
+			setRef_channel(set_channel);
+		}
+		console.log("ref channel ancien channel = ", ref_channel);
 		setSetChannel(lol)
+		console.log("set_channel actuell =", set_channel);
 		if (socket){
 			socket.emit("getChannelMeOne", lol);
 			socket.emit("message", data, lol, '1');

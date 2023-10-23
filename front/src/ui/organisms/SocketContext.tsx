@@ -17,16 +17,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 	const { status, account } = useAuth();
 
 	useEffect(() => {
-		if (status === AuthStatus.Authenticated && !socket) {
+		if (status === AuthStatus.Authenticated) {
 			const newSocket = io("http://localhost:4000", { query: { user: account?.id } });
 			setSocket(newSocket);
-			/*return () => {
+			return () => {
 				newSocket.disconnect();
-			}*/
+			}
 		};
-		return () => {
-			socket?.disconnect();
-		}
 		return undefined;
 	}, [status]);
 

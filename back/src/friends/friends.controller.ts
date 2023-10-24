@@ -1,9 +1,10 @@
-import { Controller, Post, Get, Param, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, UseGuards, Req } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
 import { UserDto } from 'src/user/dtos/UserDto';
 import { User } from 'src/user/user.entity';
+import { AcceptDTO } from './dtos/AcceptDto';
 
 @Controller('friends')
 export class FriendsController {
@@ -25,10 +26,12 @@ export class FriendsController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Post("/acceptFriend/:friendName")
-	async acceptFriend(@Param('friendName') friendName: string, @Req() req: Request) {
+	@Post("acceptFriend")
+	async acceptFriend(@Body() body: AcceptDTO, @Req() req: Request) {
 		const user = req.user as User
-		return await this.frindsService.acceptFriend(user, friendName)
+		if (body.accept === true)
+			return await this.frindsService.acceptFriend(user, body.id)
+		return await this.frindsService.refuseFriend(user, body.id)
 	}
 
 	@UseGuards(JwtAuthGuard)

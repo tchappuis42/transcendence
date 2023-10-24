@@ -4,6 +4,7 @@ import { PrimaryColumn, Repository } from 'typeorm';
 import { Friends } from './friends.entity';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.entity';
+import { AcceptDTO } from './dtos/AcceptDto';
 
 @Injectable()
 export class FriendsService {
@@ -29,21 +30,36 @@ export class FriendsService {
 			throw new NotFoundException("user not found") // bonne erreur
 		const friends = list.map((friend) => {
 			if (friend.first_User.id === user.id) {
-				return { username: friend.second_User.username, status: friend.second_User.connected, friend_status: friend.friend_status }
+				if (friend.friend_status === true)
+					return { id: friend.second_User.id, username: friend.second_User.username, status: friend.second_User.connected, friend_status: 0 }
+				return { id: friend.second_User.id, username: friend.second_User.username, status: friend.second_User.connected, friend_status: 2 }
 			}
 			else {
-				return { username: friend.first_User.username, status: friend.first_User.connected, friend_status: friend.friend_status }
+				if (friend.friend_status === true)
+					return { id: friend.first_User.id, username: friend.first_User.username, status: friend.first_User.connected, friend_status: 0 }
+				return { id: friend.first_User.id, username: friend.first_User.username, status: friend.first_User.connected, friend_status: 1 }
 			}
 		});
 		return friends;
 	}
 
-	async acceptFriend(user: User, friend: string) {
-		const friendUser = await this.userservice.validateUserByName(friend);
+	async acceptFriend(user: User, friend: number) {
+		console.log("ici = ", friend)
+		const friendUser = await this.userservice.validateUser(friend);
 		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
 		if (check && check.friend_status === false) {
 			await this.friendsRepository.update(check.id, { friend_status: true })
 			return "ami ajouté";
+		}
+		return "erreur";
+	}
+
+	async refuseFriend(user: User, friend: number) {
+		const friendUser = await this.userservice.validateUser(friend);
+		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
+		if (check && check.friend_status === false) {
+			await this.friendsRepository.delete(check.id)
+			return "demande d'ami refuser";
 		}
 		return "erreur";
 	}

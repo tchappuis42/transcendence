@@ -35,35 +35,41 @@ export class ChatGateway {
 			const channel = await this.textChannelService.getChannelMe(data[1]);
 			await this.textChannelService.addMsgForChannel(data[0], data[1], admin.id);
 			console.log("channel dans gateway", channel)
-			client.emit('message', data[0], user.username)
-			//client.in(channel.name).emit("message", data[0], user.username)
+			this.server.to(channel.name).emit('message', data[0], user.username);
 		}
 		else {
 			const channel = await this.textChannelService.getChannelMe(data[1]);
 			console.log("coukie")
 			for(let i = 0; channel.msgs[i]; i++){
 				client.emit("messages", channel.msgs[i].message, channel.msgs[i].username);
-				//client.in(channel.name).emit("messages", channel.msgs[i].message, channel.msgs[i].username)
 			}
 		}
 	}
 
 	@SubscribeMessage('createchannel')
 	async createchannel(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
-		//console.log(name)
+		if (name[1] != "create a channel!") {
+			client.leave(name[1]);
+		}
+		client.join(name[0]);
 		const user = client.data.user as UserDto;
-		await this.textChannelService.createChannel(name, user.id);
-		const channel = await this.textChannelService.getChannelMe(name);
+		await this.textChannelService.createChannel(name[0], user.id);
+		const channel = await this.textChannelService.getChannelMe(name[0]);
 		const all_channels = await this.textChannelService.getAllChannels();
-		this.server.emit('createchannel', all_channels, channel);
-		console.log(channel)
+		client.emit('createchannel', all_channels, channel);
+		this.server.emit("refreshChannel", all_channels);
 	}
 
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
-			const channel = await this.textChannelService.getChannelMe(name);
-			client.emit('getChannelMeOne', channel);
+			if (name[1] != "create a channel!") {
+				client.leave(name[1]);
+			}
+			//const user = client.data.user as UserDto;
+			client.join(name[0]);
+			const channel = await this.textChannelService.getChannelMe(name[0]);
+			//client.emit('getChannelMeOne', channel);
 		} catch {}
 	}
 
@@ -91,12 +97,22 @@ export class ChatGateway {
 
 	@SubscribeMessage('deleteChannel')
 	async deleteChannel(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
+		//client.leave(name);
 		const user = client.data.user as UserDto;
 		const admin = await this.userService.validateUser(user.id);
 		const channel = await this.textChannelService.getChannelByName(name);
 		await this.textChannelService.deleteChannel(channel.id, admin.id)
 		const all_channels = await this.textChannelService.getAllChannels();
-		this.server.emit('deleteChannel', all_channels);
+		//console.log("valeur de la data 0", all_channels[0])
+		client.emit('deleteChannel', all_channels);
+		client.leave(channel.name);
+		if (all_channels[0]) {
+			client.join(all_channels[0].name);
+		}
+		this.server.to(channel.name).emit('deleteChannelForAllUser', all_channels)
+		client.in(name).socketsLeave(name);
+		this.server.emit("refreshChannel", all_channels);
+		//this.server.to(channel.name).emit('deleteChannel', all_channels);
 	}
 
 	@SubscribeMessage('addUserToChannel')

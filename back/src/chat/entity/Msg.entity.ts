@@ -2,10 +2,7 @@ import {
     Column,
     Entity,
     PrimaryGeneratedColumn,
-    JoinColumn,
-    ManyToOne,
   } from 'typeorm';
-  import { User } from 'src/user/user.entity';
   
   @Entity()
   export class Msg {

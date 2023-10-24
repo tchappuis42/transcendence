@@ -11,6 +11,7 @@ import { UserService } from 'src/user/user.service';
 import { TextChannel } from '../entity/textChannel';
 import { channel } from 'diagnostics_channel';
 import { Msg } from '../entity/Msg.entity';
+import { Socket } from "socket.io";
 
 
 
@@ -66,7 +67,8 @@ export class TextChannelService {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    console.log(currentChannel)
+
+    //console.log(currentChannel)
     //console.log(currentChannel.users)
     return currentChannel;
   }

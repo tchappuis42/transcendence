@@ -12,6 +12,7 @@ import { IdController } from './controllers/id.controller';
 import {Msg} from './entity/Msg.entity'
 
 
+
 @Module({
   imports: [TypeOrmModule.forFeature([User, Msg, TextChannel])],
   controllers: [ChatController],

@@ -2,7 +2,7 @@ import "./style.css";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import React from "react";
-import { cleanup } from "@testing-library/react";
+
 
 
 
@@ -20,7 +20,7 @@ const Chat = () => {
 	const [all_channels, setChannels] = useState<Chan[]>([]);
 //	let [count, setCount] = useState(0)
 	const [set_channel, setSetChannel] = useState("");
-	let [ref_channel, setRef_channel] = useState("");
+//	let [ref_channel, setRef_channel] = useState("");
 	const socket = useSocket();
 //	const channels = useState<Chan[]>([])
 	
@@ -62,6 +62,7 @@ const Chat = () => {
 			});
 			socket.on("getChannelMeOne", (data) => {
 				console.log(data)
+				//setRef_channel(set_channel)
 			});
 			socket.on("createchannel", (data, channel) => {
 					console.log(data);
@@ -69,15 +70,25 @@ const Chat = () => {
 					setSetChannel(channel.name);
 					setMessages([]);
 			});
+			socket.on("refreshChannel", (data) => {
+				setChannels(data);
+			})
 			socket.on("deleteChannel", (data) => {
 				setChannels(data);
 				if (data.length != 0){
-					setSetChannel(data[((data.length) - 1)].name);
+					setSetChannel(data[0].name)
+					socket.emit("message", data, data[0].name, '1');
+				//	setSetChannel(data[((data.length) - 1)].name);
 				}
 				else {
 					setSetChannel("create a channel!")
 					setMessages([]);
 				}
+			});
+			socket.on("deleteChannelForAllUser", (data) => {
+				setChannels(data);
+				setSetChannel("create a channel!")
+				setMessages([]);
 			});
 			socket.on("messages", (data, id) => {
 				setMessages((prevMesssage) => [
@@ -93,6 +104,8 @@ const Chat = () => {
 				socket.off("createchannel");
 				socket.off("deleteChannel");
 				socket.off("messages");
+				socket.off("deleteChannelForAllUser");
+				socket.off("setChannels(data);");
 			}
 		};
 	}, [socket]);
@@ -121,7 +134,7 @@ const Chat = () => {
 
 		const namechannel = prompt("what is the name of new channel");
 		if (socket) {
-			socket.emit("createchannel", namechannel);
+			socket.emit("createchannel", namechannel, set_channel);
 		}
 	};
 
@@ -192,14 +205,12 @@ const Chat = () => {
 	};
 
 	function takeChan(lol: string) {
-		if (set_channel != "create a channel!") {
-			setRef_channel(set_channel);
-		}
-		console.log("ref channel ancien channel = ", ref_channel);
+		//console.log("ref channel ancien channel = ", ref_channel);
 		setSetChannel(lol)
+		console.log("valeur dans lol actuele", lol);
 		console.log("set_channel actuell =", set_channel);
 		if (socket){
-			socket.emit("getChannelMeOne", lol);
+			socket.emit("getChannelMeOne", lol, set_channel);
 			socket.emit("message", data, lol, '1');
 			setMessages([]);
 		}

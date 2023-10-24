@@ -95,7 +95,7 @@ const SocketPong = () => {
 						{search}
 					</button>
 					<button onClick={clean} style={{ width: "10%" }}>clean</button>
-					<Status />
+					<Friends />
 				</div>
 
 			}

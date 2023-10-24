@@ -27,10 +27,9 @@ export class UserController {
 
 
 	@Get("/users")
-	@UseInterceptors(ClassSerializerInterceptor)
 	async getUsers() {
-		//return "test"
-		return await this.userService.getUsers();
+		const users = await this.userService.usersListe();
+		return users
 	}
 
 	@UseGuards(JwtAuthGuard)

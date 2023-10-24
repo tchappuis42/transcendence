@@ -66,7 +66,7 @@ export class UserService {
 			await this.setConnection(client.data.user)
 			const status = {
 				username: client.data.user.username,
-				status: true
+				status: 1
 			}
 			server.emit('status', status)
 		}
@@ -80,7 +80,7 @@ export class UserService {
 			await this.setDisconnect(client.data.user)
 			const status = {
 				username: client.data.user.username,
-				status: false
+				status: 2
 			}
 			server.emit('status', status)
 		}
@@ -88,13 +88,13 @@ export class UserService {
 	}
 
 	async setConnection(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: true })
+		await this.usersRepository.update(user.id, { connected: 1 })
 		//sdasd
 		Logger.log("user connected")
 	}
 
 	async setDisconnect(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: false })
+		await this.usersRepository.update(user.id, { connected: 2 })
 		Logger.log("user disconnected")
 	}
 }

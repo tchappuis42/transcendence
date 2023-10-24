@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import PongTest from "./Pongtest";
 import Status from "./status";
+import Friends from "./friends";
 
 const SocketPong = () => {
 	const socket = useSocket();

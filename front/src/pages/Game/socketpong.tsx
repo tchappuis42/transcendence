@@ -5,12 +5,27 @@ import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
 
+interface ColourOption {
+	value: string;
+	label: string;
+	color: string;
+	isFixed?: boolean;
+	isDisabled?: boolean;
+}
+
 const SocketPong = () => {
 	const socket = useSocket();
 	const [page, setPage] = useState(false);
 	const [player1, setplayer1] = useState("");
 	const [player2, setplayer2] = useState("");
 	const [search, setsearch] = useState("trouver un match")
+
+	const [Color, setColor] = useState({
+		paddle: "white",
+		ball: "white",
+		map: "black"
+	})
+
 
 	useEffect(() => {
 		if (socket) {
@@ -62,6 +77,19 @@ const SocketPong = () => {
 		setPage(bool);
 	}
 
+	const colourOptions: ColourOption[] = [
+		{ value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
+		{ value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
+		{ value: 'purple', label: 'Purple', color: '#5243AA' },
+		{ value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
+		{ value: 'orange', label: 'Orange', color: '#FF8B00' },
+		{ value: 'yellow', label: 'Yellow', color: '#FFC400' },
+		{ value: 'green', label: 'Green', color: '#36B37E' },
+		{ value: 'forest', label: 'Forest', color: '#00875A' },
+		{ value: 'slate', label: 'Slate', color: '#253858' },
+		{ value: 'silver', label: 'Silver', color: '#666666' },
+	];
+
 	return (
 		<div className="divpong">
 			{!page &&
@@ -70,6 +98,11 @@ const SocketPong = () => {
 						<button onClick={matchmaking} className="box1">
 							{search}
 						</button>
+						<select
+							name="paddleColor"
+							defaultValue={colourOptions[0]}
+							options={colourOptions}
+						/>
 					</div>
 					<Ranking />
 					<MatchHistory />

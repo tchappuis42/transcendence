@@ -255,30 +255,49 @@ const Pong = () => {
 		if (collides(ball, leftPaddle)) {
 			// move ball next to the paddle otherwise the collision will happen again
 			// in the next frame
+			const paddleWhere = (ball.y - leftPaddle.y) / leftPaddle.height;
+			// give a number between 0 and 1, where the ball hit the paddle y in percentage
+
+			const velocity = Math.sqrt(Math.pow(ball.dx, 2) + Math.pow(ball.dy, 2));
+			//get the ball actual velocity
+
+			//								                 between 0 and 50deg
+			const angle = paddleWhere < 0.5 ? ((paddleWhere - 0.5) * 100) * Math.PI/180 : ((paddleWhere - 0.5) * 100) * Math.PI/180;
+			//output angle
+
+			const nextDx = Math.abs(Math.cos(angle) * velocity);
+			const nextDy = Math.sin(angle) * velocity;
+			//x and y velocity
+
 			setBall((prevBall) => ({
 				...prevBall,
-				dx: prevBall.dx * -1,
+				dx: nextDx,
+				dy: nextDy,
 				x: prevBall.x + prevBall.width,
 
 			}));
-			setleftpaddle({ ...leftPaddle, color: leftPaddle.color + 1 })
-			//increases the speed of the ball by 0.2 each time it touches a pad
-			if (ball.dx < 6) {
-				setBall((prevBall) => ({
-					...prevBall,
-					dx: prevBall.dx += 0.2,
-					dy: prevBall.dy += 0.2,
-					x: prevBall.x += 0.2,
-					y: prevBall.y += 0.2,
-				}));
-			}
 		}
 		console.log("ball.dx = ", ball.dx);
 		if (collides(ball, rightPaddle)) {
 			// 	ball.dx *= -1;
+			const paddleWhere = (ball.y - rightPaddle.y) / rightPaddle.height;
+			// give a number between 0 and 1, where the ball hit the paddle y in percentage
+
+			const velocity = Math.sqrt(Math.pow(ball.dx, 2) + Math.pow(ball.dy, 2));
+			//get the ball actual velocity
+
+			//								                 between 0 and 50deg
+			const angle = paddleWhere < 0.5 ? ((paddleWhere - 0.5) * 100) * Math.PI/180 : ((paddleWhere - 0.5) * 100) * Math.PI/180;
+			//output angle
+
+			const nextDx = Math.abs(Math.cos(angle) * velocity);
+			const nextDy = Math.sin(angle) * velocity;
+			//x and y velocity
+
 			setBall((prevBall) => ({
 				...prevBall,
-				dx: prevBall.dx * (-1),
+				dx: nextDx * (-1),
+				dy: nextDy,
 				x: prevBall.x - prevBall.width,
 			}));
 			setrightpaddle({ ...rightPaddle, color: rightPaddle.color + 1 })

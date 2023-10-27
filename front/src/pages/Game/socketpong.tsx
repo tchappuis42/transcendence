@@ -90,12 +90,15 @@ const SocketPong = () => {
 	return (
 		<div>
 			{!page &&
-				<div className="statuss">
+				<div>
 					<button onClick={matchmaking} className="button">
 						{search}
 					</button>
 					<button onClick={clean} style={{ width: "10%" }}>clean</button>
-					<Friends />
+					<div className="statuss">
+						<Status />
+						<Friends />
+					</div>
 				</div>
 
 			}

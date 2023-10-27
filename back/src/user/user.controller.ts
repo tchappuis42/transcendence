@@ -25,10 +25,11 @@ export class UserController {
 		return body
 	}
 
-
+	@UseGuards(JwtAuthGuard)
 	@Get("/users")
-	async getUsers() {
-		const users = await this.userService.usersListe();
+	async getUsers(@Req() req: Request) {
+		const user = req.user as UserDto;
+		const users = await this.userService.usersListe(user.id);
 		return users
 	}
 

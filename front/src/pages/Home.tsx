@@ -13,6 +13,7 @@ const navigationOptions = [
 	{ label: 'test', url: '/test' },
 	{ label: 'chat', url: '/chat' },
 	{ label: 'pong', url: '/pong' },
+	{ label: 'profil', url: '/profil' },
 ];
 
 const Home = () => {

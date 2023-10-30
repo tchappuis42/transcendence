@@ -1,5 +1,9 @@
 @import "./test.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
 	box-sizing: border-box;
 	min-height: 100%;

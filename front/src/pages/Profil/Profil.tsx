@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import "./profil.css"
 
 interface Paddle {
 	x: number;
@@ -382,10 +383,10 @@ export const Profil = () => {
 
 	return (
 		<div >
-			<h1 className="hello">hello</h1>
-			<div id="pong" className='pong'>
-				<canvas ref={canvasRef} />
-			</div>
+			<h1 className="text-white">hello</h1>
+			{/*<div id="pong" className='pong'>*/}
+			{/*	<canvas ref={canvasRef} />*/}
+			{/*</div>*/}
 		</div>
 	);
 };

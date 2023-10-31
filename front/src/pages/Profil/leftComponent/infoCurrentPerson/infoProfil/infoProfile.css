@@ -8,7 +8,7 @@
         h-[100px] w-full text-xs font-sans
     }
     .img-user {
-        @apply aspect-4/5 h-full rounded object-cover shrink-0
+        /*@apply aspect-4/5 h-full rounded object-cover shrink-0*/
     }
     .text-info {
         @apply grid grid-cols-2 h-full w-full

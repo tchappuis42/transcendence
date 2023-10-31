@@ -10,7 +10,7 @@
         @apply border border-solid border-blue-400
     }
     .green-border {
-        @apply border border-solid border-green-300
+        @apply border border-solid border-green-700
     }
     .black-border-fine {
         @apply border-2 border-solid

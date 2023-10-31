@@ -2,7 +2,6 @@ import React from "react"
 import "../../../../styleProfilPage/mainCSS.css"
 import "../../../../styleProfilPage/toolsCss.css"
 import "../infoProfile.css"
-import {Flex} from "../../../../../tools/flex";
 
 export const ButtonsFriends = () => {
 	return (

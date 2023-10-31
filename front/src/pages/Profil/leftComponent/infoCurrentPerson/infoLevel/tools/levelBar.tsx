@@ -1,6 +1,6 @@
 import React, {forwardRef, useState} from "react";
 import "../infoLevel.css"
-import { Flex } from "../../../../../tools/flex"
+import { Flex } from "../../../../tools/flex"
 
 interface Props {
 	progress: number;

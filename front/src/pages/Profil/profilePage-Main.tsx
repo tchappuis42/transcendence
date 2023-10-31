@@ -1,5 +1,5 @@
 import * as React from "react"
-import "../index.css"
+import "../../css/index.css"
 import "./styleProfilPage/mainCSS.css"
 import "./styleProfilPage/toolsCss.css"
 import {LeftComponent} from "./leftComponent/leftComponent"

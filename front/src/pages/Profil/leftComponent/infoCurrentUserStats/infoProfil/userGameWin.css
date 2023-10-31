@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+    .game-win-component {
+        @apply grid grid-cols-5
+        rounded py-2 gap-2
+        items-center justify-center
+    }
+    .game-win-title {
+        @apply flex
+        justify-start items-center
+        rounded px-2 col-span-1
+        font-extrabold bg-slate-300
+    }
+    .game-win-result {
+        @apply flex
+        justify-start items-center
+        col-span-2 rounded px-2
+        font-extrabold bg-slate-300
+    }
+    .game-win-up-down {
+        @apply grid grid-cols-2
+        justify-start items-center
+        rounded
+    }
+}

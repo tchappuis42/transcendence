@@ -1,11 +1,11 @@
 import * as React from "react"
-import notification from "../../image/noun-bell.svg";
+import notification from '../../image/noun-bell.svg';
 import search from "../../image/noun-loupe.svg";
 import userPicture from "../../image/kdi-noce.jpg";
 import {useEffect, useRef, useState} from "react";
 
 export const TopBar = () => {
-	const myRef = useRef<HTMLDivElement | null>(null);;
+	const myRef = useRef<HTMLDivElement | null>(null);
 	const [width, setWidth] = useState(0);
 	const [height, setHeight] = useState(0)
 
@@ -16,6 +16,7 @@ export const TopBar = () => {
 			setWidth(h);
 		}
 	}, []);
+	// @ts-ignore
 	return (
 		<div ref={myRef} className="bg-gray-100 w-full h-16 sticky top-0 rounded">
 			<div className="flex items-center justify-between">

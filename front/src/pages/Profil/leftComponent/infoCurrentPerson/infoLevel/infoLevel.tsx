@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import "./infoLevel.css"
 import { LevelBar } from "./tools/levelBar";
-import { Flex } from "../../../../tools/flex";
-import {Grid} from "../../../../tools/grid";
+import {Flex} from "../../../tools/flex";
+import {Grid} from "../../../tools/grid";
 
 export const LevelUser = (): JSX.Element => {
 	const [progress, setProgress] = useState(0);

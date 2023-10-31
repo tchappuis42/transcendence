@@ -15,7 +15,7 @@ export class Ball {
 		this.height = 15
 		this.width = 15
 		this.resetting = false
-		this.dx = this.speed
+		this.dx = -this.speed
 		this.dy = -this.speed
 	}
 
@@ -40,18 +40,29 @@ export class Ball {
 		this.dy = this.speed
 	}
 
-	lefftePaddle() {
-		this.dx *= -1
+	lefftePaddle(lefftePaddleY: number) {
+		const paddleWhere = (this.y - lefftePaddleY) / 75;
+		const velocity = Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
+		const angle = paddleWhere < 0.5 ? ((paddleWhere - 0.5) * 100) * Math.PI / 180 : ((paddleWhere - 0.5) * 100) * Math.PI / 180;
+		this.dx = Math.abs(Math.cos(angle) * velocity);
+		this.dy = Math.sin(angle) * velocity;
 		this.x += this.width
 	}
 
-	rightPaddle() {
-		this.dx *= -1
+	rightPaddle(rightPaddleY: number) {
+		const paddleWhere = (this.y - rightPaddleY) / 75;
+		const velocity = Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
+		const angle = paddleWhere < 0.5 ? ((paddleWhere - 0.5) * 100) * Math.PI / 180 : ((paddleWhere - 0.5) * 100) * Math.PI / 180;
+		this.dx = Math.abs(Math.cos(angle) * velocity) * (-1);
+		this.dy = Math.sin(angle) * velocity;
 		this.x -= this.width
 	}
 
 	reset() {
 		this.x = 750 / 2
 		this.y = 585 / 2
+
+		this.dx = -this.speed
+		this.dy = -this.speed
 	}
 }

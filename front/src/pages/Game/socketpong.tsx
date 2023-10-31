@@ -129,8 +129,8 @@ const SocketPong = () => {
 							couleur du terrain :
 							<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
 								<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
-								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+								<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
+								<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
 							</select>
 							{color.map}
 						</div>

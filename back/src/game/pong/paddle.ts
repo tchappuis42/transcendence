@@ -17,7 +17,7 @@ export class Paddle {
 		this.dy = 0
 		this.speed = 7
 		this.score = 0
-		this.ready = true //false
+		this.ready = false
 	}
 
 	life() {

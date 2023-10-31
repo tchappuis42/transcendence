@@ -23,7 +23,7 @@ export class Pong {
 				this.player1.life();
 				this.player2.life();
 				this.ball.life();
-				this.colide();
+				this.collide();
 				this.score();
 			}
 		}
@@ -44,7 +44,7 @@ export class Pong {
 			obj1.y + obj1.height > obj2.y;
 	}
 
-	colide() {
+	collide() {
 		//collision de la balle avec le haut du plateau 
 		if (this.ball.y < 15) {
 			this.ball.up();
@@ -55,11 +55,11 @@ export class Pong {
 		}
 		//collision de la balle avec le paddle de gauche 
 		if (this.collides(this.ball, this.player1)) {
-			this.ball.lefftePaddle();
+			this.ball.lefftePaddle(this.player1.getY());
 		}
 		//collision de la balle avec le paddle de droite 
 		if (this.collides(this.ball, this.player2)) {
-			this.ball.rightPaddle();
+			this.ball.rightPaddle(this.player2.getY());
 		}
 		//collision du paddle de gauche avec le haut 
 		if (this.player1.y < 15) {

@@ -15,7 +15,7 @@ export class Ball {
 		this.height = 15
 		this.width = 15
 		this.resetting = false
-		this.dx = -this.speed
+		this.dx = this.speed
 		this.dy = -this.speed
 	}
 
@@ -62,7 +62,13 @@ export class Ball {
 		this.x = 750 / 2
 		this.y = 585 / 2
 
-		this.dx = -this.speed
-		this.dy = -this.speed
+		if (this.dx < this.speed) {
+			this.dx = -this.speed
+			this.dy = -this.speed
+		}
+		else {
+			this.dx = this.speed
+			this.dy = -this.speed
+		}
 	}
 }

@@ -20,7 +20,7 @@ const SocketPong = () => {
 	const [player2, setplayer2] = useState("");
 	const [search, setsearch] = useState("trouver un match")
 
-	const [Color, setColor] = useState({
+	const [color, setColor] = useState({
 		paddle: "white",
 		ball: "white",
 		map: "black"
@@ -77,19 +77,28 @@ const SocketPong = () => {
 		setPage(bool);
 	}
 
-	const colourOptions: ColourOption[] = [
-		{ value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-		{ value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-		{ value: 'purple', label: 'Purple', color: '#5243AA' },
-		{ value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-		{ value: 'orange', label: 'Orange', color: '#FF8B00' },
-		{ value: 'yellow', label: 'Yellow', color: '#FFC400' },
-		{ value: 'green', label: 'Green', color: '#36B37E' },
-		{ value: 'forest', label: 'Forest', color: '#00875A' },
-		{ value: 'slate', label: 'Slate', color: '#253858' },
-		{ value: 'silver', label: 'Silver', color: '#666666' },
+	const colourOptions: string[] = [
+		"ocean",
+		'blue',
+		'purple',
+		'red',
+		'orange',
+		'yellow',
+		'green',
+		'forest',
+		'slate',
+		'silver',
 	];
 
+	const paddleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		setColor({ ...color, paddle: event.target.value });
+	}
+	const ballChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		setColor({ ...color, ball: event.target.value });
+	}
+	const mapChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		setColor({ ...color, map: event.target.value });
+	}
 	return (
 		<div className="divpong">
 			{!page &&
@@ -98,11 +107,33 @@ const SocketPong = () => {
 						<button onClick={matchmaking} className="box1">
 							{search}
 						</button>
-						<select
-							name="paddleColor"
-							defaultValue={colourOptions[0]}
-							options={colourOptions}
-						/>
+						<div>
+							couleur de la raquette :
+							<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
+								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+							</select>
+							{color.paddle}
+						</div>
+						<div>
+							couleur de la balle :
+							<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
+								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+							</select>
+							{color.ball}
+						</div>
+						<div>
+							couleur du terrain :
+							<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
+								<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
+								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+							</select>
+							{color.map}
+						</div>
 					</div>
 					<Ranking />
 					<MatchHistory />

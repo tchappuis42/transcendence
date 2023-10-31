@@ -29,6 +29,7 @@
 	box-sizing: border-box;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .box2 {
@@ -57,7 +58,7 @@
 	/* Centrer verticalement */
 	text-align: center;
 	/* Aligner le texte au centre */
-	/*font-size: 18px;*/
+	font-size: 18px;
 	/* Taille de police personnalisée */
 	color: #ffffff;
 	/* Couleur du texte */

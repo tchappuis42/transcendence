@@ -69,7 +69,15 @@ export class ChatGateway {
 			//const user = client.data.user as UserDto;
 			client.join(name[0]);
 			const channel = await this.textChannelService.getChannelMe(name[0]);
-			//client.emit('getChannelMeOne', channel);
+			const user = client.data.user as UserDto;
+			if (channel.owner.username == user.username) {
+				client.emit('getChannelMeOne', channel.status, '1');
+				//le 1 si le client est le owner
+			}
+			else {
+				client.emit('getChannelMeOne', channel.status, '0');
+			}
+		//	client.emit('getChannelMeOne', channel.status);
 		} catch {}
 	}
 
@@ -156,5 +164,23 @@ export class ChatGateway {
 		const userAdd = await this.userService.validateUserByName(args[1]);
 		const channel = await this.textChannelService.getChannelByName(args[0]);
 		await this.textChannelService.removeAdmin(channel, userAdd.id, admin.id)
+	}
+
+	@SubscribeMessage('changeStatue')
+	async changeStatue(@MessageBody() args1: string, @MessageBody() args2: boolean, @ConnectedSocket()client: Socket) {
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
+		console.log("avant changeemnt dans le channel", channel.status)
+		console.log("sattue avant changement avant chageStatue", args2[1])
+		await this.textChannelService.changeStatue(channel, args2[1]);
+	//	if (args[1] == "true") {
+			
+		//	await this.textChannelService.changeStatue(channel, true);
+	//	}
+	//	else {
+			
+		//	await this.textChannelService.changeStatue(channel, false);
+	//	}
+		console.log("apres changeemnt dans le channel", channel.status)
+		this.server.emit("refreshChannelStatus", channel.name, channel.status);
 	}
 }

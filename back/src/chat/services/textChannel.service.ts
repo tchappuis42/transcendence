@@ -11,7 +11,7 @@ import { UserService } from 'src/user/user.service';
 import { TextChannel } from '../entity/textChannel';
 import { channel } from 'diagnostics_channel';
 import { Msg } from '../entity/Msg.entity';
-import { Socket } from "socket.io";
+import * as bcrypt from 'bcrypt';
 
 
 
@@ -52,12 +52,13 @@ export class TextChannelService {
         'TextChannel already exists',
         HttpStatus.FORBIDDEN,
       );
-    
+
     const currentChannel = this.textChannelRepository.create({
       name: namechannel,
       owner: admin,
       users: [admin],
       adminId: [admin],
+      status: true,
     });
 
     //console.log(admin)
@@ -306,5 +307,19 @@ export class TextChannelService {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
       console.log("l'actuelle channel ou il y a le message", channel)
+  }
+
+  async changeStatue(
+    channel: TextChannel,
+    status: boolean,
+  ): Promise<void> {
+    await this.textChannelRepository.update(channel.id, {status} )
+    console.log("satus dans le changeStatue apres changeemnt", status)
+    console.log("changement dans le channel dans le changeStatue", channel.status)
+    /*try {
+      await this.textChannelRepository.save(channel);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }*/
   }
 }

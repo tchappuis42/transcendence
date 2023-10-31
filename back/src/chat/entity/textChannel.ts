@@ -14,4 +14,10 @@ export class TextChannel extends Channel {
   @ManyToMany(() => User, { eager: true })
   @JoinTable()
   adminId: User[];
+
+  @Column({ default: true })
+  status: boolean;
+
+  @Column({ nullable: true })
+  password: string;
 }

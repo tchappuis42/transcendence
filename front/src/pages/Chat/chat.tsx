@@ -2,6 +2,8 @@ import "./style.css";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import React from "react";
+//import ReactDOM from "react-dom";
+
 
 
 
@@ -12,6 +14,7 @@ interface Message {
 }
 interface Chan {
 	name: string;
+	statue: string;
 }
 
 const Chat = () => {
@@ -23,6 +26,11 @@ const Chat = () => {
 //	let [ref_channel, setRef_channel] = useState("");
 	const socket = useSocket();
 //	const channels = useState<Chan[]>([])
+//	const [status, setStatue] = React.useState(false);
+	const [dis, setdis] = React.useState(true);
+//	const [dsi, setDsi] = React.useState(true);
+	const [isOn, setIsOn] = React.useState(false)
+
 	
 
 	useEffect(() => {
@@ -60,9 +68,20 @@ const Chat = () => {
 				console.log(socket);
 				setChannels(data);
 			});
-			socket.on("getChannelMeOne", (data) => {
-				console.log(data)
-				//setRef_channel(set_channel)
+			socket.on("getChannelMeOne", (data, owner) => {
+				console.log("la valeur du status du channel", data)
+				if (owner == 1) {
+					setdis(false);
+				}
+				else {
+					setdis(true);
+				}
+				if (data == true) {
+					setIsOn(false);
+				}
+				else {
+					setIsOn(true);
+				}
 			});
 			socket.on("createchannel", (data, channel) => {
 					console.log(data);
@@ -96,6 +115,14 @@ const Chat = () => {
 					{message: data, username: id}
 				]); 	
 			});
+			socket.on("refreshChannelStatus", (name, status) => {
+				if (status == true) {
+
+				}
+				console.log(name);
+				console.log(status)
+				//setChannels(data);
+			})
 		}
 		return () => {
 			if (socket) {
@@ -106,6 +133,7 @@ const Chat = () => {
 				socket.off("messages");
 				socket.off("deleteChannelForAllUser");
 				socket.off("setChannels(data);");
+				socket.off("refreshChannelStatus");
 			}
 		};
 	}, [socket]);
@@ -147,6 +175,7 @@ const Chat = () => {
 		if (socket) {
 			socket.emit("deleteChannel", set_channel);
 		}
+		alert('you delete a channel');
 	};
 
 	const addUserToChannel = (e: SyntheticEvent) => {
@@ -205,7 +234,6 @@ const Chat = () => {
 	};
 
 	function takeChan(lol: string) {
-		//console.log("ref channel ancien channel = ", ref_channel);
 		setSetChannel(lol)
 		console.log("valeur dans lol actuele", lol);
 		console.log("set_channel actuell =", set_channel);
@@ -214,7 +242,63 @@ const Chat = () => {
 			socket.emit("message", data, lol, '1');
 			setMessages([]);
 		}
-	  }
+
+	//	if (set_channel == "create a channel!") {
+	//		setdis(!dis);
+	//	}
+	
+	}
+/*
+	const changeStatue = (e: SyntheticEvent) => {
+	//	if (i == "0")
+	//		e.preventDefault();
+	
+		//console.log(SyntheticEvent.target.value)		
+		if (set_channel != "create a channel!") {
+			setStatue(!status);
+		}
+		else {
+		//	setdis(!dis);
+		}
+		//setStatue(!status);
+		console.log(set_channel)
+		console.log(status)
+		if (set_channel != "create a channel!") {
+
+		}
+		
+	  };
+
+
+	  <div className="container"> 
+      				{"status"}
+						<input type="checkbox" className="checkbox" 
+              				name={"status"} 
+							id={"status"}
+							disabled={dis} //bloquer ou pas a cette avec les valeur du channel
+							defaultChecked={dsi} //position de depart a set avec les valeur du channel sauf au debut
+							onChange={changeStatue}
+							value={set_channel}
+							/>
+				
+       				<label className="label" htmlFor="status"> 
+					   	<span className="inner"/>
+        			</label>
+
+				</div>
+	  	*/
+
+		const onClick = () => {
+			setIsOn(!isOn)
+		 }
+		
+		const handleSwitchChange = (on: any) => {
+			console.log(`new switch "on" state:`, isOn)
+			if (socket) {
+			//	const password = prompt('choice a Password for the channel');
+				socket.emit("changeStatue", set_channel, isOn);
+			}
+		}
 
 	return (
 		<div className="signup">
@@ -222,21 +306,50 @@ const Chat = () => {
 				<button onClick={removeAdmin}>removeAdmin</button>
 				<button onClick={addAdmin}>addAdmin</button>
 				<button onClick={removeUserFromChannel}>removeUserFromChannel</button>
-				
 				<button onClick={addUserToChannel}>addUserToChannel</button>
 				<button onClick={deleteChannel}>deleteChannel</button>
 				<button onClick={createchannel}>createchannel</button>
+			
 				
+			
+
 			</div>
 			<div className="channel">
 				<div className="chann">
 					<h1> channels </h1>			
 						{all_channels.map((msg, index) => (
 							<b className="b" key={index}>
-								{msg.name} <button onClick={() => takeChan(msg.name)}>.</button>
+								{msg.name} <input type="radio" name="channel" value={msg.name} onClick={() => takeChan(msg.name)} ></input>
+								
+									
+								
 							</b>
 						))}
 				</div>
+
+				<div className="container"> 
+      				{"status"}
+					  <input type="checkbox" className="checkbox"
+					  	name={"status"}
+						id={"status"}
+						onClick={onClick} 
+						onChange={handleSwitchChange}
+						checked={isOn} 
+						disabled={dis}
+						aria-labelledby="switchLabel" 
+						/>
+
+							
+						
+				
+       				<label className="label" htmlFor="status"> 
+					   	<span className="inner"/>
+        			</label>
+
+				</div>
+				
+
+				
 			</div>
 			<form onSubmit={sendMessage} id="chat">
 				<h1> {set_channel} </h1>
@@ -261,5 +374,6 @@ const Chat = () => {
 			</form>
 		</div>
 	);
+
 };
 export default Chat;

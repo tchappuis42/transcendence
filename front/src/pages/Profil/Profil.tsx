@@ -383,7 +383,7 @@ export const Profil = () => {
 
 	return (
 		<div >
-			<h1 className="text-white">hello</h1>
+			<h1 className="text-white flex justify-center items-center">hello</h1>
 			{/*<div id="pong" className='pong'>*/}
 			{/*	<canvas ref={canvasRef} />*/}
 			{/*</div>*/}

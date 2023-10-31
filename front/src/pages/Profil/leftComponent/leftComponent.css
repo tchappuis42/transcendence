@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .info-profile-component {
+        @apply flex flex-col
+        min-h-[400px] min-w-[350px]
+        bg-amber-100 p-4 rounded
+        justify-end
+    }
+    .wallpaper {
+        @apply object-cover
+        h-full w-full
+        rounded
+    }
+    .information-user-component {
+        @apply grid grid-cols-4 h-[150px] w-full
+    }
+    .information-level-component {
+        @apply h-[100px]
+    }
+
+    .profil-pictures-component {
+        @apply h-full col-span-1
+    }
+    .text-information-component {
+        @apply grid grid-cols-4 col-span-3
+    }
+    .add-friends-buttons {
+        @apply grid grid-rows-2
+    }
+    .rest-information-component {
+        @apply grid grid-rows-2
+        w-full col-span-3
+    }
+    .name-component {
+        @apply flex
+        justify-start items-center
+        p-2
+    }
+    .rank-component {
+        @apply grid grid-cols-2
+    }
+    .up-reset-component {
+        @apply grid grid-rows-2
+    }
+    .current-level-component {
+        @apply flex
+        h-full grid-cols-2
+        justify-start items-center
+        p-2
+    }
+    .game-stats-component {
+        @apply flex flex-col gap-2 p-4
+        w-full h-1/2
+        overflow-y-scroll
+        rounded bg-gray-100
+    }
+    .user-stat-component {
+        @apply flex flex-col
+        min-h-[300px] max-h-[360px] min-w-[350px]
+        p-4 bg-amber-100 overflow-y-scroll gap-2
+    }
+    .user-stat-elements {
+        @apply flex flex-row min-h-[50px] w-full
+        rounded items-center justify-start px-4
+    }
+    .user-stat-elements-info {
+        @apply w-full grid grid-cols-5
+    }
+    .name-stats {
+        @apply flex col-span-3
+        w-full
+        px-4
+    }
+    .level-stats {
+        @apply flex
+        w-full col-span-2
+        justify-center px-4
+    }
+
+}

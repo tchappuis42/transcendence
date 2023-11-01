@@ -1,5 +1,4 @@
 import React from "react"
-import "../../styleProfilPage/mainCSS.css"
 import "../../styleProfilPage/toolsCss.css"
 import "../leftComponent.css"
 import {InfoProfileUser} from "./infoProfil/infoProfil"
@@ -8,7 +7,7 @@ import Wallpaper from "../../../image/wallpaper.jpg"
 
 export const InfoProfilComponent = (): JSX.Element => {
 	return (
-		<div className="info-profile-component">
+		<>
 			<div className="wallpaper red-border">
 				h1
 			</div>
@@ -16,7 +15,7 @@ export const InfoProfilComponent = (): JSX.Element => {
 			<div className="information-level-component red-border">
 				h2
 			</div>
-		</div>
+		</>
 		// <div className="info-profile-component red-border">
 		// 	<img alt={"wallpaper"} src={Wallpaper} className="wallpaper"/>
 		// 	<div className="information-user-component">

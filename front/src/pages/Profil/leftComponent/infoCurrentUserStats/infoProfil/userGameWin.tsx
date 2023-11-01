@@ -20,19 +20,16 @@ export const UserGameWin = () => {
 	}
 	return (
 		//Attention changer gridTemplateColumn pour automatisation donnees
-		<div className="game-win-component red-border">
-			<div className="game-win-title blue-border">
-				win
-			</div>
+		<div className="game-win-component">
 			<div className="game-win-result green-border">
 				{progress}
 			</div>
 			<div className="game-win-up-down green-border">
-				<button className="blue-border" onClick={handleUserWinUp}>
-					win-u
+				<button className="game-button-up-down" onClick={handleUserWinUp}>
+					up
 				</button>
-				<button className="blue-border" onClick={handleUserWinReset}>
-					win-d
+				<button className="game-button-up-down" onClick={handleUserWinReset}>
+					reset
 				</button>
 			</div>
 		</div>

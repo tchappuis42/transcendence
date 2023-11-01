@@ -5,21 +5,16 @@
 @tailwind utilities;
 
 @layer components {
-    .info-profile-component {
-        @apply flex flex-col
-        min-h-[400px] min-w-[350px]
-        bg-amber-100 p-4 rounded
-        justify-end
-    }
     .wallpaper {
-        @apply object-cover h-full w-full rounded
+        @apply object-cover h-full rounded
     }
     .information-level-component {
         @apply h-[100px]
     }
     .game-stats-component {
-        @apply flex flex-col gap-2 p-4
-        w-full h-1/2 overflow-y-scroll
+        @apply h-1/2
+        flex flex-col gap-2 p-4
+        overflow-y-scroll
         rounded bg-gray-100
     }
 }

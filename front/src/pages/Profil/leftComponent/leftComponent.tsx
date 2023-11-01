@@ -10,13 +10,10 @@ interface Props {
 export const LeftComponent = ({className}: Props) => {
 	return (
 		<div className="left-component-main text-xs red-border">
-			<InfoProfilComponent/>
-			<div className="user-stat-component">
-				<GameStats/>
-				<GameStats/>
-				<GameStats/>
-				<GameStats/>
-				<GameStats/>
+			<div className="info-profile-component">
+				<InfoProfilComponent/>
+			</div>
+			<div className="user-stat-component red-border">
 				<GameStats/>
 			</div>
 		</div>

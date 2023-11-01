@@ -3,20 +3,27 @@
 @tailwind utilities;
 
 @layer components {
+    .main-bubble-component {
+        @apply h-full w-full gap-2
+        flex flex-col justify-center
+    }
     .user-stat-elements {
-        @apply flex flex-row min-h-[50px] w-full
-        rounded items-center justify-start px-4
+        @apply h-full
+        min-h-[50px] max-h-[60px]
+        flex flex-row
+        items-center justify-center
+        rounded py-2 px-2
     }
     .user-stat-elements-info {
-        @apply w-full grid grid-cols-5
+        @apply h-full w-full
+        grid grid-cols-6
     }
     .name-stats {
-        @apply flex col-span-3
-        w-full px-4
+        @apply col-span-3 flex
+        justify-start items-center
     }
     .level-stats {
-        @apply flex w-full
-        col-span-2 justify-center
-        px-4
+        @apply col-span-3
+        flex justify-center
     }
 }

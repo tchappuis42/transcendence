@@ -3,30 +3,43 @@
 @tailwind utilities;
 
 @layer {
+    .hover\:bg-sky-700:hover {
+        background-color: #0369a1;
+    }
+
     .game-win-component {
-        @apply grid grid-cols-5
-        rounded py-2 gap-2
+        @apply w-full h-full
+        grid grid-cols-5
         items-center justify-center
-    }
-    .game-win-title {
-        @apply flex
-        justify-start items-center
-        rounded px-2 col-span-1
-        font-extrabold bg-slate-300
-    }
-    .game-win-result {
-        @apply flex
-        justify-start items-center
-        col-span-2 rounded px-2
-        font-extrabold bg-slate-300
-    }
-    .game-win-up-down {
-        @apply grid grid-cols-2
-        justify-start items-center
         rounded
     }
-    .game-button-up-down {
-        @apply py-2 px-1 rounded
-        bg-sky-200 col-span-1
+
+    .game-win-result {
+        @apply col-span-2 h-full
+        flex justify-center items-center
+        font-extrabold bg-slate-300
+        rounded
     }
+    .game-win-up-down {
+        @apply col-span-3 h-full
+        flex flex-row
+        justify-center items-center
+        font-bold
+        rounded
+    }
+    .size-shape {
+        @apply h-full w-full
+        rounded
+    }
+}
+.game-button-up-down {
+    height: 100%;
+    width: 100%;
+    border-radius: 0.25rem;
+    border: solid 1px darkslategray;
+    background-color: rgb(95, 158, 160);
+}
+
+.game-button-up-down:hover {
+    background-color: rgb(95, 158, 80);
 }

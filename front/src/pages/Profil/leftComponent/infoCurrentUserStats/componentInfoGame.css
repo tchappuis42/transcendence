@@ -3,30 +3,20 @@
 @tailwind utilities;
 
 @layer components {
-    .user-stat-component {
-        @apply flex flex-col
-        min-h-[300px] max-h-[360px] min-w-[350px]
-        p-4 bg-amber-100 overflow-y-scroll gap-2
-    }
-
     .user-stat-elements {
         @apply flex flex-row min-h-[50px] w-full
         rounded items-center justify-start px-4
     }
-
     .user-stat-elements-info {
         @apply w-full grid grid-cols-5
     }
-
     .name-stats {
         @apply flex col-span-3
-        w-full
-        px-4
+        w-full px-4
     }
-
     .level-stats {
-        @apply flex
-        w-full col-span-2
-        justify-center px-4
+        @apply flex w-full
+        col-span-2 justify-center
+        px-4
     }
 }

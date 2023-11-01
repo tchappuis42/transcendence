@@ -1,6 +1,6 @@
 import * as React from 'react'
 import "../../../styleProfilPage/mainCSS.css"
-import "../frameInfoProfil.css"
+import "../infoProfilComponent.css"
 import "./infoProfile.css"
 import PPictures from "../../../../image/kdi-noce.jpg"
 import {ButtonsFriends} from "./tools/buttonsFriends"

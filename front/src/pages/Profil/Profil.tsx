@@ -7,6 +7,7 @@ import {Leaderboard} from "./middleComponent/leaderboard"
 import {ChatSide} from "./rightComponent/chatSide"
 import {TopBar} from "./topBar/topBar";
 
+/*friends.controller.ts, friends.service.ts*/
 export const Profil = () => {
 	return (
 		<>

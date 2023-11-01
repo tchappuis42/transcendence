@@ -28,10 +28,10 @@ export const UserGameWin = () => {
 				{progress}
 			</div>
 			<div className="game-win-up-down green-border">
-				<button className="py-2 px-1 rounded blue-border bg-sky-200 col-span-1" onClick={handleUserWinUp}>
+				<button className="blue-border" onClick={handleUserWinUp}>
 					win-u
 				</button>
-				<button className="py-2 px-1 rounded blue-border bg-sky-200 col-span-1" onClick={handleUserWinReset}>
+				<button className="blue-border" onClick={handleUserWinReset}>
 					win-d
 				</button>
 			</div>

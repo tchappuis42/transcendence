@@ -1,6 +1,5 @@
 import React from "react";
-import "./infoProfil/userGameWin.css"
-import "../../styleProfilPage/toolsCss.css"
+import "./componentInfoGame.css"
 import {UserGameWin} from "./infoProfil/userGameWin";
 
 export const GameStats = () =>  {
@@ -11,32 +10,9 @@ export const GameStats = () =>  {
 					name
 				</div>
 				<div className="level-stats">
-					{/*level*/}
 					<UserGameWin/>
 				</div>
 			</div>
 		</div>
 	);
 }
-// export const FrameInfoGame = (): JSX.Element => {
-// 	return (
-// 		<div className="game-stats-component red-border">
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 			<InfoUserGameWin/>
-// 		</div>
-// 	);
-// };
-
-
-

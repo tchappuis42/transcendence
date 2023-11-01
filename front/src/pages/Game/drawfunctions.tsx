@@ -1,8 +1,8 @@
 import { Ball, Paddle } from "./gameInterface";
 
-export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, color: string) {
 	const grid = 15
-	context.fillStyle = 'black';
+	context.fillStyle = color; //'black';
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
 	// draw walls
@@ -25,7 +25,7 @@ export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasEle
 	}
 }
 
-export function drawBall(context: CanvasRenderingContext2D, ball: Ball) {
+export function drawBall(context: CanvasRenderingContext2D, ball: Ball, color: string) {
 	/*if (gameInfo.rgb === true) {
 		if (ball.color % 30 < 10)
 			context.fillStyle = 'red';
@@ -36,7 +36,7 @@ export function drawBall(context: CanvasRenderingContext2D, ball: Ball) {
 	}
 	else*/
 	//console.log("ici ball =", ball)
-	context.fillStyle = 'white';
+	context.fillStyle = color //'white';
 	context.fillRect(ball.x, ball.y, ball.width, ball.height);
 }
 
@@ -48,7 +48,7 @@ export function drawGame(context: CanvasRenderingContext2D, leftPaddle: Paddle, 
 	context.fillText(rightPaddle.score.toString(), 650, 70);
 }
 
-export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) {
+export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle, color: string) {
 	// draw paddles
 	/*	if (gameInfo.rgb) {
 			if (leftPaddle.color % 3 === 0)
@@ -59,7 +59,7 @@ export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle
 				context.fillStyle = 'yellow';
 		}
 		else*/
-	context.fillStyle = 'white';
+	context.fillStyle = color //'white';
 	//context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 	context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
 	/*if (gameInfo.rgb) {
@@ -71,7 +71,7 @@ export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle
 			context.fillStyle = 'yellow';
 	}
 	else*/
-	context.fillStyle = 'white';
+	context.fillStyle = color //'white';
 	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
 	context.font = "30px Arial"
 	context.fillText(leftPaddle.score.toString(), 100, 70);

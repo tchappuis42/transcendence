@@ -148,7 +148,7 @@ const SocketPong = () => {
 						<div className="player">{player2}</div>
 					</div>
 					<GameScore SetPage={SetPage} />
-					<PongTest />
+					<PongTest color={color} />
 					<button onClick={clean}>clean</button>
 				</div>
 			}

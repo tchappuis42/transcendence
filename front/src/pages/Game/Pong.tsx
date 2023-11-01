@@ -5,7 +5,15 @@ import { Ball, Paddle } from './gameInterface';
 import { drawBall, drawMap, drawPaddle } from './drawfunctions';
 import GameScore from './gameScore';
 
-const PongTest = () => {
+interface colorProps {
+	color: {
+		paddle: string,
+		ball: string,
+		map: string
+	}
+}
+
+const PongTest = ({ color }: colorProps) => {
 	const socket = useSocket();
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const height = 585;
@@ -154,9 +162,9 @@ const PongTest = () => {
 		const context = canvas.getContext("2d");
 		if (!context)
 			return;
-		drawMap(context, canvas);
-		drawPaddle(context, leftPaddle, rightPaddle);
-		drawBall(context, ball);
+		drawMap(context, canvas, color.map);
+		drawPaddle(context, leftPaddle, rightPaddle, color.paddle);
+		drawBall(context, ball, color.ball);
 		window.addEventListener('keydown', keyDownHandler);
 		window.addEventListener('keyup', keyUpHandler);
 		return () => {
@@ -172,9 +180,9 @@ const PongTest = () => {
 		const context = canvasRef.current?.getContext("2d");
 		if (!context)
 			return;
-		drawMap(context, canvas);
-		drawPaddle(context, leftPaddle, rightPaddle);
-		drawBall(context, ball);
+		drawMap(context, canvas, color.map);
+		drawPaddle(context, leftPaddle, rightPaddle, color.paddle);
+		drawBall(context, ball, color.ball);
 	}, [ball]);
 
 	return (

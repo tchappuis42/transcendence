@@ -5,14 +5,6 @@ import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
 
-interface ColourOption {
-	value: string;
-	label: string;
-	color: string;
-	isFixed?: boolean;
-	isDisabled?: boolean;
-}
-
 const SocketPong = () => {
 	const socket = useSocket();
 	const [page, setPage] = useState(false);
@@ -77,28 +69,18 @@ const SocketPong = () => {
 		setPage(bool);
 	}
 
-	const colourOptions: string[] = [
-		"ocean",
-		'blue',
-		'purple',
-		'red',
-		'orange',
-		'yellow',
-		'green',
-		'forest',
-		'slate',
-		'silver',
-	];
-
 	const paddleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setColor({ ...color, paddle: event.target.value });
 	}
+
 	const ballChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setColor({ ...color, ball: event.target.value });
 	}
+
 	const mapChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setColor({ ...color, map: event.target.value });
 	}
+
 	return (
 		<div className="divpong">
 			{!page &&

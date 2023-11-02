@@ -32,7 +32,7 @@ const Login = () => {
 	}
 
 	return (
-		<div className='signup'>
+		<div className="flex h-screen items-center justify-center">
 			{page === 'login' && (
 				<LoginForm
 					data={data}

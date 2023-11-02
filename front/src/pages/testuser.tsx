@@ -10,7 +10,7 @@ const Testuser = () => {
 
 	return (
 		<div className="divtest">
-			<h1>salut {account.username}</h1>
+			<h1 className="text-3xl font-bold underline">salut {account.username}</h1>
 			<div className="divtest">
 				<img src={qrcode} />
 			</div>

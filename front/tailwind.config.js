@@ -28,6 +28,12 @@ module.exports = {
       backgroundColor: {
         'nice-g': '#5F9EA0'
       },
+      gridTemplateRows: {
+        'grid-rows-7': 'repeat(7, minmax(0, 1fr))',
+        'grid-rows-8': 'repeat(8, minmax(0, 1fr))',
+        'grid-rows-9': 'repeat(9, minmax(0, 1fr))',
+        'grid-rows-10': 'repeat(10, minmax(0, 1fr))',
+      }
     },
   },
   plugins: [],

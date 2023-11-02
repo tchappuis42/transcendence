@@ -13,7 +13,7 @@ export const Profil = () => {
 		<>
 			<div className="mainBox gap-4">
 				<TopBar/>
-				<div className="mainTable grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+				<div className="mainTable grid-cols-1 md:grid-cols-2 lg:grid-cols-3 blue-border">
 					<LeftComponent/>
 					<Leaderboard/>
 					<ChatSide/>

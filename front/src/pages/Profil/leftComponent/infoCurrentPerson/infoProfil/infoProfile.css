@@ -4,7 +4,8 @@
 
 @layer components {
     .information-user-component {
-        @apply grid grid-cols-4 h-[150px] w-full
+        @apply col-span-2 w-full
+        grid grid-cols-4
     }
     .profil-pictures-component {
         @apply h-full col-span-1

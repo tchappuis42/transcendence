@@ -4,20 +4,22 @@
 
 @layer components {
     .left-component-main {
-        @apply
-        h-full min-w-[350px] max-w-[400px]
-        flex flex-col justify-start items-start
-        p-[10px] gap-5 bg-red-50
-    }
-    .info-profile-component {
-        @apply
+        @apply col-span-1
         min-w-[350px] max-w-[400px]
-        min-h-[400px]
-        flex flex-col justify-end
+        flex flex-col
+        justify-start items-start
+        p-[10px] bg-red-50 gap-5
+    }
+
+    .info-profile-component {
+        @apply row-span-1
+        min-w-[350px] w-full
+        min-h-[400px] max-h-[500px]
+        grid grid-rows-7
         p-4 bg-amber-100 rounded
     }
     .user-stat-component {
-        @apply
+        @apply row-span-1
         min-w-[350px] max-w-[400px]
         min-h-[400px] overflow-y-scroll
         flex flex-col justify-center

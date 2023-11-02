@@ -6,13 +6,16 @@
 
 @layer components {
     .wallpaper {
-        @apply object-cover h-full rounded
+        @apply row-span-4
+        h-full w-full
+        object-cover
+        rounded
     }
     .information-level-component {
-        @apply h-[100px]
+        @apply row-span-1 h-full
     }
     .game-stats-component {
-        @apply h-1/2
+        @apply row-span-1
         flex flex-col gap-2 p-4
         overflow-y-scroll
         rounded bg-gray-100

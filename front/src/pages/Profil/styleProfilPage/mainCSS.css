@@ -6,33 +6,37 @@
 
 @layer components {
     .mainBox {
-        @apply flex flex-col justify-center items-center
-        p-5 w-screen h-full;
+        @apply w-screen h-full
+        flex flex-col
+        justify-center items-center
+        p-5;
     }
     .mainTable {
-        @apply grid grid-cols-3 h-fit w-fit shrink-0
+        @apply grid grid-cols-3
+        h-screen w-fit
     }
 
     .left-component-main {
-        @apply flex flex-col justify-start items-start gap-5
-        p-[10px] h-full min-w-[350px] max-w-[400px] bg-red-50
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        flex flex-col
+        justify-start items-start
+        p-[10px] bg-red-50 gap-5
     }
 
     .middle-component-main {
-        @apply flex flex-col justify-start items-start gap-5
-        p-[10px] h-full min-w-[350px] max-w-[400px] bg-red-50
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        flex flex-col
+        justify-start items-start
+        p-[10px] bg-red-50 gap-5
     }
 
     .right-component-main {
-        @apply flex flex-col justify-start items-start gap-5
-        p-[10px] h-full min-w-[350px] max-w-[400px] bg-red-50
-    }
-
-
-    .test {
-        @apply grid grid-cols-3 grid-rows-2
-    }
-    .test-component {
-        @apply flex flex-col shrink w-20
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        flex flex-col
+        justify-start items-start
+        p-[10px] bg-red-50 gap-5
     }
 }

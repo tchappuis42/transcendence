@@ -18,8 +18,9 @@ const MatchHistory = () => {
 		getHistory();
 	}, []);
 
+	//h-1/2 w-3/5
 	return (
-		<div className="box2">
+		<div className="bg-white h-1/2 w-3/5">
 			<h1>Match history</h1>
 			{matchs.length === 0 && // si y-a pas de match
 				<div>pas de match</div>}

@@ -32,14 +32,14 @@ const Home = () => {
 
 	if (location.pathname === '/') {
 		return (
-			<div>
+			<div className='h-screen'>
 				<Navigation options={navigationOptions} />
 				<Testuser />
 			</div >
 		);
 	}
 
-	return <div>
+	return <div className='h-screen'>
 		<Navigation options={navigationOptions} />
 		<Outlet />
 	</div>

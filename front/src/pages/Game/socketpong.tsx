@@ -80,50 +80,54 @@ const SocketPong = () => {
 	const mapChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setColor({ ...color, map: event.target.value });
 	}
+	//flex h-full w-full flex-wrap justify-between align-between
 
+	/*bg-white h-1/2 w-3/5"*/
 	return (
-		<div className="divpong">
+		<div className="flex w-full h-19/20 p-12">
 			{!page &&
-				<div className="container">
-					<div className="box">
-						<button onClick={matchmaking} className="box1">
-							{search}
-						</button>
-						<div>
-							couleur de la raquette :
-							<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
-								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-							</select>
-							{color.paddle}
-						</div>
-						<div>
-							couleur de la balle :
-							<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
-								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-							</select>
-							{color.ball}
-						</div>
-						<div>
-							couleur du terrain :
-							<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
-								<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
-								<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
-								<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
-							</select>
-							{color.map}
+				<div className="flex h-full w-full flex-wrap justify-between align-between">
+					<div className="bg-white h-1/2 w-3/5">
+						<div className="">
+							<button onClick={matchmaking} className="">
+								{search}
+							</button>
+							<div>
+								couleur de la raquette :
+								<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
+									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+								</select>
+								{color.paddle}
+							</div>
+							<div>
+								couleur de la balle :
+								<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
+									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+								</select>
+								{color.ball}
+							</div>
+							<div>
+								couleur du terrain :
+								<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
+									<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
+									<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
+									<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
+								</select>
+								{color.map}
+							</div>
 						</div>
 					</div>
 					<Ranking />
+					<div className="h-1/2 w-2/5 bg-gray-300"></div>
 					<MatchHistory />
-					<div className="box"></div>
-					<button onClick={clean}>clean</button>
-				</div>
+				</div >
 			}
-			{page &&
+			{
+				page &&
 				<div>
 					<div className="players">
 						<div className="player">{player1}</div>
@@ -134,7 +138,7 @@ const SocketPong = () => {
 					<button onClick={clean}>clean</button>
 				</div>
 			}
-		</div>
+		</div >
 	);
 };
 

@@ -35,8 +35,7 @@
     .right-component-main {
         @apply col-span-1
         min-w-[350px] max-w-[400px]
-        flex flex-col
-        justify-start items-start
+        grid
         p-[10px] bg-red-50 gap-5
     }
 }

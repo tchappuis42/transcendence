@@ -30,7 +30,7 @@ const ComponentElements = ({className}: Props) => {
 export const Leaderboard = ({className}: Props) => {
 	return(
 		<div className="middle-component-main blue-border">
-			{/*<div className="leaderboard-component-main red-border">*/}
+			<div className="leaderboard-component-main red-border">
 			{/*	<div className="main-card-component red-border">*/}
 			{/*		<div className="daily-component blue-border">*/}
 			{/*			<div className="title-component red-border">*/}
@@ -79,7 +79,7 @@ export const Leaderboard = ({className}: Props) => {
 			{/*			</div>*/}
 			{/*		</div>*/}
 			{/*	</div>*/}
-			{/*</div>*/}
+			</div>
 		</div>
 		// <div className="flex flex-col gap-10 justify-center items-center"
 		// 	 style={{height: "100vh", padding: "10px"}}>

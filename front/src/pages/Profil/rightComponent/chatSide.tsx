@@ -8,8 +8,8 @@ import {ChatUserHistoric, ChatUserOnline} from "./chatFriendsInfo/chatFriendsInf
 export const ChatSide = () => {
 	return(
 		<div className="right-component-main red-border">
-			{/*<div className="info-chat-component blue-border">*/}
-			{/*	<div className="chat-component-main red-border">*/}
+			<div className="info-chat-component blue-border">
+				{/*<div className="chat-component-main red-border">*/}
 			{/*		<div className="chat-component-elements-table pr-3 blue-border">*/}
 			{/*			<ChatUserHistoric/>*/}
 			{/*			<ChatUserHistoric/>*/}
@@ -26,9 +26,9 @@ export const ChatSide = () => {
 			{/*			<ChatUserHistoric/>*/}
 			{/*		</div>*/}
 			{/*	</div>*/}
-			{/*</div>*/}
-			{/*<div className="online-users-component blue-border">*/}
-			{/*	<div className="online-component-main red-border">*/}
+			</div>
+			<div className="online-users-component blue-border">
+				{/*<div className="online-component-main red-border">*/}
 			{/*		<div className="online-component-elements-table pr-3 blue-border">*/}
 			{/*			<ChatUserOnline/>*/}
 			{/*			<ChatUserOnline/>*/}
@@ -45,9 +45,9 @@ export const ChatSide = () => {
 			{/*			<ChatUserOnline/>*/}
 			{/*		</div>*/}
 			{/*	</div>*/}
-			{/*</div>*/}
-			{/*<div className="online-users-component blue-border">*/}
-			{/*	<div className="ongame-component-main red-border">*/}
+			</div>
+			<div className="online-users-component blue-border">
+				{/*<div className="ongame-component-main red-border">*/}
 			{/*		<div className="ongame-component-elements-table pr-3 blue-border">*/}
 			{/*			<ChatUserOnline/>*/}
 			{/*			<ChatUserOnline/>*/}
@@ -64,7 +64,7 @@ export const ChatSide = () => {
 			{/*			<ChatUserOnline/>*/}
 			{/*		</div>*/}
 			{/*	</div>*/}
-			{/*</div>*/}
+			</div>
 		</div>
 	);
 }

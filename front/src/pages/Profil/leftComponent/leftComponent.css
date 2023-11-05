@@ -20,7 +20,7 @@
     }
     .user-stat-component {
         @apply row-span-1
-        min-w-[350px] max-w-[400px]
+        min-w-[350px] w-full
         min-h-[400px] overflow-y-scroll
         flex flex-col justify-center
         p-4 bg-amber-100 rounded

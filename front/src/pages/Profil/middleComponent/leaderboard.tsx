@@ -31,54 +31,54 @@ export const Leaderboard = ({className}: Props) => {
 	return(
 		<div className="middle-component-main blue-border">
 			<div className="leaderboard-component-main red-border">
-			{/*	<div className="main-card-component red-border">*/}
-			{/*		<div className="daily-component blue-border">*/}
-			{/*			<div className="title-component red-border">*/}
-			{/*				h3*/}
-			{/*			</div>*/}
-			{/*			<div className="ranking-component-main red-border">*/}
-			{/*				<ComponentInfo/>*/}
-			{/*				<div className="ranking-component-elements-table pr-3 blue-border">*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*				</div>*/}
-			{/*			</div>*/}
-			{/*		</div>*/}
-			{/*		<div className="daily-component blue-border">*/}
-			{/*			<div className="title-component red-border">*/}
-			{/*				h3*/}
-			{/*			</div>*/}
-			{/*			<div className="ranking-component-main red-border">*/}
-			{/*				<ComponentInfo/>*/}
-			{/*				<div className="ranking-component-elements-table pr-3 blue-border">*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*					<ComponentElements/>*/}
-			{/*				</div>*/}
-			{/*			</div>*/}
-			{/*		</div>*/}
-			{/*	</div>*/}
+				{/*<div className="main-card-component red-border">*/}
+				{/*	<div className="daily-component blue-border">*/}
+				{/*		<div className="title-component red-border">*/}
+				{/*			h3*/}
+				{/*		</div>*/}
+				{/*		<div className="ranking-component-main red-border">*/}
+				{/*			<ComponentInfo/>*/}
+				{/*			<div className="ranking-component-elements-table pr-3 blue-border">*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*			</div>*/}
+				{/*		</div>*/}
+				{/*	</div>*/}
+				{/*	<div className="daily-component blue-border">*/}
+				{/*		<div className="title-component red-border">*/}
+				{/*			h3*/}
+				{/*		</div>*/}
+				{/*		<div className="ranking-component-main red-border">*/}
+				{/*			<ComponentInfo/>*/}
+				{/*			<div className="ranking-component-elements-table pr-3 blue-border">*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*				<ComponentElements/>*/}
+				{/*			</div>*/}
+				{/*		</div>*/}
+				{/*	</div>*/}
+				{/*</div>*/}
 			</div>
 		</div>
 		// <div className="flex flex-col gap-10 justify-center items-center"

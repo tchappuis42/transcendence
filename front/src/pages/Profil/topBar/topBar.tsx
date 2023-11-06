@@ -29,7 +29,7 @@ export const TopBar = () => {
 			setWidth(h);
 		}
 	}, []);
-	// @ts-ignor	e
+	// @ts-ignore
 	return (
 		<div ref={myRef} className="bg-gray-100 w-full h-16 sticky top-0 rounded">
 			<div className="flex items-center justify-between">

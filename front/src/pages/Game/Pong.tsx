@@ -186,9 +186,9 @@ const PongTest = ({ color }: colorProps) => {
 	}, [ball]);
 
 	return (
-		<div >
+		<div className='relative h-[35rem] flex w-full justify-center'>
 			<GameRules />
-			<div id="pong" className='pong'>
+			<div id="pong" className='flex justify-center items-center'>
 				<canvas ref={canvasRef} />
 			</div>
 		</div>

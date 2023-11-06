@@ -82,55 +82,56 @@ const SocketPong = () => {
 	}
 
 	return (
-		<div className="flex w-full h-19/20 p-4 sm:p-12">
+		<div className="flex w-full p-3 sm:p-12">
 			{!page &&
-				<div className="flex h-full w-full flex-wrap justify-between align-between">
-					<div className="bg-white h-1/2 w-3/5">
-						<div className="">
+				<div className="flex w-full flex-col justify-between align-between sm:flex-wrap sm:flex-row">
+					<div className="bg-white w-full h-64 sm:w-3/5 p-4 rounded-3xl bg-white/50">
+						<div className="flex item-center justify-center h-40">
 							<button onClick={matchmaking} className="">
 								{search}
 							</button>
-							<div>
-								couleur de la raquette :
-								<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
-									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-								</select>
-								{color.paddle}
-							</div>
-							<div>
-								couleur de la balle :
-								<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
-									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-								</select>
-								{color.ball}
-							</div>
-							<div>
-								couleur du terrain :
-								<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
-									<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
-									<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
-									<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
-								</select>
-								{color.map}
-							</div>
+						</div>
+						<div>
+							couleur de la raquette :
+							<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
+								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+							</select>
+							{color.paddle}
+						</div>
+						<div>
+							couleur de la balle :
+							<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
+								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+							</select>
+							{color.ball}
+						</div>
+						<div>
+							couleur du terrain :
+							<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
+								<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
+								<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
+								<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
+							</select>
+							{color.map}
+
 						</div>
 					</div>
 					<Ranking />
-					<div className="h-1/2 w-2/5 bg-gray-300"></div>
+					<div className="w-full h-40 bg-gray-300 mb-1 bg-white/50 rounded-3xl sm:w-2/5">testetstetst</div>
 					<MatchHistory />
 				</div >
 			}
 			{
 				page &&
-				<div className="w-full h-full flex items-center">
-					<div className="relative flex flex-col items-center justify-center h-2/3 w-full sm:h-full pt-12">
-						<div className="bg-white w-full h-1/6 min-[845px]:w-[750px] rounded-t-xl flex">
+				<div className="w-full h-[53rem] flex items-center sm:h-[46rem]">
+					<div className="relative flex flex-col items-center justify-center w-full h-full pt-12">
+						<div className="bg-white w-full h-20 min-[845px]:w-[750px] rounded-t-xl flex sm:h-32">
 							<div className="w-1/2 flex">
-								<img src="https://cdn.intra.42.fr/users/5078380b5384a3c1d0c13abb3b2e5522/tchappui.jpg" alt="" className="rounded-tl-xl h-full w-auto" />
+								<img src="https://cdn.intra.42.fr/users/5078380b5384a3c1d0c13abb3b2e5522/tchappui.jpg" alt="" className="rounded-tl-xl w-auto" />
 								<div>
 									<h1 className="text-2xl font-semibold pl-3 pt-2 sm:text-3xl sm:pl-4 sm:pt-4">{player1}</h1>
 									<h2 className="text-xl pl-3 pt-2 sm:pl-4 sm:pt-4">score: 540</h2>

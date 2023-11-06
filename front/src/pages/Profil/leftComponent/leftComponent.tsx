@@ -1,4 +1,5 @@
-import * as React from "react"
+import React, {useEffect, useState} from "react"
+
 import "./leftComponent.css"
 import {GameStats} from "./infoCurrentUserStats/componentInfoGame"
 import {InfoProfilComponent} from "./infoCurrentPerson/InfoProfilComponent"
@@ -8,6 +9,29 @@ interface Props {
 }
 
 export const LeftComponent = ({className}: Props) => {
+	const [rank, setRank] = useState<Rank[]>([]);
+	const [myRank, setMyRank] = useState<Rank>();
+	const [myIndex, setIndex] = useState<number>(0);
+	const { account } = useAccount();
+
+	useEffect(() => {
+		const me = rank.find(user => user.username === account.username)
+		const index = rank.findIndex(user => user.username === account.username)
+		setMyRank(me)
+		setIndex(index)
+	}, [rank]);
+
+	useEffect(() => {
+		const getRank = async () => {
+			try {
+				const response = await axios.get("http://localhost:4000/user/ranking");
+				setRank(response.data);
+			} catch (error) {
+				console.error("Erreur lors de la récupération des scores :", error);
+			}
+		}
+		getRank();
+	}, []);
 	return (
 		<div className="left-component-main text-xs red-border">
 			<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-2/5">

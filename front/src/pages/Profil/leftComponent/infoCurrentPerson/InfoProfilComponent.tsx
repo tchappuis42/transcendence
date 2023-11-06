@@ -10,7 +10,7 @@ export const InfoProfilComponent = (): JSX.Element => {
 		<>
 			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper"/>
 			<InfoProfileUser/>
-			<div className="information-level-component red-border">
+			<div className="information-level-component">
 				<LevelUser/>
 			</div>
 		</>

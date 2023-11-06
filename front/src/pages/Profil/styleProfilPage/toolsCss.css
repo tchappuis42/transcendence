@@ -16,7 +16,10 @@
         @apply border-2 border-solid
         border-black
     }
-
+    .black-border-large {
+        @apply border-4 border-solid
+        border-black
+    }
     .table-1x2 {
         @apply grid grid-rows-2 h-full w-full
     }

@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-    .level-user-component {
-        @apply h-full
-        grid grid-cols-4
-        rounded
+    .level-bar-component {
+        @apply col-span-2
+        h-full w-full
+        rounded relative
     }
-    .level-current-component {
-        @apply col-span-1 h-full
-        flex justify-center items-center
+    .level-current-percentage {
+        @apply absolute
+        top-1/2 left-1/2
+        -translate-x-1/2 -translate-y-1/2
         font-bold
     }
     .level-buttons-component {

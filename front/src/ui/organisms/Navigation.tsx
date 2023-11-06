@@ -19,7 +19,7 @@ const NavigationItem = ({ option }: { option: Option }) => {
 
 const Navigation = ({ options }: Props) => {
 	return (
-		<div className="flex h-12 justify-around flex-row p-2.5 bg-white/20 items-center">
+		<div className="flex h-16 justify-around flex-row p-2.5 bg-white/20 items-center">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}

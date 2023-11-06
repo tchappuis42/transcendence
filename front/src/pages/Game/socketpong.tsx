@@ -85,8 +85,8 @@ const SocketPong = () => {
 		<div className="flex w-full p-3 sm:p-12">
 			{!page &&
 				<div className="flex w-full flex-col justify-between align-between sm:flex-wrap sm:flex-row">
-					<div className="bg-white w-full h-64 sm:w-3/5 p-4 rounded-3xl bg-white/50">
-						<div className="flex item-center justify-center h-40">
+					<div className="bg-white w-full h-60 sm:w-3/5 p-4 rounded-3xl bg-white/50">
+						<div className="flex item-center justify-center h-36">
 							<button onClick={matchmaking} className="">
 								{search}
 							</button>

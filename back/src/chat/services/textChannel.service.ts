@@ -183,6 +183,7 @@ export class TextChannelService {
   async getAllChannels(): Promise<TextChannel[]> {
     const channels = await this.textChannelRepository.find();
     //channels
+    
     return channels;
   }
 
@@ -322,4 +323,41 @@ export class TextChannelService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }*/
   }
+
+  async setPassword(
+    channel: TextChannel,
+    pass: string,
+  ): Promise<void> {
+    if (pass.length > 16) {
+      throw new HttpException('New password too long', HttpStatus.FORBIDDEN);
+    }
+
+    if (!pass){
+      throw new HttpException(
+        'New password cannot be empty',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    try {
+      const password = await bcrypt.hash(pass, 10);
+      await this.textChannelRepository.update(channel.id, { password });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async checkPassWord(
+    channel: TextChannel,
+    pass: string,
+  ): Promise<string> {
+    if (!pass) 
+      return "ko";
+    
+      if ((await bcrypt.compare(pass, channel.password)) === true)
+        return "ok";
+      else
+        return "ko";
+  }
+  
 }

@@ -7,8 +7,8 @@ import { User } from 'src/user/user.entity';
 import { TextChannelService } from './services/textChannel.service';
 import { TextChannel } from './entity/textChannel';
 import { UserService } from 'src/user/user.service';
-import { MeController } from './controllers/me.controller';
-import { IdController } from './controllers/id.controller';
+//import { MeController } from './controllers/me.controller';
+//import { IdController } from './controllers/id.controller';
 import {Msg} from './entity/Msg.entity'
 
 

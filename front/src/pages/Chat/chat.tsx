@@ -30,6 +30,8 @@ const Chat = () => {
 	const [dis, setdis] = React.useState(true);
 //	const [dsi, setDsi] = React.useState(true);
 	const [isOn, setIsOn] = React.useState(false)
+	const [password, setPassword] = useState("");
+	const [pass, setPass] = useState("");
 
 	
 
@@ -66,33 +68,59 @@ const Chat = () => {
 		if (socket ) {
 			socket.on("getAllChannels", (data) => {
 				console.log(socket);
-				setChannels(data);
+				setChannels(data)
 			});
-			socket.on("getChannelMeOne", (data, owner) => {
-				console.log("la valeur du status du channel", data)
+			socket.on("getChannelMeOne", (lol, datta, owner, pass) => { //passStatue) => {
+				console.log("la valeur du status du channel", datta)
 				if (owner == 1) {
 					setdis(false);
 				}
 				else {
 					setdis(true);
 				}
-				if (data == true) {
+				if (datta == true) {
 					setIsOn(false);
+					socket.emit("message", data, lol, '1');
 				}
 				else {
 					setIsOn(true);
+					const password = prompt("what is the PassWord?");
+					if(socket)
+						socket.emit("checkPass", lol, password);
+				}
+				setPassword(pass);
+			});
+			socket.on("checkPass", (name, datta) => {
+				setPass(datta);
+				if (datta === "ok") {
+					console.log("je passe par ici")
+					socket.emit("message", data, name, '1');
+					setMessages([]);
 				}
 			});
 			socket.on("createchannel", (data, channel) => {
 					console.log(data);
+					//if (status == true) {
+					//	setChannels((copie) => [...copie, { name: data, statue: "Public"}]);
+					//}
+					//else {
+					//	setChannels((copie) => [...copie, { name: data, statue: "Private"}]);
+					//}
 					setChannels(data);
 					setSetChannel(channel.name);
 					setMessages([]);
 			});
 			socket.on("refreshChannel", (data) => {
+			/*	if (status == true) {
+					setChannels((copie) => [...copie, { name: data, statue: "Public"}]);
+				}
+				else {
+					setChannels((copie) => [...copie, { name: data, statue: "Private"}]);
+				}*/
 				setChannels(data);
 			})
 			socket.on("deleteChannel", (data) => {
+				console.log(data)
 				setChannels(data);
 				if (data.length != 0){
 					setSetChannel(data[0].name)
@@ -115,14 +143,18 @@ const Chat = () => {
 					{message: data, username: id}
 				]); 	
 			});
-			socket.on("refreshChannelStatus", (name, status) => {
-				if (status == true) {
-
+			socket.on("refreshChannelStatus", (data) => {
+				setChannels(data);
+				/*if (status == true) {
+					setChannels((prevchan) => prevchan.map(chan => chan.name === name ? { ...chan, status: "Public"} : chan));
 				}
-				console.log(name);
-				console.log(status)
+				else {
+					setChannels((prevchan) => prevchan.map(chan => chan.name === name ? { ...chan, status: "Private"} : chan));
+				}*/
+				//console.log(name);
+				//console.log(status)
 				//setChannels(data);
-			})
+			});
 		}
 		return () => {
 			if (socket) {
@@ -134,6 +166,7 @@ const Chat = () => {
 				socket.off("deleteChannelForAllUser");
 				socket.off("setChannels(data);");
 				socket.off("refreshChannelStatus");
+				socket.off("checkPass");
 			}
 		};
 	}, [socket]);
@@ -141,7 +174,7 @@ const Chat = () => {
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		if (set_channel != "create a channel!") {
+		if (set_channel !== "create a channel!" && pass !== "ko") {
 			if (socket) {
 				socket.emit("message", data, set_channel, '0');
 				setData("");
@@ -239,14 +272,9 @@ const Chat = () => {
 		console.log("set_channel actuell =", set_channel);
 		if (socket){
 			socket.emit("getChannelMeOne", lol, set_channel);
-			socket.emit("message", data, lol, '1');
+			setPass("ok")
 			setMessages([]);
 		}
-
-	//	if (set_channel == "create a channel!") {
-	//		setdis(!dis);
-	//	}
-	
 	}
 /*
 	const changeStatue = (e: SyntheticEvent) => {
@@ -298,6 +326,17 @@ const Chat = () => {
 			//	const password = prompt('choice a Password for the channel');
 				socket.emit("changeStatue", set_channel, isOn);
 			}
+			if (isOn === false) {
+				if (password === '0') {
+					const pass = prompt("choice a Password for the Channel!");
+					if (socket){
+						socket.emit("setPassword", set_channel, pass);
+					}
+				}
+				else if (password === '1') {
+
+				}
+			}
 		}
 
 	return (
@@ -319,7 +358,7 @@ const Chat = () => {
 					<h1> channels </h1>			
 						{all_channels.map((msg, index) => (
 							<b className="b" key={index}>
-								{msg.name} <input type="radio" name="channel" value={msg.name} onClick={() => takeChan(msg.name)} ></input>
+								{msg.name} : {msg.statue} <input type="radio" name="channel" value={msg.name} onClick={() => takeChan(msg.name)} ></input>
 								
 									
 								

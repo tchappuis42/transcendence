@@ -46,34 +46,34 @@ const Ranking = () => {
 			</div>
 			*/
 	return (
-		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-1/2 sm:h-72 md:w-2/5">
-			<h1 className="text-2xl sm:text-2xl font-bold h-8">Ranking</h1>
-			<div className="flex flex-col h-[10rem] w-full sm:h-60">
-				<div className="rounded border border-black">
-					<table className="table-auto w-full">
-						<tr>
-							<th>rank</th>
-							<th>name</th>
-							<th>points</th>
-						</tr>
+		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-2/5">
+			<h1 className="text-3xl sm:text-3xl font-bold h-10">Ranking</h1>
+			<div className="flex flex-col h-[9.5rem] w-full">
+				<div className="rounded border border-red-600">
+					<table className="sticky top-0 w-full">
+							<tr>
+								<th className="w-1/3 text-center">rank</th>
+								<th className="w-1/3 text-center">name</th>
+								<th className="w-1/3 text-center">points</th>
+							</tr>
 					</table>
 				</div>
-				<div className="rounded border border-black overflow-y-auto">
-					<table className="table-auto w-full">
-						<tbody className="sticky top-0 bg-sky-200 text-center">
-							<tr className="text-blue-800">
-								<td>{myIndex + 1}</td>
-								<td>{myRank?.username}</td>
-								<td>{myRank?.score}</td>
+				<div className="rounded border border-blue-600 overflow-y-auto">
+				<table className="w-full">
+					<thead className="sticky top-0 bg-sky-200 w-full">
+						<tr className="text-blue-800">
+							<td className="flex justify-center">{myIndex + 1}</td>
+							<td>{myRank?.username}</td>
+							<td className="flex justify-center">{myRank?.score}</td>
+						</tr>
+					</thead>
+					<tbody className="w-full">
+						{rank.map((user, id) => (
+							<tr key={id} className="">
+								<td className="w-1/3 text-center">{id + 1}</td>
+								<td className="w-1/3">{user.username}</td>
+								<td className="w-1/3 text-center">{user.score}</td>
 							</tr>
-						</tbody>
-						<tbody className="text-center">
-							{rank.map((user, id) => (
-								<tr key={id}>
-									<td>{id + 1}</td>
-									<td className="">{user.username}</td>
-									<td>{user.score}</td>
-								</tr>
 							))}
 						</tbody>
 					</table>

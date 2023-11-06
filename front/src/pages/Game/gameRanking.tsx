@@ -46,9 +46,9 @@ const Ranking = () => {
 			</div>
 			*/
 	return (
-		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-2/5">
-			<h1 className="text-2xl sm:text-3xl font-bold h-8">Ranking</h1>
-			<div className="flex flex-col h-[10rem] w-full">
+		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-1/2 sm:h-72 md:w-2/5">
+			<h1 className="text-2xl sm:text-2xl font-bold h-8">Ranking</h1>
+			<div className="flex flex-col h-[10rem] w-full sm:h-60">
 				<div className="rounded border border-black">
 					<table className="table-auto w-full">
 						<tr>

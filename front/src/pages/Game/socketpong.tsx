@@ -82,46 +82,44 @@ const SocketPong = () => {
 	}
 
 	return (
-		<div className="flex w-full p-3 sm:p-12">
+		<div className="flex w-full p-3 sm:py-10 sm:px-10">
 			{!page &&
 				<div className="flex w-full flex-col justify-between align-between sm:flex-wrap sm:flex-row">
-					<div className="bg-white w-full h-60 sm:w-3/5 p-4 rounded-3xl bg-white/50">
-						<div className="flex item-center justify-center h-36">
-							<button onClick={matchmaking} className="">
+					<div className="bg-white w-full h-60 p-4 rounded-3xl bg-white/50 sm:h-60 md:w-3/5">
+						<div className="flex items-center justify-center h-36">
+							<button onClick={matchmaking} className="border h-10 border-black px-2">
 								{search}
 							</button>
 						</div>
-						<div>
-							couleur de la raquette :
-							<select name="paddleColor" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
-								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-							</select>
-							{color.paddle}
-						</div>
-						<div>
-							couleur de la balle :
-							<select name="paddleColor" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
-								<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-								<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-								<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-							</select>
-							{color.ball}
-						</div>
-						<div>
-							couleur du terrain :
-							<select name="paddleColor" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
-								<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
-								<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
-								<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
-							</select>
-							{color.map}
-
+						<div className="px-10 sm:px-14">
+							<div className="flex justify-between">
+								<h1>couleur de la raquette :</h1>
+								<select name="paddleColor" className="w-20 hover:bg-black" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
+									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+								</select>
+							</div>
+							<div className="flex justify-between">
+								couleur de la balle :
+								<select name="paddleColor" className="w-20" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
+									<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
+									<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
+									<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
+								</select>
+							</div>
+							<div className="flex justify-between">
+								couleur du terrain :
+								<select name="paddleColor" className="w-20" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
+									<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
+									<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
+									<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<Ranking />
-					<div className="w-full h-40 bg-gray-300 mb-1 bg-white/50 rounded-3xl sm:w-2/5">testetstetst</div>
+					<div className="w-full h-40 bg-gray-300 mb-1 bg-white/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5">testetstetst</div>
 					<MatchHistory />
 				</div >
 			}

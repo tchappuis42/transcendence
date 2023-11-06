@@ -25,7 +25,7 @@ const MatchHistory = () => {
 
 	//<span onClick={add}> add</span>  <h1>Match history</h1>
 	return (
-		<div className="bg-white h-48 w-full bg-white/50 rounded-3xl sm:w-3/5 p-4">
+		<div className="bg-white h-48 w-full bg-white/50 rounded-3xl p-4 sm:h-60 md:w-3/5">
 			<div className="h-10 text-3xl font-bold text-center">
 				<h1>Match history</h1>
 			</div>

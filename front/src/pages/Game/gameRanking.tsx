@@ -48,21 +48,26 @@ const Ranking = () => {
 	return (
 		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-2/5">
 			<h1 className="text-3xl sm:text-3xl font-bold h-10">Ranking</h1>
-			<div className="h-[9.5rem] w-full  overflow-y-auto">
-				<table className="table-auto w-full">
-					<thead>
-						<tr>
-							<th>rank</th>
-							<th>name</th>
-							<th>points</th>
-						</tr>
-					</thead>
-					<tbody className="text-center">
+			<div className="flex flex-col h-[9.5rem] w-full">
+				<div className="rounded border border-red-600">
+					<table className="sticky top-0 w-full">
+							<tr>
+								<th>rank</th>
+								<th>name</th>
+								<th>points</th>
+							</tr>
+					</table>
+				</div>
+				<div className="rounded border border-blue-600 overflow-y-auto">
+				<table className="w-full">
+					<thead className="sticky top-0 bg-sky-200">
 						<tr className="text-blue-800">
 							<td>{myIndex + 1}</td>
 							<td>{myRank?.score}</td>
 							<td>{myRank?.username}</td>
 						</tr>
+					</thead>
+					<tbody className="w-full">
 						{rank.map((user, id) => (
 							<tr key={id} className="">
 								<td>{id + 1}</td>
@@ -72,6 +77,8 @@ const Ranking = () => {
 						))}
 					</tbody>
 				</table>
+				</div>
+
 			</div>
 		</div>
 	);

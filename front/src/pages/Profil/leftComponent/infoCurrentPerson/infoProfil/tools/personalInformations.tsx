@@ -1,11 +1,10 @@
 import React, {useState} from "react"
 import "../../../../styleProfilPage/toolsCss.css"
 import "../infoProfile.css"
+import {useAccount} from "../../../../../../ui/organisms/useAccount";
 
-interface Props {
-	name?: string;
-}
-export const MyName = ({name}: Props) => {
+export const MyName = () => {
+	const { account } = useAccount()
 	const [level, setLevel] = useState(0);
 	const handleCLickButton = () => {
 		if (level < 1000)
@@ -17,7 +16,7 @@ export const MyName = ({name}: Props) => {
 	return (
 		<div className="rest-information-component blue-border">
 			<div className="name-component blue-border">
-				{name}
+				{account.username}
 			</div>
 			<div className="rank-component blue-border">
 				<div className="current-level-component blue-border">

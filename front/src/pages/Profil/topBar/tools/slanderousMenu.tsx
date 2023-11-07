@@ -1,6 +1,6 @@
 import * as React from "react"
 import "./slanderousMenu.css"
-import userPicture from "https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg";
+import userPicture from "../../../image/kdi-noce.jpg";
 import {useAuth} from "../../../../ui/organisms/useAuth";
 import {SyntheticEvent, useEffect, useRef, useState} from "react";
 
@@ -32,7 +32,8 @@ export const SlanderousMenu = () => {
 			<div className="profil-pictures-with-slanderous-menu black-border-fine"
 				 style={{width: `${height}px`, height: `${width}px`}}>
 				<span onClick={handleOpen} className="test">
-					<img alt="userPhoto" src={userPicture}
+					<div className="red-border w-16 h-16">hello</div>
+					<img alt="userPhoto" src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"
 						 style={{width: `${height}px`, height: `${width}px`}}
 						 className="object-cover rounded"/>
 				</span>

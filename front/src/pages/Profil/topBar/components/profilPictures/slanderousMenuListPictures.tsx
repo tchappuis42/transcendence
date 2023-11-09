@@ -1,6 +1,6 @@
 import * as React from "react";
-import "./slanderousMenu.css"
-import {useAuth} from "../../../../ui/organisms/useAuth";
+import "../slanderousMenu.css"
+import {useAuth} from "../../../../../ui/organisms/useAuth";
 import {SyntheticEvent, useState} from "react";
 
 interface Props {

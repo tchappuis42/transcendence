@@ -1,9 +1,9 @@
 import * as React from "react"
 import "./slanderousMenu.css"
 import {useEffect, useState, useRef} from "react";
-import {JustTheIcon} from "./justTheIcon"
-import {ComponentWithInput} from "./componentWithInput";
-import {SlanderousMenuListPictures} from "./slanderousMenuListPictures";
+import {JustTheIcon} from "./searchGlass/justTheIcon"
+import {ComponentWithInput} from "./searchGlass/componentWithInput";
+import {SlanderousMenuListPictures} from "./profilPictures/slanderousMenuListPictures";
 import notification from "../../../image/noun-bell.svg";
 
 type SlanderousMenuProps = {

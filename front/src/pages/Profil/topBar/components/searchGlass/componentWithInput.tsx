@@ -1,6 +1,5 @@
 import * as React from "react"
-import "./slanderousMenu.css"
-import search from "../../../image/noun-loupe.svg";
+import "../slanderousMenu.css"
 import {useRef, useState} from "react";
 
 type IsActivComponent = {
@@ -21,29 +20,27 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 			setSearch("");
 	};
 
-	const handleClick = (event: React.MouseEvent): void => {
-		event.stopPropagation();
-	}
-
+	// const handleClick = (event: React.MouseEvent): void => {
+	// 	event.stopPropagation();
+	// }
+	//
 	const handleBlur = (event: React.FocusEvent): void => {
-		if (event.currentTarget && !event.currentTarget.contains(event.relatedTarget as Node)) {
+		if (!event.currentTarget.contains(event.relatedTarget as Node)) {
 			setIsActive(false);
 		}
 	};
 
 	return (
-		// <div onClick={handleClick} onBlur={handleBlur}>
-			<input
-				onClick={handleClick} onBlur={handleBlur}
-				ref={inputRef}
-				type="text"
-				value={search}
-				onChange={handleSearchChange}
-				onKeyDown={handleKeyDown}
-				className="origin-top-right absolute
-			right-20 black-border-fine rounded"
-				>
-			</input>
-		// </div>
+		<input
+			/* onClick={handleClick}*/ onBlur={handleBlur}
+			ref={inputRef}
+			type="text"
+			value={search}
+			onChange={handleSearchChange}
+			onKeyDown={handleKeyDown}
+			className="origin-top-right absolute
+		right-20 black-border-fine rounded"
+			>
+		</input>
 	);
 }

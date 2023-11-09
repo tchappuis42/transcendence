@@ -1,7 +1,7 @@
 import * as React from "react"
 import "./topBar.css"
-import "./tools/slanderousMenu.css"
-import {SlanderousMenu} from "./tools/slanderousMenu"
+import "./components/slanderousMenu.css"
+import {SlanderousMenu} from "./components/slanderousMenu"
 import {useRef} from "react";
 
 export const TopBar = () => {

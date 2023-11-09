@@ -1,6 +1,6 @@
 import * as React from "react"
-import "./slanderousMenu.css"
-import search from "../../../image/noun-loupe.svg";
+import "../slanderousMenu.css"
+import search from "../../../../image/noun-loupe.svg";
 
 type JustTheIconProps = {
 	onClick: () => void;

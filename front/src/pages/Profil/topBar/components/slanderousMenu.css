@@ -22,8 +22,46 @@
         right-0 mt-2 w-40
         shadow-lg bg-white
         ring-1 ring-black ring-opacity-5
-
     }
+    .menu-slanderous-bell {
+        @apply
+        origin-top-right absolute
+        right-32 mt-2 w-40
+        shadow-lg bg-white
+        ring-1 ring-black ring-opacity-5
+    }
+    .menu-slanderous-glass-search {
+        @apply
+        origin-top-right absolute
+        right-20 mt-2 w-40
+        shadow-lg bg-white
+        ring-1 ring-black ring-opacity-5
+    }
+    .bubble-glass-search {
+        @apply
+        relative
+        shadow-lg bg-white
+        ring-1 ring-black ring-opacity-5
+    }
+    .glass-search {
+        @apply
+        relative w-10
+        shadow-lg bg-white
+        ring-1 ring-black ring-opacity-5
+    }
+    .dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: ease;
+    }
+    .dropdown-menu.active {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: ease;
+    }
+
     .menu-slanderous-list {
         @apply block py-2 px-4
         text-sm text-gray-700

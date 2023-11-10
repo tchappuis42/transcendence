@@ -1,6 +1,9 @@
 import * as React from "react"
 import "../slanderousMenu.css"
-import {useRef, useState} from "react";
+import {useState} from "react";
+import {ClickOutside} from "../../tools/clickoutside";
+import loupe from "../../../../image/noun-loupe.svg";
+
 
 type IsActivComponent = {
 	setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,8 +12,13 @@ type IsActivComponent = {
 
 export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) => {
 	const [search, setSearch]: [string, (search: string) => void] = useState("");
+	const [open, setOpen] = useState(false);
+	const ref = ClickOutside({ setOpen });
 
-	console.log('inputRef:', inputRef);
+	const handleOpen = (): void => {
+		setOpen(true);
+	}
+
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearch(event.target.value);
 	};
@@ -20,10 +28,6 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 			setSearch("");
 	};
 
-	// const handleClick = (event: React.MouseEvent): void => {
-	// 	event.stopPropagation();
-	// }
-	//
 	const handleBlur = (event: React.FocusEvent): void => {
 		if (!event.currentTarget.contains(event.relatedTarget as Node)) {
 			setIsActive(false);
@@ -31,16 +35,22 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 	};
 
 	return (
-		<input
-			/* onClick={handleClick}*/ onBlur={handleBlur}
-			ref={inputRef}
-			type="text"
-			value={search}
-			onChange={handleSearchChange}
-			onKeyDown={handleKeyDown}
-			className="origin-top-right absolute
-		right-20 black-border-fine rounded"
-			>
-		</input>
+		<div className="glass-search-component" ref={ref}>
+			<span className="static" onClick={handleOpen}>
+				<img className="h-[20px] relative top-0 right-0" alt="search" src={loupe}/>
+				{open ? (
+				<input
+					onBlur={handleBlur}
+					className={`absolute top-1/4 right-20 black-border-fine rounded`}
+					ref={inputRef}
+					type="text"
+					value={search}
+					onChange={handleSearchChange}
+					onKeyDown={handleKeyDown}
+				>
+				</input>
+				): null}
+			</span>
+		</div>
 	);
 }

@@ -4,6 +4,19 @@ type ClickOutsideProps = {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+/* ref.current instanceof Node:
+	Vérifie si l'élément référencé par `ref.current` est une instance de `Node`.
+	Elle vérifie si `ref.current` => objet (représente un nœud dans le DOM).
+	Si `ref.current` n'est pas instance de `Node`, => pas un nœud dans le DOM,
+
+	!ref.current.contains(e.target as Node):
+	utilise la méthode `contains` => si l'élément cliqué (`e.target`) = descendant de l'élément référencé par `ref.current`.
+	Si `e.target` est un descendant de `ref.current`, = le clic est effectué à l'intérieur de l'élément référencé par `ref.current`,
+	`ref.current.contains(e.target)` renvoie `true` et `!ref.current.contains(e.target)` renvoie `false`,
+	renvoie `false` et `if` n'est pas exécuté. Si `e.target` n'est pas un descendant de `ref.current`,
+	= clic a été effectué en dehors de l'élément référencé par `ref.current`,
+	donc `ref.current.contains(e.target)` renvoie `false` et `!ref.current.contains(e.target)` renvoie `true`
+*/
 export const ClickOutside = ({ setOpen }: ClickOutsideProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -21,35 +34,3 @@ export const ClickOutside = ({ setOpen }: ClickOutsideProps) => {
 
 	return ref;
 };
-
-// useEffect(() => {
-// 	let handler = (e: MouseEvent): void => {
-// 		if (menuRef.current instanceof Node && !menuRef.current.contains(e.target as Node))
-// 			setOpen(true);
-// 	}
-// 	document.addEventListener("mousedown", handler);
-// 	return (): void => {
-// 		document.removeEventListener("mousedown", handler);
-// 	}
-// }, [setOpen]);
-
-// const [open, setOpen] = useState<boolean>(false);
-// const menuRef = useRef<HTMLDivElement | null>(null);
-//
-// const handleOpen = (): void => {
-// 	setOpen(!open);
-// }
-//
-// useEffect(() => {
-// 	const handler = (e: MouseEvent) => {
-// 		if (menuRef.current instanceof Node && !menuRef.current.contains(e.target as Node)) {
-// 			setOpen(true);
-// 			console.log(menuRef.current);
-// 		}
-// 	};
-// 	document.addEventListener("mousedown", handler);
-// 	return () => {
-// 		document.removeEventListener("mousedown", handler);
-// 	}
-// }, [setOpen]);
-

@@ -3,6 +3,11 @@ import "../slanderousMenu.css"
 import {useAuth} from "../../../../../ui/organisms/useAuth";
 import {SyntheticEvent, useState} from "react";
 import {ClickOutside} from "../../tools/clickoutside"
+import Navigation from "../../../../../ui/organisms/Navigation";
+
+const navigationOptionsProfil = [
+	{ label: 'profil', url: '/profil' },
+];
 
 interface Props {
 	height: number;
@@ -36,7 +41,9 @@ export const SlanderousMenuListPictures = ({height, width}: Props) => {
 			<div className={`menu-slanderous black-border-fine`}>
 				<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 					<li className="menu-slanderous-list">
-						<button>profile</button>
+						<button>
+							<Navigation options={navigationOptionsProfil} />
+						</button>
 					</li>
 					<li className="menu-slanderous-list">
 						<button onClick={LogoutSubmit}>logout</button>

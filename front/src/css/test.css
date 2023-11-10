@@ -61,10 +61,10 @@
 .header {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
-	height: 20%;
-	padding: 10px;
-	background-color: #ffffffb2;
+	align-items: center;
+	/*justify-content: space-around;*/
+	/*padding: 10px;*/
+	/*background-color: #ffffffb2;*/
 }
 
 .modal {
@@ -102,6 +102,7 @@ button:hover {
 }
 
 .link {
+	width: 100%;
 	color: #000000;
 }
 

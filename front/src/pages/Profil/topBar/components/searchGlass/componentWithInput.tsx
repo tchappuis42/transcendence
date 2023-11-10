@@ -15,23 +15,20 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
 
+	// handleOpen: permet d'ouvrir la barre de recherche.
 	const handleOpen = (): void => {
 		setOpen(true);
 	}
 
-	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+	// handleSearchInput: permet de taper du text dans la barre de recherche.
+	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearch(event.target.value);
 	};
 
+	// handleKeyDown: permet de rechercher un nom en tapant enter sur le clavier
 	const handleKeyDown = (event: React.KeyboardEvent): void => {
 		if (event.key === "Enter")
 			setSearch("");
-	};
-
-	const handleBlur = (event: React.FocusEvent): void => {
-		if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-			setIsActive(false);
-		}
 	};
 
 	return (
@@ -40,12 +37,11 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 				<img className="h-[20px] relative top-0 right-0" alt="search" src={loupe}/>
 				{open ? (
 				<input
-					onBlur={handleBlur}
 					className={`absolute top-1/4 right-20 black-border-fine rounded`}
 					ref={inputRef}
 					type="text"
 					value={search}
-					onChange={handleSearchChange}
+					onChange={handleSearchInput}
 					onKeyDown={handleKeyDown}
 				>
 				</input>

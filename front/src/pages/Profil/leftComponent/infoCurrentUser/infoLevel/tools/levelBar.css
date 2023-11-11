@@ -6,7 +6,7 @@
     .level-bar-component {
         @apply col-span-2
         h-full w-full
-        rounded relative
+        relative
     }
     .level-current-percentage {
         @apply absolute

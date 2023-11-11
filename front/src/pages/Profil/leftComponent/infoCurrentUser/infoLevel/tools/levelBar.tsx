@@ -19,7 +19,7 @@ export const LevelBar = ({progress}: Props) => {
 		}
 	}
 	return (
-		<div className="level-bar-component black-border-fine">
+		<div className="level-bar-component black-border-separation-sl">
 			<div className="level-current-percentage">
 				{progress}%
 			</div>

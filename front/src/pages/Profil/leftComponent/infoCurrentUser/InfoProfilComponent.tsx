@@ -8,7 +8,7 @@ import {LevelUser} from "./infoLevel/infoLevel";
 export const InfoProfilComponent = (): JSX.Element => {
 	return (
 		<>
-			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper"/>
+			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper black-border-fine"/>
 			<InfoProfileUser/>
 			<div className="information-level-component">
 				<LevelUser/>

@@ -5,13 +5,13 @@
 @layer components {
     .information-user-component {
         @apply w-full font-sans
-        grid grid-cols-4
+        grid grid-cols-4 space-x-1
     }
     .profil-pictures-component {
         @apply h-full col-span-1
     }
     .text-information-component {
-        @apply grid grid-cols-4 col-span-3
+        @apply grid grid-cols-2 col-span-3
     }
 
     .profile-user {
@@ -37,7 +37,7 @@
     }
     .name-component {
         @apply flex flex-row justify-start
-        align-middle px-4 py-4 rounded h-full
+        align-middle px-4 py-4 h-full
     }
     .rank-component {
         @apply grid grid-cols-2 h-full w-full

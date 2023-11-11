@@ -18,11 +18,11 @@ export const LevelUser = (): JSX.Element => {
 		setLevel(0);
 	}
 	return (
-		<div className="level-user-component">
-			<LevelBar progress={ progress }/>
+		<div className="level-user-component black-border-fine">
 			<div className="level-current-component">
 				level {level}
 			</div>
+			<LevelBar progress={ progress }/>
 			<div className="level-buttons-component">
 				<button onClick={handleClick}
 					className="green-border bg-green-300 rounded h-full">upgrade</button>

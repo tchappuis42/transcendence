@@ -20,6 +20,24 @@
         @apply border-4 border-solid
         border-black
     }
+
+    .black-border-separation-b {
+        @apply border-b border-solid
+        border-black
+    }
+    .black-border-separation-t {
+        @apply border-t border-solid
+        border-black
+    }
+    .black-border-separation-sl {
+        @apply border-l border-solid
+        border-black
+    }
+    .black-border-separation-sr {
+        @apply border-r border-solid
+        border-black
+    }
+
     .table-1x2 {
         @apply grid grid-rows-2 h-full w-full
     }

@@ -1,6 +1,6 @@
 import "./leftComponent.css"
 import {GameStats} from "./infoCurrentUserStats/componentInfoGame"
-import {InfoProfilComponent} from "./infoCurrentPerson/InfoProfilComponent"
+import {InfoProfilComponent} from "./infoCurrentUser/InfoProfilComponent"
 
 interface Props {
 	className?: string;

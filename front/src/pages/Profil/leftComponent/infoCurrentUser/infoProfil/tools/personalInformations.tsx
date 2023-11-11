@@ -14,12 +14,12 @@ export const MyName = () => {
 		setLevel(0);
 	}
 	return (
-		<div className="rest-information-component blue-border">
-			<div className="name-component blue-border">
+		<div className="rest-information-component black-border-fine">
+			<div className="name-component black-border-separation-b">
 				{account.username}
 			</div>
-			<div className="rank-component blue-border">
-				<div className="current-level-component blue-border">
+			<div className="rank-component">
+				<div className="current-level-component ">
 					rank: {level}
 				</div>
 				<div className="up-reset-component blue-border">

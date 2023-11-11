@@ -14,7 +14,6 @@ export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) =>
 	const [search, setSearch]: [string, (search: string) => void] = useState("");
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
-
 	// handleOpen: permet d'ouvrir la barre de recherche.
 	const handleOpen = (): void => {
 		setOpen(true);

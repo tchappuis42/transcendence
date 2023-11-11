@@ -1,19 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-const {hover} = require("@testing-library/user-event/dist/hover");
+// const {hover} = require("@testing-library/user-event/dist/hover");
 const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = withMT({
-  content: [
-      './public/index.html',
-      "./src/**/*.{js,jsx,ts,tsx}"
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-});
+// module.exports = withMT({
+//   content: [
+//       './public/index.html',
+//       "./src/**/*.{js,jsx,ts,tsx}"
+//   ],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [],
+// });
 
-module.exports = {
+module.exports = withMT({
   content: [
     './public/index.html',
     './src/**/*.{js,jsx,ts,tsx}'
@@ -57,4 +57,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+});

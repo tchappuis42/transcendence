@@ -34,29 +34,4 @@ export const BellNotificationComponent = ({setIsActive}: IsActivComponentBell) =
 			)}
 		</div>
 	);
-
-	// return (
-	// 	<div className="bell-img-notification" ref={menuRef}>
-	// 		<span onClick={handleOpen} className="test">
-	// 			<img alt="notification" src={notification} className="h-[20px]"/>
-	// 		</span>
-	// 		<div className={`dropdown-menu ${open? 'active' : 'inactive'}`}>
-	// 			<div className="menu-slanderous-bell black-border-fine">
-	// 				hello
-	// 			</div>
-	// 		</div>
-	// 			{open && (
-	// 			<div className="menu-slanderous-bell black-border-fine" onBlur={handleBlur}>
-	// 				<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-	// 					<li className="menu-slanderous-list">
-	// 						notification-2
-	// 					</li>
-	// 					<li className="menu-slanderous-list">
-	// 						notification-2
-	// 					</li>
-	// 				</div>
-	// 			</div>
-	// 		)}
-	// 	</div>
-	// );
 }

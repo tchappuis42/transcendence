@@ -1,7 +1,6 @@
 import * as React from "react"
 import "./slanderousMenu.css"
 import {useEffect, useState, useRef} from "react";
-import {JustTheIcon} from "./searchGlass/justTheIcon"
 import {ComponentWithInput} from "./searchGlass/componentWithInput";
 import {SlanderousMenuListPictures} from "./profilPictures/slanderousMenuListPictures";
 import {BellNotificationComponent} from "./bell/bellComponent";
@@ -25,10 +24,6 @@ export const SlanderousMenu = ({myRef}: SlanderousMenuProps) => {
 			setWidth(h);
 		}
 	}, [myRef]);
-
-	// const HandleOpen = (): void => {
-	// 	setIsActive(true);
-	// }
 
 	useEffect(() => {
 		const handler = (e: MouseEvent) => {

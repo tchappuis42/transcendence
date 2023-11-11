@@ -2,9 +2,9 @@ import * as React from "react"
 import "../../css/index.css"
 import "./styleProfilPage/mainCSS.css"
 import "./styleProfilPage/toolsCss.css"
-import {LeftComponent} from "./leftComponent/leftComponent"
-import {Leaderboard} from "./middleComponent/leaderboard"
-import {ChatSide} from "./rightComponent/chatSide"
+// import {LeftComponent} from "./leftComponent/leftComponent"
+// import {Leaderboard} from "./middleComponent/leaderboard"
+// import {ChatSide} from "./rightComponent/chatSide"
 
 /*friends.controller.ts, friends.service.ts*/
 export const Profil = () => {

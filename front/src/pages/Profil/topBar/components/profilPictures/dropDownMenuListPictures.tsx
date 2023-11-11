@@ -13,7 +13,7 @@ interface Props {
 	height: number;
 	width: number;
 }
-export const SlanderousMenuListPictures = ({height, width}: Props) => {
+export const DropDownMenuListPictures = ({height, width}: Props) => {
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
 

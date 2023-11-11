@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useState} from "react";
+import "../slanderousMenu.css"
 import notification from "../../../../image/noun-bell.svg";
 import {ClickOutside} from "../../tools/clickoutside"
-import "../slanderousMenu.css"
 
 type IsActivComponentBell = {
 	setIsActive: React.Dispatch<React.SetStateAction<boolean>>;

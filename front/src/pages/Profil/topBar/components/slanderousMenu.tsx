@@ -1,8 +1,8 @@
 import * as React from "react"
 import "./slanderousMenu.css"
 import {useEffect, useState, useRef} from "react";
-import {ComponentWithInput} from "./searchGlass/componentWithInput";
-import {SlanderousMenuListPictures} from "./profilPictures/slanderousMenuListPictures";
+import {DropDownMenuList} from "./searchGlass/dropDownMenuList";
+import {DropDownMenuListPictures} from "./profilPictures/dropDownMenuListPictures";
 import {BellNotificationComponent} from "./bell/bellComponent";
 
 type SlanderousMenuProps = {
@@ -40,8 +40,8 @@ export const SlanderousMenu = ({myRef}: SlanderousMenuProps) => {
 	return (
 		<div className="profile-bar-menu">
 			<BellNotificationComponent setIsActive={setIsActive}/>
-			<ComponentWithInput setIsActive={setIsActive} inputRef={inputRef}/>
-			<SlanderousMenuListPictures height={height} width={width}/>
+			<DropDownMenuList inputRef={inputRef}/>
+			<DropDownMenuListPictures height={height} width={width}/>
 		</div>
 	);
 }

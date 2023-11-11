@@ -4,13 +4,11 @@ import {useState} from "react";
 import {ClickOutside} from "../../tools/clickoutside";
 import loupe from "../../../../image/noun-loupe.svg";
 
-
 type IsActivComponent = {
-	setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 	inputRef: React.RefObject<HTMLInputElement>;
 };
 
-export const ComponentWithInput = ({setIsActive, inputRef}: IsActivComponent) => {
+export const DropDownMenuList = ({inputRef}: IsActivComponent) => {
 	const [search, setSearch]: [string, (search: string) => void] = useState("");
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });

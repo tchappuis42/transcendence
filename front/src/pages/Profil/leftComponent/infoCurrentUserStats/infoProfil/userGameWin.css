@@ -17,7 +17,7 @@
     .game-win-result {
         @apply col-span-2 h-full
         flex justify-center items-center
-        font-extrabold bg-slate-300
+        font-extrabold
         rounded
     }
     .game-win-up-down {

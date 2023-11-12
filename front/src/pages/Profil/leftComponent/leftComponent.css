@@ -6,9 +6,9 @@
     .left-component-main {
         @apply col-span-1
         min-w-[350px] max-w-[400px]
-        flex flex-col
+        flex flex-col flex-grow
         justify-start items-start
-        p-[10px] bg-red-50 gap-5
+        p-[10px] gap-5
     }
 
     .info-profile-component {
@@ -16,14 +16,12 @@
         min-w-[350px] w-full
         min-h-[400px] max-h-[500px]
         grid space-y-1
-        p-4 bg-amber-100 rounded
+        p-4 rounded
     }
     .user-stat-component {
-        @apply row-span-1
-        min-w-[350px] w-full
-        min-h-[400px] overflow-y-scroll
-        flex flex-col justify-center
-        p-4 bg-amber-100 rounded
+        @apply min-h-[100px] max-h-[395px]
+        min-w-[350px] w-full h-full
+        flex flex-col justify-start
     }
 
     .add-friends-buttons {

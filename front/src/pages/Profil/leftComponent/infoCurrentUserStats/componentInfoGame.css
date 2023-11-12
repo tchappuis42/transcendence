@@ -4,8 +4,8 @@
 
 @layer components {
     .main-bubble-component {
-        @apply h-full w-full gap-2
-        flex flex-col justify-center
+        @apply w-full gap-2
+        overflow-y-scroll
     }
     .user-stat-elements {
         @apply h-full

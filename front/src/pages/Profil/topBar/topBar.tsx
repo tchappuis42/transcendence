@@ -22,7 +22,7 @@ export const TopBar = () => {
 	const myRef = useRef<HTMLDivElement | null>(null);
 	// @ts-ignore
 	return (
-		<div className="h-20 px-4 sticky top-0 bg-gray-50 flex flex-row items-end justify-start">
+		<div className="px-4 sticky top-0 bg-gray-50 flex flex-row items-end justify-start">
 			<div ref={myRef} className="top-bar">
 				<div className="px-4 font-bold rounded">
 					<Navigation options={navigationHome} />

@@ -13,6 +13,7 @@ export const MyName = () => {
 	const handleClickReset = () => {
 		setLevel(0);
 	}
+
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">

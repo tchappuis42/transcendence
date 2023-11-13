@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import "./infoProfilComponent.css"
 import "../../styleProfilPage/toolsCss.css"
 import {InfoProfileUser} from "./infoProfil/infoProfil"

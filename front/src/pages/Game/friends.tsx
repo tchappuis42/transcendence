@@ -13,8 +13,8 @@ const Friends = () => {
 
 	const [friends, setFriends] = useState<friend[]>([]);
 	const [sorted, setSorted] = useState<friend[]>([]);
-	const [attente, setAttente] = useState<friend[]>([]);
-	const [ajoute, setAjoute] = useState<friend[]>([]);
+	const [pendingFriend, setPendingFriend] = useState<friend[]>([]);
+	const [friendsToAdd, setFriendsToAdd] = useState<friend[]>([]);
 	const socket = useSocket();
 
 	useEffect(() => {
@@ -23,10 +23,10 @@ const Friends = () => {
 		setSorted(sort)
 
 		const add = friends.filter(e => e.friend_status === 1)
-		setAjoute(add)
+		setFriendsToAdd(add)
 
 		const wait = friends.filter(e => e.friend_status === 2)
-		setAttente(wait)
+		setPendingFriend(wait)
 	}, [friends]);
 
 	useEffect(() => {
@@ -83,8 +83,8 @@ const Friends = () => {
 				const reject = friends.filter(e => e.id !== userId)
 				setFriends(reject)
 			}
-			//const add = ajoute.filter(e => e.id !== userId)
-			//setAjoute(add)
+			//const add = friendsToAdd.filter(e => e.id !== userId)
+			//setFriendsToAdd(add)
 		}).catch((error) => {
 			alert(error)
 		})
@@ -112,15 +112,15 @@ const Friends = () => {
 					{u.username}
 					<button onClick={() => deleteFriend(u.id)}>x</button>
 				</p>)}
-			<h2>ami a ajouter</h2>
-			{ajoute.map(u =>
+			<h2>ami a friendsToAddr</h2>
+			{friendsToAdd.map(u =>
 				<p key={u.id}>
 					{u.username}
 					<button onClick={() => sendResponse(u.id, true)}>oui</button>
 					<button onClick={() => sendResponse(u.id, false)}>non</button>
 				</p>)}
-			<h2>en attente d'ajout</h2>
-			{attente.map(u => <p>{u.username}</p>)}
+			<h2>en pendingFriend d'ajout</h2>
+			{pendingFriend.map(u => <p>{u.username}</p>)}
 		</div>
 	);
 };

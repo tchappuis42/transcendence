@@ -14,6 +14,11 @@ interface sockets {
 	user: User;
 }
 
+enum ConnctionState {
+	Online = 1,
+	Offline = 2
+}
+
 @Injectable()
 export class UserService {
 
@@ -67,7 +72,7 @@ export class UserService {
 			await this.setConnection(client.data.user)
 			const status = {
 				username: client.data.user.username,
-				status: 1
+				status: ConnctionState.Online
 			}
 			server.emit('status', status)
 		}
@@ -81,7 +86,7 @@ export class UserService {
 			await this.setDisconnect(client.data.user)
 			const status = {
 				username: client.data.user.username,
-				status: 2
+				status: ConnctionState.Offline
 			}
 			server.emit('status', status)
 		}

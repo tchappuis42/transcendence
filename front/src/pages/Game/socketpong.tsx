@@ -26,7 +26,6 @@ const SocketPong = () => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("game", (data) => {
-				console.log(data)
 				if (typeof data === 'object') {
 					setplayer1(data.player1.username);
 					setplayer2(data.player2.username);
@@ -43,14 +42,19 @@ const SocketPong = () => {
 				}
 			});
 			socket.on("info", (data) => {
-				if (data === 1)
+				console.log(data)
+				if (typeof data === 'object') {
+					setplayer1(data.player1.username);
+					setplayer2(data.player2.username);
+					SetPage(true);
+				}
+				else
 					setsearch("recherche de match")
-				if (data === 4)
-					setPage(true)
 			})
 		}
 		return () => {
 			if (socket) {
+				socket.off("object");
 				socket.off("game");
 			}
 		};

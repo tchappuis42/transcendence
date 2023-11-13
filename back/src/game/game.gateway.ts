@@ -66,6 +66,7 @@ export class GameGateway {
 	info(@ConnectedSocket() client: Socket) {
 
 		const info = this.gameService.getinfo(client);
+		console.log("info = ", info)
 		client.emit('info', info);
 	}
 }

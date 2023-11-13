@@ -183,10 +183,15 @@ export class GameService {
 	getinfo(client: Socket) {
 		if (client === this.waitingGame)
 			return 1
-		const t = this.rooms.find(r => client === r.socket1 || client === r.socket2)
-		if (t)
-			return 4
-		else
-			return 2
+		const inGame = this.rooms.find(r => client === r.socket1 || client === r.socket2)
+		if (inGame) {
+			const data: CreatGameDTO = {
+				roomName: inGame.name,
+				player1: inGame.socket1.data.user,
+				player2: inGame.socket2.data.user
+			}
+			return data
+		}
+
 	}
 }

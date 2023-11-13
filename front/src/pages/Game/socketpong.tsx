@@ -11,6 +11,7 @@ const SocketPong = () => {
 	const [player1, setplayer1] = useState("");
 	const [player2, setplayer2] = useState("");
 	const [search, setsearch] = useState("trouver un match")
+	const [rules, setRules] = useState(false);
 
 	const [color, setColor] = useState({
 		paddle: "white",
@@ -30,6 +31,7 @@ const SocketPong = () => {
 					setplayer1(data.player1.username);
 					setplayer2(data.player2.username);
 					setsearch("trouver un match");
+					setRules(true)
 					SetPage(true);
 				}
 				else {
@@ -159,7 +161,7 @@ const SocketPong = () => {
 									</div>
 								</div>
 							</div>
-							<PongTest color={color} />
+							<PongTest color={color} rules={rules} />
 							<GameScore SetPage={SetPage} />
 						</div>
 					</div>

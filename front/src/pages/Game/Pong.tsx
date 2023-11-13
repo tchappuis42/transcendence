@@ -5,15 +5,16 @@ import { Ball, Paddle } from './gameInterface';
 import { drawBall, drawMap, drawPaddle } from './drawfunctions';
 import GameScore from './gameScore';
 
-interface colorProps {
+interface PongProps {
 	color: {
 		paddle: string,
 		ball: string,
 		map: string
-	}
+	};
+	rules: boolean;
 }
 
-const PongTest = ({ color }: colorProps) => {
+const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 	const socket = useSocket();
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const height = 585;
@@ -187,7 +188,8 @@ const PongTest = ({ color }: colorProps) => {
 
 	return (
 		<div className='relative h-[35rem] flex w-full justify-center'>
-			<GameRules />
+			{rules &&
+				<GameRules />}
 			<div id="pong" className='flex justify-center items-center'>
 				<canvas ref={canvasRef} />
 			</div>

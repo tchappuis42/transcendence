@@ -188,7 +188,7 @@ export class GameService {
 			const data: CreatGameDTO = {
 				roomName: inGame.name,
 				player1: inGame.socket1.data.user,
-				player2: inGame.socket2.data.user
+				player2: inGame.socket2.data.user,
 			}
 			return data
 		}

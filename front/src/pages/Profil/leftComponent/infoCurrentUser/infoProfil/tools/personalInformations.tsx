@@ -19,8 +19,10 @@ export const MyName = () => {
 	useEffect(() => {
 		const me = rank.find(user => user.username === account.username)
 		// const index = rank.findIndex(user => user.username === account.username)
-		console.log("me = ",rank.find(user => user.username === account.username));
-		setMyRank(me)
+		console.log("me = ", rank.find(user => user.username === account.username));
+		console.log("me = ", rank.find(user => user.username === account.username));
+		setMyRank(me);
+		// setMe(myRank?.username);
 		console.log("myRank = ",myRank);
 		// setIndex(index)
 	}, [rank]);
@@ -48,7 +50,7 @@ export const MyName = () => {
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">
-				{account.username}
+				{myRank?.username}
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component ">

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "../slanderousMenu.css"
-import notification from "../../../../image/noun-bell.svg";
+import notification from "../../../image/noun-bell.svg";
 import {ClickOutside} from "../../tools/clickoutside"
 
 type IsActivComponentBell = {

@@ -5,7 +5,7 @@ import SocketPong from './pages/Game/socketpong';
 import GamePage from './pages/Game/gamePage';
 import Chat from './pages/Chat/chat';
 import {Profil} from './pages/Profil/Profil';
-import {TopBar} from "./pages/Profil/topBar/topBar";
+import {TopBar} from "./pages/topBar/topBar";
 
 
 const App = () => {

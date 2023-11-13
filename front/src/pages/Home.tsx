@@ -6,7 +6,7 @@ import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
 import Testuser from './testuser';
 import { io } from 'socket.io-client';
 import { SocketProvider } from '../ui/organisms/SocketContext';
-import {TopBar} from "./Profil/topBar/topBar";
+import {TopBar} from "./topBar/topBar";
 
 
 const navigationOptions = [

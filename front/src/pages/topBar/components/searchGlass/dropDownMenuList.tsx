@@ -2,7 +2,7 @@ import * as React from "react"
 import "../slanderousMenu.css"
 import {useState} from "react";
 import {ClickOutside} from "../../tools/clickoutside";
-import loupe from "../../../../image/noun-loupe.svg";
+import loupe from "../../../image/noun-loupe.svg";
 
 type IsActivComponent = {
 	inputRef: React.RefObject<HTMLInputElement>;

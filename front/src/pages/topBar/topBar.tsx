@@ -3,7 +3,7 @@ import "./topBar.css"
 import "./components/slanderousMenu.css"
 import {SlanderousMenu} from "./components/slanderousMenu"
 import {useRef} from "react";
-import Navigation from "../../../ui/organisms/Navigation";
+import Navigation from "../../ui/organisms/Navigation";
 // import {Outlet} from "react-router-dom";
 
 const navigationHome = [

@@ -24,12 +24,6 @@ export class GameGateway {
 		this.gameService.cleanMM(client);
 	}
 
-	@SubscribeMessage('message')
-	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		const user = client.data.user as UserDto;
-		this.server.emit('message', data, user.username)
-	}
-
 	@SubscribeMessage('matchmaking')
 	matchmaking(@ConnectedSocket() client: Socket) {
 		console.log("matchmaking")
@@ -37,7 +31,7 @@ export class GameGateway {
 		const game = this.gameService.matchmaking(user, client, this.server);
 		if (typeof game === 'object')
 			this.server.to(game.roomName).emit('game', game)
-		if (typeof game === 'string')
+		if (typeof game === 'number')
 			this.server.to(client.id).emit('game', game)
 	}
 
@@ -66,5 +60,12 @@ export class GameGateway {
 		const game = this.gameService.findRoom(client);
 		//console.log(game)
 		this.server.to(game.name).emit('gamelife');
+	}
+
+	@SubscribeMessage('info')
+	info(@ConnectedSocket() client: Socket) {
+
+		const info = this.gameService.getinfo(client);
+		client.emit('info', info);
 	}
 }

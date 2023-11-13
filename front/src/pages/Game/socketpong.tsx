@@ -18,10 +18,15 @@ const SocketPong = () => {
 		map: "black"
 	})
 
+	useEffect(() => {
+		socket?.emit("info")
+	}, [])
+
 
 	useEffect(() => {
 		if (socket) {
 			socket.on("game", (data) => {
+				console.log(data)
 				if (typeof data === 'object') {
 					setplayer1(data.player1.username);
 					setplayer2(data.player2.username);
@@ -29,14 +34,20 @@ const SocketPong = () => {
 					SetPage(true);
 				}
 				else {
-					if (data === "recherche de partie")
+					if (data === 1)
 						setsearch("recherche de match")
-					else if (data === "fin de la recherche de partie")
+					else if (data === 2)
 						setsearch("trouver un match")
 					else
-						alert(data)
+						alert("vous etes deja en rechecher de partie")
 				}
 			});
+			socket.on("info", (data) => {
+				if (data === 1)
+					setsearch("recherche de match")
+				if (data === 4)
+					setPage(true)
+			})
 		}
 		return () => {
 			if (socket) {

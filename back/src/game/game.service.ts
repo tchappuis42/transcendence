@@ -21,24 +21,23 @@ interface roomName {
 
 @Injectable()
 export class GameService {
-
 	constructor(
 		@InjectRepository(Game) private gameRepository: Repository<Game>, private readonly userservice: UserService) { }
 
 	waitingGame: Socket;
 	rooms: roomName[] = []; //tableau de room
 
-	matchmaking(user: UserDto, client: Socket, server: Server): string | CreatGameDTO {
+	matchmaking(user: UserDto, client: Socket, server: Server): number | CreatGameDTO {
 		//check si le joueur et deja en game ---> retourner un message "vous etes deja en game" todo attendre le systeme de status
 		//check si le joueur et deja en machtmaking ---> retourner un message "vous etes deja en recheche de partie"
 		//check si y'a un joueur en matchmaking ---> oui creer la game, non mettre le joueur en matchmaking, et si la socket et la meme sortie de la recheche de game
 		if (this.waitingGame) {
 			if (this.waitingGame === client) {
 				this.waitingGame = null;
-				return "fin de la recherche de partie";
+				return 2
 			}
 			if (client.data.user.id === this.waitingGame.data.user.id)
-				return "vous etes deja en rechecher de partie"
+				return 3
 			let element: roomName = {
 				name: user.username,
 				socket1: client,
@@ -62,7 +61,7 @@ export class GameService {
 		}
 		else {
 			this.waitingGame = client;
-			return "recherche de partie";
+			return 1;
 		}
 	}
 
@@ -179,5 +178,15 @@ export class GameService {
 	async cleanData(userId: number) {
 		const user = await this.userservice.validateUser(userId)
 		//await this.gameRepository.delete({ where: [{ userOne: user }, { userTwo: user }] })
+	}
+
+	getinfo(client: Socket) {
+		if (client === this.waitingGame)
+			return 1
+		const t = this.rooms.find(r => client === r.socket1 || client === r.socket2)
+		if (t)
+			return 4
+		else
+			return 2
 	}
 }

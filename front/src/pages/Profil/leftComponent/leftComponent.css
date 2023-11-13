@@ -17,6 +17,11 @@
         min-h-[400px] max-h-[500px]
         grid space-y-1
         p-4 rounded
+
+		text-xs text-gray-900 uppercase
+		bg-gray-50 dark:bg-gray-800
+		dark:border-black
+		shadow-md sm:rounded-lg
     }
     .user-stat-component {
         @apply min-h-[100px] max-h-[395px]

@@ -37,7 +37,7 @@
     }
     .name-component {
         @apply flex flex-row justify-start
-        align-middle px-4 py-4 h-full
+        align-middle px-4 py-4 h-full font-bold
     }
     .rank-component {
         @apply grid grid-cols-2 h-full w-full

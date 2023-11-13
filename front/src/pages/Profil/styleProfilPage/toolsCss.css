@@ -20,6 +20,10 @@
         @apply border-4 border-solid
         border-black
     }
+    .gray-border {
+        @apply border border-solid
+        border-gray-500
+    }
 
     .black-border-separation-b {
         @apply border-b border-solid

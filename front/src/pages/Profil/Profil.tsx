@@ -21,7 +21,7 @@ export const Profil = () => {
 					grid-cols-1 md:grid-cols-2 lg:grid-cols-3
 					blue-border">
 						<LeftComponent/>
-					<Leaderboard/>
+						<Leaderboard/>
 					{/*<ChatSide/>*/}
 				</div>
 			</div>

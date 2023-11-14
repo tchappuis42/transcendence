@@ -18,17 +18,17 @@ interface PropsHead {
 	stats: string;
 }
 
-export const BubbleHeadLeaderboard = ({index, user, name, stats}: PropsHead) => {
+export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	return (
 		<tr>
 			<div className="bubble-main black-border-fine bg-gray-200">
 				<td className="col-span-1">
-					<div className="bubble-row justify-center">{index}</div>
+					<div className="bubble-row justify-center">{user}</div>
 				</td>
 				<td className="col-span-1">
 					<div className="bubble-row justify-start">{user}</div>
 				</td>
-				<td className="col-span-2 flex justify-center">
+				<td className="col-span-1 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>
 				</td>
 				<td className="col-span-1">
@@ -39,7 +39,7 @@ export const BubbleHeadLeaderboard = ({index, user, name, stats}: PropsHead) => 
 	);
 }
 
-export const BubbleBodyLeaderboard = ({index, stats, name, user, className}: Props) => {
+export const BubbleBodyMatchHistory = ({index, stats, name, user, className}: Props) => {
 	const [color, setColor] = useState("");
 
 	useEffect(() => {
@@ -66,11 +66,17 @@ export const BubbleBodyLeaderboard = ({index, stats, name, user, className}: Pro
 				<td className="col-span-1">
 					<div className="bubble-row justify-start">{user}</div>
 				</td>
-				<td className="col-span-2 flex justify-center">
+				<td className="col-span-1 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>
 				</td>
 				<td className="col-span-1">
-					<div className="bubble-row justify-end px-2">{stats}</div>
+					<div className="bubble-row justify-center">{name}</div>
+				</td>
+				<td className="col-span-1 flex justify-center">
+					<div className="bubble-row justify-start">{user}</div>
+				</td>
+				<td className="col-span-1">
+					<div className="bubble-row justify-center">{index}</div>
 				</td>
 			</div>
 		</tr>

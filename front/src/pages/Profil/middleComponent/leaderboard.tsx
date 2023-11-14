@@ -1,116 +1,82 @@
 import * as React from "react"
-import "../styleProfilPage/mainCSS.css"
 import "./leaderboard.css"
-import {LeaderboardUsers} from "./leaderboardInfo/leaderboardUsers";
-import {LeaderboardUsersInfo} from "./leaderboardInfo/leaderboardInfo";
-import {LeaderboardComponent} from "./leaderboardInfo/leaderboardComponent";
+import "../styleProfilPage/mainCSS.css"
+import {BubbleHeadLeaderboard, BubbleBodyLeaderboard} from "./leaderboardInfo/leaderboardComponent"
+import {BubbleHeadMatchHistory, BubbleBodyMatchHistory} from "./leaderboardInfo/matchHistoryComponent"
 
-interface Props {
-	className?: string;
-}
+export const Leaderboard = () => {
 
-const ComponentInfo = ({className}: Props) => {
-	return(
-		<div className="ranking-component pr-3 blue-border">
-			<div className="ranking-component-elements-info col-span-1 red-border">rank</div>
-			<div className="ranking-component-elements-info col-span-4 red-border">name</div>
-			<div className="ranking-component-elements-info col-span-2 red-border">points</div>
-		</div>
-	);
-}
-const ComponentElements = ({className}: Props) => {
-	return(
-		<div className="ranking-component-elements blue-border">
-			<div className="ranking-component-elements-info col-span-1 red-border">rank</div>
-			<div className="ranking-component-elements-info col-span-4 red-border">name</div>
-			<div className="ranking-component-elements-info col-span-2 red-border">10000</div>
-		</div>
-	);
-}
-export const Leaderboard = ({className}: Props) => {
-	return(
-		<div className="middle-component-main blue-border">
-			<div className="leaderboard-component-main red-border">
-				<div className="main-card-component red-border">
-					<div className="daily-component blue-border">
-						<div className="title-component red-border">
-							h3
+	let bubbleData = [
+		{ stats: 100, name: "total win", user: "keke" },
+		{ stats: 110, name: "total win", user: "nene" },
+		{ stats: 10, name: "total win", user: "pepe" },
+		{ stats: 1900, name: "total win", user: "cece" },
+		{ stats: 2, name: "total win", user: "gege" },
+		{ stats: 3333, name: "total win", user: "lele" },
+		{ stats: 230, name: "total win", user: "ieie" },
+		{ stats: 890, name: "total win", user: "zeze" },
+		{ stats: 35345, name: "total win", user: "xexe" },
+		{ stats: 453, name: "total win", user: "rere" },
+		{ stats: 34, name: "total win", user: "jeje" },
+		{ stats: 57, name: "total win", user: "meme" },
+		{ stats: 5755, name: "total win", user: "oeoe" },
+		{ stats: 5664, name: "total win", user: "hehe" },
+		{ stats: 566, name: "total win", user: "ueue" },
+		{ stats: 345, name: "total win", user: "sese" },
+	];
+
+	bubbleData.sort((a, b) => b.stats - a.stats);
+
+	return (
+		<div className="middle-component-main">
+			<div className="middle-component-table gray-border">
+				<table className="border-separate border-spacing-2 w-full">
+					<thead>
+						<div className="flex justify-center h-[50px] font-bold">
+							Leaderboard
 						</div>
-						<div className="ranking-component-main red-border">
-							<ComponentInfo/>
-							<div className="ranking-component-elements-table pr-3 blue-border">
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-							</div>
+					</thead>
+					<thead>
+						<BubbleHeadLeaderboard index={"rank"} user={"user"} name={"name"} stats={"stats"}/>
+					</thead>
+					<tbody>
+						<div className="bubble-component">
+							{
+								bubbleData.map((data, index) => (
+								<BubbleBodyLeaderboard
+											key={index}
+											index={index + 1}
+											stats={data.stats}
+											name={data.name}
+											user={data.user}
+											className={data.user === "ieie" ? "sticky top-0 bg-blue-200" : undefined}
+								/>
+							))}
 						</div>
-					</div>
-					<div className="daily-component blue-border">
-						<div className="title-component red-border">
-							h3
+					</tbody>
+					<thead>
+						<div className="flex justify-center items-center h-[50px] font-bold">
+							Match history
 						</div>
-						<div className="ranking-component-main red-border">
-							<ComponentInfo/>
-							<div className="ranking-component-elements-table pr-3 blue-border">
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-								<ComponentElements/>
-							</div>
+					</thead>
+					<thead>
+						<BubbleHeadMatchHistory index={"rank"} user={"user"} name={"name"} stats={"stats"}/>
+					</thead>
+					<tbody>
+						<div className="bubble-component">
+							{bubbleData.map((data, index) => (
+								<BubbleBodyMatchHistory key={index} index={index + 1}
+											stats={data.stats}
+											name={data.name}
+											user={data.user}
+											className={data.user === "ieie" ? "sticky top-0 bg-blue-200" : undefined}
+
+								/>
+							))}
 						</div>
-					</div>
-				</div>
+					</tbody>
+				</table>
 			</div>
 		</div>
-		// <div className="flex flex-col gap-10 justify-center items-center"
-		// 	 style={{height: "100vh", padding: "10px"}}>
-		// 	<div className="grid grid-cols-1 gap-y-16 p-4 bg-gray-100 rounded-lg"
-		// 		 style={{
-		// 			 border: "solid 1px blue",
-		// 			 width: "25vw",
-		// 			 paddingTop: "40px",
-		// 			 paddingBottom: "35px",
-		// 			 height: "35vh"
-		// 		 }}>
-		// 		<div className="flex flex-row px-2 justify-center items-center rounded h-auto font-bold"
-		// 			style={{backgroundColor: "lightgray"}}>
-		// 			General ranking
-		// 		</div>
-		// 		<LeaderboardComponent/>
-		// 	</div>
-		// 	<div className="grid grid-cols-1 gap-y-16 p-4 bg-gray-100 rounded-lg"
-		// 		 style={{
-		// 			 border: "solid 1px blue",
-		// 			 width: "25vw",
-		// 			 paddingTop: "40px",
-		// 			 paddingBottom: "35px",
-		// 			 height: "35vh"
-		// 		 }}>
-		// 		<div className="flex flex-row px-2 justify-center items-center rounded h-auto font-bold"
-		// 			 style={{backgroundColor: "lightgray"}}>
-		// 			Daily ranking
-		// 		</div>
-		// 		<LeaderboardComponent/>
-		// 	</div>
-		// </div>
 	);
 }

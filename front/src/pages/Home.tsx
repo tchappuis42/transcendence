@@ -6,12 +6,14 @@ import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
 import Testuser from './testuser';
 import { io } from 'socket.io-client';
 import { SocketProvider } from '../ui/organisms/SocketContext';
+import { TopBar } from "./topBar/topBar";
 
 
 const navigationOptions = [
 	{ label: 'home', url: '/' },
 	{ label: 'chat', url: '/chat' },
 	{ label: 'pong', url: '/pong' },
+	{ label: 'profil', url: '/profil' },
 ];
 
 const Home = () => {
@@ -32,15 +34,17 @@ const Home = () => {
 
 	if (location.pathname === '/') {
 		return (
-			<div className='h-screen'>
-				<Navigation options={navigationOptions} />
+			<div>
+				{/*<Navigation options={navigationOptions} />*/}
+				<TopBar />
 				<Testuser />
 			</div >
 		);
 	}
 
-	return <div className='h-screen'>
-		<Navigation options={navigationOptions} />
+	return <div>
+		{/*<Navigation options={navigationOptions} />*/}
+		<TopBar />
 		<Outlet />
 	</div>
 };

@@ -3,14 +3,7 @@ import axios from "axios";
 import "../leaderboard.css"
 import "../../styleProfilPage/mainCSS.css"
 import {useEffect, useState} from "react";
-/*className={match.user === "ieie" ? "bg-blue-200" : undefined}
-									key={index}
-									Match={index + 1}
-									player1={match.user}
-									player2={match.player2}
-									score1={match.score1}
-									score2={match.score2}
-									winner={match.winner}*/
+
 interface Props {
 	className: string | undefined;
 	index: number;
@@ -106,7 +99,6 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 }
 
 export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner}: Props) => {
-
 	return (
 		<tr className={className}>
 			<div className={`${className} bubble-main black-border-fine snap-start`}>

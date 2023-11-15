@@ -105,7 +105,7 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	);
 }
 
-export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner}: Props) => {
+export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner, currentUser}: Props) => {
 	if (player1 === winner)
 
 	return (

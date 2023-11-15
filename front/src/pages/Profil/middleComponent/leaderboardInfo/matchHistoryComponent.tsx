@@ -19,7 +19,7 @@ interface Props {
 	score1: number;
 	score2: number;
 	winner: string;
-	currentUser: string;
+	// currentUser: string;
 }
 
 interface PropsHead {
@@ -105,8 +105,7 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	);
 }
 
-export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner, currentUser}: Props) => {
-	if (player1 === winner)
+export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner}: Props) => {
 
 	return (
 		<tr className={className}>

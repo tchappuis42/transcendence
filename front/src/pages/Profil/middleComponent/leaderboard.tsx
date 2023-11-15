@@ -123,7 +123,7 @@ export const Leaderboard = () => {
 									score1={match.score1}
 									score2={match.score2}
 									winner={match.winner}
-									currentUser={match.user === cUser}
+									// currentUser={match.user === cUser}
 								/>
 							))}
 						</div>

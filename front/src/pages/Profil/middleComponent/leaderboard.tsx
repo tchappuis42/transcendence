@@ -2,10 +2,49 @@ import * as React from "react"
 import "./leaderboard.css"
 import "../styleProfilPage/mainCSS.css"
 import {BubbleHeadLeaderboard, BubbleBodyLeaderboard} from "./leaderboardInfo/leaderboardComponent"
-import {BubbleHeadMatchHistory, BubbleBodyMatchHistory} from "./leaderboardInfo/matchHistoryComponent"
+import {BubbleHeadMatchHistory, BubbleBodyMatchHistory, MatchHistory} from "./leaderboardInfo/matchHistoryComponent"
+import {useEffect, useState} from "react";
+interface Player {
+	user: string;
+	name: string;
+	stats: number;
+}
 
+interface Match {
+	user: string;
+	player2: string;
+	score1: number;
+	score2: number;
+	winner: string;
+}
+
+export const GetHistoricalMatch = (bubbleData: Player[]): Match[] => {
+	let matches: Match[] = [];
+	for (let i = 0; i < bubbleData.length; i++) {
+		for (let j = i + 1; j < bubbleData.length; j++) {
+			let user = bubbleData[i];
+			let player2 = bubbleData[j];
+			let score1 = Math.round((user.stats * Math.random() * 10) % 10);
+			let score2 = Math.round((player2.stats * Math.random() * 10) % 10);
+			let winner;
+			if (score1 > score2)
+				winner = user;
+			else
+				winner = player2;
+			matches.push({
+				user: user.user,
+				player2: player2.user,
+				score1: score1,
+				score2: score2,
+				winner: winner.user
+			});
+		}
+	}
+	return (matches);
+}
 export const Leaderboard = () => {
-
+	const [currentUser, setCurrentUser] = useState<Player | null>(null);
+	const cUser: "ieie" = "ieie";
 	let bubbleData = [
 		{ stats: 100, name: "total win", user: "keke" },
 		{ stats: 110, name: "total win", user: "nene" },
@@ -26,6 +65,17 @@ export const Leaderboard = () => {
 	];
 
 	bubbleData.sort((a, b) => b.stats - a.stats);
+	const findUser = (username: string): void => {
+		const user = bubbleData.find(player => player.user === username);
+		setCurrentUser(user ? user : null);
+	}
+
+	useEffect((): void => {
+		findUser(cUser);
+	}, [cUser]);
+	const matches: Match[] = GetHistoricalMatch(bubbleData);
+
+	const currentUserMatches = matches.filter(match => match.user === currentUser?.user || match.player2 === currentUser?.user);
 
 	return (
 		<div className="middle-component-main">
@@ -64,13 +114,16 @@ export const Leaderboard = () => {
 					</thead>
 					<tbody>
 						<div className="bubble-component">
-							{bubbleData.map((data, index) => (
-								<BubbleBodyMatchHistory key={index} index={index + 1}
-											stats={data.stats}
-											name={data.name}
-											user={data.user}
-											className={data.user === "ieie" ? "sticky top-0 bg-blue-200" : undefined}
-
+							{currentUserMatches.map((match, index) => (
+								<BubbleBodyMatchHistory className={match.user === "ieie" ? "bg-blue-200" : undefined}
+									key={index}
+									index={index + 1}
+									player1={match.user}
+									player2={match.player2}
+									score1={match.score1}
+									score2={match.score2}
+									winner={match.winner}
+									currentUser={match.user === cUser}
 								/>
 							))}
 						</div>

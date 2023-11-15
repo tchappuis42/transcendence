@@ -8,7 +8,7 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column({ default: "512x512bb.jpg" })
+  @Column({ default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" })
   avatar: string;
 
   @Column()

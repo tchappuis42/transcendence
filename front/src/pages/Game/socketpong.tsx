@@ -4,12 +4,13 @@ import PongTest from "./Pong";
 import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
+import PlayerCard from "./playerCard";
 
 const SocketPong = () => {
 	const socket = useSocket();
 	const [page, setPage] = useState(false);
-	const [player1, setplayer1] = useState("");
-	const [player2, setplayer2] = useState("");
+	const [player1, setplayer1] = useState(0);
+	const [player2, setplayer2] = useState(0);
 	const [search, setsearch] = useState("trouver un match")
 	const [rules, setRules] = useState(false);
 
@@ -28,8 +29,8 @@ const SocketPong = () => {
 		if (socket) {
 			socket.on("game", (data) => {
 				if (typeof data === 'object') {
-					setplayer1(data.player1.username);
-					setplayer2(data.player2.username);
+					setplayer1(data.player1.id);
+					setplayer2(data.player2.id);
 					setsearch("trouver un match");
 					setRules(true)
 					SetPage(true);
@@ -145,22 +146,7 @@ const SocketPong = () => {
 					page &&
 					<div className="w-full h-[52rem] flex items-center sm:h-[46rem] md:items-start">
 						<div className="relative flex flex-col items-center justify-center w-full h-full pt-12">
-							<div className="bg-white w-full h-20 min-[845px]:w-[750px] rounded-t-xl flex sm:h-32">
-								<div className="w-1/2 flex">
-									<img src="https://cdn.intra.42.fr/users/5078380b5384a3c1d0c13abb3b2e5522/tchappui.jpg" alt="" className="rounded-tl-xl w-auto" />
-									<div>
-										<h1 className="text-2xl font-semibold pl-3 pt-2 sm:text-3xl sm:pl-4 sm:pt-4">{player1}</h1>
-										<h2 className="text-xl pl-3 pt-2 sm:pl-4 sm:pt-4">score: 540</h2>
-									</div>
-								</div>
-								<div className="w-1/2 flex flex-row-reverse">
-									<img src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" alt="" className="rounded-tr-xl h-full w-auto" />
-									<div>
-										<h1 className="text-2xl font-semibold pr-3 pt-2 sm:text-3xl sm:pr-4 sm:pt-4">{player2}</h1>
-										<h2 className="text-xl pr-3 pt-2 sm:pr-4 sm:pt-4">score: 540</h2>
-									</div>
-								</div>
-							</div>
+							<PlayerCard idOne={player1} idTwo={player2} />
 							<PongTest color={color} rules={rules} />
 							<GameScore SetPage={SetPage} />
 						</div>

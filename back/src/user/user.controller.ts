@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
@@ -27,8 +27,10 @@ export class UserController {
 	@Get(':id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserById(@Param() params: any) {
-		console.log(params.id);
-		return await this.userService.getUserById(params.id);
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
 	}
 
 	@UseGuards(JwtAuthGuard)

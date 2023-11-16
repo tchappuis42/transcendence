@@ -10,14 +10,13 @@
         p-[10px]
     }
     .middle-component-table {
-        @apply relative h-full
-        py-2 overflow-x-auto
+        @apply h-full max-h-[915px]
+        flex flex-col
         shadow-md sm:rounded-lg
-        overflow-y-scroll
-        bg-gray-50
+        bg-gray-50 py-2
     }
     .bubble-component {
-        @apply relative max-h-[232px]
+        @apply relative max-h-[280px]
         flex flex-col overflow-y-scroll
         snap-proximity snap-y gap-2
     }

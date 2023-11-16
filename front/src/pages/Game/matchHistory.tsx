@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const MatchHistory = () => {
 
-	const [matchs, setMatchs] = useState<string[]>([]);
+	const [matchs, setMatchs] = useState([]);
 
 	useEffect(() => {
 		const getHistory = async () => {
@@ -18,10 +18,10 @@ const MatchHistory = () => {
 		getHistory();
 	}, []);
 
-	const add = () => { //debug
+	/*const add = () => { //debug
 		setMatchs([...matchs, "test de test"])
 		//setMatchs([])
-	}
+	}*/
 
 	//<span onClick={add}> add</span>  <h1>Match history</h1>
 	return (
@@ -29,11 +29,11 @@ const MatchHistory = () => {
 			<div className="h-10 text-3xl font-bold text-center">
 				<h1>Match history</h1>
 			</div>
-			<div style={{}} className="flex-col justify-center item-center overflow-y-auto h-28 w-full">
+			{/*<div style={{}} className="flex-col justify-center item-center overflow-y-auto h-28 w-full">
 				{matchs.length === 0 && // si y-a pas de match
 					<h1 className="text-center font-bold">pas de match</h1>}
 				{matchs.map(match => <div className="text-center text-xl">{match}</div>)}
-			</div>
+			</div>*/}
 		</div>
 	);
 }

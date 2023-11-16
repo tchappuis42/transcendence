@@ -168,10 +168,15 @@ export class GameService {
 
 	}
 
-	async getGameByUser(userId: number): Promise<String[]> {
+	async getGameByUser(userId: number) {
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
-		const matchs = games.map(match => match.userOne.username + ' ' + match.scoreOne + ' - ' + match.scoreTwo + ' ' + match.userTwo.username);
+		const matchs = games.map(match => {
+			if (match.scoreOne > match.scoreTwo)
+				return { userOne: match.userOne, userTwo: match.userTwo, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winner: match.userOne }
+			else
+				return { userOne: match.userOne, userTwo: match.userTwo, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winner: match.userTwo }
+		});
 		return matchs;
 	}
 

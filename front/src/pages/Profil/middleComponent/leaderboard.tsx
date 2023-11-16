@@ -80,9 +80,9 @@ export const Leaderboard = () => {
 	return (
 		<div className="middle-component-main">
 			<div className="middle-component-table gray-border">
-				<table className="border-separate border-spacing-2 w-full">
+				<table className="border-separate border-spacing-2 w-full items-start">
 					<thead>
-						<div className="flex justify-center h-[50px] font-bold">
+						<div className="flex justify-center items-center h-[80px] font-bold">
 							Leaderboard
 						</div>
 					</thead>
@@ -104,8 +104,10 @@ export const Leaderboard = () => {
 							))}
 						</div>
 					</tbody>
+				</table>
+				<table className="border-separate border-spacing-2 w-full items-end">
 					<thead>
-						<div className="flex justify-center items-center h-[50px] font-bold">
+						<div className="flex justify-center items-center h-[86px] font-bold">
 							Match history
 						</div>
 					</thead>
@@ -116,13 +118,13 @@ export const Leaderboard = () => {
 						<div className="bubble-component">
 							{currentUserMatches.map((match, index) => (
 								<BubbleBodyMatchHistory className={match.user === "ieie" ? "bg-blue-200" : undefined}
-									key={index}
-									index={index + 1}
-									player1={match.user}
-									player2={match.player2}
-									score1={match.score1}
-									score2={match.score2}
-									winner={match.winner}
+														key={index}
+														index={index + 1}
+														player1={match.user}
+														player2={match.player2}
+														score1={match.score1}
+														score2={match.score2}
+														winner={match.winner}
 									// currentUser={match.user === cUser}
 								/>
 							))}

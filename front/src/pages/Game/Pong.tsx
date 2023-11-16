@@ -92,7 +92,7 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("life", (data) => {
-				console.log("data = ", data);  // -----> data ok
+				//console.log("data = ", data);  // -----> data ok
 				//setInfo(data)
 				/*setLastGameInfo((prevState) => ({
 					...prevState,

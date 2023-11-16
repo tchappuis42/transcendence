@@ -26,6 +26,7 @@ const Ranking = () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/ranking");
 				setRank(response.data);
+				console.log(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des scores :", error);
 			}

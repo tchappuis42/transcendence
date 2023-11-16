@@ -152,6 +152,7 @@ const SocketPong = () => {
 						</div>
 					</div>
 				}
+				<button onClick={clean}>clean</button>
 			</div >
 		</div>
 	);

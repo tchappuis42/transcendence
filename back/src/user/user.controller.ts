@@ -24,16 +24,6 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get(':id')
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
-			throw new BadRequestException()
-		return await this.userService.getUserById(userId);
-	}
-
-	@UseGuards(JwtAuthGuard)
 	@Get("/2fa")
 	async get2fa(@Req() req: Request) {
 		const user = req.user as UserDto;
@@ -42,9 +32,19 @@ export class UserController {
 		return qrcode
 	}
 
-	@Get("ranking")
+	@Get("/ranking")
 	async getRanking() {
+		console.log("la")
 		const rank = await this.userService.getRanking();
 		return rank;
+	}
+
+	@Get(':id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
 	}
 }

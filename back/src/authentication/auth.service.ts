@@ -29,9 +29,7 @@ export class AuthService {
 
 	async postLogin(body: LoginDto) {
 		const { password, username } = body
-		console.log("username =", username);
 		const user = await this.usersRepository.findOne({ where: { username: username } })
-		console.log("user =", user)
 		if (!user) throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
 		if (!match) throw new UnauthorizedException("Ivalide password")
@@ -54,15 +52,5 @@ export class AuthService {
 		}
 		const payload = { sub: user.id, username: user.username };
 		return await this.jwtService.signAsync(payload)
-	}
-
-	async setConnection(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: true })
-		Logger.log("user connected")
-	}
-
-	async setDisconnect(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: false })
-		Logger.log("user disconnected")
 	}
 }

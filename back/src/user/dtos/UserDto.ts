@@ -4,5 +4,5 @@ export class UserDto {
 	avatar: string
 	twoFa: boolean
 	twoFaSecret: string
-	connected: boolean
+	connected: number
 }

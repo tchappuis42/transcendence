@@ -3,6 +3,7 @@ import "../styleProfilPage/mainCSS.css"
 import "./chatSide.css"
 import "./chatFriendsInfo/chatFriendsInfo.css"
 
+import { Badge, Button } from "@material-tailwind/react";
 import {BubbleData} from "../middleComponent/leaderboard";
 import {ChatUserHistoric, ChatUserOnline} from "./chatFriendsInfo/chatFriendsInfo";
 import {BubbleBodyLeaderboard, BubbleHeadLeaderboard} from "../middleComponent/leaderboardInfo/leaderboardComponent";

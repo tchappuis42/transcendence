@@ -28,16 +28,22 @@ interface Match {
 export const GetHistoricalMatch = (bubbleData: Player[], CUser: CurrentUser): Match[] => {
 	let matches: Match[] = [];
 	const currentUserIndex = bubbleData.findIndex(player => player.user === CUser?.user);
+	let user: Player = bubbleData[currentUserIndex];
 		for (let j = 0; j < bubbleData.length; j++) {
-			let user = bubbleData[currentUserIndex];
-			let player2 = bubbleData[j];
-			let score1 = Math.round((user.stats * Math.random() * 10) % 10);
-			let score2 = Math.round((player2.stats * Math.random() * 10) % 10);
+			if (j === currentUserIndex)
+				j++;
+			let player2: Player = bubbleData[j];
+
+			let score1: number = Math.round((user.stats * Math.random() * 10) % 10);
+			let score2: number = Math.round((player2.stats * Math.random() * 10) % 10);
+
 			let winner;
+
 			if (score1 > score2)
 				winner = user;
 			else
 				winner = player2;
+
 			matches.push({
 				player1: user.user,
 				player2: player2.user,
@@ -63,7 +69,7 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 	if (currentUser)
 		matches = GetHistoricalMatch(bubbleData, currentUser);
 
-	const currentUserMatches: Match[] = matches.filter(match => match.player1 === currentUser?.user || match.player2 === currentUser?.user);
+	const currentUserMatches: Match[] = matches.filter(match => match.player1 === currentUser?.user);
 	return (currentUserMatches);
 }
 
@@ -130,8 +136,7 @@ export const Leaderboard = () => {
 					<tbody>
 						<div className="bubble-component">
 							{currentUserMatches.map((match, index) => (
-								<BubbleBodyMatchHistory className={match.player1 === "ieie" ? "bg-blue-200" : undefined}
-														key={index}
+								<BubbleBodyMatchHistory key={index}
 														index={index + 1}
 														player1={match.player1}
 														player2={match.player2}

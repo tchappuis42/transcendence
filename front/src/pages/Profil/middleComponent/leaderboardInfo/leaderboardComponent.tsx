@@ -28,7 +28,7 @@ export const BubbleHeadLeaderboard = ({index, user, name, stats}: PropsHead) => 
 				<td className="col-span-1">
 					<div className="bubble-row justify-start">{user}</div>
 				</td>
-				<td className="col-span-2 flex justify-center">
+				<td className="col-span-3 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>
 				</td>
 				<td className="col-span-1">
@@ -66,7 +66,7 @@ export const BubbleBodyLeaderboard = ({index, stats, name, user, className}: Pro
 				<td className="col-span-1">
 					<div className="bubble-row justify-start">{user}</div>
 				</td>
-				<td className="col-span-2 flex justify-center">
+				<td className="col-span-3 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>
 				</td>
 				<td className="col-span-1">

@@ -25,6 +25,28 @@ interface Match {
 	winner: string;
 }
 
+export const BubbleData = () => {
+	let bubbleData = [
+		{ stats: 100, name: "total win", user: "keke" },
+		{ stats: 110, name: "total win", user: "nene" },
+		{ stats: 10, name: "total win", user: "pepe" },
+		{ stats: 1900, name: "total win", user: "cece" },
+		{ stats: 2, name: "total win", user: "gege" },
+		{ stats: 3333, name: "total win", user: "lele" },
+		{ stats: 230, name: "total win", user: "ieie" },
+		{ stats: 890, name: "total win", user: "zeze" },
+		{ stats: 35345, name: "total win", user: "xexe" },
+		{ stats: 453, name: "total win", user: "rere" },
+		{ stats: 34, name: "total win", user: "jeje" },
+		{ stats: 57, name: "total win", user: "meme" },
+		{ stats: 5755, name: "total win", user: "oeoe" },
+		{ stats: 5664, name: "total win", user: "hehe" },
+		{ stats: 566, name: "total win", user: "ueue" },
+		{ stats: 345, name: "total win", user: "sese" },
+	];
+	return (bubbleData);
+}
+
 export const GetHistoricalMatch = (bubbleData: Player[], CUser: CurrentUser): Match[] => {
 	let matches: Match[] = [];
 	const currentUserIndex = bubbleData.findIndex(player => player.user === CUser?.user);
@@ -75,24 +97,8 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 
 export const Leaderboard = () => {
 	const cUser: "ieie" = "ieie";
-	let bubbleData = [
-		{ stats: 100, name: "total win", user: "keke" },
-		{ stats: 110, name: "total win", user: "nene" },
-		{ stats: 10, name: "total win", user: "pepe" },
-		{ stats: 1900, name: "total win", user: "cece" },
-		{ stats: 2, name: "total win", user: "gege" },
-		{ stats: 3333, name: "total win", user: "lele" },
-		{ stats: 230, name: "total win", user: "ieie" },
-		{ stats: 890, name: "total win", user: "zeze" },
-		{ stats: 35345, name: "total win", user: "xexe" },
-		{ stats: 453, name: "total win", user: "rere" },
-		{ stats: 34, name: "total win", user: "jeje" },
-		{ stats: 57, name: "total win", user: "meme" },
-		{ stats: 5755, name: "total win", user: "oeoe" },
-		{ stats: 5664, name: "total win", user: "hehe" },
-		{ stats: 566, name: "total win", user: "ueue" },
-		{ stats: 345, name: "total win", user: "sese" },
-	];
+
+	let bubbleData = BubbleData();
 
 	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
 

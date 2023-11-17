@@ -3,6 +3,17 @@
 @tailwind utilities;
 
 @layer components {
+    .right-component-main {
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        p-[10px] gap-2
+
+    }
+    .right-component-table {
+        @apply h-full max-h-[915px]
+        grid grid-rows-5 h-full
+    }
+
     .info-chat-component {
         @apply flex flex-col
         min-h-[400px] min-w-[350px]
@@ -11,7 +22,7 @@
     }
     .online-users-component {
         @apply flex flex-col
-        min-h-[170px] min-w-[350px]
+        min-h-[160px] min-w-[350px]
         bg-amber-100 p-4 rounded
         justify-end
     }
@@ -44,5 +55,20 @@
         @apply flex flex-col max-h-[130px]
         justify-start overflow-y-scroll gap-1
         snap-proximity snap-y
+    }
+
+    .bubble-component {
+        @apply relative max-h-[280px]
+        flex flex-col overflow-y-scroll
+        snap-proximity snap-y gap-2
+    }
+    .bubble-main {
+        @apply min-h-[40px] w-full
+        grid grid-cols-6 rounded px-3 py-1
+    }
+    .bubble-row {
+        @apply h-full w-full
+        flex flex-row items-center
+        rounded
     }
 }

@@ -12,14 +12,14 @@ export type Option = {
 };
 
 const NavigationItem = ({ option }: { option: Option }) => {
-	return <NavLink to={option.url} className='text-white aria-[current=page]:text-blue-400'>
+	return <NavLink to={option.url} className='link'>
 		{option.label}
 	</NavLink >
 }
 //className="header"
 const Navigation = ({ options }: Props) => {
 	return (
-		<div className="flex h-16 justify-around flex-row p-2.5 bg-white/20 items-center">
+		<div className="header">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}

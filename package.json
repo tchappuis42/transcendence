@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "react-popper": "^2.3.0"
+  }
+}

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
@@ -17,20 +17,22 @@ export class UserController {
 		return req.user
 	}
 
-	@Post("/avatar")
-	@UseInterceptors(FileInterceptor('files'))
-	uploadFile(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
-		//console.log(file);
-		//async postAvatar(@Body() body : any){
-		return body
-	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	async getUsers(@Req() req: Request) {
 		const user = req.user as UserDto;
 		const users = await this.userService.usersListe(user.id);
 		return users
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get(':id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
 	}
 
 	@UseGuards(JwtAuthGuard)

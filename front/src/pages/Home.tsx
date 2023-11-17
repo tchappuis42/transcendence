@@ -6,6 +6,7 @@ import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
 import Testuser from './testuser';
 import { io } from 'socket.io-client';
 import { SocketProvider } from '../ui/organisms/SocketContext';
+import {TopBar} from "./topBar/topBar";
 
 
 const navigationOptions = [
@@ -13,6 +14,7 @@ const navigationOptions = [
 	{ label: 'test', url: '/test' },
 	{ label: 'chat', url: '/chat' },
 	{ label: 'pong', url: '/pong' },
+	{ label: 'profil', url: '/profil' },
 ];
 
 const Home = () => {
@@ -34,14 +36,16 @@ const Home = () => {
 	if (location.pathname === '/') {
 		return (
 			<div>
-				<Navigation options={navigationOptions} />
+				{/*<Navigation options={navigationOptions} />*/}
+				<TopBar/>
 				<Testuser />
 			</div >
 		);
 	}
 
 	return <div>
-		<Navigation options={navigationOptions} />
+		{/*<Navigation options={navigationOptions} />*/}
+		<TopBar/>
 		<Outlet />
 	</div>
 };

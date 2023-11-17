@@ -16,14 +16,14 @@ const NavigationItem = ({ option }: { option: Option }) => {
 		{option.label}
 	</NavLink >
 }
-
+//className="header"
 const Navigation = ({ options }: Props) => {
 	return (
 		<div className="header">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
-			<NavDropDown />
+			{/*<NavDropDown />*/}
 		</div>
 	);
 };

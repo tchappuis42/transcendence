@@ -21,9 +21,14 @@ export class User {
   @Column({ nullable: true })
   twoFaSecret: string;
 
+<<<<<<< HEAD
   @Column({ default: false })
   connected: boolean;
 
   @Column({ default: 500 })
   score: number;
+=======
+  @Column({ default: 2 })
+  connected: number;
+>>>>>>> fa4fb6a67fae50a46b8670877ad30fab6f67753b
 }

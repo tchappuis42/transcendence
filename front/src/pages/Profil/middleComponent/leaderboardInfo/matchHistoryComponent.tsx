@@ -5,7 +5,6 @@ import "../../styleProfilPage/mainCSS.css"
 import {useEffect, useState} from "react";
 
 interface Props {
-	className: string | undefined;
 	index: number;
 	player1: string;
 	player2: string;
@@ -24,8 +23,7 @@ interface PropsHead {
 
 interface Color {
 	currentUser: string;
-	player1: string;
-	player2: string;
+	player: string
 	winner: string;
 }
 export const MatchHistory = () => {
@@ -60,17 +58,11 @@ export const MatchHistory = () => {
 	);
 }
 
-export const SetColor = ({winner, currentUser, player1, player2}: Color) => {
-	console.log("cuser, win, p1 et p2",currentUser, winner, player1, player2)
-	if (currentUser === winner)
-		return("bg-green-200");
-	else if (currentUser === player1 && currentUser !== winner)
+export const SetColor = ({winner, player, currentUser}: Color): string => {
+	console.log("cuser, win, p1 et p2",currentUser, winner, player)
+	if (player === currentUser && player !== winner)
 		return("bg-blue-200");
-	else if (currentUser === player2 && currentUser !== winner)
-		return("bg-blue-200");
-	else if (player1 !== currentUser && player1 === winner)
-		return("bg-green-200");
-	else if (player2 !== currentUser && player2 === winner)
+	else if (player === winner)
 		return("bg-green-200");
 	return("");
 }
@@ -80,12 +72,12 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 		<tr>
 			<div className="bubble-main black-border-fine bg-gray-200">
 				<td className="col-span-1">
-					<div className="bubble-row justify-center">{user}</div>
+					<div className="bubble-row justify-center">{}</div>
 				</td>
 				<td className="col-span-1">
 					<div className="bubble-row justify-start">{user}</div>
 				</td>
-				<td className="col-span-1 flex justify-center">
+				<td className="col-span-3 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>
 				</td>
 				<td className="col-span-1">
@@ -96,26 +88,23 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	);
 }
 
-export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner, currentUser}: Props) => {
-	let color = SetColor({winner, currentUser, player1, player2});
-
+export const BubbleBodyMatchHistory = ({index, player1, player2, score1, score2, winner, currentUser}: Props) => {
+	let colorP1 = SetColor({winner, player: player1, currentUser});
+	let colorP2 = SetColor({winner, player: player2, currentUser});
 	return (
-		<tr className={className}>
+		<tr>
 			<div className={`bubble-main black-border-fine snap-start`}>
 				<td className="col-span-1">
 					<div className="bubble-row justify-center">{index}</div>
 				</td>
 				<td className="col-span-1">
-					<div className={`bubble-row justify-center ${color}`}>{player1}</div>
+					<div className={`bubble-row justify-center ${colorP1}`}>{player1}</div>
 				</td>
-				<td className="col-span-2 flex justify-center">
+				<td className="col-span-3 flex justify-center">
 					<div className={`bubble-row justify-center`}>{score1} - {score2}</div>
 				</td>
 				<td className="col-span-1 flex justify-center">
-					<div className={`bubble-row justify-center ${color}`}>{player2}</div>
-				</td>
-				<td className="col-span-1">
-					<div className={`bubble-row justify-center`}>{winner}</div>
+					<div className={`bubble-row justify-center ${colorP2}`}>{player2}</div>
 				</td>
 			</div>
 		</tr>

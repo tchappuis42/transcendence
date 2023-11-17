@@ -7,10 +7,7 @@ import { JwtService } from '@nestjs/jwt'
 import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
-<<<<<<< HEAD
-import { Socket } from 'socket.io';
 import { Game } from 'src/game/game.entity';
-=======
 import { Server, Socket } from 'socket.io';
 
 interface sockets {
@@ -22,7 +19,6 @@ enum ConnctionState {
 	Online = 1,
 	Offline = 2
 }
->>>>>>> fa4fb6a67fae50a46b8670877ad30fab6f67753b
 
 @Injectable()
 export class UserService {

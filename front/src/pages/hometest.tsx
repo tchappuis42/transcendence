@@ -3,7 +3,7 @@ import { useAccount } from "../ui/organisms/useAccount";
 import { useEffect, useState } from "react";
 
 
-const Testuser = () => {
+const Hometest = () => {
 	const { account } = useAccount()
 
 	const [qrcode, setqr] = useState("")
@@ -18,4 +18,4 @@ const Testuser = () => {
 
 	)
 };
-export default Testuser;
+export default Hometest;

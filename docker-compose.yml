@@ -14,7 +14,6 @@ services:
         restart: always
 
     back:
-        #tty: true
         build: docker/back
         ports:
             - '4000:4000'

@@ -42,7 +42,12 @@ export const ChatUserHistoric = ({index, stats, name, user, className}: Props) =
 		<tr className={className}>
 			<div className={`${className} bubble-main black-border-fine snap-start hover:bg-${color}-200`}>
 				<td className="col-span-1">
-					<div className="bubble-row justify-start">{user}</div>
+					{/*<Badge color="green">*/}
+					{/*	<Button>*/}
+					{/*		green*/}
+							<div className="bubble-row justify-start">{user}</div>
+					{/*	</Button>*/}
+					{/*</Badge>*/}
 				</td>
 				<td className="col-span-3 flex justify-center">
 					<div className="bubble-row justify-center">{name}</div>

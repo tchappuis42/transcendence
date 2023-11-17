@@ -22,7 +22,7 @@ export const Profil = () => {
 					blue-border">
 						<LeftComponent/>
 						<Leaderboard/>
-					{/*<ChatSide/>*/}
+						<ChatSide/>
 				</div>
 			</div>
 		</>

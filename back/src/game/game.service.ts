@@ -17,6 +17,7 @@ interface roomName {
 	socket2: Socket
 	pong: Pong;
 	intervalId?: NodeJS.Timer;
+	timeStart: number
 }
 
 @Injectable()
@@ -43,18 +44,19 @@ export class GameService {
 				socket1: client,
 				socket2: this.waitingGame,
 				pong: new Pong(),
-				intervalId: setInterval(() => this.life(server, client), 1000 / 60)
+				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
+				timeStart: new Date().getTime()
 			}
-
+			console.log("le timer = ", element.timeStart)
 			this.rooms.push(element);
 			client.join(element.name);
 			this.waitingGame.join(element.name);
 			this.life(server, client);
 
-			const data: CreatGameDTO = {
+			const data: any = { // todo
 				roomName: element.name,
-				player1: element.socket1.data.user,
-				player2: element.socket2.data.user
+				idOne: element.socket1.data.user.id,
+				idTwo: element.socket2.data.user.id
 			}
 			this.waitingGame = null;
 			return data;
@@ -140,6 +142,19 @@ export class GameService {
 	async life(server: Server, client: Socket) {
 		const room = this.findRoom(client);
 		if (room) {
+
+			const timeNow = new Date().getTime()
+
+			//met la game en ready apres 1minute
+			if (timeNow - room.timeStart > 60000 && room.pong.ready === false) {
+				if (room.pong.player1.ready === true || room.pong.player2.ready === true) {
+					room.pong.getPlayer1().playerReady();
+					room.pong.getPlayer2().playerReady();
+				}
+				else
+					this.cleanRoom(room)
+			}
+
 			room.pong.pongLife();
 			server.to(room.name).emit('life', room.pong.getdata());
 			if (room.pong.player1.score === 10 || room.pong.player2.score === 10) {
@@ -190,10 +205,11 @@ export class GameService {
 			return 1
 		const inGame = this.rooms.find(r => client === r.socket1 || client === r.socket2)
 		if (inGame) {
-			const data: CreatGameDTO = {
-				roomName: inGame.name,
-				player1: inGame.socket1.data.user,
-				player2: inGame.socket2.data.user,
+			const data: any = {
+				idOne: inGame.socket1.data.user.id,
+				idTwo: inGame.socket2.data.user.id,
+				readyOne: inGame.pong.getPlayer1().ready,
+				readyTwo: inGame.pong.getPlayer2().ready
 			}
 			return data
 		}

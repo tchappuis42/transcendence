@@ -5,8 +5,10 @@ import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
 import PlayerCard from "./playerCard";
+import { useAccount } from "../../ui/organisms/useAccount";
 
 const SocketPong = () => {
+	const { account } = useAccount()
 	const socket = useSocket();
 	const [page, setPage] = useState(false);
 	const [player1, setplayer1] = useState(0);
@@ -29,8 +31,8 @@ const SocketPong = () => {
 		if (socket) {
 			socket.on("game", (data) => {
 				if (typeof data === 'object') {
-					setplayer1(data.player1.id);
-					setplayer2(data.player2.id);
+					setplayer1(data.idOne);
+					setplayer2(data.idTwo);
 					setsearch("trouver un match");
 					setRules(true)
 					SetPage(true);
@@ -47,9 +49,13 @@ const SocketPong = () => {
 			socket.on("info", (data) => {
 				console.log(data)
 				if (typeof data === 'object') {
-					setplayer1(data.player1.username);
-					setplayer2(data.player2.username);
+					setplayer1(data.idOne);
+					setplayer2(data.idTwo);
 					SetPage(true);
+					if (data.readyOne === false && data.idOne === account.id)
+						setRules(true)
+					if (data.readyTwo === false && data.idTwo === account.id)
+						setRules(true)
 				}
 				else
 					setsearch("recherche de match")
@@ -57,7 +63,7 @@ const SocketPong = () => {
 		}
 		return () => {
 			if (socket) {
-				socket.off("object");
+				socket.off("info");
 				socket.off("game");
 			}
 		};

@@ -20,7 +20,7 @@ const MatchHistory = () => {
 
 	/*const add = () => { //debug
 		setMatchs([...matchs, "test de test"])
-		//setMatchs([])
+		//setMatchs([])f
 	}*/
 
 	//<span onClick={add}> add</span>  <h1>Match history</h1>

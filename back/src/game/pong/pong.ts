@@ -8,6 +8,7 @@ export class Pong {
 	start: boolean
 	height: number
 	width: number
+	ready: boolean
 
 	constructor() {
 		this.height = 585
@@ -15,10 +16,14 @@ export class Pong {
 		this.player1 = new Paddle(45, (this.height / 2) - 40)
 		this.player2 = new Paddle(this.width - 45, (this.height / 2) - 40)
 		this.ball = new Ball(this.height, this.width)
+		this.ready = false
 	}
 
 	pongLife() {
-		if (this.player1.ready && this.player2.ready) {
+		if (this.player1.ready && this.player2.ready)
+			this.ready = true
+
+		if (this.ready) {
 			if (this.player1.score < 10 && this.player2.score < 10) {
 				this.player1.life();
 				this.player2.life();

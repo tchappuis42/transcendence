@@ -33,7 +33,6 @@ export class UserController {
 		console.log(params.id);
 		return await this.userService.getUserById(params.id);
 	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/2fa")
 	async get2fa(@Req() req: Request) {

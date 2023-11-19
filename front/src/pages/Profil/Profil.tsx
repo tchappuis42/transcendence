@@ -4,7 +4,7 @@ import "./styleProfilPage/mainCSS.css"
 import "./styleProfilPage/toolsCss.css"
 import {LeftComponent} from "./leftComponent/leftComponent"
 import {Leaderboard} from "./middleComponent/leaderboard"
-// import {ChatSide} from "./rightComponent/chatSide"
+import {ChatSide} from "./rightComponent/chatSide"
 import { Button } from "@material-tailwind/react";
 
 export default function Example() {

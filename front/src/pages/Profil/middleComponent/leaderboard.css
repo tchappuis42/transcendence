@@ -22,11 +22,12 @@
     }
     .bubble-main {
         @apply min-h-[40px] w-full
-        grid grid-cols-6 rounded px-2
+        grid grid-cols-6 rounded px-2 py-1
     }
     .bubble-row {
-        @apply h-full
+        @apply h-full w-full
         flex flex-row items-center
+        rounded
     }
     /*.leaderboard-component-main {*/
     /*    @apply flex flex-col*/

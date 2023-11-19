@@ -3,7 +3,7 @@ import "./infoProfilComponent.css"
 import "../../styleProfilPage/toolsCss.css"
 import {InfoProfileUser} from "./infoProfil/infoProfil"
 import Wallpaper from "../../../image/wallpaper.jpg"
-// import {LevelUser} from "./infoLevel/infoLevel";
+import {LevelUser} from "./infoLevel/infoLevel";
 
 export const InfoProfilComponent = (): JSX.Element => {
 	return (
@@ -11,7 +11,7 @@ export const InfoProfilComponent = (): JSX.Element => {
 			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper black-border-fine"/>
 			<InfoProfileUser/>
 			<div className="information-level-component">
-				{/*<LevelUser/>*/}
+				<LevelUser/>
 			</div>
 		</>
 	);

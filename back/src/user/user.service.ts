@@ -8,6 +8,7 @@ import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Socket } from 'socket.io';
+import { PipelinePromise } from 'stream';
 
 @Injectable()
 export class UserService {
@@ -42,7 +43,6 @@ export class UserService {
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
-
 	async getUsers() {
 		return await this.usersRepository.find();
 	}

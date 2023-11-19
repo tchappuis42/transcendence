@@ -5,6 +5,7 @@ import "./chatFriendsInfo/chatFriendsInfo.css"
 import {BubbleData} from "../middleComponent/leaderboard";
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
 
+
 export const ChatSide = () => {
 
 	let bubbleData = BubbleData();

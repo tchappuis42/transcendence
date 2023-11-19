@@ -1,5 +1,7 @@
 import React from "react";
 import "./componentInfoGame.css"
+// import {UserGameWin} from "./infoProfil/userGameWin";
+
 interface Props {
 	stats: number;
 	name: string;

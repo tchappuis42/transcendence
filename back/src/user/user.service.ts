@@ -121,11 +121,11 @@ export class UserService {
 		await this.usersRepository.update(user.id, { connected: ConnctionState.Offline })
 		Logger.log("user disconnected")
 
-	async getUserById(userId: number) {
-		const getInfo = await this.usersRepository.findOne({ where: { id: userId } })
-		if (!getInfo)
-			throw new NotFoundException("user not found")
-		return getInfo
+	// async getUserById(userId: number) {
+	// 	const getInfo = await this.usersRepository.findOne({ where: { id: userId } })
+	// 	if (!getInfo)
+	// 		throw new NotFoundException("user not found")
+	// 	return getInfo
 
 	}
 

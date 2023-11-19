@@ -4,13 +4,21 @@ import { useSocket } from '../../ui/organisms/SocketContext';
 
 interface user {
 	username: string
-	status: boolean
+	status: number
 }
 
 const Status = () => {
 
 	const [users, setUsers] = useState<user[]>([]);
+	const [sorted, setSorted] = useState<user[]>([]);
 	const socket = useSocket();
+
+	useEffect(() => {
+		const sortUser = users.sort((a, b) => a.status - b.status)
+		setSorted(sortUser)
+		console.log("le trie", sorted)
+	}, [users]);
+
 
 	useEffect(() => {
 		const getUsers = async () => {
@@ -40,10 +48,23 @@ const Status = () => {
 		};
 	}, [socket]);
 
+	function getStatusColor(status: number) {
+		switch (status) {
+			case 0:
+				return 'blue'; // Hors ligne
+			case 1:
+				return 'green'; // En ligne
+			case 2:
+				return 'red'; // En jeu (ou tout autre statut)
+			default:
+				return 'black'; // Par défaut (au cas où)
+		}
+	}
+
 	return (
 		<div className="status">
 			<h1>Liste des Users</h1>
-			{users.map(u => <p style={{ color: u.status ? 'green' : 'red' }}>{u.username}</p>)}
+			{sorted.map(u => <p style={{ color: getStatusColor(u.status) }}>{u.username}</p>)}
 		</div>
 	);
 };

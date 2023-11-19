@@ -15,5 +15,5 @@ export class Friends {
 	second_User: User;
 
 	@Column({ default: false })
-	frind_status: boolean;
+	friend_status: boolean;
 }

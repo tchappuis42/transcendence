@@ -102,14 +102,12 @@ export class UserService {
 	async setDisconnect(user: UserDto) {
 		await this.usersRepository.update(user.id, { connected: 2 })
 		Logger.log("user disconnected")
+
+	async getUserById(userId: number) {
+		const getInfo = await this.usersRepository.findOne({ where: { id: userId } })
+		if (!getInfo)
+			throw new NotFoundException("user not found")
+		return getInfo
+
 	}
 }
-
-
-/*async postAvatar(body: AvatarDto) {
-	const {avatar} = body
-	const user = this.usersRepository.create({...body})
-	await this.usersRepository.save(user)
-	return "avatar mis a jour"
-}*/
-

@@ -1,6 +1,6 @@
 import "./leftComponent.css"
 import {GameStats} from "./infoCurrentUserStats/componentInfoGame"
-import {InfoProfilComponent} from "./infoCurrentUser/InfoProfilComponent"
+// import {InfoProfilComponent} from "./infoCurrentUser/InfoProfilComponent"
 
 interface Props {
 	className?: string;
@@ -9,9 +9,9 @@ interface Props {
 export const LeftComponent = ({className}: Props) => {
 	return (
 		<div className="left-component-main text-xs">
-			<div className="info-profile-component text-xs text-gray-800 uppercase bg-white border dark:bg-gray-800 dark:border-black shadow-md sm:rounded-lg"
+			<div className="info-profile-component gray-border"
 				 style={{gridTemplateRows: "5fr 2fr 1fr"}}>
-				<InfoProfilComponent/>
+				{/*<InfoProfilComponent/>*/}
 			</div>
 			<div className="user-stat-component">
 				<GameStats/>

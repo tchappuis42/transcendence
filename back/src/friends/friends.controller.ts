@@ -11,10 +11,11 @@ export class FriendsController {
 	constructor(private readonly frindsService: FriendsService) { }
 
 	@UseGuards(JwtAuthGuard)
-	@Post("/addFriend/:friendName")
-	async addFriend(@Param('friendName') friendName: string, @Req() req: Request) {
+	@Post("/addFriend")
+	async addFriend(@Body() body: AcceptDTO, @Req() req: Request) {
 		const user = req.user as User
-		return await this.frindsService.addFriend(user, friendName)
+		console.log("id = ", body.id)
+		return await this.frindsService.addFriend(user, body.id)
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -35,10 +36,10 @@ export class FriendsController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Post("/removeFriend/:friendName")
-	async removeFriend(@Param('friendName') friendName: string, @Req() req: Request) {
+	@Post("/removeFriend")
+	async removeFriend(@Body() body: AcceptDTO, @Req() req: Request) {
 		const user = req.user as User
-		return await this.frindsService.removeFriend(user, friendName)
+		return await this.frindsService.removeFriend(user, body.id)
 	}
 }
 

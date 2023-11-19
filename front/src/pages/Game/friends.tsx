@@ -64,7 +64,7 @@ const Friends = () => {
 			case 1:
 				return 'green'; // En ligne
 			case 2:
-				return 'red'; // En jeu (ou tout autre statut)
+				return 'red'; // En jeu
 			default:
 				return 'black'; // Par défaut (au cas où)
 		}
@@ -77,8 +77,27 @@ const Friends = () => {
 		}
 		await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
 			alert(response.data)
-			const add = ajoute.filter(e => e.id !== userId)
-			setAjoute(add)
+			if (accept === true)
+				setFriends((prevUser) => prevUser.map(user => user.id === data.id ? { ...user, friend_status: 0 } : user))
+			else {
+				const reject = friends.filter(e => e.id !== userId)
+				setFriends(reject)
+			}
+			//const add = ajoute.filter(e => e.id !== userId)
+			//setAjoute(add)
+		}).catch((error) => {
+			alert(error)
+		})
+	}
+
+	const deleteFriend = async (userId: number) => {
+		const data = {
+			id: userId,
+		}
+		await axios.post("http://localhost:4000/friends/removeFriend", data, { withCredentials: true }).then((response) => {
+			alert(response.data)
+			const del = friends.filter(e => e.id !== userId)
+			setFriends(del)
 		}).catch((error) => {
 			alert(error)
 		})
@@ -86,9 +105,13 @@ const Friends = () => {
 
 	return (
 		<div className="status">
-			<h1>Liste des Users</h1>
+			<h1>Liste des amis</h1>
 			<h2>ami</h2>
-			{sorted.map(u => <p style={{ color: getStatusColor(u.status) }}>{u.username}</p>)}
+			{sorted.map(u =>
+				<p style={{ color: getStatusColor(u.status) }} key={u.id}>
+					{u.username}
+					<button onClick={() => deleteFriend(u.id)}>x</button>
+				</p>)}
 			<h2>ami a ajouter</h2>
 			{ajoute.map(u =>
 				<p key={u.id}>

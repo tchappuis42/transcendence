@@ -21,7 +21,7 @@ export class UserService {
 
 	Sockets: sockets[] = [];
 
-	async validateUser(id: number): Promise<UserDto> {
+	async validateUser(id: number): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { id: id } })
 		if (!user) throw new NotFoundException("user not found")
 		return user;
@@ -48,18 +48,12 @@ export class UserService {
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
-	async getUsers() {
-		return await this.usersRepository.find();
-	}
 
-	async setConnection(user: User) {
-		await this.usersRepository.update(user.id, { connected: true })
-		Logger.log("user connected")
-	}
-
-	async setDisconnect(user: User) {
-		await this.usersRepository.update(user.id, { connected: false })
-		Logger.log("user disconnected")
+	async usersListe(id: number) {
+		const users = await this.usersRepository.find()
+		const liste = users.map((user) => ({ username: user.username, status: user.connected, id: user.id }))
+		const withoutMe = liste.filter((me) => me.id !== id)
+		return withoutMe
 	}
 
 	async addUser(client: Socket, server: Server) {

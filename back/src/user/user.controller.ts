@@ -25,7 +25,7 @@ export class UserController {
 		return body
 	}
 
-
+	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	@UseInterceptors(ClassSerializerInterceptor)
 	async getUsers() {

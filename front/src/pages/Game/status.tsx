@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 
 interface user {
+	id: number
 	username: string
 	status: number
 }
@@ -61,10 +62,25 @@ const Status = () => {
 		}
 	}
 
+	const addFrind = async (userId: number) => {
+		const data = {
+			id: userId,
+		}
+		await axios.post("http://localhost:4000/friends/addFriend", data, { withCredentials: true }).then((response) => {
+			alert(response.data)
+		}).catch((error) => {
+			alert(error)
+		})
+	}
+
 	return (
 		<div className="status">
 			<h1>Liste des Users</h1>
-			{sorted.map(u => <p style={{ color: getStatusColor(u.status) }}>{u.username}</p>)}
+			{sorted.map(u =>
+				<p style={{ color: getStatusColor(u.status) }} key={u.id}>
+					{u.username}
+					<button onClick={() => addFrind(u.id)} style={{ marginLeft: "5px" }}>add</button>
+				</p>)}
 		</div>
 	);
 };

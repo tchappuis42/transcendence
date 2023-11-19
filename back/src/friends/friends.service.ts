@@ -12,9 +12,12 @@ export class FriendsService {
 	constructor(
 		@InjectRepository(Friends) private friendsRepository: Repository<Friends>, private readonly userservice: UserService) { }
 
-	async addFriend(user: User, friend: string) {
-		const friendUser = await this.userservice.validateUserByName(friend);
+	async addFriend(user: User, friend: number) {
+		//	console.log("number = ", friend)
+		const friendUser = await this.userservice.validateUser(friend);
+		//console.log("friendUser = ", friendUser)
 		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
+		//console.log("check = ", check)
 		if (check)
 			return "demande d'ami déjà envoyé"
 		const friends = new Friends()
@@ -28,6 +31,7 @@ export class FriendsService {
 		const list = await this.friendsRepository.find({ where: [{ first_User: user }, { second_User: user }] })
 		if (!list)
 			throw new NotFoundException("user not found") // bonne erreur
+		console.log("liste = ", list)
 		const friends = list.map((friend) => {
 			if (friend.first_User.id === user.id) {
 				if (friend.friend_status === true)
@@ -64,8 +68,8 @@ export class FriendsService {
 		return "erreur";
 	}
 
-	async removeFriend(user: User, friend: string) {
-		const friendUser = await this.userservice.validateUserByName(friend);
+	async removeFriend(user: User, friend: number) {
+		const friendUser = await this.userservice.validateUser(friend);
 		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })
 		if (check) {
 			await this.friendsRepository.delete(check.id)

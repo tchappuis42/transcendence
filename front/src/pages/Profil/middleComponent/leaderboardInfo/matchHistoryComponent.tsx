@@ -12,7 +12,7 @@ interface Props {
 	score1: number;
 	score2: number;
 	winner: string;
-	// currentUser: string;
+	currentUser: string;
 }
 
 interface PropsHead {
@@ -23,7 +23,7 @@ interface PropsHead {
 }
 
 interface Color {
-	currentUser: string
+	currentUser: string;
 	player1: string;
 	player2: string;
 	winner: string;
@@ -61,22 +61,20 @@ export const MatchHistory = () => {
 }
 
 export const SetColor = ({winner, currentUser, player1, player2}: Color) => {
-	const [color, setColor] = useState("");
-
-	useEffect(() => {
-		const rankColor = () => {
-			if (currentUser === winner)
-				setColor("gold");
-			else if (currentUser !== winner)
-				setColor("blue");
-			else if (player1 !== currentUser && player1 === winner)
-				setColor("gold");
-			else if (player2 !== currentUser && player2 === winner)
-				setColor("gold");
-		}
-		rankColor();
-	}, [winner, player1, player2, currentUser]);
+	console.log("cuser, win, p1 et p2",currentUser, winner, player1, player2)
+	if (currentUser === winner)
+		return("bg-green-200");
+	else if (currentUser === player1 && currentUser !== winner)
+		return("bg-blue-200");
+	else if (currentUser === player2 && currentUser !== winner)
+		return("bg-blue-200");
+	else if (player1 !== currentUser && player1 === winner)
+		return("bg-green-200");
+	else if (player2 !== currentUser && player2 === winner)
+		return("bg-green-200");
+	return("");
 }
+
 export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	return (
 		<tr>
@@ -98,24 +96,26 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 	);
 }
 
-export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner}: Props) => {
+export const BubbleBodyMatchHistory = ({index, className, score1, score2, player1, player2, winner, currentUser}: Props) => {
+	let color = SetColor({winner, currentUser, player1, player2});
+
 	return (
 		<tr className={className}>
-			<div className={`${className} bubble-main black-border-fine snap-start`}>
+			<div className={`bubble-main black-border-fine snap-start`}>
 				<td className="col-span-1">
 					<div className="bubble-row justify-center">{index}</div>
 				</td>
 				<td className="col-span-1">
-					<div className="bubble-row justify-start">{player1}</div>
+					<div className={`bubble-row justify-center ${color}`}>{player1}</div>
 				</td>
 				<td className="col-span-2 flex justify-center">
-					<div className="bubble-row justify-center">{score1} - {score2}</div>
+					<div className={`bubble-row justify-center`}>{score1} - {score2}</div>
 				</td>
 				<td className="col-span-1 flex justify-center">
-					<div className="bubble-row justify-start">{player2}</div>
+					<div className={`bubble-row justify-center ${color}`}>{player2}</div>
 				</td>
 				<td className="col-span-1">
-					<div className="bubble-row justify-center bg-amber-100">{winner}</div>
+					<div className={`bubble-row justify-center`}>{winner}</div>
 				</td>
 			</div>
 		</tr>

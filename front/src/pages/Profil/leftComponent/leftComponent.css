@@ -29,9 +29,6 @@
         flex flex-col justify-start
     }
 
-    .add-friends-buttons {
-        @apply grid grid-rows-2
-    }
     .rest-information-component {
         @apply grid grid-rows-2
         w-full col-span-3 rounded

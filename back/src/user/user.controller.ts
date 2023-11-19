@@ -17,6 +17,8 @@ export class UserController {
 		return req.user
 	}
 
+
+	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	async getUsers(@Req() req: Request) {
 		const user = req.user as UserDto;

@@ -51,7 +51,7 @@ export class UserService {
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
-
+	
 	async usersListe(id: number) {
 		const users = await this.usersRepository.find()
 		const liste = users.map((user) => ({ username: user.username, status: user.connected, id: user.id }))

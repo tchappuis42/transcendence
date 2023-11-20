@@ -19,11 +19,8 @@ export const MyName = () => {
 	useEffect(() => {
 		const me = rank.find(user => user.username === account.username)
 		// const index = rank.findIndex(user => user.username === account.username)
-		console.log("me = ", rank.find(user => user.username === account.username));
-		console.log("me = ", rank.find(user => user.username === account.username));
 		setMyRank(me);
 		// setMe(myRank?.username);
-		console.log("myRank = ",myRank);
 		// setIndex(index)
 	}, [rank]);
 

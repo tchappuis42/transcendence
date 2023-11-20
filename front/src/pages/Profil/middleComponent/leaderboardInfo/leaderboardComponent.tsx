@@ -52,7 +52,6 @@ export const BubbleBodyLeaderboard = ({index, stats, name, user, className}: Pro
 				setColor("orange");
 			else
 				setColor("red");
-			console.log("the color is : ", color, index);
 		}
 		rankColor();
 	}, [index]);

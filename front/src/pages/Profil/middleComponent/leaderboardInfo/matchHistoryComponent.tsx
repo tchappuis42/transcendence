@@ -59,7 +59,6 @@ export const MatchHistory = () => {
 }
 
 export const SetColor = ({winner, player, currentUser}: Color): string => {
-	console.log("cuser, win, p1 et p2",currentUser, winner, player)
 	if (player === currentUser && player !== winner)
 		return("bg-blue-200");
 	else if (player === winner)

@@ -1,8 +1,10 @@
 import * as React from "react"
 import "../chatSide.css"
 import "./chatFriendsInfo.css"
+import Status from "../../../Game/status"
 import {useEffect, useState} from "react";
 import { Badge, Button } from "@material-tailwind/react";
+import {UserStatus} from "../../tools/userStatus";
 
 interface Props {
 	index: number;
@@ -11,24 +13,22 @@ interface Props {
 	stats: number;
 }
 
-export const ChatUserHistoric = ({index, stats, name, user}: Props) => {
+export const ChatUserHistoric = ({index, name, user}: Props) => {
 	const [colorBadge, setColorBadge] = useState("");
+	const [isActive, setIsActive] = useState(false);
 
 	useEffect(() => {
 		const rankColor = () => {
 			if (index > 0 && index <= 3)
 				setColorBadge("green");
-			else if (index > 3 && index <= 6)
-				setColorBadge("yellow");
 			else if (index > 10 && index <= 10)
 				setColorBadge("orange");
 			else
 				setColorBadge("red");
-			console.log("the color is : ", colorBadge, index);
 		}
 		rankColor();
-	}, [index]);
-
+	}, [index, colorBadge]);
+	UserStatus();
 	return (
 		<tr>
 			<div className={`bubble-main black-border-fine snap-start hover:bg-${colorBadge}-200`}>

@@ -6,9 +6,7 @@ import {BubbleData} from "../middleComponent/leaderboard";
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
 
 export const ChatSide = () => {
-
 	let bubbleData = BubbleData();
-
 	return(
 		<div className="right-component-main red-border">
 			<div className="right-component-table red-border gap-5">

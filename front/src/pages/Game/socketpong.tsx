@@ -47,7 +47,6 @@ const SocketPong = () => {
 				}
 			});
 			socket.on("info", (data) => {
-				console.log(data)
 				if (typeof data === 'object') {
 					setplayer1(data.idOne);
 					setplayer2(data.idTwo);
@@ -72,7 +71,6 @@ const SocketPong = () => {
 	const matchmaking = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		console.log("matchmaking");
 		if (socket) {
 			socket.emit("matchmaking");
 		}
@@ -82,7 +80,6 @@ const SocketPong = () => {
 	const clean = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		console.log("clean");
 		if (socket) {
 			socket.emit("clean");
 			setPage(false)

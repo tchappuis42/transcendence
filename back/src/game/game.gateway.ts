@@ -34,7 +34,6 @@ export class GameGateway {
 
 	@SubscribeMessage('clean')
 	clean(@ConnectedSocket() client: Socket) {
-		console.log("clean")
 		this.gameService.clean(client);
 	}
 

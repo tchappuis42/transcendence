@@ -36,7 +36,6 @@ export class UserController {
 
 	@Get("/ranking")
 	async getRanking() {
-		console.log("la")
 		const rank = await this.userService.getRanking();
 		return rank;
 	}

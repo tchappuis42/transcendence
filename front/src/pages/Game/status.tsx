@@ -17,7 +17,6 @@ const Status = () => {
 	useEffect(() => {
 		const sortUser = users.sort((a, b) => a.status - b.status)
 		setSorted(sortUser)
-		console.log("le trie", sorted)
 	}, [users]);
 
 
@@ -25,7 +24,6 @@ const Status = () => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
-				console.log("data = ", response.data)
 				setUsers(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
@@ -38,7 +36,6 @@ const Status = () => {
 	useEffect(() => { //socket
 		if (socket) {
 			socket.on("status", (data) => {
-				console.log(data)
 				setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
 			})
 		}

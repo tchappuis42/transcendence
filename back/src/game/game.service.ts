@@ -173,7 +173,7 @@ export class GameService {
 				//si personne est ready clean la room
 				else {
 					server.to(room.name).emit('score', "match nul")
-					this.cleanRoom(room, server)
+					await this.cleanRoom(room, server)
 				}
 			}
 
@@ -202,7 +202,7 @@ export class GameService {
 				}
 
 				//clean la room et save les nouveaux scores des joueurs et save la game
-				this.cleanRoom(room, server)
+				await this.cleanRoom(room, server)
 				await this.userservice.saveScore(newGame);
 				await this.gameRepository.save(newGame);
 			}

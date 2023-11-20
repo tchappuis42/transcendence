@@ -10,6 +10,7 @@ import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
+import { stat } from 'fs';
 
 
 @Injectable()
@@ -85,7 +86,6 @@ export class UserService {
 	}
 
 	async StatueGameOn(userId: number, server: Server) {
-		console.log(userId)
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		if (!user) throw new NotFoundException("user not found")
 		await this.usersRepository.update(user.id, { connected: ConnctionState.InGame })
@@ -97,10 +97,8 @@ export class UserService {
 	}
 
 	async StatueGameOff(userId: number, server: Server) {
-		console.log(userId)
 		const userStatue = await this.userStatue(userId)
 		if (userStatue === ConnctionState.InGame) {
-			console.log("le find")
 			await this.usersRepository.update(userId, { connected: ConnctionState.Online })
 			const status = {
 				id: userId,

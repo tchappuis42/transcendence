@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { GameService } from './game.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request, Response } from 'express';
@@ -8,11 +8,9 @@ import { UserDto } from 'src/user/dtos/UserDto';
 export class GameController {
 	constructor(private readonly gameService: GameService) { }
 
-	@UseGuards(JwtAuthGuard)
-	@Get('history')
-	async getGameByUser(@Req() req: Request) {
-		const user = req.user as UserDto;
-		const games = await this.gameService.getGameByUser(user.id);
+	@Get('history/:id')
+	async getGameByUser(@Param() params: any) {
+		const games = await this.gameService.getGameByUser(params.id);
 		return games;
 	}
 

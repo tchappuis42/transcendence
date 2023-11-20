@@ -3,9 +3,9 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Navigation from '../ui/organisms/Navigation';
 import Login from './Auth/Login';
 import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
-import Testuser from './testuser';
 import { io } from 'socket.io-client';
 import { SocketProvider } from '../ui/organisms/SocketContext';
+import Homepage from './HomePage/HomePage';
 
 
 const navigationOptions = [
@@ -35,7 +35,7 @@ const Home = () => {
 		return (
 			<div>
 				<Navigation options={navigationOptions} />
-				<Testuser />
+				<Homepage/>
 			</div >
 		);
 	}

@@ -1,20 +1,9 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Navigation from '../ui/organisms/Navigation';
 import Login from './Auth/Login';
 import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
-import Testuser from './testuser';
-import { io } from 'socket.io-client';
-import { SocketProvider } from '../ui/organisms/SocketContext';
 import { TopBar } from "./topBar/topBar";
-
-
-const navigationOptions = [
-	{ label: 'home', url: '/' },
-	{ label: 'chat', url: '/chat' },
-	{ label: 'pong', url: '/pong' },
-	{ label: 'profil', url: '/profil' },
-];
+import Hometest from './hometest';
 
 const Home = () => {
 	const { status, authenticate } = useAuth();
@@ -35,15 +24,13 @@ const Home = () => {
 	if (location.pathname === '/') {
 		return (
 			<div>
-				{/*<Navigation options={navigationOptions} />*/}
 				<TopBar />
-				<Testuser />
+				<Hometest />
 			</div >
 		);
 	}
 
 	return <div>
-		{/*<Navigation options={navigationOptions} />*/}
 		<TopBar />
 		<Outlet />
 	</div>

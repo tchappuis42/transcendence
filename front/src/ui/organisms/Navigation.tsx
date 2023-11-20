@@ -1,6 +1,5 @@
 import React, { SyntheticEvent } from 'react';
 import { NavLink } from 'react-router-dom';
-import NavDropDown from './NavDropDown';
 
 type Props = {
 	options: Option[];
@@ -16,14 +15,13 @@ const NavigationItem = ({ option }: { option: Option }) => {
 		{option.label}
 	</NavLink >
 }
-//className="header"
+
 const Navigation = ({ options }: Props) => {
 	return (
 		<div className="header">
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
-			{/*<NavDropDown />*/}
 		</div>
 	);
 };

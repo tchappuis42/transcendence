@@ -82,3 +82,11 @@ p:hover {
 	text-decoration: underline;
 	color: rgb(255, 8, 0);
 }
+
+/*
+#pong {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0;
+}*/

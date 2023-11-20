@@ -16,19 +16,16 @@ export class GameGateway {
 	server: Server;
 
 	async handleConnection(@ConnectedSocket() socket: Socket) {
-		//Logger.log(socket.id, "CLIENT CONNECTED")
 	}
 
-	//deconnexion
 	handleDisconnect(client: Socket) {
 		this.gameService.cleanMM(client);
 	}
 
 	@SubscribeMessage('matchmaking')
-	matchmaking(@ConnectedSocket() client: Socket) {
-		console.log("matchmaking")
+	async matchmaking(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
-		const game = this.gameService.matchmaking(user, client, this.server);
+		const game = await this.gameService.matchmaking(user, client, this.server);
 		if (typeof game === 'object')
 			this.server.to(game.roomName).emit('game', game)
 		if (typeof game === 'number')
@@ -45,7 +42,6 @@ export class GameGateway {
 	gamelife(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		const game = this.gameService.findRoom(client);
-		//console.log(game)
 		this.server.to(game.name).emit('gamelife', user.username);
 	}
 
@@ -56,17 +52,13 @@ export class GameGateway {
 
 	@SubscribeMessage('life')
 	life(@ConnectedSocket() client: Socket) {
-
 		const game = this.gameService.findRoom(client);
-		//console.log(game)
 		this.server.to(game.name).emit('gamelife');
 	}
 
 	@SubscribeMessage('info')
 	info(@ConnectedSocket() client: Socket) {
-
 		const info = this.gameService.getinfo(client);
-		console.log("info = ", info)
 		client.emit('info', info);
 	}
 }

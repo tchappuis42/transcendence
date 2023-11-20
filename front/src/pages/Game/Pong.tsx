@@ -30,7 +30,6 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		height: 15,
 	})
 
-	//console.log("la")
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		x: (grid * 2),
 		y: height / 2 - paddleHeight / 2,
@@ -47,23 +46,14 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		score: 0,
 	});
 
-	/*const [lastGameInfo, setLastGameInfo] = useState<{ playTwo: number, playOne: number, score2: number, score1: number, ballY: number, ballX: number }>({
-		playOne: 0,
-		playTwo: 0,
-		score1: 0,
-		score2: 0,
-		ballX: 0,
-		ballY: 0
-	});*/
-
 	const keyDownHandler = useCallback(
 		(e: KeyboardEvent) => {
 			e.preventDefault();
-			if (e.key === "ArrowUp") {
+			if (e.key === "ArrowUp" || e.key === "w") {
 				if (socket)
 					socket.emit("action", "up")
 			}
-			if (e.key === "ArrowDown") {
+			if (e.key === "ArrowDown" || e.key === "s") {
 				if (socket)
 					socket.emit("action", "down")
 			}
@@ -77,11 +67,11 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 
 	const keyUpHandler = useCallback(
 		(e: KeyboardEvent) => {
-			if (e.key === "ArrowUp") {
+			if (e.key === "ArrowUp" || e.key === "w") {
 				if (socket)
 					socket.emit("action", "keyup")
 			}
-			if (e.key === "ArrowDown") {
+			if (e.key === "ArrowDown" || e.key === "s") {
 				if (socket)
 					socket.emit("action", "keydown")
 			}
@@ -92,18 +82,6 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("life", (data) => {
-				//console.log("data = ", data);  // -----> data ok
-				//setInfo(data)
-				/*setLastGameInfo((prevState) => ({
-					...prevState,
-					playOne: data.playOne,
-					playTwo: data.playTwo,
-					score1: data.score1,
-					score2: data.score2,
-					ballX: data.ballX,
-					ballY: data.ballY
-				}));
-				console.log(lastGameInfo)*/
 				setrightpaddle((prevState) => ({
 					...prevState,
 					y: data.playTwo,
@@ -123,35 +101,6 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 			}
 		};
 	}, [socket]);
-
-
-	/*
-		const draw = useCallback(() => {
-			console.log("LA = ", lastGameInfo)
-			if (!lastGameInfo || lastGameInfo === undefined)
-				return;
-			setrightpaddle((prevState) => ({
-				...prevState,
-				y: lastGameInfo.playTwo,
-				score: lastGameInfo.score2,
-			}));
-			setleftpaddle((prevState) => ({
-				...prevState,
-				y: lastGameInfo.playOne,
-				score: lastGameInfo.score1,
-			}));
-			setBall((prevState) => ({ ...prevState, y: lastGameInfo.ballY, x: lastGameInfo.ballX }));
-		}, [ball, leftPaddle, rightPaddle, lastGameInfo])
-	
-		const timerGameLoop = useRef<NodeJS.Timer>()
-	
-		useEffect(() => {
-	
-			timerGameLoop.current = setInterval(draw, 1000 / 30)
-			return () => {
-				clearInterval(timerGameLoop.current);
-			}
-		}, []);*/
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -190,8 +139,8 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		<div className='relative h-[35rem] flex w-full justify-center'>
 			{rules &&
 				<GameRules />}
-			<div id="pong" className='flex justify-center items-center'>
-				<canvas ref={canvasRef} />
+			<div id="pong" >
+				<canvas ref={canvasRef} className='max-w-full h-auto block m-0' />
 			</div>
 		</div>
 	);

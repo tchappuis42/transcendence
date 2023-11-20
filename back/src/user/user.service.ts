@@ -2,23 +2,15 @@ import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedE
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { AvatarDto } from './dtos/AvatarDto';
 import { JwtService } from '@nestjs/jwt'
 import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
+import { sockets } from './dtos/socketsDto';
+import { ConnctionState } from './dtos/ConnectionStateEnum';
 
-interface sockets {
-	id: string;
-	user: User;
-}
-
-enum ConnctionState {
-	Online = 1,
-	Offline = 2
-}
 
 @Injectable()
 export class UserService {
@@ -63,7 +55,7 @@ export class UserService {
 	}
 
 	async addUser(client: Socket, server: Server) {
-		const find = this.Sockets.find((element) => element.user.username === client.data.user.username)
+		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
 		const newUser: sockets = {
 			id: client.id,
 			user: client.data.user
@@ -72,26 +64,50 @@ export class UserService {
 		if (find === undefined) {
 			await this.setConnection(client.data.user)
 			const status = {
-				username: client.data.user.username,
+				id: client.data.user.id,
 				status: ConnctionState.Online
 			}
 			server.emit('status', status)
 		}
-		console.log("find = ", find)
 	}
 
 	async removeUser(client: Socket, server: Server) {
 		this.Sockets = this.Sockets.filter(element => element.id !== client.id);
-		const find = this.Sockets.find((element) => element.user.username === client.data.user.username)
+		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
 		if (find === undefined) {
 			await this.setDisconnect(client.data.user)
 			const status = {
-				username: client.data.user.username,
+				id: client.data.user.id,
 				status: ConnctionState.Offline
 			}
 			server.emit('status', status)
 		}
-		//console.log("[] = ", this.Sockets)
+	}
+
+	async StatueGameOn(userId: number, server: Server) {
+		console.log(userId)
+		const user = await this.usersRepository.findOne({ where: { id: userId } })
+		if (!user) throw new NotFoundException("user not found")
+		await this.usersRepository.update(user.id, { connected: ConnctionState.InGame })
+		const status = {
+			id: user.id,
+			status: ConnctionState.InGame
+		}
+		server.emit('status', status)
+	}
+
+	async StatueGameOff(userId: number, server: Server) {
+		console.log(userId)
+		const userStatue = await this.userStatue(userId)
+		if (userStatue === ConnctionState.InGame) {
+			console.log("le find")
+			await this.usersRepository.update(userId, { connected: ConnctionState.Online })
+			const status = {
+				id: userId,
+				status: ConnctionState.Online
+			}
+			server.emit('status', status)
+		}
 	}
 
 	async setConnection(user: UserDto) {
@@ -151,5 +167,12 @@ export class UserService {
 		if (!getInfo)
 			throw new NotFoundException("user not found")
 		return getInfo
+	}
+
+	async userStatue(userId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: userId } })
+		if (!user)
+			throw new NotFoundException("user not found")
+		return user.connected
 	}
 }

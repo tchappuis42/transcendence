@@ -13,11 +13,4 @@ export class GameController {
 		const games = await this.gameService.getGameByUser(params.id);
 		return games;
 	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get('clean')
-	async getClean(@Req() req: Request) {
-		const user = req.user as UserDto;
-		await this.gameService.cleanData(user.id);
-	}
 }

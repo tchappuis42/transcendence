@@ -26,7 +26,6 @@ const Ranking = () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/ranking");
 				setRank(response.data);
-				console.log(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des scores :", error);
 			}
@@ -34,7 +33,6 @@ const Ranking = () => {
 		getRank();
 	}, []);
 
-	//h-1/2 w-2/5 bg-gray-300 items-center flex-col flex
 	return (
 		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-[49%] sm:h-72 md:w-[39%] md:h-96 md:mt-0 xl:w-[468px]">
 			<h1 className="text-3xl sm:text-3xl font-bold h-10 md:h-12">Ranking</h1>

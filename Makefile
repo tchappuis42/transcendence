@@ -12,7 +12,7 @@ up:
 build:
 		docker-compose build
 
-re:			down all
+re:			clean all
 
 clean:		
 		docker-compose down

@@ -1,6 +1,9 @@
 import { Column, Entity, OneToMany, JoinColumn, JoinTable, ManyToOne, ManyToMany } from 'typeorm';
 import { User } from 'src/user/user.entity';
 import { Channel } from './channel.entity';
+import { MutedUser } from './muet.entity';
+import { BannedUser } from './banned.entity';
+
 
 @Entity()
 export class TextChannel extends Channel {
@@ -20,4 +23,12 @@ export class TextChannel extends Channel {
 
   @Column({ nullable: true })
   password: string;
+
+  @ManyToMany(() => MutedUser, { eager: true })
+  @JoinTable()
+  muted: MutedUser[];
+
+  @ManyToMany(() => BannedUser, { eager: true })
+  @JoinTable()
+  banned: BannedUser[];
 }

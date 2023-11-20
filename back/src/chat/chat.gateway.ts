@@ -6,6 +6,11 @@ import { UserService } from "src/user/user.service";
 import { TextChannelService } from './services/textChannel.service';
 import { TextChannel } from "./entity/textChannel";
 import { channel } from "diagnostics_channel";
+import { Msg } from "./entity/Msg.entity";
+import { MutedUser } from "./entity/muet.entity";
+import { DMChannelService } from "./services/DMChannel.service";
+import { DMChannel } from "./entity/dmChannel.entity";
+
 
 @WebSocketGateway({
 	cors: {
@@ -15,7 +20,8 @@ import { channel } from "diagnostics_channel";
 
 export class ChatGateway {
 	constructor(private readonly userService: UserService,
-		private readonly textChannelService: TextChannelService) { }
+		private readonly textChannelService: TextChannelService,
+		private readonly DMChannelService: DMChannelService) { }
 
 	@WebSocketServer()
 	server: Server;
@@ -27,23 +33,48 @@ export class ChatGateway {
 
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		if (data[2] == '0') {
-			const user = client.data.user as UserDto;
-			const admin = await this.userService.validateUser(user.id);
-			const channel = await this.textChannelService.getChannelMe(data[1]);
-			await this.textChannelService.addMsgForChannel(data[0], data[1], admin.id);
-			console.log("channel dans gateway", channel)
-			this.server.to(channel.name).emit('message', data[0], user.username);
-		}
-		else {
-			const channel = await this.textChannelService.getChannelMe(data[1]);
-			console.log("coukie")
-
-	//		const all_channels = await this.textChannelService.getAllChannels();
-	//		const all = all_channels.map((chan) => { if (chan.name === channel.name) { return { message: chan.msgs, username: chan.msgs}}});
-	//		client.emit("messages", all);
-			for(let i = 0; channel.msgs[i]; i++){
-				client.emit("messages", channel.msgs[i].message, channel.msgs[i].username);
+		const user = client.data.user as UserDto;
+		const channel = await this.textChannelService.getChannelMe(data[1]);
+		const baned = channel.banned.find((banned) => banned.userId == user.id);
+		if (!baned) {
+			if (data[2] == '0') {
+		//	const user = client.data.user as UserDto;
+				const admin = await this.userService.validateUser(user.id);
+		//	const channel = await this.textChannelService.getChannelMe(data[1]);
+			/*	for (let i = 0; channel.muted[i]; i++) {
+					if (channel.muted[i].userId == admin.id) {
+							if (channel.muted[i].endOfMute <= new Date(Date.now())) 
+								await this.textChannelService.unMutedUser(channel, admin, i);	
+					}
+				}
+				const channel1 = await this.textChannelService.getChannelMe(data[1]);
+				const check = channel1.muted.map((chan) => { if (chan.userId === admin.id) { return {info: true }} else { return { info: false }}});
+				let count = 0;
+				for (let i = 0; check[i]; i++) {
+					if (check[i].info == true) 
+						 count = 1
+				}
+				if (count === 0) {*/
+				const muet = channel.muted.find((mueted) => mueted.userId == user.id);
+				if (muet) {
+					//const index = channel.muted.findIndex((muted) => muted.id == user.id);
+					for (let i = 0; channel.muted[i]; i++) {
+						if (channel.muted[i].endOfMute <= new Date(Date.now())) 
+									await this.textChannelService.unMutedUser(channel, admin, i);
+					}
+				}
+				const channel1 = await this.textChannelService.getChannelMe(data[1]);
+				const muet1 = channel1.muted.find((mueted) => mueted.userId == user.id);
+				if (!muet1) {
+					await this.textChannelService.addMsgForChannel(data[0], data[1], admin.id);
+					this.server.to(channel.name).emit('message', data[0], user.username, user.id);
+				}
+			}
+			else {
+				const channel = await this.textChannelService.getChannelMe(data[1]);
+				//const user = client.data.user as UserDto;
+				const all = channel.msgs.map((e) => {return  { message: e.message, username: e.username, uId: e.userId}})
+				client.emit("messages", all);
 			}
 		}
 	}
@@ -58,45 +89,56 @@ export class ChatGateway {
 		await this.textChannelService.createChannel(name[0], user.id);
 		const channel = await this.textChannelService.getChannelMe(name[0]);
 		const all_channels = await this.textChannelService.getAllChannels();
-		//for (let i = 0; all_channels[i]; i++) {
-		const all = all_channels.map((chan) => { if (chan.status === true) { return { name: chan.name, statue: "Public"}} else  { return { name: chan.name, statue: "Private"}}});
-		client.emit('createchannel', all, channel);
+		
+		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
+		client.emit('createchannel', all, channel.name);
 		this.server.emit("refreshChannel", all);
-		//}
+		
 	}
 
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
+			console.log(name[1])
+			console.log(name[0])
+			const channel = await this.textChannelService.getChannelMe(name[0]);
+			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
 				client.leave(name[1]);
+				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
+					const channel1 = await this.textChannelService.getChannelMe(name[1]);
+					await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
+				}
 			}
-			//const user = client.data.user as UserDto;
-			client.join(name[0]);
-			const channel = await this.textChannelService.getChannelMe(name[0]);
-		/*	let passStatue: string;
-			if (channel.status === false) {
-				passStatue = await this.textChannelService.checkPassWord(channel, name[2]);
+			for (let i = 0; channel.banned[i]; i++) {
+				if (channel.banned[i].userId == user.id) {
+						if (channel.banned[i].endOfBan <= new Date(Date.now())) 
+							await this.textChannelService.unBanUser(channel, user, i);	
+				}
 			}
-			else
-				passStatue = "ok";*/
-			const user = client.data.user as UserDto;
-			let pass: string;
-			if (channel.password === null) {
-				pass = '0';
+			const Majchannel = await this.textChannelService.getChannelMe(name[0]);				
+			const baned = Majchannel.banned.find((banned) => banned.userId == user.id);
+			if (baned) {
+				const channel1 = await this.textChannelService.getChannelMe(name[1]);
+				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0)
+					await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
+				client.leave(name[1]);		
 			}
 			else {
-				pass = '1'
-			}
-			if (channel.owner.username == user.username) {
-				client.emit('getChannelMeOne', channel.name, channel.status, '1', pass);//, passStatue);
+				client.join(name[0]);
+				await this.textChannelService.addUserToChannel(channel, user.id)//, channel.owner.id);
+				let pass: string;
+				if (channel.password === null)
+					pass = '0';
+				else
+					pass = '1'
+				if (channel.owner.username == user.username)
+					client.emit('getChannelMeOne', channel.id, channel.name, channel.status, '1', pass);
 				//le 1 si le client est le owner
-			}
-			else {
-				client.emit('getChannelMeOne', channel.name, channel.status, '0', pass);//, passStatue);
+				else
+					client.emit('getChannelMeOne', channel.id, channel.name, channel.status, '0', pass);
 			}
 			console.log(channel)
-		//	client.emit('getChannelMeOne', channel.status);
 		} catch {}
 	}
 
@@ -117,8 +159,8 @@ export class ChatGateway {
 		const channels = await this.textChannelService.getChannelsForUser(
         user.id,
       );
-		console.log(channels)
-		this.server.emit('channelMe', channels);
+	//	console.log(channels)
+	//	this.server.emit('channelMe', channels);
     } catch {}
   }
 
@@ -130,23 +172,8 @@ export class ChatGateway {
 		const channel = await this.textChannelService.getChannelByName(name);
 		await this.textChannelService.deleteChannel(channel.id, admin.id)
 		const all_channels = await this.textChannelService.getAllChannels();
-		//console.log("valeur de la data 0", all_channels[0]
-		console.log("meeeeeeeeeeeeeeeerrrrrrrrrrdddddddee")
-		//let all: Map<string, string>[]; 
-	/*	let all: any[];
+		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
 		
-		for (let i = 0; all_channels[i]; i++) {
-			if (all_channels[i].status == true) {
-				// all[i] = new Map<string, string>([[all_channels[i].name, "Public"],])
-				 all[i].map(all_channels[i].name, "Public")
-			}
-			else {
-				// all[i] = new Map<string, string>([[all_channels[i].name, "Private"],])
-				all[i].map(all_channels[i].name, "Private")
-			}
-		}*/
-		const all = all_channels.map((chan) => { if (chan.status === true) { return { name: chan.name, statue: "Public"}} else  { return { name: chan.name, statue: "Private"}}});
-		console.log("essai de all ", all);
 		client.emit('deleteChannel', all)
 		//client.emit('deleteChannel', all_channels);
 		client.leave(channel.name);
@@ -160,90 +187,70 @@ export class ChatGateway {
 	}
 
 	@SubscribeMessage('addUserToChannel')
-	async addUserToChannel(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+	async addUserToChannel(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket() client: Socket) {
+		console.log("args1", args1)
+		console.log("args2", args2)
 		const user = client.data.user as UserDto;
-		const admin = await this.userService.validateUser(user.id);
-		const userAdd = await this.userService.validateUserByName(args[1]);
-		const channel = await this.textChannelService.getChannelByName(args[0]);
-		await this.textChannelService.addUserToChannel(channel, userAdd.id, admin.id);
+		console.log(args1)
+		console.log(args2)
+	//	const admin = await this.userService.validateUser(user.id);
+		const userAdd = await this.userService.validateUser(args2[1]);
+		console.log(userAdd)
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
+		await this.textChannelService.addUserToChannel(channel, userAdd.id)//, admin.id);
 	}
 
 	@SubscribeMessage('getAllChannels')
 	async getAllChannels(@ConnectedSocket() client: Socket) {
 		const all_channels = await this.textChannelService.getAllChannels();
-		/*for (let i = 0; all_channels[i]; i++) {
-			if (all_channels[i].status == true) {
-				let all = new Map<string, string>([[all_channels[i].name, "Private"],])
-				for(let [name, status] of all) {
-					console.log(name, status)
-					client.emit('getAllChannels', all);
-				}
-				//client.emit('getAllChannels', all);
-			}
-			else if(all_channels[i].status == false) {
-				let all = new Map<string, string>([[all_channels[i].name, "Public"],])
-				for(let [name, status] of all) {
-					console.log(name, status)
-					client.emit('getAllChannels', all);
-				}
-			//	client.emit('getAllChannels', all);
-			}
-	//	for(let [name, status] of all) {
-	//		console.log(name, status)
-	//	}
-	//	client.emit('getAllChannels', all);
-		}*/
-		const all = all_channels.map((chan) => { if (chan.status === true) { return { name: chan.name, statue: "Public"}} else  { return { name: chan.name, statue: "Private"}}});
-	//	for (let i = 0; all_channels[i]; i++) {
-			client.emit('getAllChannels', all); //all_channels[i].name, all_channels[i].status);
-		//}
+		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
+		client.emit('getAllChannels', all); 
 		console.log(all_channels);
 	}
 
 	@SubscribeMessage('removeUserFromChannel')
-	async removeUserFromChannel(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+	async removeUserFromChannel(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
-		const admin = await this.userService.validateUser(user.id);
-		const userAdd = await this.userService.validateUserByName(args[1]);
-		const channel = await this.textChannelService.getChannelByName(args[0]);
-		await this.textChannelService.removeUserFromChannel(channel, userAdd.id, admin.id)
+	//	const admin = await this.userService.validateUser(user.id);
+		const userAdd = await this.userService.validateUser(args2[1]);
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
+		await this.textChannelService.removeUserFromChannel(channel, userAdd.id)//, admin.id)
 	}
 
 	@SubscribeMessage('addAdmin')
-	async addAdmin(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+	async addAdmin(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		const admin = await this.userService.validateUser(user.id);
-		const userAdd = await this.userService.validateUserByName(args[1]);
-		const channel = await this.textChannelService.getChannelByName(args[0]);
+		const userAdd = await this.userService.validateUser(args2[1]);
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
 		await this.textChannelService.addAdmin(channel, userAdd.id, admin.id)
 	}
 
 	@SubscribeMessage('removeAdmin')
-	async removeAdmin(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+	async removeAdmin(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		const admin = await this.userService.validateUser(user.id);
-		const userAdd = await this.userService.validateUserByName(args[1]);
-		const channel = await this.textChannelService.getChannelByName(args[0]);
+		const userAdd = await this.userService.validateUser(args2[1]);
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
 		await this.textChannelService.removeAdmin(channel, userAdd.id, admin.id)
 	}
 
 	@SubscribeMessage('changeStatue')
 	async changeStatue(@MessageBody() args1: string, @MessageBody() args2: boolean, @ConnectedSocket()client: Socket) {
 		const channel = await this.textChannelService.getChannelByName(args1[0]);
-		console.log("avant changeemnt dans le channel", channel.status)
-		console.log("sattue avant changement avant chageStatue", args2[1])
+		//console.log("avant changeemnt dans le channel", channel.status)
+		///console.log("sattue avant changement avant chageStatue", args2[1])
 		await this.textChannelService.changeStatue(channel, args2[1]);
 		const all_channels = await this.textChannelService.getAllChannels();
-		const all = all_channels.map((chan) => { if (chan.status === true) { return { name: chan.name, statue: "Public"}} else  { return { name: chan.name, statue: "Private"}}});
-		console.log("apres changeemnt dans le channel", channel.status)
-		this.server.emit("refreshChannelStatus", all); //channel.name, channel.status);
+		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
+		//console.log("apres changeemnt dans le channel", channel.status)
+		this.server.emit("refreshChannelStatus", all);
 	}
 
 	@SubscribeMessage('setPassword')
 	async setPassword(@MessageBody() args: string, @ConnectedSocket()client: Socket) {
 		const channel = await this.textChannelService.getChannelByName(args[0]);
 		await this.textChannelService.setPassword(channel, args[1]);
-		//console.log(channel)
 	}
 	
 	@SubscribeMessage('checkPass')
@@ -255,7 +262,173 @@ export class ChatGateway {
 			}
 			else
 				passStatue = "ok";
-		console.log("la valeur dans passStatue", passStatue)
+			if (passStatue === "ko")
+				client.leave(channel.name);
 		client.emit("checkPass", channel.name, passStatue);
+	}
+
+	@SubscribeMessage('changePass')
+	async changePass(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+		try {
+			const user = client.data.user as UserDto;
+			const channel = await this.textChannelService.getChannelByName(args[0]);
+			let ret: number;
+			if (channel.owner.id === user.id) {
+				ret = await this.textChannelService.changePass(channel, args[1], args[2]);
+			}
+			if (ret === 1)
+				client.emit("changePass", "1");
+			else
+				client.emit("changePass", "0");
+		} catch {}
+	}
+
+	@SubscribeMessage('muetUser')
+	async muetUser(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket()client: Socket) {
+		console.log("yopa")
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
+		const admin = client.data.user as UserDto;
+		const userMute = await this.userService.validateUser(args2[1]);
+		const muted = channel.muted.find((muted) => muted.userId == args2[1]);
+		if (!muted) {
+			await this.textChannelService.muteUserInChannel(channel, admin, userMute);
+		}
+		console.log(channel.muted)
+	}
+
+	@SubscribeMessage('banUser')
+	async banUser(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket()client: Socket) {
+		console.log("yopa")
+		const channel = await this.textChannelService.getChannelByName(args1[0]);
+		const admin = client.data.user as UserDto;
+		const userban = await this.userService.validateUser(args2[1]);
+		const baned1 = channel.banned.find((banned) => banned.userId == args2[1]);
+		if (!baned1) 
+			await this.textChannelService.banUserInChannel(channel, admin, userban);
+		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
+		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
+		if (baned) 
+			console.log("looool")
+			this.server.to(channel.name).emit('banUser', channel.name);
+	}
+
+/*	@SubscribeMessage('bannedUser')
+	async bannedUser(@MessageBody() chanName: string, @ConnectedSocket()client: Socket) {
+		const channel = await this.textChannelService.getChannelByName(chanName);
+		const user = client.data.user as UserDto;
+		const baned = channel.banned.find((banned) => banned.userId == user.id);
+		if (baned) {
+			client.leave(channel.name);
+		}
+	}*/
+
+	@SubscribeMessage('createDMChannel')
+	async createDMChannel(@MessageBody() id: number, @MessageBody() name: string, @ConnectedSocket()client: Socket) {
+		try {
+		const user = client.data.user as UserDto;
+		if (name[1] != "create a channel!")
+			client.leave(name[1]);
+		if ((await this.textChannelService.getChannelMeForDM(name[1])) == 1) {
+			const channel1 = await this.textChannelService.getChannelMe(name[1]);
+			await this.textChannelService.removeUserFromChannel(channel1, user.id);
+		}
+		//const user = client.data.user as UserDto;
+		const user2 = await this.userService.validateUser(id[0]);
+		let channel: DMChannel;
+		if (user.id < user2.id)
+			channel = await this.DMChannelService.createDMChannel(user, user2);
+		else
+			channel = await this.DMChannelService.createDMChannel(user2, user);
+		console.log("hello")
+		const all_channels = await this.DMChannelService.getDMChannelsForUser(
+		user.id,
+		);
+
+		const all = all_channels.map((chan) => { if (chan.block1 === false && chan.block2 === false) { return { id: chan.id, name: chan.name, statue: "Unblocked"}} else if ((chan.block1 || chan.block2) === true) { return { id: chan.id, name: chan.name, statue: "Blocked"}}});
+		client.emit('createDMChannel', all, channel.name);
+		client.join(channel.name);
+		this.server.emit('trans');
+		} catch {}
+	}
+	
+	@SubscribeMessage('refreshDMChannel')
+	async refreshDMChannel(@ConnectedSocket()client: Socket) {
+		try {
+			const user = client.data.user as UserDto;
+			const all_channels = await this.DMChannelService.getDMChannelsForUser(
+				user.id,
+				);
+				//const all = all_channels.map((chan) => { if (chan.block1 === false && chan.block2 === false) { return { id: chan.id, name: chan.name, statue: "Unblocked"}} else if ((chan.block1 || chan.block2) === true) { return { id: chan.id, name: chan.name, statue: "Blocked"}}});
+				const all = all_channels.map((chan) => { 
+					if (((chan.user1[0].id ===  user.id) && chan.block1 === false) || ((chan.user2[0].id ===  user.id) && chan.block2 === false)) { 
+						return { id: chan.id, name: chan.name, statue: "Unblocked"}} 
+					else if (((chan.user1[0].id ===  user.id) && chan.block1 === true) || ((chan.user2[0].id ===  user.id) && chan.block2 === true)) { 
+						return { id: chan.id, name: chan.name, statue: "Blocked"}}});
+				client.emit('refreshDMChannel', all)
+		} catch {}
+	}
+
+	@SubscribeMessage('getDMChannelMe')
+	async getDMChannelMe(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
+		try {
+			const user = client.data.user as UserDto;
+			if ((await this.textChannelService.getChannelMeForDM(name[1])) == 1) {
+				const channel1 = await this.textChannelService.getChannelMe(name[1]);
+				await this.textChannelService.removeUserFromChannel(channel1, user.id);
+				//console.log("ca amrche 1 youpie je suis super heureux");
+			}
+			client.leave(name[1]);
+			client.join(name[0]);
+			const channel = await this.DMChannelService.getDMChannelMe(name[0]);
+		//	let status: string;
+		//	if ((channel.block1 && channel.block2) === false)
+			//	status = "ok";
+			//else
+		//		status = "ko";
+		//	if (status === "ok")
+			if (channel.user1[0].id === user.id)
+				client.emit('getDMChannelMe', channel.name, channel.block1)
+			else
+				client.emit('getDMChannelMe', channel.name, channel.block2)
+		} catch {}
+	}
+
+	@SubscribeMessage('DMmessage')
+	async DMmessage(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		const channel = await this.DMChannelService.getDMChannelMe(data[1]);
+		if (data[2] == '0') {
+			if ((channel.block1 || channel.block2) === false) {
+				await this.DMChannelService.addMsgForDMChannel(data[0], data[1], user.id);
+				this.server.to(channel.name).emit('message', data[0], user.username, user.id);
+			}
+			}
+		else {
+			const channel = await this.DMChannelService.getDMChannelMe(data[1]);
+			//console.log(channel.msgs)
+			const all = channel.msgs.map((e) => {return  { message: e.message, username: e.username, uId: e.userId}})
+			//console.log(all)
+			client.emit("messages", all);
+		}
+	}
+
+	@SubscribeMessage('DMBlock')
+	async DMBlock(@MessageBody() name: string, @MessageBody() status: boolean, @ConnectedSocket() client: Socket) {
+		try {
+			const user = client.data.user as UserDto;
+			const channel = await this.DMChannelService.getDMChannelMe(name[0]);
+			await this.DMChannelService.DMBlock(channel, user, status[1]);
+			const channel1 = await this.DMChannelService.getDMChannelMe(name[0]);
+			console.log(channel1)
+			const all_channels = await this.DMChannelService.getDMChannelsForUser(
+				user.id,
+			);
+			const all = all_channels.map((chan) => { 
+				if (((chan.user1[0].id ===  user.id) && chan.block1 === false) || ((chan.user2[0].id ===  user.id) && chan.block2 === false)) { 
+					return { id: chan.id, name: chan.name, statue: "Unblocked"}} 
+				else if (((chan.user1[0].id ===  user.id) && chan.block1 === true) || ((chan.user2[0].id ===  user.id) && chan.block2 === true)) { 
+					return { id: chan.id, name: chan.name, statue: "Blocked"}}});
+			client.emit('refreshDMChannel', all)
+		} catch {}
 	}
 }

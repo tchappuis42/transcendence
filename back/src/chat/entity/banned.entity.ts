@@ -2,22 +2,20 @@ import {
     Column,
     Entity,
     PrimaryGeneratedColumn,
-    TableInheritance,
   } from 'typeorm';
   
+  
   @Entity()
- 
-  export class Msg {
+  export class BannedUser {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column()
-    message: string;
+    @Column({ type: 'timestamptz' })
+    endOfBan: Date;
   
     @Column()
-    username: string;
-
-    @Column()
     userId: number;
+  
+    @Column()
+    channel: string;
   }
-

@@ -12,13 +12,18 @@ import { TextChannel } from '../entity/textChannel';
 import { channel } from 'diagnostics_channel';
 import { Msg } from '../entity/Msg.entity';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/user/user.entity';
+import { UserDto } from 'src/user/dtos/UserDto';
+import { MutedUser } from '../entity/muet.entity';
+import { BannedUser } from '../entity/banned.entity';
 
 
 
-const temporary = 30 * 60 * 1000;
+const temporary = 3 * 60 * 1000;
 
 @Injectable()
 export class TextChannelService {
+  
   constructor(
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
@@ -28,6 +33,12 @@ export class TextChannelService {
 
     @InjectRepository(Msg)
     private readonly msgRepository: Repository<Msg>,
+
+    @InjectRepository(MutedUser)
+    private readonly mutedUserRepository: Repository<MutedUser>,
+
+    @InjectRepository(BannedUser)
+    private readonly bannedUserRepository: Repository<BannedUser>,
 
   ) {}
 
@@ -62,7 +73,7 @@ export class TextChannelService {
     });
 
     //console.log(admin)
-    console.log('hello petite sac')
+   // console.log('hello petite sac')
     try {
       await this.textChannelRepository.save(currentChannel);
     } catch (error) {
@@ -89,6 +100,21 @@ export class TextChannelService {
     return channel;
   }
 
+  async getChannelMeForDM(
+    channelName: string,
+  ): Promise<number> {
+    let channel = null;
+    //console.log(channelId)
+    if (channelName)
+      channel = await this.textChannelRepository.findOne({
+        where: { name: channelName },
+      });
+    if (!channel)
+      return 0;
+   // console.log(channel)
+    return 1;
+  }
+
   async getChannel(
     channelId: number,
     relations = [] as string[],
@@ -101,12 +127,7 @@ export class TextChannelService {
       });
     if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-    //console.log(channel.name)
-    //console.log('le channel name dans getchannel')
-    //console.log(channel.users)
-    //console.log('le channel user dans getChannel')
-    //console.log(TextChannel.name)
-    console.log(channel)
+   // console.log(channel)
     return channel;
   }
 
@@ -120,7 +141,7 @@ export class TextChannelService {
       });
       if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-    console.log(channel.name)
+   // console.log(channel.name)
     return channel;
   }
 
@@ -155,29 +176,32 @@ export class TextChannelService {
     await this.textChannelRepository.remove(channel);
   }
 
-  async addUserToChannel(channel: TextChannel, userId: number, adminId: number): Promise<void> {
-    const admin = await this.userService.validateUser(adminId);
+  async addUserToChannel(channel: TextChannel, userId: number/*, adminId: number*/): Promise<void> {
+  //  const admin = await this.userService.validateUser(adminId);
     const user = await this.userService.validateUser(userId);
     const curchannel = await this.getChannel(
       channel.id, [
 				'users',
 			]
     );
-
+/*
     if (!(curchannel.adminId.find((admin1) => admin1.id == admin.id))) {
       throw new HttpException(
         'User isnt admin in channel',
         HttpStatus.FORBIDDEN,
       )};
-
-    if (curchannel.users.find((user1) => user1.id == user.id))
-      throw new HttpException('User already in channel', HttpStatus.CONFLICT);
+*/
+    
+    if (!curchannel.users.find((user1) => user1.id == user.id)) {
+     // throw new HttpException('User already in channel', HttpStatus.CONFLICT);
+    
     
     await this.textChannelRepository
       .createQueryBuilder()
       .relation(TextChannel, 'users')
       .of(curchannel)
       .add(user);
+    }
   }
 
   async getAllChannels(): Promise<TextChannel[]> {
@@ -190,14 +214,14 @@ export class TextChannelService {
   async removeUserFromChannel(
     channel: TextChannel,
     userId: number,
-    adminId: number,
+   // adminId: number,
   ): Promise<void> {
-    const admin = await this.userService.validateUser(adminId);
+   // const admin = await this.userService.validateUser(adminId);
     const user = await this.userService.validateUser(userId);
     const curchannel = await this.getChannel(channel.id, [
       'users',
     ]);
-
+/*
     if (user.id == curchannel.owner.id)
       throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
 
@@ -206,10 +230,10 @@ export class TextChannelService {
         'User isnt admin in channel',
         HttpStatus.FORBIDDEN,
       )};
-
+*/
     const index = curchannel.users.findIndex((user1) => user1.id == user.id);
-    if (index == -1)
-      throw new HttpException('User not in channel', HttpStatus.NOT_FOUND);
+    if (index != -1) {
+   //   throw new HttpException('User not in channel', HttpStatus.NOT_FOUND);
     curchannel.users.splice(index, 1);
     
     try {
@@ -217,7 +241,8 @@ export class TextChannelService {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    console.log(curchannel);
+   }
+    //console.log(curchannel);
   }
 
   async addAdmin(
@@ -281,7 +306,7 @@ export class TextChannelService {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    console.log(curchannel);
+   // console.log(curchannel);
   }
 
   async addMsgForChannel(
@@ -295,6 +320,7 @@ export class TextChannelService {
       const msg = this.msgRepository.create({
         message: message,
         username: user.username,
+        userId: userId,
       });
 
       try {
@@ -307,7 +333,6 @@ export class TextChannelService {
       } catch (error) {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
-      console.log("l'actuelle channel ou il y a le message", channel)
   }
 
   async changeStatue(
@@ -315,8 +340,8 @@ export class TextChannelService {
     status: boolean,
   ): Promise<void> {
     await this.textChannelRepository.update(channel.id, {status} )
-    console.log("satus dans le changeStatue apres changeemnt", status)
-    console.log("changement dans le channel dans le changeStatue", channel.status)
+  //  console.log("satus dans le changeStatue apres changeemnt", status)
+   // console.log("changement dans le channel dans le changeStatue", channel.status)
     /*try {
       await this.textChannelRepository.save(channel);
     } catch (error) {
@@ -359,5 +384,134 @@ export class TextChannelService {
       else
         return "ko";
   }
+
+  async changePass(
+    channel: TextChannel,
+    oldPass: string,
+    newPass: string,
+  ): Promise<number> {
+    if ((await bcrypt.compare(oldPass, channel.password)) === true) {
+      if (!newPass){
+        return 0;
+      }
+      try {
+        const password = await bcrypt.hash(newPass, 10);
+        await this.textChannelRepository.update(channel.id, { password });
+      } catch (error) {
+        return 0;
+      }
+      return 1;
+    }
+    return 0;
+  }
+
+  async muteUserInChannel(
+    channel: TextChannel,
+    admin: UserDto,
+    userMute: UserDto,
+  ) {
+    if (channel.owner == userMute){
+      throw new HttpException(
+        'User is owner and thus cannot be muted',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    if (userMute.id == channel.owner.id)
+      throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
+
+    if (!channel.users.find((user1) => user1.id == userMute.id))
+      throw new HttpException('User isnt in channel', HttpStatus.NOT_FOUND);
+
+    if (!channel.adminId.find((adminID) => adminID.id == admin.id))
+      throw new HttpException(
+        'User isnt admin in channel',
+        HttpStatus.FORBIDDEN,
+      );
+
+    if (channel.muted.find((user1) => user1.id == userMute.id))
+      throw new HttpException('User is already muted', HttpStatus.FORBIDDEN);
+    
+    console.log(temporary)
+    const time = new Date(Date.now() + temporary);
+    const muted = this.mutedUserRepository.create({
+        endOfMute: time,
+        userId: userMute.id,
+        channel: channel.name,
+    });
   
+    try {
+        await this.mutedUserRepository.save(muted);
+        await this.textChannelRepository
+          .createQueryBuilder()
+          .relation(TextChannel, 'muted')
+          .of(channel)
+          .add(muted);
+    } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+
+  }
+
+  async unMutedUser(
+    channel: TextChannel,
+    user: UserDto,
+    index: number,
+  ) {
+    await this.mutedUserRepository.delete(channel.muted[index]);
+  }
+
+  async banUserInChannel(
+    channel: TextChannel,
+    admin: UserDto,
+    userBan: UserDto,
+  ) {
+    if (channel.owner == userBan){
+      throw new HttpException(
+        'User is owner and thus cannot be muted',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    if (userBan.id == channel.owner.id)
+      throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
+
+    if (!channel.users.find((user1) => user1.id == userBan.id))
+      throw new HttpException('User isnt in channel', HttpStatus.NOT_FOUND);
+
+    if (!channel.adminId.find((adminID) => adminID.id == admin.id))
+      throw new HttpException(
+        'User isnt admin in channel',
+        HttpStatus.FORBIDDEN,
+      );
+
+    if (channel.banned.find((user1) => user1.id == userBan.id))
+      throw new HttpException('User is already banned', HttpStatus.FORBIDDEN);
+    
+    const time = new Date(Date.now() + temporary);
+    const banned = this.bannedUserRepository.create({
+        endOfBan: time,
+        userId: userBan.id,
+        channel: channel.name,
+    });
+  
+    try {
+        await this.bannedUserRepository.save(banned);
+        await this.textChannelRepository
+          .createQueryBuilder()
+          .relation(TextChannel, 'banned')
+          .of(channel)
+          .add(banned);
+    } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async unBanUser(
+    channel: TextChannel,
+    user: UserDto,
+    index: number,
+  ) {
+    await this.bannedUserRepository.delete(channel.banned[index]);
+  }
 }

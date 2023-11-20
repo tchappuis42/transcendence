@@ -126,7 +126,7 @@ p:hover {
 	text-decoration: underline;
 	color: rgb(255, 8, 0);
 }
-
+/*
 #chat {
 	display: flex;
 	width: 450px;
@@ -137,7 +137,7 @@ p:hover {
 	flex-direction: column;
 	justify-content: flex-end;
 	color: rgb(0, 0, 0);
-}
+}*/
 
 #b {
 	font-size: 70px;

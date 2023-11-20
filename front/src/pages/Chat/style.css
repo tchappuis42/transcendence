@@ -1,8 +1,18 @@
+.globale {
+	
+	position: absolute;
+	height: 95%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 #chat {
 	display: flex;
+	flex: 3;
 	align-items: center;
-	width: 450px;
-	height: 500px;
+	
 	background: rgb(255 255 255 / 66%);
 	border-radius: 20px;
 	box-shadow: 10px 10px 20px 0px #f90;
@@ -11,7 +21,7 @@
 	color: rgb(8 18 238);
 
 	height: 95%;
-  	max-width: 450px;
+  	max-width: 80%;
 	margin: 0 auto;
 	padding: 3em;
 	font: 100%/1.4 serif;
@@ -19,12 +29,101 @@
 	
 }
 
+.channel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	background: #f6f3f100;
+
+	height: 100%;
+  	max-width: 100%;
+	margin: 0 auto;
+	
+}
+
+.chann {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	background: #e4630751;
+	white-space: nowrap;
+	overflow: scroll;
+
+	height: 50%;
+	width: 90%;
+	max-width: 90%;
+	margin: 0 ;
+	padding: 0;
+	font: 100%/1.4 serif;
+	border: 1px solid #f90;
+	
+}
+
+.DMchann {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	background: #e4630751;
+	white-space: nowrap;
+	overflow: scroll;
+
+	height: 50%;
+	width: 90%;
+	max-width: 90%;
+	margin: 0 ;
+	padding: 0;
+	font: 100%/1.4 serif;
+	border: 1px solid #f90;
+}
+
+.b {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	font-size: 10%;
+	height: 10%;
+	
+	
+	font: 100%/1.4 serif;
+	border: 1px solid #f90;
+	
+}
+
+.select {
+	cursor: pointer;
+	background-color: rgba(10, 14, 235, 0);
+	padding: 0;
+	border: 0;
+}
+
+.channnel {
+	height: 80%;
+	background: #fa0d0542;
+	cursor: pointer;
+}
+
+
+
+.User {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	background: #e4630751;
+
+	height: 90%;
+  	max-width: 80%;
+	margin: 0 auto;
+	
+}
+
 .lol {
 	display: flex;
 	flex-direction: column;
 	
-	height: 700px;
-	width: 350px;
+	height: 100%;
+	width: 100%;
 	
 	border: 1px solid #f90;
 	border-radius: 5px;
@@ -43,10 +142,6 @@
 	margin-top: 20px;
 	cursor: pointer;
 	border: 1px solid #f90;
-}
-
-.b {
-	font-size: 13px;
 }
 
 .lol::-webkit-scrollbar-track
@@ -77,11 +172,21 @@
 	display: inline-block; 
 	text-align: left; 
 	top: 8px; 
-  } */
+  }*/ 
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.container li {
+	color: rgb(242, 140, 8);
+}
 
 .checkbox { 
 	display: none; 
-  } 
+  }
   .label { 
 	display: block; 
 	overflow: hidden; 

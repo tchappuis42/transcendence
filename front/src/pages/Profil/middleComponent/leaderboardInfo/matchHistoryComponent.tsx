@@ -11,7 +11,7 @@ interface Props {
 	score1: number;
 	score2: number;
 	winner: string;
-	// currentUser: string;
+	currentUser: string;
 }
 
 interface PropsHead {

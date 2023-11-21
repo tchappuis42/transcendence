@@ -99,7 +99,6 @@ export const Leaderboard = () => {
 	const cUser: "ieie" = "ieie";
 
 	let bubbleData = BubbleData();
-
 	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
 
 	return (
@@ -143,6 +142,7 @@ export const Leaderboard = () => {
 						<div className="bubble-component">
 							{currentUserMatches.map((match, index) => (
 								<BubbleBodyMatchHistory key={index}
+
 														index={index + 1}
 														player1={match.player1}
 														player2={match.player2}

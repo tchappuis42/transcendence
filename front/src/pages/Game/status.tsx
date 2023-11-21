@@ -19,7 +19,6 @@ const Status = () => {
 		setSorted(sortUser)
 	}, [users]);
 
-
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
@@ -27,11 +26,15 @@ const Status = () => {
 				setUsers(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
+				const response = await axios.get<string[]>("http://localhost:4000/user/users", { withCredentials: true });
+				const updateUsers: user[] = response.data.map((username) => ({ username, status: 'offline' }))
+				setUsers(updateUsers)
+			} catch (error) {
+				console.error("Erreur lors de la récupération de l'historique des matchs :", error);
 			}
 		}
 		getUsers();
 	}, []);
-
 
 	useEffect(() => { //socket
 		if (socket) {
@@ -78,7 +81,6 @@ const Status = () => {
 					{u.username}
 					<button onClick={() => addFrind(u.id)} style={{ marginLeft: "5px" }}>add</button>
 				</p>)}
-		</div>
 	);
 };
 

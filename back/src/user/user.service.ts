@@ -12,6 +12,11 @@ import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
 import { stat } from 'fs';
 
+enum ConnctionState {
+	Online = 1,
+	Offline = 2
+}
+
 @Injectable()
 export class UserService {
 	constructor(

@@ -1,41 +1,32 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
-
 interface user {
 	id: number
 	username: string
 	status: number
 }
-
 const Status = () => {
-
 	const [users, setUsers] = useState<user[]>([]);
 	const [sorted, setSorted] = useState<user[]>([]);
 	const socket = useSocket();
-
 	useEffect(() => {
 		const sortUser = users.sort((a, b) => a.status - b.status)
 		setSorted(sortUser)
 	}, [users]);
 
+
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });				setUsers(response.data)
 				setUsers(response.data)
-			} catch (error) {
-				console.error("Erreur lors de la récupération des users :", error);
-				const response = await axios.get<string[]>("http://localhost:4000/user/users", { withCredentials: true });
-				const updateUsers: user[] = response.data.map((username) => ({ username, status: 'offline' }))
-				setUsers(updateUsers)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
 			}
 		}
 		getUsers();
 	}, []);
-
 	useEffect(() => { //socket
 		if (socket) {
 			socket.on("status", (data) => {
@@ -81,6 +72,7 @@ const Status = () => {
 					{u.username}
 					<button onClick={() => addFrind(u.id)} style={{ marginLeft: "5px" }}>add</button>
 				</p>)}
+		</div>
 	);
 };
 

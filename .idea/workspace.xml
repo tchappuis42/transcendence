@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/user/user.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/user/user.gateway.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/user/user.gateway.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/friends/friends.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/friends/friends.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/user/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/user/user.entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/user/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/friends.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/friends.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/socketpong.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/socketpong.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/pages/Game/status.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/status.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/ui/organisms/SocketContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/ui/organisms/SocketContext.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

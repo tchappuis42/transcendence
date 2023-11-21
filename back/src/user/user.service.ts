@@ -14,7 +14,6 @@ import { stat } from 'fs';
 
 @Injectable()
 export class UserService {
-
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 

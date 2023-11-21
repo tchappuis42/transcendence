@@ -30,7 +30,7 @@ const Status = () => {
 				const updateUsers: user[] = response.data.map((username) => ({ username, status: 'offline' }))
 				setUsers(updateUsers)
 			} catch (error) {
-				console.error("Erreur lors de la récupération de l'historique des matchs :", error);
+				console.error("Erreur lors de la récupération des users :", error);
 			}
 		}
 		getUsers();

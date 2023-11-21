@@ -2,9 +2,7 @@ import * as React from "react"
 import "./chatSide.css"
 import "../styleProfilPage/mainCSS.css"
 import "./chatFriendsInfo/chatFriendsInfo.css"
-import {BubbleData} from "../middleComponent/leaderboard";
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
-
 export const ChatSide = () => {
 	let bubbleData = BubbleData();
 	return(

@@ -20,8 +20,6 @@ export const MyName = () => {
 		const me = rank.find(user => user.username === account.username)
 		// const index = rank.findIndex(user => user.username === account.username)
 		setMyRank(me);
-		// setMe(myRank?.username);
-		// setIndex(index)
 	}, [rank]);
 
 	useEffect(() => {

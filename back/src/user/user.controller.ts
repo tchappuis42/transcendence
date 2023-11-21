@@ -46,13 +46,4 @@ export class UserController {
 		const rank = await this.userService.getRanking();
 		return rank;
 	}
-
-	@Get(':id')
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
-			throw new BadRequestException()
-		return await this.userService.getUserById(userId);
-	}
 }

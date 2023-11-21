@@ -9,38 +9,40 @@ import {UserStatus} from "../../tools/userStatus";
 interface Props {
 	index: number;
 	user: string;
-	name: string;
-	stats: number;
+	status: number;
 }
 
-export const ChatUserHistoric = ({index, name, user}: Props) => {
+export const ChatUserHistoric = ({index, user, status}: Props) => {
 	const [colorBadge, setColorBadge] = useState("");
 	const [isActive, setIsActive] = useState(false);
 
-	useEffect(() => {
-		const rankColor = () => {
-			if (index > 0 && index <= 3)
-				setColorBadge("green");
-			else if (index > 10 && index <= 10)
-				setColorBadge("orange");
-			else
-				setColorBadge("red");
+	function getStatusColor(status: number) {
+		switch (status) {
+			case 0:
+				return 'red'; // Hors ligne
+			case 1:
+				return 'green'; // En ligne
+			case 2:
+				return 'orange'; // En jeu (ou tout autre statut)
+			default:
+				return 'blue'; // Par défaut (au cas où)
 		}
-		rankColor();
-	}, [index, colorBadge]);
-	UserStatus();
+	}
+
 	return (
-		<tr>
-			<div className={`bubble-main black-border-fine snap-start hover:bg-${colorBadge}-200`}>
+		<tr className="gap-2">
+			<div className={`bubble-main-chat black-border-fine snap-start w-full`}>
 				<td className="col-span-1">
-					<Badge color="green">
+					<Badge color={getStatusColor(status)}>
 						<Button>
-							<div className="bubble-row justify-start">{user}</div>
+							<div className="bubble-row justify-center">
+								{status}
+							</div>
 						</Button>
 					</Badge>
 				</td>
 				<td className="col-span-3 flex justify-center">
-					<div className="bubble-row justify-center">{name}</div>
+					<div className="bubble-row justify-start">{user}</div>
 				</td>
 			</div>
 		</tr>

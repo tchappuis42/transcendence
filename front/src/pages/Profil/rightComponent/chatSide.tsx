@@ -3,8 +3,12 @@ import "./chatSide.css"
 import "../styleProfilPage/mainCSS.css"
 import "./chatFriendsInfo/chatFriendsInfo.css"
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
+import {UserStatus} from "../tools/userStatus";
+
 export const ChatSide = () => {
-	let bubbleData = BubbleData();
+
+	const { sorted } = UserStatus();
+
 	return(
 		<div className="right-component-main red-border">
 			<div className="right-component-table red-border gap-5">
@@ -12,16 +16,14 @@ export const ChatSide = () => {
 					<table className="border-separate border-spacing-2 w-full items-start">
 						<tbody>
 							<div className="bubble-component-chat">
-								{
-									bubbleData.map((data, index) => (
+								{sorted.map(u =>
 										<ChatUserHistoric
-											key={index}
-											index={index + 1}
-											stats={data.stats}
-											name={data.name}
-											user={data.user}
+											key={u.id}
+											index={u.id + 1}
+											user={u.username}
+											status={u.status}
 										/>
-									))}
+									)}
 							</div>
 						</tbody>
 					</table>

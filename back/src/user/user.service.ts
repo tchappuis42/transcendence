@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException, } from '@nestjs/common';
+import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -9,7 +9,7 @@ import { toDataURL } from 'qrcode';
 import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
-import { ConnctionState } from './dtos/ConnectionStateEnum';
+import { ConctionState } from './dtos/ConnectionStateEnum';
 import { stat } from 'fs';
 
 enum ConnctionState {

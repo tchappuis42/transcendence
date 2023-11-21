@@ -15,7 +15,6 @@ const Status = () => {
 		setSorted(sortUser)
 	}, [users]);
 
-
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
@@ -27,6 +26,7 @@ const Status = () => {
 		}
 		getUsers();
 	}, []);
+
 	useEffect(() => { //socket
 		if (socket) {
 			socket.on("status", (data) => {

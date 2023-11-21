@@ -26,6 +26,14 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@Get(':id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		console.log(params.id);
+		return await this.userService.getUserById(params.id);
+	}
+
+	@UseGuards(JwtAuthGuard)
 	@Get("/2fa")
 	async get2fa(@Req() req: Request) {
 		const user = req.user as UserDto;

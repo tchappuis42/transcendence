@@ -17,6 +17,11 @@ enum ConnctionState {
 	Offline = 2
 }
 
+enum ConnctionState {
+	Online = 1,
+	Offline = 2
+}
+
 @Injectable()
 export class UserService {
 	constructor(

@@ -1,0 +1,169 @@
+/* CardContent.css */
+.content {
+    background-color: rgba(255, 255, 255, 0.9);
+    height: 93%;
+    width: 90%;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+}
+
+.contentHidden {
+    height: 93%;
+    width: 90%;
+}
+/* ProfilCard */
+
+.profilHeaderCard {
+    height:30%;
+    display: flex;
+}
+
+        .picContainer {
+            height: 90%;
+            width: 20%;
+            margin : 10px;
+            border-radius: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+            box-sizing: border-box;
+        }
+
+        .profilNameCard {
+            height: 90%;
+            width: 80%;
+            margin : 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-color: black;
+        }
+
+                .userNameCard {
+                    font-size:300%;
+                    color:white;
+                    
+                }
+
+.profilInfoContainer {
+    display : flex;
+    height:calc(70% - 20px);
+    width:100%;
+    
+}
+
+        .profilInfoCard {
+            height: 100%;
+            width: 50%;
+            margin : 10px;
+            /* border-width: 1px; */
+            border-radius: 5%;
+            background: rgba(255, 255, 255, 0.6);
+            /* border-color: white; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+            box-sizing: border-box;
+        }
+
+/* Chat */
+
+.MessageTitleContainer{
+    height: 15%;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    display: flex;
+    justify-content:space-around;
+    align-items:center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+}
+
+        .MessageTitleLogo {
+            height: 90%;
+            width: 20%;
+            display: flex;
+            align-items: center;
+            align-content: center;
+        }
+
+        .MessageTitleTextContainer {
+            height: 90%;
+            width: 50%;
+            margin: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .MessageTitleText {
+            font-size: 200%;
+        }
+
+        .MessageTitleNbr {
+            height: 60%;
+            width: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100%;
+            background: rgba(0,0,0,0.2);
+        }
+
+.MessageCardContainer {
+    height: 100%;
+    margin: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+    justify-content:space-around;
+    align-items:center;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+.messageContainer{
+    height: 15%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    display: flex;
+    justify-content:space-around;
+    align-items:center;
+    overflow: hidden;
+}
+
+        .messagePicContainer {
+            height: 90%;
+            width: 10%;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            /* background: blue; */
+        }
+
+        .messageText {
+            height: 90%;
+            width: 70%;
+            margin: 10;
+            /* background: green; */
+            display: flex;
+            padding: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre-line;
+        }

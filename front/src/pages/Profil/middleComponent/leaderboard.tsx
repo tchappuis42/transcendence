@@ -150,7 +150,6 @@ export const Leaderboard = () => {
 														score2={match.score2}
 														winner={match.winner}
 														currentUser={(match.player1 === cUser || match.player2 === cUser) ? cUser : ""}
-
 								/>
 							))}
 						</div>

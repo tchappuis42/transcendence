@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-
     .middle-component-main {
         @apply col-span-1
         min-w-[350px] max-w-[400px]

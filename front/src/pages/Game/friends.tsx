@@ -33,7 +33,6 @@ const Friends = () => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-				console.log("data = ", response.data)
 				setFriends(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
@@ -46,7 +45,6 @@ const Friends = () => {
 	useEffect(() => { //socket
 		if (socket) {
 			socket.on("status", (data) => {
-				console.log(data)
 				setFriends((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
 			})
 		}
@@ -83,8 +81,6 @@ const Friends = () => {
 				const reject = friends.filter(e => e.id !== userId)
 				setFriends(reject)
 			}
-			//const add = friendsToAdd.filter(e => e.id !== userId)
-			//setFriendsToAdd(add)
 		}).catch((error) => {
 			alert(error)
 		})

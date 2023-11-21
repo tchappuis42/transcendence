@@ -14,7 +14,6 @@ export class FriendsController {
 	@Post("/addFriend")
 	async addFriend(@Body() body: AcceptDTO, @Req() req: Request) {
 		const user = req.user as User
-		console.log("id = ", body.id)
 		return await this.frindsService.addFriend(user, body.id)
 	}
 

@@ -11,7 +11,7 @@ export type Option = {
 };
 
 const NavigationItem = ({ option }: { option: Option }) => {
-	return <NavLink to={option.url} className='link'>
+	return <NavLink to={option.url} className='link aria-[current=page]:text-blue-400'>
 		{option.label}
 	</NavLink >
 }

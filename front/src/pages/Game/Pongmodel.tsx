@@ -1,6 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useSocket } from '../../ui/organisms/SocketContext';
-
 
 interface Paddle {
 	x: number;
@@ -31,8 +29,7 @@ interface Ball {
 }
 
 
-const PongTest = () => {
-	const socket = useSocket();
+const Pong = () => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const height = 585;
 	const width = 750;
@@ -41,9 +38,6 @@ const PongTest = () => {
 	const maxPaddleY = 585 - grid - paddleHeight;
 	const paddleSpeed = 7;
 	const ballSpeed = 4;
-
-
-	const [oui, setoui] = useState(0);
 
 	const [ball, setBall] = useState<Ball>({
 		x: width / 2,
@@ -56,7 +50,6 @@ const PongTest = () => {
 		color: 1,
 	})
 
-	//console.log("la")
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		// start in the middle of the game on the left side
 		x: (grid * 2) + 15,
@@ -170,6 +163,7 @@ const PongTest = () => {
 	}
 
 	const keyDownHandler = (e: KeyboardEvent) => {
+		e.preventDefault();
 		if (e.key === "w") {
 			setleftpaddle({ ...leftPaddle, dy: -paddleSpeed })
 		}
@@ -177,14 +171,10 @@ const PongTest = () => {
 			setleftpaddle({ ...leftPaddle, dy: paddleSpeed })
 		}
 		if (e.key === "ArrowUp") {
-			if (socket)
-				socket.emit("paddle", "up")
-			//setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
+			setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
 		}
 		if (e.key === "ArrowDown") {
-			if (socket)
-				socket.emit("paddle", "down")
-			//setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
+			setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
 		}
 		if (e.key === "q") {
 			setBall({ ...ball, x: width / 2, y: height / 2 })
@@ -209,41 +199,15 @@ const PongTest = () => {
 			setleftpaddle({ ...leftPaddle, dy: 0 })
 		}
 		if (e.key === "ArrowUp" && rightPaddle.dy < 0) {
-			if (socket)
-				socket.emit("paddle", "fup")
-			//setrightpaddle({ ...rightPaddle, dy: 0 })
+			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
 		if (e.key === "ArrowDown" && rightPaddle.dy > 0) {
-			if (socket)
-				socket.emit("paddle", "fdown")
-			//setrightpaddle({ ...rightPaddle, dy: 0 })
+			setrightpaddle({ ...rightPaddle, dy: 0 })
 		}
 	}
 
-	useEffect(() => {
-		if (socket) {
-			socket.on("paddle", (data) => {
-				console.log(data);  // -----> data ok
-				if (data === "up")
-					setrightpaddle({ ...rightPaddle, dy: -paddleSpeed })
-				if (data === "down")
-					setrightpaddle({ ...rightPaddle, dy: paddleSpeed })
-				if (data === "fup")
-					setrightpaddle({ ...rightPaddle, dy: 0 })
-				if (data === "fdown")
-					setrightpaddle({ ...rightPaddle, dy: 0 })
-			});
-		}
-		return () => {
-			if (socket) {
-				socket.off("paddle");
-			}
-		};
-	}, [socket, rightPaddle]);
-
 	const paddlelogic = () => {
 		//left paddle logic
-
 		if (leftPaddle.y < grid) {
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
@@ -288,6 +252,7 @@ const PongTest = () => {
 				y: height - grid * 2,
 			}));
 		}
+		console.log("dy = ", ball.dy)
 		//collision avec les pads
 		if (collides(ball, leftPaddle)) {
 			// move ball next to the paddle otherwise the collision will happen again
@@ -310,7 +275,7 @@ const PongTest = () => {
 				}));
 			}
 		}
-		//	console.log("ball.dx = ", ball.dx);
+		//console.log("ball.dx = ", ball.dx);
 		if (collides(ball, rightPaddle)) {
 			// 	ball.dx *= -1;
 			setBall((prevBall) => ({
@@ -324,7 +289,7 @@ const PongTest = () => {
 			// 	ball.x = rightPaddle.x - ball.width;
 
 			// 	//increases the speed of the ball by 0.2 each time it touches a pad
-			if (ball.dx > -8) {
+			if (ball.dx > -6) {
 				setBall((prevBall) => ({
 					...prevBall,
 					dx: prevBall.dx -= 0.2,
@@ -370,7 +335,6 @@ const PongTest = () => {
 	useEffect(() => {
 		//if (gameInfo.start == true) {
 		const handleGameUpdate = () => {
-			console.log(rightPaddle.y)
 			setleftpaddle((prevPaddle) => ({
 				...prevPaddle,
 				y: prevPaddle.y + prevPaddle.dy
@@ -386,12 +350,13 @@ const PongTest = () => {
 				color: prevBall.color + 1,
 			}));
 		};
-		const gameLoop = setInterval(handleGameUpdate, 1000 / 70);
+		const gameLoop = setInterval(handleGameUpdate, 1000 / 40);
 		return () => {
 			clearInterval(gameLoop);
 		};
 		//}
-	}, [rightPaddle]);
+	}, []);
+
 
 
 	useEffect(() => {
@@ -427,4 +392,4 @@ const PongTest = () => {
 	);
 };
 
-export default PongTest;
+export default Pong;

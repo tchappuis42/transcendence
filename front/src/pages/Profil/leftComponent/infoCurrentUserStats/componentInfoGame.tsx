@@ -78,23 +78,5 @@ export const GameStats = () => {
 		// 		</tbody>
 		// 	</table>
 		// </div>
-		// <div className="main-bubble-component green-border" style={{gap: "5px"}}>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// 	<Bubble/>
-		// </div>
 	);
 }

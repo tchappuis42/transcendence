@@ -27,6 +27,7 @@
             border-radius: 10%;
             display: flex;
             justify-content: center;
+            transition: transform 0.3s ease-in-out;
             align-items: center;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
             box-sizing: border-box;
@@ -63,12 +64,25 @@
             border-radius: 5%;
             background: rgba(255, 255, 255, 0.6);
             /* border-color: white; */
-            display: flex;
+            transition: transform 0.3s ease-in-out;
+            /* display: flex; */
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
             box-sizing: border-box;
         }
+
+            .ProfilInfoFriendTitle {
+                height: 10%;
+                background: red;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 10px;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+                background-color: rgba(255, 255, 255, 0.9);
+            }
 
 /* Chat */
 
@@ -84,8 +98,6 @@
     justify-content:space-around;
     align-items:center;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
-    box-sizing: border-box;
 }
 
         .MessageTitleLogo {
@@ -167,3 +179,26 @@
             text-overflow: ellipsis;
             white-space: pre-line;
         }
+
+/* FriendCard */
+
+.friendPicContainer {
+    height: 90%;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    /* background: blue; */
+}
+
+.friendName {
+    height: 90%;
+    width: 50%;
+    margin: 10;
+    display: flex;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

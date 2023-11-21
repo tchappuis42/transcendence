@@ -1,20 +1,11 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAccount } from "../../../ui/organisms/useAccount";
+import { handleMouseEnter, handleMouseLeave } from "../Tools";
 
 const MessageCard = () => {
     const navigate = useNavigate();
     const {account} = useAccount();
-    const handleMouseEnter = (event: any) => {
-        event.currentTarget.style.transform = "scale(1.1)";
-    };
 
-    const handleMouseLeave = (event: any) => {
-        event.currentTarget.style.transform = "scale(1)";
-    };
-
-    const navigationOptionsChat = [
-        {label : "See", url: '/chat' },
-    ];
 
     const handleNav = () => {
         navigate(`/chat`)

@@ -31,10 +31,8 @@ export const ChatSide = () => {
 					</table>
 				</div>
 				<div className="online-users-component blue-border">
-
 				</div>
 				<div className="online-users-component blue-border">
-
 				</div>
 			</div>
 		</div>

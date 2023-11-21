@@ -17,6 +17,13 @@ const Status = () => {
 	}, [users]);
 
 	useEffect(() => {
+		const sortUser = users.sort((a, b) => a.status - b.status)
+		setSorted(sortUser)
+		console.log("le trie", sorted)
+	}, [users]);
+
+
+	useEffect(() => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });				setUsers(response.data)

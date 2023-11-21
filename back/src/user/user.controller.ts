@@ -14,6 +14,7 @@ export class UserController {
 	@Get("/me")
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	getProfile(@Req() req: Request) {
+		console.log("encore")
 		return req.user
 	}
 

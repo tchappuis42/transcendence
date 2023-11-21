@@ -11,7 +11,6 @@ export class FriendsService {
 
 	constructor(
 		@InjectRepository(Friends) private friendsRepository: Repository<Friends>, private readonly userservice: UserService) { }
-	
 	async addFriend(user: User, friend: number) {
 		const friendUser = await this.userservice.validateUser(friend);
 		const check = await this.friendsRepository.findOne({ where: [{ first_User: user, second_User: friendUser }, { first_User: friendUser, second_User: user }] })

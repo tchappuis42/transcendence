@@ -1,5 +1,4 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import Navigation, { NavigationItem } from "../../../ui/organisms/Navigation";
 import { useAccount } from "../../../ui/organisms/useAccount";
 
 const MessageCard = () => {

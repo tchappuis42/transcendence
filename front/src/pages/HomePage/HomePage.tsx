@@ -16,11 +16,6 @@ const HomePage = () => {
 			<MenuCard>
 				<ChatCard></ChatCard>
 			</MenuCard>
-			<MenuCard>
-				<PongCard></PongCard>
-			</MenuCard>
-			<MenuCard>
-			</MenuCard>
 			
             </div>
         </div>

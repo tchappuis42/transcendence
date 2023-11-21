@@ -23,7 +23,6 @@ export class UserService {
 		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
 
 	Sockets: sockets[] = [];
-
 	async validateUser(id: number): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { id: id } })
 		if (!user) throw new NotFoundException("user not found")

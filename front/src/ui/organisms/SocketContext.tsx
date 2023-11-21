@@ -20,10 +20,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 		if (status === AuthStatus.Authenticated && !socket) {
 			const newSocket = io("http://localhost:4000", { query: { user: account?.id } });
 			setSocket(newSocket);
-			return () => {
+			/*return () => {
 				newSocket.disconnect();
-			}
+			}*/
 		};
+		return () => {
+			socket?.disconnect();
+		}
 		return undefined;
 	}, [status]);
 

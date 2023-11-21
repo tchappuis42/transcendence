@@ -98,6 +98,7 @@ export const BubbleHeadMatchHistory = ({user, name, stats}: PropsHead) => {
 export const BubbleBodyMatchHistory = ({index, player1, player2, score1, score2, winner, currentUser}: Props) => {
 	let colorP1 = SetColor({winner, player: player1, currentUser});
 	let colorP2 = SetColor({winner, player: player2, currentUser});
+
 	return (
 		<tr>
 			<div className={`bubble-main black-border-fine snap-start`}>

@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/gameRanking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/gameRanking.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/friends/friends.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/friends/friends.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/friends/friends.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/friends/friends.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +33,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Rebasing pong",
+    "git-widget-placeholder": "Rebasing profil",
     "last_opened_file_path": "/Users/dino/Documents/transcendence/front/src/pages/Profil/leftComponent/infoCurrentPerson/infoLevel/tools",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -40,7 +41,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications",
-    "ts.external.directory.path": "/Users/dino/Documents/transcendence/front/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/dino/Documents/transcendence/back/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>

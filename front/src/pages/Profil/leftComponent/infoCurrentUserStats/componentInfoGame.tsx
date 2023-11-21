@@ -29,7 +29,8 @@ export const GameStats = () => {
 
 	];
 	return (
-		<div className="relative py-4 b overflow-x-auto shadow-md sm:rounded-lg overflow-y-scroll gray-border h-full bg-gray-50">
+		<div className="relative py-4 b overflow-x-auto shadow-md sm:rounded-lg
+		overflow-y-scroll gray-border h-full bg-gray-50">
 			<table className="border-separate border-spacing-2 w-full">
 				<tbody>
 					{bubbleData.map((data, index) => (

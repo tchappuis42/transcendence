@@ -17,7 +17,7 @@
     .info-chat-component {
         @apply flex flex-col
         min-h-[400px] min-w-[350px]
-        bg-amber-100 p-4 rounded
+        bg-gray-50 p-4 rounded
         justify-end
     }
     .online-users-component {
@@ -62,9 +62,9 @@
         flex flex-col overflow-y-scroll
         snap-proximity snap-y gap-2
     }
-    .bubble-main {
+    .bubble-main-chat {
         @apply min-h-[40px] w-full
-        grid grid-cols-6 rounded px-3 py-1
+        grid grid-cols-4 rounded px-3 py-1
     }
     .bubble-row {
         @apply h-full w-full

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-const {hover} = require("@testing-library/user-event/dist/hover");
+
+const { hover } = require("@testing-library/user-event/dist/hover");
 module.exports = {
   content: [
     './public/index.html',
@@ -7,16 +8,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        '4xl': '3rem',
+      },
       screens: {
         'tablet': '640px',
         'laptop': '1024px',
         'desktop': '1280px',
       },
       height: {
-        '100px': '100px'
+        '100px': '100px',
+        '125': '500px',
+        '1/20': '5%',
+        '19/20': '95%'
       },
       width: {
-        'min-w': '330px'
+        'min-w': '330px',
+        '112': '28rem'
       },
       aspectRatio: {
         '4/3': '4 / 3',

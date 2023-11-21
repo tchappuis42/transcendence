@@ -9,12 +9,12 @@ const Hometest = () => {
 	const [qrcode, setqr] = useState("")
 
 	return (
-		<div className="divtest">
-			<h1>salut {account.username}</h1>
-			<div className="divtest">
+		<div className="flex h-screen" >
+			<h1 className="text-3xl font-bold underline">salut {account.username}</h1>
+			< div className="divtest" >
 				<img src={qrcode} />
-			</div>
-		</div>
+			</div >
+		</div >
 
 	)
 };

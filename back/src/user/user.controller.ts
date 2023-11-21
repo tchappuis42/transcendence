@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from './dtos/UserDto';
+import { UserDto } from './dtos/UserDto';;
 
 @Controller('user')
 export class UserController {
@@ -26,6 +26,20 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@Get("/2fa")
+	async get2fa(@Req() req: Request) {
+		const user = req.user as UserDto;
+		const code = await this.userService.generateTfaSecret(user.username);
+		const qrcode = this.userService.generateQrCode(code);
+		return qrcode
+	}
+
+	@Get("/ranking")
+	async getRanking() {
+		const rank = await this.userService.getRanking();
+		return rank;
+	}
+
 	@Get(':id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserById(@Param() params: any) {
@@ -33,14 +47,5 @@ export class UserController {
 		if (!userId)
 			throw new BadRequestException()
 		return await this.userService.getUserById(userId);
-	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get("/2fa")
-	async get2fa(@Req() req: Request) {
-		const user = req.user as UserDto;
-		const code = await this.userService.generateTfaSecret(user.username);
-		const qrcode = this.userService.generateQrCode(code);
-		return qrcode
 	}
 }

@@ -8,7 +8,7 @@ interface user {
 	status: number
 }
 
-const useGetUser = () => {
+export const useGetUser = () => {
 	const [users, setUsers] = useState<user[]>([]);
 
 	useEffect(() => {

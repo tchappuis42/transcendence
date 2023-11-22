@@ -24,6 +24,6 @@ export class User {
   @Column({ default: 500 })
   score: number;
 
-  @Column({ default: 2 })
+  @Column({ default: 0 })
   connected: number;
 }

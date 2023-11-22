@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../Tools";
 import axios from "axios";
 import FriendCard from "./FriendCard";
+import Ranking from "../../Game/gameRanking";
+import RankingCard from "./RankingCard";
 
 interface Friend {
     id: number;
@@ -65,8 +67,12 @@ const sortByStatus = (friends: any[]) => {
     return friends;
 };
 
-    const handleNav = () => {
-        navigate("/profil");
+    const handleNav = (toNav : string, id : number) => {
+        navigate(toNav, {
+            state : {
+                id : id
+            }
+        })
     }
 
     useEffect(() => {
@@ -85,7 +91,7 @@ const sortByStatus = (friends: any[]) => {
     return (
         <div className="contentHidden">
             <div className="profilHeaderCard">
-                <div className="picContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleNav}>
+                <div className="picContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={ () => {handleNav("profil", account.id)}}>
                 <img alt="image de profil" style={{borderRadius:"10%"}}
 					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
                 </div>
@@ -114,7 +120,12 @@ const sortByStatus = (friends: any[]) => {
                         </div>
                     )}
                 </div>
-                <div className="profilInfoCard" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>DES INFOFOOFO</div>
+                <div className="profilInfoCard" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("pong", account.id)}}>
+                    <div className="ProfilInfoFriendTitle">
+                        <h1>Ranking</h1>
+                    </div>
+                    <RankingCard></RankingCard>
+                </div>
 
             </div>
         </div>

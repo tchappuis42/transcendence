@@ -62,7 +62,7 @@
             margin : 10px;
             /* border-width: 1px; */
             border-radius: 5%;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0, 0.6);
             /* border-color: white; */
             transition: transform 0.3s ease-in-out;
             /* display: flex; */
@@ -81,14 +81,14 @@
                 margin: 10px;
                 border-radius: 5px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-                background-color: rgba(255, 255, 255, 0.9);
+                background-color: rgba(255, 255, 255, 0.8);
             }
 
 /* Chat */
 
 .MessageTitleContainer{
     height: 15%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.8);
     margin: 10px;
     transition: transform 0.3s ease-in-out;
     border-radius: 5px;
@@ -202,3 +202,44 @@
     align-items: center;
 }
 
+/* RankingCard */
+
+
+.rankingCardContainer {
+    height: 100%;
+    margin: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    justify-content:space-around;
+    align-items:center;
+    max-height: 80%;
+}
+
+        .rankingNbrContainer {
+            height: 50%;
+            /*  background: blue; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+                .rankingNbr {
+                    font-size: 500%;
+                    margin-top: 10px;
+                    color: rgba(255, 255, 255, 0.8);
+                }
+
+                .ligneHor {
+                    height: 1px;
+                    background: rgba(255, 255, 255, 0.4);
+                    margin-right: 10px;
+                    margin-left: 10px;
+                    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+                    box-sizing: border-box;
+                }
+
+                .rankingPts {
+                    font-size: 300%;
+                    margin-top: 10px;
+                    color: rgba(255, 255, 255, 0.8);
+                }

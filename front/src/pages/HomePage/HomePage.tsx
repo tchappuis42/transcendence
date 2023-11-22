@@ -25,11 +25,11 @@ const HomePage = () => {
 			<MenuCard>
 				<ChatCard></ChatCard>
 			</MenuCard>
-            <MenuCard>
+            {/* <MenuCard>
                 <div style={{transition: "transform 0.3s ease-in-out"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
                     <Ranking></Ranking>
                 </div>
-            </MenuCard>
+            </MenuCard> */}
 			
             </div>
         </div>

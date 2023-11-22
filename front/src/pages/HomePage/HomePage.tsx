@@ -7,6 +7,7 @@ import PongCard from "./CardContent/PongCard";
 import Ranking from "../Game/gameRanking";
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "./Tools";
+import AddFriendCard from "./CardContent/AddFriendCard";
 
 const HomePage = () => {
 
@@ -25,11 +26,14 @@ const HomePage = () => {
 			<MenuCard>
 				<ChatCard></ChatCard>
 			</MenuCard>
-            {/* <MenuCard>
+            <MenuCard>
                 <div style={{transition: "transform 0.3s ease-in-out"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
                     <Ranking></Ranking>
                 </div>
-            </MenuCard> */}
+            </MenuCard>
+            <MenuCard>
+                    <AddFriendCard></AddFriendCard>
+            </MenuCard>
 			
             </div>
         </div>

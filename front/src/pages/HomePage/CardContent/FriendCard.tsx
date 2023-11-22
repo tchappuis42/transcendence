@@ -16,11 +16,11 @@ const FriendCard: React.FC<{ friend: Friend }> = ({ friend }) => {
     const getStatusColor = (status : number)  => {
         switch (status) {
             case 0:
-                return "red";
-            case 1:
                 return "yellow";
-            case 2:
+            case 1:
                 return "green";
+            case 2:
+                return "red";
             default:
                 return "transparent";
         }

@@ -31,6 +31,8 @@
             align-items: center;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
             box-sizing: border-box;
+            cursor: pointer;
+
         }
 
         .profilNameCard {
@@ -74,7 +76,7 @@
 
             .ProfilInfoFriendTitle {
                 height: 10%;
-                background: red;
+                /* background: red; */
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -115,6 +117,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            
         }
 
         .MessageTitleText {
@@ -140,7 +143,7 @@
     box-sizing: border-box;
     justify-content:space-around;
     align-items:center;
-    overflow: hidden;
+    /* overflow: hidden; */
     overflow-y: scroll;
     max-height: 80%;
 }
@@ -156,7 +159,9 @@
     display: flex;
     justify-content:space-around;
     align-items:center;
-    overflow: hidden;
+    /* overflow: hidden; */
+    cursor: pointer;
+
 }
 
         .messagePicContainer {
@@ -188,6 +193,8 @@
     display: flex;
     align-items: center;
     align-content: center;
+    cursor: pointer;
+
     /* background: blue; */
 }
 
@@ -213,6 +220,8 @@
     justify-content:space-around;
     align-items:center;
     max-height: 80%;
+    cursor: pointer;
+
 }
 
         .rankingNbrContainer {
@@ -243,3 +252,74 @@
                     margin-top: 10px;
                     color: rgba(255, 255, 255, 0.8);
                 }
+
+/* AddRequestCard */
+
+.friendRequestName{
+    height: 90%;
+    width: 40%;
+    margin: 10;
+    /* background: blue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
+    cursor: pointer;
+}
+
+.friendRequestBtnContainer {
+    height: 90%;
+    width: 40%;
+    margin: 10;
+    /* background: blue; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+    white-space: pre-line;
+}
+
+        .addBtn {
+                background-color: rgba(23, 186, 5, 0.7);
+                color: white;
+                padding: 5px 16px;
+                margin : 10px ;
+                text-align: center;
+                font-size: 16px;
+                border-radius: 50px;
+                /* margin-top: 20px; */
+                cursor: pointer;
+                transition: transform 0.2s ease-in-out;
+        }
+
+        .refuseBtn {
+                background-color: rgba(186, 32, 5, 0.7);
+                color: white;
+                padding: 5px 16px;
+                margin : 10px ;
+                text-align: center;
+                font-size: 16px;
+                border-radius: 50px;
+                /* margin-top: 20px; */
+                cursor: pointer;
+                transition: transform 0.2s ease-in-out;
+        }
+
+        .addBtn:hover,
+.refuseBtn:hover {
+  transform: scale(1.2);
+}
+.noFriendRequestContainer{
+    height: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+        .noFriendRequestText {
+            color: rgba(255, 255, 255, 0.7);
+        }

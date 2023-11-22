@@ -9,63 +9,41 @@ import Ranking from "../../Game/gameRanking";
 import RankingCard from "./RankingCard";
 
 interface Friend {
-    id: number;
-    username: string;
-    status: number;
-    friend_status: number;
+    id : number;
+    username : string;
+    status : number;
+    friend_status : number;
 }
 
 const ProfilCard = () => {
 
     const { account } = useAccount();
     const navigate = useNavigate();
-    const [friends, setFriends] = useState<[Friend]>();
+    const [friends, setFriends] = useState<Friend[]>();
 
-const friendsTab = [
+    const sortByStatus = (friends: Friend[]): Friend[] => {
+        const sortedFriends = friends.sort((a, b) => b.status - a.status);
+        const filteredFriends = sortedFriends.filter(friend => friend.friend_status === 0);
+        return filteredFriends;
+    };
 
-    {
-        id: 34,
-        username: "Paul",
-        status: 2,
-        friend_status: 3
-    },
-    {
-        id: 24,
-        username: "Hubert",
-        status: 1,
-        friend_status: 1
-    }, 
-    {
-        id: 56,
-        username: "Claude",
-        status: 2,
-        friend_status: 1
-    },
-    {
-        id: 34,
-        username: "Paul",
-        status: 2,
-        friend_status: 3
-    },
-    {
-        id: 24,
-        username: "Hubert",
-        status: 1,
-        friend_status: 1
-    }, 
-    {
-        id: 56,
-        username: "Claude",
-        status: 0,
-        friend_status: 2
-    },
-
-]
-
-const sortByStatus = (friends: any[]) => {
-    friends.sort((a, b) => b.status - a.status);
-    return friends;
-};
+    useEffect(() => {
+        const getFriendRequest = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
+                console.log("response :", response.data);
+                const sortedFriends = sortByStatus(response.data);
+                console.log("data", response.data);
+                console.log("sorted", sortedFriends);
+                setFriends(sortedFriends);
+            }
+            catch {
+                console.error("error while fetching friend request");
+            }
+            
+        }
+        getFriendRequest();
+    }, [])
 
     const handleNav = (toNav : string, id : number) => {
         navigate(toNav, {
@@ -74,19 +52,6 @@ const sortByStatus = (friends: any[]) => {
             }
         })
     }
-
-    useEffect(() => {
-        const getFriends = async ()=> {
-			try {
-				const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-                response.data = sortByStatus(response.data);
-                setFriends(response.data);
-			} 
-            catch (error) {
-				console.error("Erreur lors de la récupération des amis :", error);
-			}}
-        getFriends();
-	}, []);
 
     return (
         <div className="contentHidden">
@@ -107,14 +72,14 @@ const sortByStatus = (friends: any[]) => {
                     <div className="ProfilInfoFriendTitle">
                         <h1>Friends ({friends?.length})</h1>
                     </div>
-                    {!friendsTab ? (
+                    {!friends ? (
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
                             <h1>No friends</h1>
                         </div>
                     ) : (
                         
                         <div className="MessageCardContainer">
-                            {sortByStatus(friendsTab)?.map((friend: Friend) => (
+                            {sortByStatus(friends)?.map((friend: Friend) => (
                                 <FriendCard key={friend.id} friend={friend} />
                             ))}
                         </div>

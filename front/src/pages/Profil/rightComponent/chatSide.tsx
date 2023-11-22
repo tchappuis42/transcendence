@@ -22,6 +22,7 @@ export const ChatSide = () => {
 											index={u.id + 1}
 											user={u.username}
 											status={u.status}
+											id={u.id}
 										/>
 									)}
 							</div>

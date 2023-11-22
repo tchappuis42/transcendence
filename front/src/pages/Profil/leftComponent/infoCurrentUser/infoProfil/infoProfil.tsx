@@ -3,8 +3,18 @@ import "../../../styleProfilPage/mainCSS.css"
 import "../infoProfilComponent.css"
 import "./infoProfile.css"
 import {MyName} from "./tools/personalInformations"
+import {useAccount} from "../../../../../ui/organisms/useAccount";
+
+interface Props {
+	index: number;
+	user: string;
+	status: number;
+	id: number;
+}
 
 export const InfoProfileUser = (): JSX.Element => {
+	const { account } = useAccount()
+
 	return (
 			<div className="information-user-component">
 				<img alt="image de profil" className="rounded h-full col-span-1 black-border-fine"

@@ -5,17 +5,19 @@ import Status from "../../../Game/status"
 import {useEffect, useState} from "react";
 import { Badge, Button } from "@material-tailwind/react";
 import {UserStatus} from "../../tools/userStatus";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
 	index: number;
 	user: string;
 	status: number;
+	id: number;
 }
 
-export const ChatUserHistoric = ({index, user, status}: Props) => {
+export const ChatUserHistoric = ({index, user, status, id}: Props) => {
 	const [colorBadge, setColorBadge] = useState("");
 	const [isActive, setIsActive] = useState(false);
-
+	// const id = location.state ? location.state.id : null;
 	function getStatusColor(status: number) {
 		switch (status) {
 			case 0:
@@ -29,12 +31,16 @@ export const ChatUserHistoric = ({index, user, status}: Props) => {
 		}
 	}
 
+	const navigate = useNavigate();
+
 	return (
 		<tr className="gap-2">
 			<div className={`bubble-main-chat black-border-fine snap-start w-full`}>
 				<td className="col-span-1">
 					<Badge color={getStatusColor(status)}>
-						<Button>
+						<Button onClick={() => {
+							navigate(`/profil/${id}`);
+						}}>
 							<div className="bubble-row justify-center">
 								{status}
 							</div>

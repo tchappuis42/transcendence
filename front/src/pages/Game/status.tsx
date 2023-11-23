@@ -7,23 +7,23 @@ interface user {
 	username: string
 	status: number
 }
-
 const Status = () => {
-
 	const [users, setUsers] = useState<user[]>([]);
 	const [sorted, setSorted] = useState<user[]>([]);
 	const socket = useSocket();
 
+	console.log("socket: ", socket);
 	useEffect(() => {
 		const sortUser = users.sort((a, b) => a.status - b.status)
 		setSorted(sortUser)
-	}, [users]);
+	}, [sorted, users]);
 
 
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				console.log("response: ", response.data);
 				setUsers(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
@@ -31,7 +31,6 @@ const Status = () => {
 		}
 		getUsers();
 	}, []);
-
 
 	useEffect(() => { //socket
 		if (socket) {

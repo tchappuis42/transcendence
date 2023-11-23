@@ -4,7 +4,6 @@ import "./components/slanderousMenu.css"
 import {SlanderousMenu} from "./components/slanderousMenu"
 import {useRef} from "react";
 import Navigation from "../../ui/organisms/Navigation";
-// import {Outlet} from "react-router-dom";
 
 const navigationHome = [
 	{ label: 'Transcendance', url: '/' },
@@ -21,7 +20,7 @@ const navigationOptionsPong = [
 export const TopBar = () => {
 	const myRef = useRef<HTMLDivElement | null>(null);
 	return (
-		<div className="sticky top-0 bg-gray-50 flex flex-row justify-start">
+		<div className="z-10 sticky top-0 bg-gray-50 flex flex-row justify-start">
 			<div ref={myRef} className="top-bar">
 				<div className="px-4 font-bold rounded">
 					<Navigation options={navigationHome} />

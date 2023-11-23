@@ -1,15 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
+import friend from './interface/friendDto';
 
-interface friend {
-	id: number
-	username: string
-	status: number
-	friend_status: number
-}
-
-const Friends = () => {
+const Friendss = () => {
 
 	const [friends, setFriends] = useState<friend[]>([]);
 	const [sorted, setSorted] = useState<friend[]>([]);
@@ -100,7 +94,7 @@ const Friends = () => {
 	}
 
 	return (
-		<div className="status">
+		<div className="h-full bg-gray-200">
 			<h1>Liste des amis</h1>
 			<h2>ami</h2>
 			{sorted.map(u =>
@@ -121,4 +115,4 @@ const Friends = () => {
 	);
 };
 
-export default Friends;
+export default Friendss;

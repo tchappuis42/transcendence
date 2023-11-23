@@ -4,6 +4,7 @@ import SocketPong from './pages/Game/socketpong';
 import Chat from './pages/Chat/chat';
 import { Profil } from './pages/Profil/Profil';
 import { TopBar } from "./pages/topBar/topBar";
+import Testfriends from './pages/friend/testfriends';
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/' element={<Home />} >
           {/*<Route path='/' element={<TopBar />} >*/}
           <Route path='pong' element={<SocketPong />} />
+          <Route path='testfriends' element={<Testfriends />} />
           <Route path='chat' element={<Chat />} />
           <Route path='profil' element={<Profil />} />
         </Route >

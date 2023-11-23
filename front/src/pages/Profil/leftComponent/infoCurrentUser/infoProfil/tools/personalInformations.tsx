@@ -20,14 +20,11 @@ interface Props {
 export const MyName = () => {
 	const { account } = useAccount()
 	const { sorted } = UserStatus();
-	let user: string;
 
-	if (id !== account.id)
-		user = account.username
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">
-				{user}
+				{account.username}
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component ">

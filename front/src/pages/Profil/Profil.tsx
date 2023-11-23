@@ -34,18 +34,37 @@ export const Profil = () => {
 		console.log("getUserById: ", user);
 	}
 
+	function renderElement() {
+		if(id !== '1') {
+			return (
+				<>
+					<div className="mainTable h-screen-top-bar
+					grid-cols-1 md:grid-cols-2">
+						<LeftComponent id={parseInt(id as string, 10)}/>
+						<Leaderboard/>
+					</div>
+				</>
+			)
+		}
+		return (
+			<>
+				<div className="mainTable h-screen-top-bar
+				grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+					<LeftComponent id={parseInt(id as string, 10)}/>
+					<Leaderboard/>
+					<ChatSide/>
+				</div>
+			</>
+		);
+	}
+
+	console.log("account: ",id);
 	fetchUser();
 
 	return (
 		<>
 			<div className="mainBox gap-4">
-				<div className="mainTable h-screen-top-bar
-				grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-				blue-border">
-					<LeftComponent/>
-					<Leaderboard/>
-					<ChatSide/>
-				</div>
+				{renderElement()}
 			</div>
 		</>
 	);

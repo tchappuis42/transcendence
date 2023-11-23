@@ -12,8 +12,8 @@
         p-5;
     }
     .mainTable {
-        @apply grid grid-cols-3
-        w-fit /*overflow-hidden*/
+        @apply grid
+        w-fit justify-center
     }
     .h-screen-top-bar {
         height: calc(100vh - 120px);

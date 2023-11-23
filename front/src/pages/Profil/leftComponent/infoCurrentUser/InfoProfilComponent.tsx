@@ -6,20 +6,20 @@ import Wallpaper from "../../../image/wallpaper.jpg"
 import {LevelUser} from "./infoLevel/infoLevel";
 import {UserStatus} from "../../tools/userStatus";
 
-export const InfoProfilComponent = (): JSX.Element => {
+interface Props {
+	id: number;
+}
+export const InfoProfilComponent = ({id}: Props): JSX.Element => {
 
 	const { sorted } = UserStatus();
-
-	console.log(sorted.map(u => u.id))
-	console.log(sorted.map(u => u.status))
-	console.log(sorted.map(u => u.username))
+	const user = sorted.find(u => u.id === id);
 
 	return (
 		<>
 			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper black-border-fine"/>
-			<InfoProfileUser/>
+			<InfoProfileUser id={id}/>
 			<div className="information-level-component">
-				<LevelUser/>
+				<LevelUser id={id}/>
 			</div>
 		</>
 	);

@@ -42,7 +42,7 @@ export const ChatUserHistoric = ({index, user, status, id}: Props) => {
 							navigate(`/profil/${id}`);
 						}}>
 							<div className="bubble-row justify-center">
-								{status}
+								{id}
 							</div>
 						</Button>
 					</Badge>

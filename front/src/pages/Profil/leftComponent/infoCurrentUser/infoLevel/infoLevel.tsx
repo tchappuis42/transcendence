@@ -2,7 +2,11 @@ import React, {useState} from "react";
 import "./infoLevel.css"
 import {LevelBar} from "./tools/levelBar";
 
-export const LevelUser = (): JSX.Element => {
+interface Props {
+	id: number;
+}
+
+export const LevelUser = (id: Props): JSX.Element => {
 	const [progress, setProgress] = useState(0);
 	const [level, setLevel] = useState(0);
 	const handleClick = (): void => {

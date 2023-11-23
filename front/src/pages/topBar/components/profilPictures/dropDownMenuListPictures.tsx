@@ -4,9 +4,10 @@ import { useAuth } from "../../../../ui/organisms/useAuth";
 import { SyntheticEvent, useState } from "react";
 import { ClickOutside } from "../../tools/clickoutside"
 import Navigation from "../../../../ui/organisms/Navigation";
+import {useNavigate} from "react-router-dom";
 
 const navigationOptionsProfil = [
-	{ label: 'profil', url: '/profil' },
+	{ label: 'profil', url: '/profil/1' },
 ];
 
 interface Props {
@@ -22,6 +23,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 		setOpen(!open);
 	}
 
+	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const LogoutSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -40,8 +42,9 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 				<div className={`menu-slanderous black-border-fine`}>
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 						<li className="menu-slanderous-list">
-							<button>
-								<Navigation options={navigationOptionsProfil} />
+							<button onClick={() => navigate('/profil/1')}>
+								profil
+								{/*<Navigation options={navigationOptionsProfil} />*/}
 							</button>
 						</li>
 						<li className="menu-slanderous-list">

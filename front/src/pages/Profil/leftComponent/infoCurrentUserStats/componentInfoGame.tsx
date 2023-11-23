@@ -6,6 +6,7 @@ interface Props {
 	name: string;
 }
 
+
 const BubbleBody = ({stats, name}: Props) => {
 	return (
 		<tr>
@@ -21,12 +22,15 @@ const BubbleBody = ({stats, name}: Props) => {
 	);
 }
 
-export const GameStats = () => {
+interface Id {
+	id: number;
+}
+
+export const GameStats = ({id}: Id) => {
 	let bubbleData = [
 		{ stats: 1, name: "total win" },
 		{ stats: 1, name: "total win" },
 		{ stats: 1, name: "total win" },
-
 	];
 	return (
 		<div className="relative py-4 b overflow-x-auto shadow-md sm:rounded-lg

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .middle-component-main {
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        p-[10px]
+    }
+    .middle-component-table {
+        @apply h-full max-h-[915px]
+        flex flex-col
+        shadow-md sm:rounded-lg
+        bg-gray-50 py-2
+    }
+    .bubble-component {
+        @apply relative max-h-[280px]
+        flex flex-col overflow-y-scroll
+        snap-proximity snap-y gap-2
+    }
+    .bubble-main {
+        @apply min-h-[40px] w-full
+        grid grid-cols-6 rounded px-3 py-1
+    }
+    .bubble-row {
+        @apply h-full w-full
+        flex flex-row items-center
+        rounded
+    }
+}

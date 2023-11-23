@@ -13,29 +13,9 @@
     }
     .mainTable {
         @apply grid grid-cols-3
-        h-screen w-fit
+        w-fit /*overflow-hidden*/
     }
-
-    .left-component-main {
-        @apply col-span-1
-        min-w-[350px] max-w-[400px]
-        flex flex-col
-        justify-start items-start
-        p-[10px] bg-red-50 gap-5
-    }
-
-    .middle-component-main {
-        @apply col-span-1
-        min-w-[350px] max-w-[400px]
-        flex flex-col
-        justify-start items-start
-        p-[10px] bg-red-50 gap-5
-    }
-
-    .right-component-main {
-        @apply col-span-1
-        min-w-[350px] max-w-[400px]
-        grid
-        p-[10px] bg-red-50 gap-5
+    .h-screen-top-bar {
+        height: calc(100vh - 120px);
     }
 }

@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .right-component-main {
+        @apply col-span-1
+        min-w-[350px] max-w-[400px]
+        p-[10px] gap-2
+
+    }
+    .right-component-table {
+        @apply h-full max-h-[915px]
+        grid grid-rows-5 h-full
+    }
+
+    .info-chat-component {
+        @apply flex flex-col
+        min-h-[400px] min-w-[350px]
+        bg-gray-50 p-4 rounded
+        justify-end
+    }
+    .online-users-component {
+        @apply flex flex-col
+        min-h-[160px] min-w-[350px]
+        bg-amber-100 p-4 rounded
+        justify-end
+    }
+
+    .chat-component-main {
+        @apply flex flex-col row-span-5
+        w-full min-h-[360px]
+    }
+    .chat-component-elements-table {
+        @apply flex flex-col max-h-[360px]
+        justify-start overflow-y-scroll gap-1
+        snap-proximity snap-y
+    }
+
+    .online-component-main {
+        @apply flex flex-col row-span-5
+        w-full min-h-[130px]
+    }
+    .online-component-elements-table {
+        @apply flex flex-col max-h-[130px]
+        justify-start overflow-y-scroll gap-1
+        snap-proximity snap-y
+    }
+
+    .ongame-component-main {
+        @apply flex flex-col row-span-5
+        w-full min-h-[130px]
+    }
+    .ongame-component-elements-table {
+        @apply flex flex-col max-h-[130px]
+        justify-start overflow-y-scroll gap-1
+        snap-proximity snap-y
+    }
+
+    .bubble-component-chat {
+        @apply relative max-h-[490px]
+        flex flex-col overflow-y-scroll
+        snap-proximity snap-y gap-2
+    }
+    .bubble-main-chat {
+        @apply min-h-[40px] w-full
+        grid grid-cols-4 rounded px-3 py-1
+    }
+    .bubble-row {
+        @apply h-full w-full
+        flex flex-row items-center
+        rounded
+    }
+}

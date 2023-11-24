@@ -21,11 +21,12 @@ export function useFriends() {
 	}
 
 	function getStatusColor(status: number) {
+		console.log("color =", status)
 		switch (status) {
 			case 0:
 				return 'red'; // Hors ligne
 			case 1:
-				return 'vert'; // En ligne
+				return 'green'; // En ligne
 			case 2:
 				return 'blue'; // En jeu
 			default:

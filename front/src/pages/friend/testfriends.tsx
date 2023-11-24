@@ -2,6 +2,7 @@ import Friends from "./friends";
 import FriendsToAdd from "./friendsToAdd";
 import Friendss from "./friendss";
 import PendingFriend from "./pendingFriend";
+import Status from "./status";
 
 const Testfriends = () => {
 	return (
@@ -10,7 +11,7 @@ const Testfriends = () => {
 				<Friends />
 				<FriendsToAdd />
 				<PendingFriend />
-				<Friendss />
+				<Status />
 			</div>
 		</div>
 	)

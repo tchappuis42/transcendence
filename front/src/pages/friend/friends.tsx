@@ -6,7 +6,9 @@ import FriendCard from "./FriendCard";
 
 const Friends = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
-	const { getFriends } = useFriends()
+	const { getFriends } = useFriends();
+	const socket = useSocket();
+	console.log(socket)
 
 	useEffect(() => {
 		const fetchFriends = async () => {
@@ -17,9 +19,29 @@ const Friends = () => {
 		fetchFriends();
 	}, []);
 
+	useEffect(() => {
+		if (socket) {
+			console.log("la")
+			socket.on("status", (data) => {
+				setFriends((prevFriends) => prevFriends.map(user => user.id === data.id ? { ...user, status: data.status } : user))
+			});
+		}
+		console.log("ici")
+		return () => {
+			if (socket) {
+				socket.off("status");
+			}
+		};
+	}, [socket]);
+
+	/*useEffect(() => {
+		const sortUser = users.sort((a, b) => a.status - b.status)
+		setSorted(sortUser)
+	}, [friends]);*/
+
 	return (
-		<div className="bg-gray-300">
-			<div className='h-[10%] flex justify-center items-center m-2.5 rounded-md shadow-lg bg-white/10'>
+		<div className="bg-black/50">
+			<div className='h-[10%] flex justify-center items-center m-2.5 rounded-md shadow-lg bg-white/90'>
 				<h1>Friends ({friends?.length})</h1>
 			</div>
 

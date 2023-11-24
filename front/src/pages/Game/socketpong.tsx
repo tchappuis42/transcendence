@@ -15,7 +15,7 @@ const SocketPong = () => {
 	const [player2, setplayer2] = useState(0);
 	const [search, setsearch] = useState("trouver un match")
 	const [rules, setRules] = useState(false);
-
+	console.log(socket)
 	const [color, setColor] = useState({
 		paddle: "white",
 		ball: "white",
@@ -58,6 +58,9 @@ const SocketPong = () => {
 				}
 				else
 					setsearch("recherche de match")
+			});
+			socket.on("status", (data) => {
+				console.log("status = ", data)
 			})
 		}
 		return () => {
@@ -66,7 +69,7 @@ const SocketPong = () => {
 				socket.off("game");
 			}
 		};
-	}, [socket, search]);
+	}, [socket]);
 
 	const matchmaking = (e: SyntheticEvent) => {
 		e.preventDefault();

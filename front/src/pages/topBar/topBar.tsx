@@ -1,8 +1,8 @@
 import * as React from "react"
 import "./topBar.css"
 import "./components/slanderousMenu.css"
-import {SlanderousMenu} from "./components/slanderousMenu"
-import {useRef} from "react";
+import { SlanderousMenu } from "./components/slanderousMenu"
+import { useRef } from "react";
 import Navigation from "../../ui/organisms/Navigation";
 // import {Outlet} from "react-router-dom";
 
@@ -18,6 +18,10 @@ const navigationOptionsPong = [
 	{ label: 'pong', url: '/pong' },
 ];
 
+const navigationOptionstest = [
+	{ label: 'test', url: '/testfriends' },
+];
+
 export const TopBar = () => {
 	const myRef = useRef<HTMLDivElement | null>(null);
 	return (
@@ -28,7 +32,8 @@ export const TopBar = () => {
 				</div>
 				<Navigation options={navigationOptionsChat} />
 				<Navigation options={navigationOptionsPong} />
-				<SlanderousMenu myRef={myRef}/>
+				<Navigation options={navigationOptionstest} />
+				<SlanderousMenu myRef={myRef} />
 			</div>
 		</div>
 	);

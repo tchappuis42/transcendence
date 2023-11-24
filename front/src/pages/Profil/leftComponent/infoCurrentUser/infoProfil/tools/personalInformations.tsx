@@ -11,39 +11,32 @@ interface Rank {
 	score: number
 }
 
-interface Props {
-	user: string;
-	status: number;
-	id: number;
-	cID: number;
-}
-
 interface Id {
 	id: number;
 }
 export const MyName = ({id}: Id) => {
 	const { account } = useAccount()
 	const { sorted } = UserStatus();
-	const user = sorted.find(u => u.id === id);
+	const user = id === account.id ? account:sorted.find(u => u.id === id);
 	const [myRank, setMyRank] = useState<Rank[]>([]);
 
 	let me;
-	useEffect(() => {
-		if (user!.id === account.id)
-			me = myRank.find(u => u.username)
-		else
-			me = myRank.find(u => u.username)
-		setMyRank(me ? [me] : []);
-	}, [myRank]);
+	// useEffect(() => {
+	// 	if (id === account.id)
+	// 		me = myRank.find(u => u.username === account.username)
+	// 	else
+	// 		me = myRank.find(u => u.username === user?.username)
+	// 	setMyRank(me ? [me] : []);
+	// }, [myRank]);
 
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">
-				{user!.username}
+				{user?.username}
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component">
-					{myRank.map(u => u.username === user!.username)}
+					Rank: {myRank.map(u => u.username === user!.username)}
 				</div>
 			</div>
 		</div>

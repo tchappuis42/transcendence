@@ -102,7 +102,7 @@ export const Leaderboard = () => {
 	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
 
 	return (
-		<div className="middle-component-main">
+		<div className="z-10 middle-component-main">
 			<div className="middle-component-table gray-border">
 				<table className="border-separate border-spacing-2 w-full items-start">
 					<thead>

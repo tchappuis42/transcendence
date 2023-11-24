@@ -6,8 +6,7 @@
 
 @layer components {
     .wallpaper {
-        @apply
-        h-full w-full
+        @apply max-h-[300px] h-full w-full
         object-cover
         rounded
     }

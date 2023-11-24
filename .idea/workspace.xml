@@ -6,20 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/InfoProfilComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/InfoProfilComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoLevel/infoLevel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoLevel/infoLevel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/infoProfil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/infoProfil.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/tools/personalInformations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/tools/personalInformations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUserStats/componentInfoGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUserStats/componentInfoGame.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfilComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfilComponent.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/leftComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/leftComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/rightComponent/chatFriendsInfo/chatFriendsInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/rightComponent/chatFriendsInfo/chatFriendsInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/rightComponent/chatSide.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/rightComponent/chatSide.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/styleProfilPage/mainCSS.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/styleProfilPage/mainCSS.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/topBar/components/profilPictures/dropDownMenuListPictures.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/topBar/components/profilPictures/dropDownMenuListPictures.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/middleComponent/leaderboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/middleComponent/leaderboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/topBar/topBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/topBar/topBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

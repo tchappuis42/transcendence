@@ -11,7 +11,7 @@ const Testfriends = () => {
 				<Friends />
 				<FriendsToAdd />
 				<PendingFriend />
-				<Status />
+				<Friendss />
 			</div>
 		</div>
 	)

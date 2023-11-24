@@ -5,6 +5,7 @@ import "../infoProfile.css"
 import {useAccount} from "../../../../../../ui/organisms/useAccount";
 import {UserStatus} from "../../../../tools/userStatus";
 import {useParams} from "react-router-dom";
+import {RankUsers} from "../../../../tools/rank";
 
 interface Rank {
 	username: string,
@@ -17,9 +18,12 @@ interface Id {
 export const MyName = ({id}: Id) => {
 	const { account } = useAccount()
 	const { sorted } = UserStatus();
-	const user = id === account.id ? account:sorted.find(u => u.id === id);
-	const [myRank, setMyRank] = useState<Rank[]>([]);
-
+	const {userRank, myRank} = RankUsers();
+	const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
+	const cRank = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
+	const user = id === account.id ? account.username : sorted.find(u => u.id === id);
+	// const user = id === account.id ? account:sorted.find(u => u.id === id);
+	
 	let me;
 	// useEffect(() => {
 	// 	if (id === account.id)
@@ -32,11 +36,11 @@ export const MyName = ({id}: Id) => {
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">
-				{user?.username}
+				{cUser}
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component">
-					Rank: {myRank.map(u => u.username === user!.username)}
+					{cRank && `Rank: ${cRank}`}
 				</div>
 			</div>
 		</div>

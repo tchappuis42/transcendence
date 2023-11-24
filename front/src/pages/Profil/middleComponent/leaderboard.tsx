@@ -105,7 +105,7 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 export const Leaderboard = ({id}: Props) => {
 	// const { sorted } = UserStatus();
 	// const {account} = useAccount();
-	const { rank, myRank} = RankUsers();
+	const { userRank, myRank} = RankUsers();
 	const cUser: "ieie" = "ieie";
 	// const user = id === account.id ? account:sorted.find(u => u.id === id);
 
@@ -128,7 +128,7 @@ export const Leaderboard = ({id}: Props) => {
 					<tbody>
 						<div className="bubble-component">
 							{
-									rank.map((u, index, id) => <BubbleBodyLeaderboard
+								userRank.map((u, index, id) => <BubbleBodyLeaderboard
 												key={index}
 												index={index + 1}
 												stats={u.score}
@@ -160,17 +160,17 @@ export const Leaderboard = ({id}: Props) => {
 					</thead>
 					<tbody>
 						<div className="bubble-component">
-							{currentUserMatches.map((match, index) => (
-								<BubbleBodyMatchHistory key={index}
-														index={index + 1}
-														player1={match.player1}
-														player2={match.player2}
-														score1={match.score1}
-														score2={match.score2}
-														winner={match.winner}
-														currentUser={(match.player1 === cUser || match.player2 === cUser) ? cUser : ""}
-								/>
-							))}
+							{/*{currentUserMatches.map((match, index) => (*/}
+							{/*	// <BubbleBodyMatchHistory key={index}*/}
+							{/*	// 						index={index + 1}*/}
+							{/*	// 						player1={match.player1}*/}
+							{/*	// 						player2={match.player2}*/}
+							{/*	// 						score1={match.score1}*/}
+							{/*	// 						score2={match.score2}*/}
+							{/*	// 						winner={match.winner}*/}
+							{/*	// 						currentUser={(match.player1 === cUser || match.player2 === cUser) ? cUser : ""}*/}
+							{/*	// />*/}
+							{/*))}*/}
 						</div>
 					</tbody>
 				</table>

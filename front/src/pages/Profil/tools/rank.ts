@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAccount} from "../../../ui/organisms/useAccount";
-import axios from "axios/index";
+import axios from "axios";
 
 interface Rank {
 	username: string,
@@ -8,23 +8,23 @@ interface Rank {
 }
 
 export const RankUsers = () => {
-	const [rank, setRank] = useState<Rank[]>([]);
+	const [userRank, seUsertRank] = useState<Rank[]>([]);
 	const [myRank, setMyRank] = useState<Rank>();
 	const [myIndex, setIndex] = useState<number>(0);
 	const { account } = useAccount();
 
 	useEffect(() => {
-		const me = rank.find(user => user.username === account.username)
-		const index = rank.findIndex(user => user.username === account.username)
+		const me = userRank.find(user => user.username === account.username)
+		const index = userRank.findIndex(user => user.username === account.username)
 		setMyRank(me)
 		setIndex(index)
-	}, [rank]);
+	}, [userRank]);
 
 	useEffect(() => {
 		const getRank = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/ranking");
-				setRank(response.data);
+				seUsertRank(response.data);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des scores :", error);
 			}
@@ -32,5 +32,5 @@ export const RankUsers = () => {
 		getRank();
 	}, []);
 
-	return ({rank, myRank});
+	return ({userRank, myRank});
 }

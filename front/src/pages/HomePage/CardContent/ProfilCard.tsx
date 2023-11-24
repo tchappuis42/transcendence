@@ -22,7 +22,7 @@ const ProfilCard = () => {
     const [friends, setFriends] = useState<Friend[]>();
 
     const sortByStatus = (friends: Friend[]): Friend[] => {
-        const sortedFriends = friends.sort((a, b) => b.status - a.status);
+        const sortedFriends = friends.sort((a, b) => a.status - b.status);
         const filteredFriends = sortedFriends.filter(friend => friend.friend_status === 0);
         return filteredFriends;
     };

@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/tools/personalInformations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/leftComponent/infoCurrentUser/infoProfil/tools/personalInformations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/middleComponent/leaderboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/middleComponent/leaderboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/tools/rank.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/tools/rank.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/topBar/components/profilPictures/dropDownMenuListPictures.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/topBar/components/profilPictures/dropDownMenuListPictures.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

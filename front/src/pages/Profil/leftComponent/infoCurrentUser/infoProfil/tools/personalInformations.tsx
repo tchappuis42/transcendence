@@ -22,10 +22,16 @@ export const MyName = ({id}: Id) => {
 	const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
 	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
 
-	// const cRank = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
 	let index: number = 0;
-	// const user = id === account.id ? account:sorted.find(u => u.id === id);
-
+	if (scores !== undefined) {
+		for (let i = 0; i < userRank.length; i++) {
+			if (userRank[i].score <= scores) {
+				index = i + 1;
+				break;
+			}
+		}
+	}
+	console.log("index: ", index);
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">

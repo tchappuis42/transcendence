@@ -18,9 +18,9 @@ const FriendCard: React.FC<{ friend: Friend }> = ({ friend }) => {
             case 0:
                 return "yellow";
             case 1:
-                return "green";
+                return "rgba(23, 186, 5, 0.7)";
             case 2:
-                return "red";
+                return "rgba(186, 32, 5, 0.7)";
             default:
                 return "transparent";
         }

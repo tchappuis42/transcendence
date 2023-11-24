@@ -48,4 +48,14 @@ export class UserController {
 			throw new BadRequestException()
 		return await this.userService.getUserById(userId);
 	}
+
+	@UseGuards(JwtAuthGuard)
+  @Get("/getUsersByName/:query")
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getUsersByName(@Req() req: Request, @Param('query') query: string) {
+    const user = req.user as UserDto;
+
+    const foundUsers = await this.userService.searchUsers(user.id, query);
+    return foundUsers;
+  }
 }

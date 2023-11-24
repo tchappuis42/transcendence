@@ -35,7 +35,7 @@ export const Profil = () => {
 	}
 
 	function renderElement() {
-		if(id !== '1') {
+		if(parseInt(id as string, 10) !== account.id) {
 			return (
 				<>
 					<div className="mainTable h-screen-top-bar
@@ -58,7 +58,8 @@ export const Profil = () => {
 		);
 	}
 
-	console.log("account: ",id);
+	// console.log("account: ",id, account.id);
+
 	fetchUser();
 
 	return (

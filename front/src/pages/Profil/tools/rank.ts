@@ -32,5 +32,5 @@ export const RankUsers = () => {
 		getRank();
 	}, []);
 
-	return ({userRank, myRank});
+	return ({userRank, myRank, myIndex});
 }

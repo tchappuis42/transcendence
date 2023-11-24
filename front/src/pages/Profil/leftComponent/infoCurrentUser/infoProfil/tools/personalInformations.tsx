@@ -18,20 +18,13 @@ interface Id {
 export const MyName = ({id}: Id) => {
 	const { account } = useAccount()
 	const { sorted } = UserStatus();
-	const {userRank, myRank} = RankUsers();
+	const {userRank, myRank, myIndex} = RankUsers();
 	const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
-	const cRank = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
-	const user = id === account.id ? account.username : sorted.find(u => u.id === id);
+	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
+
+	// const cRank = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
+	let index: number = 0;
 	// const user = id === account.id ? account:sorted.find(u => u.id === id);
-	
-	let me;
-	// useEffect(() => {
-	// 	if (id === account.id)
-	// 		me = myRank.find(u => u.username === account.username)
-	// 	else
-	// 		me = myRank.find(u => u.username === user?.username)
-	// 	setMyRank(me ? [me] : []);
-	// }, [myRank]);
 
 	return (
 		<div className="rest-information-component black-border-fine">
@@ -40,7 +33,7 @@ export const MyName = ({id}: Id) => {
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component">
-					{cRank && `Rank: ${cRank}`}
+					rank: {index}
 				</div>
 			</div>
 		</div>

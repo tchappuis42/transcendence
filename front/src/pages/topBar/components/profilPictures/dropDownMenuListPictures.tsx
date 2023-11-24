@@ -5,6 +5,7 @@ import { SyntheticEvent, useState } from "react";
 import { ClickOutside } from "../../tools/clickoutside"
 import Navigation from "../../../../ui/organisms/Navigation";
 import {useNavigate} from "react-router-dom";
+import {useAccount} from "../../../../ui/organisms/useAccount";
 
 const navigationOptionsProfil = [
 	{ label: 'profil', url: '/profil/1' },
@@ -17,7 +18,7 @@ interface Props {
 export const DropDownMenuListPictures = ({ height, width }: Props) => {
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
-
+	const { account } = useAccount();
 	// let menuRef = useRef<HTMLInputElement>(null);
 	const handleOpen = (): void => {
 		setOpen(!open);
@@ -30,6 +31,8 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 		logout();
 	}
 
+	console.log("account id: ", account.id);
+	const id: string = account.id.toString();
 	return (
 		<div className="profil-pictures-with-slanderous-menu black-border-fine rounded" ref={ref}
 			style={{ width: `${height}px`, height: `${width}px` }}>
@@ -42,7 +45,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 				<div className={`menu-slanderous black-border-fine`}>
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 						<li className="menu-slanderous-list">
-							<button onClick={() => navigate('/profil/1')}>
+							<button onClick={() => navigate(`/profil/${id}`)}>
 								profil
 								{/*<Navigation options={navigationOptionsProfil} />*/}
 							</button>

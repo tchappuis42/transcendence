@@ -4,8 +4,8 @@ import "../styleProfilPage/mainCSS.css"
 import {BubbleHeadLeaderboard, BubbleBodyLeaderboard} from "./leaderboardInfo/leaderboardComponent"
 import {BubbleHeadMatchHistory, BubbleBodyMatchHistory} from "./leaderboardInfo/matchHistoryComponent"
 import {useEffect, useState} from "react";
-// import {UserStatus} from "../tools/userStatus";
-// import {useAccount} from "../../../ui/organisms/useAccount";
+import {UserStatus} from "../tools/userStatus";
+import {useAccount} from "../../../ui/organisms/useAccount";
 import {RankUsers} from "../tools/rank";
 
 interface CurrentUser {
@@ -103,13 +103,17 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 }
 
 export const Leaderboard = ({id}: Props) => {
-	// const { sorted } = UserStatus();
-	// const {account} = useAccount();
-	const { userRank, myRank} = RankUsers();
+	const { sorted } = UserStatus();
+	const {account} = useAccount();
+	const { userRank, myRank, myIndex} = RankUsers();
+
+	const user = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
+	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === user);
+
 	const cUser: "ieie" = "ieie";
 	// const user = id === account.id ? account:sorted.find(u => u.id === id);
 
-	let ID = id;
+	// console.log("user, rank: ", user, rank);
 	let bubbleData = BubbleData();
 	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
 
@@ -136,14 +140,6 @@ export const Leaderboard = ({id}: Props) => {
 												user={0}
 												className={u.username === myRank?.username ? "sticky top-0 bg-blue-200" : undefined}
 										/>
-									// sorted.map((u, index) => <BubbleBodyLeaderboard
-									// 	key={index}
-									// 	index={index + 1}
-									// 	stats={0}
-									// 	name={u.username}
-									// 	user={u.id}
-									// 	className={u.id === id ? "sticky top-0 bg-blue-200" : undefined}
-									// />
 								)
 							}
 						</div>

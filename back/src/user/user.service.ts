@@ -55,28 +55,33 @@ export class UserService {
 		return withoutMe
 	}
 
-	async addUser(client: Socket, server: Server) {
-		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
-		const newUser: sockets = {
-			id: client.id,
-			user: client.data.user
-		}
-		this.Sockets.push(newUser);
-		if (find === undefined) {
-			await this.setConnection(client.data.user)
+	async addUser(userId: number, client: Socket, server: Server) {
+		const user = await this.usersRepository.findOne({ where: { id: userId } });
+		if (user) {
+			user.socket.push(client.id)
+			if (user.connected === ConnctionState.Offline) {
+				user.connected = ConnctionState.Online
+				Logger.log("user connected")
+			}
+			await this.usersRepository.save(user);
 			const status = {
-				id: client.data.user.id,
+				id: userId,
 				status: ConnctionState.Online
 			}
 			server.emit('status', status)
 		}
+		console.log("lalal", user.socket)
 	}
 
 	async removeUser(client: Socket, server: Server) {
-		this.Sockets = this.Sockets.filter(element => element.id !== client.id);
-		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
-		if (find === undefined) {
-			await this.setDisconnect(client.data.user)
+		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
+		if (user) {
+			user.socket = user.socket.filter((socket) => socket !== client.id);
+			if (user.socket.length === 0) {
+				user.connected = ConnctionState.Offline
+				Logger.log("user disconnected")
+			}
+			await this.usersRepository.save(user);
 			const status = {
 				id: client.data.user.id,
 				status: ConnctionState.Offline
@@ -106,16 +111,6 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
-	}
-
-	async setConnection(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: ConnctionState.Online })
-		Logger.log("user connected")
-	}
-
-	async setDisconnect(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: ConnctionState.Offline })
-		Logger.log("user disconnected")
 	}
 
 	async saveScore(scores: Game) {

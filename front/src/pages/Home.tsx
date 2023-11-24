@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Login from './Auth/Login';
 import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
 import { TopBar } from "./topBar/topBar";
-import Hometest from './hometest';
+import Hometest from './HomePage/HomePage';
 
 const Home = () => {
 	const { status, authenticate } = useAuth();

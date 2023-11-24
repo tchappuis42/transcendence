@@ -41,7 +41,7 @@ export const Profil = () => {
 					<div className="mainTable h-screen-top-bar
 					grid-cols-1 md:grid-cols-2">
 						<LeftComponent id={parseInt(id as string, 10)}/>
-						<Leaderboard/>
+						<Leaderboard id={parseInt(id as string, 10)}/>
 					</div>
 				</>
 			)
@@ -51,7 +51,7 @@ export const Profil = () => {
 				<div className="mainTable h-screen-top-bar
 				grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 					<LeftComponent id={parseInt(id as string, 10)}/>
-					<Leaderboard/>
+					<Leaderboard id={parseInt(id as string, 10)}/>
 					<ChatSide/>
 				</div>
 			</>

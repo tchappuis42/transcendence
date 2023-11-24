@@ -2,8 +2,11 @@ import * as React from "react"
 import "./leaderboard.css"
 import "../styleProfilPage/mainCSS.css"
 import {BubbleHeadLeaderboard, BubbleBodyLeaderboard} from "./leaderboardInfo/leaderboardComponent"
-import {BubbleHeadMatchHistory, BubbleBodyMatchHistory, MatchHistory} from "./leaderboardInfo/matchHistoryComponent"
+import {BubbleHeadMatchHistory, BubbleBodyMatchHistory} from "./leaderboardInfo/matchHistoryComponent"
 import {useEffect, useState} from "react";
+// import {UserStatus} from "../tools/userStatus";
+// import {useAccount} from "../../../ui/organisms/useAccount";
+import {RankUsers} from "../tools/rank";
 
 interface CurrentUser {
 	user: string;
@@ -23,6 +26,10 @@ interface Match {
 	score1: number;
 	score2: number;
 	winner: string;
+}
+
+interface Props {
+	id: number;
 }
 
 export const BubbleData = () => {
@@ -85,7 +92,7 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 
 	useEffect((): void => {
 		setCurrentUser(user ? user : null);
-	}, [cUser]);
+	}, [cUser, user]);
 	let matches: Match[] = [];
 
 	if (currentUser)
@@ -95,9 +102,14 @@ export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
 	return (currentUserMatches);
 }
 
-export const Leaderboard = () => {
+export const Leaderboard = ({id}: Props) => {
+	// const { sorted } = UserStatus();
+	// const {account} = useAccount();
+	const { rank, myRank} = RankUsers();
 	const cUser: "ieie" = "ieie";
+	// const user = id === account.id ? account:sorted.find(u => u.id === id);
 
+	let ID = id;
 	let bubbleData = BubbleData();
 	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
 
@@ -116,16 +128,24 @@ export const Leaderboard = () => {
 					<tbody>
 						<div className="bubble-component">
 							{
-								bubbleData.map((data, index) => (
-								<BubbleBodyLeaderboard
-											key={index}
-											index={index + 1}
-											stats={data.stats}
-											name={data.name}
-											user={data.user}
-											className={data.user === "ieie" ? "sticky top-0 bg-blue-200" : undefined}
-								/>
-							))}
+									rank.map((u, index, id) => <BubbleBodyLeaderboard
+												key={index}
+												index={index + 1}
+												stats={u.score}
+												name={u.username}
+												user={0}
+												className={u.username === myRank?.username ? "sticky top-0 bg-blue-200" : undefined}
+										/>
+									// sorted.map((u, index) => <BubbleBodyLeaderboard
+									// 	key={index}
+									// 	index={index + 1}
+									// 	stats={0}
+									// 	name={u.username}
+									// 	user={u.id}
+									// 	className={u.id === id ? "sticky top-0 bg-blue-200" : undefined}
+									// />
+								)
+							}
 						</div>
 					</tbody>
 				</table>

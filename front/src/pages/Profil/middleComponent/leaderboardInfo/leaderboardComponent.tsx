@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 
 interface Props {
 	index: number;
-	user: string;
+	user: number;
 	name: string;
 	stats: number;
 	className: string | undefined;

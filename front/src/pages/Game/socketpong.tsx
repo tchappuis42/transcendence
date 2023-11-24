@@ -6,6 +6,7 @@ import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
 import PlayerCard from "./playerCard";
 import { useAccount } from "../../ui/organisms/useAccount";
+import Friends from "../friend/friends";
 
 const SocketPong = () => {
 	const { account } = useAccount()
@@ -110,7 +111,7 @@ const SocketPong = () => {
 			<div className="flex w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
 				{!page &&
 					<div className="flex w-full flex-col justify-between align-between sm:flex-wrap sm:flex-row">
-						<div className="bg-white w-full h-60 p-4 rounded-3xl bg-white/50 sm:h-60 md:w-3/5 md:h-96 xl:w-[720px]">
+						<div className="w-full h-60 p-4 rounded-3xl bg-black/50 sm:h-60 md:w-3/5 md:h-96 xl:w-[720px]">
 							<div className="flex items-center justify-center h-36">
 								<button onClick={matchmaking} className="border h-10 border-black px-2">
 									{search}
@@ -144,7 +145,9 @@ const SocketPong = () => {
 							</div>
 						</div>
 						<Ranking />
-						<div className="w-full h-40 bg-gray-300 mb-1 bg-white/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5 md:h-80 xl:w-[480px]">testetstetst</div>
+						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5 md:h-80 xl:w-[480px] p-2.5">
+							<Friends />
+						</div>
 						<MatchHistory />
 					</div>
 				}

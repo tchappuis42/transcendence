@@ -25,6 +25,12 @@ const Friends = () => {
 			socket.on("status", (data) => {
 				setFriends((prevFriends) => prevFriends.map(user => user.id === data.id ? { ...user, status: data.status } : user))
 			});
+			socket.on("friend", (data) => {
+				if (data.accept === true)
+					setFriends((prevFriends) => [...prevFriends, data.friend])
+				else
+					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.friend.id))
+			});
 		}
 		console.log("ici")
 		return () => {

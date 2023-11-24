@@ -7,12 +7,13 @@ import axios from "axios";
 import FriendCard from "./FriendCard";
 import Ranking from "../../Game/gameRanking";
 import RankingCard from "./RankingCard";
+import Friends from "../../friend/friends";
 
 interface Friend {
-    id : number;
-    username : string;
-    status : number;
-    friend_status : number;
+    id: number;
+    username: string;
+    status: number;
+    friend_status: number;
 }
 
 const ProfilCard = () => {
@@ -40,15 +41,15 @@ const ProfilCard = () => {
             catch {
                 console.error("error while fetching friend request");
             }
-            
+
         }
         getFriendRequest();
     }, [])
 
-    const handleNav = (toNav : string, id : number) => {
+    const handleNav = (toNav: string, id: number) => {
         navigate(toNav, {
-            state : {
-                id : id
+            state: {
+                id: id
             }
         })
     }
@@ -56,11 +57,13 @@ const ProfilCard = () => {
     return (
         <div className="contentHidden">
             <div className="profilHeaderCard">
-                <div className="picContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={ () => {handleNav("profil", account.id)}}>
-                <img alt="image de profil" style={{borderRadius:"10%"}}
-					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
+                <div className="picContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
+                    <img alt="image de profil" style={{ borderRadius: "10%" }}
+                        src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
                 </div>
+
                 <div className="profilNameCard">
+
                     <h1 className="userNameCard">
                         {account.username}
                     </h1>
@@ -77,7 +80,7 @@ const ProfilCard = () => {
                             <h1>No friends</h1>
                         </div>
                     ) : (
-                        
+
                         <div className="MessageCardContainer">
                             {sortByStatus(friends)?.map((friend: Friend) => (
                                 <FriendCard key={friend.id} friend={friend} />
@@ -85,7 +88,7 @@ const ProfilCard = () => {
                         </div>
                     )}
                 </div>
-                <div className="profilInfoCard" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("pong", account.id)}}>
+                <div className="profilInfoCard" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("pong", account.id) }}>
                     <div className="ProfilInfoFriendTitle">
                         <h1>Ranking</h1>
                     </div>

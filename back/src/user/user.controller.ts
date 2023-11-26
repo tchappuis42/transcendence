@@ -4,7 +4,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from './dtos/UserDto';;
+import { UserDto } from './dtos/UserDto'; import { get } from 'http';
+import { User } from './user.entity';
+;
 
 @Controller('user')
 export class UserController {
@@ -38,6 +40,13 @@ export class UserController {
 	async getRanking() {
 		const rank = await this.userService.getRanking();
 		return rank;
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/clear")
+	async clear(@Req() req: Request) {
+		const user = req.user as User;
+		this.userService.clearsocket(user.id)
 	}
 
 	@Get(':id')

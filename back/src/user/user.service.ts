@@ -3,14 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt'
-import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
-import { stat } from 'fs';
+
 
 
 @Injectable()
@@ -58,11 +57,11 @@ export class UserService {
 	async addUser(userId: number, client: Socket, server: Server) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } });
 		if (user) {
-			user.socket.push(client.id)
 			if (user.connected === ConnctionState.Offline) {
 				user.connected = ConnctionState.Online
 				Logger.log("user connected")
 			}
+			user.socket.push(client.id)
 			await this.usersRepository.save(user);
 			const status = {
 				id: userId,
@@ -70,7 +69,6 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
-		console.log("lalal", user.socket)
 	}
 
 	async removeUser(client: Socket, server: Server) {
@@ -167,5 +165,13 @@ export class UserService {
 		if (!user)
 			throw new NotFoundException("user not found")
 		return user.connected
+	}
+
+
+	async clearsocket(userId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: userId } })
+		user.socket = [];
+		await this.usersRepository.save(user);
+		console.log("clear", user.socket)
 	}
 }

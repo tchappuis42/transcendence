@@ -12,6 +12,12 @@ export class Game {
 	@Column()
 	scoreTwo: number;
 
+	@Column()
+	idOne: number;
+
+	@Column()
+	idTwo: number;
+
 	@ManyToOne(() => User, { eager: true })
 	@JoinColumn()
 	userOne: User;

@@ -35,14 +35,10 @@ const PendingFriendCard = ({ friend }: { friend: Friend }) => {
 				<img alt="image de profil" className="rounded-md h-full"
 					src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
 			</div>
-			<div className="h-full w-3/5 flex justify-center items-center" onClick={() => { handleNav("profil", friend.id) }}>
+			<div className="h-full w-4/5 flex justify-center items-center" onClick={() => { handleNav("profil", friend.id) }}>
 				<h2>{friend.username}</h2>
 			</div>
-			<div className="w-2/5 flex justify-evenly h-full items-center">
-				<button className="w-2/5 text-xs bg-green-500 h-4/5 rounded-xl text-white ease-in-out" onClick={() => { acceptFriend(friend.id, true) }}>Accept</button>
-				<button className="w-2/5 text-xs bg-red-500 h-4/5 rounded-xl text-white" onClick={() => { acceptFriend(friend.id, false) }}>Refuse</button>
 
-			</div >
 		</div >
 	)
 }

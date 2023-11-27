@@ -1,19 +1,18 @@
 import axios from 'axios';
 import Friend from './interface/friendDto';
-import { FriendStatus } from './interface/friendStatus';
 
 export function useFriends() {
 
-	const sortByStatus = (friends: Friend[]): Friend[] => {
+	const sortByStatus = (friends: Friend[], friendStatus: number): Friend[] => {
 		const sortedFriends = friends.sort((a, b) => b.status + a.status);
-		const filteredFriends = sortedFriends.filter(friend => friend.friend_status === FriendStatus.friend);
+		const filteredFriends = sortedFriends.filter(friend => friend.friend_status === friendStatus);
 		return filteredFriends;
 	};
 
-	const getFriends = async () => {
+	const getFriends = async (friendStatus: number) => {
 		try {
 			const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-			const sortedFriends = sortByStatus(response.data);
+			const sortedFriends = sortByStatus(response.data, friendStatus);
 			return sortedFriends
 		} catch (error) {
 			console.error("Erreur lors de la récupération des users :", error);

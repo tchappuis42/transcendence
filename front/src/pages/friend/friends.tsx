@@ -3,6 +3,7 @@ import { useSocket } from '../../ui/organisms/SocketContext';
 import Friend from './interface/friendDto';
 import { useFriends } from './useFriends';
 import FriendCard from "./FriendCard";
+import { FriendStatus } from './interface/friendStatus';
 
 const Friends = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
@@ -12,7 +13,7 @@ const Friends = () => {
 
 	useEffect(() => {
 		const fetchFriends = async () => {
-			const friendsData = await getFriends();
+			const friendsData = await getFriends(FriendStatus.friend);
 			if (friendsData)
 				setFriends(friendsData);
 		};
@@ -32,7 +33,6 @@ const Friends = () => {
 					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.friend.id))
 			});
 		}
-		console.log("ici")
 		return () => {
 			if (socket) {
 				socket.off("status");

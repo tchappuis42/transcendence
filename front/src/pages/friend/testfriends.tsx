@@ -11,9 +11,15 @@ const Testfriends = () => {
 				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
 					<Friends />
 				</div>
-				<FriendsToAdd />
-				<PendingFriend />
-				<Friendss />
+				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
+					<FriendsToAdd />
+				</div>
+				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
+					<PendingFriend />
+				</div>
+				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
+					<Friendss />
+				</div>
 				<Status></Status>
 			</div>
 		</div>

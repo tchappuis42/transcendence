@@ -8,6 +8,7 @@ import Ranking from "../Game/gameRanking";
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "./Tools";
 import AddFriendCard from "./CardContent/AddFriendCard";
+import FriendsToAdd from "../Friend/AddFriend";
 
 const HomePage = () => {
 
@@ -18,23 +19,22 @@ const HomePage = () => {
     }
 
     return (
-        <div  style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", marginBottom:30}}>
-            <div style={{ height: "80%", width: "90%", display: "flex", flexWrap: "wrap" }}>
-			<MenuCard>
-                <div className="rankingContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
-                    <Ranking></Ranking>
-                </div>
-			</MenuCard>
-			<MenuCard>
-				<ProfilCard></ProfilCard>
-			</MenuCard>
-            <MenuCard>
-				<ChatCard></ChatCard>
-            </MenuCard>
-            <MenuCard>
-                    <AddFriendCard></AddFriendCard>
-            </MenuCard>
-			
+        <div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
+            <div className="grid grid-cols-1 grid-rows-4 gap-4 lg:grid-cols-2 lg:grid-rows-2 w-full h-full p-2.5">
+                <MenuCard>
+                    <ProfilCard></ProfilCard>
+                </MenuCard>
+                <MenuCard>
+                    <FriendsToAdd />
+                </MenuCard>
+                <MenuCard>
+                    <ChatCard></ChatCard>
+                </MenuCard>
+                <MenuCard>
+                    <div className="rankingContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
+                        <Ranking></Ranking>
+                    </div>
+                </MenuCard>
             </div>
         </div>
     );

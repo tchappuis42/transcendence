@@ -27,13 +27,13 @@ interface UserCardProps {
         
 
     return(
-        <div className="messageContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("profil", user.id)}}>
+        <div className="messageContainer"  style={{background: "rgba(0,0,0,0.8)", borderWidth:1, boxShadow:"0 4px 8px rgba(255, 255, 255, 0.6)"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("profil", user.id)}}>
             <div className="messagePicContainer">
             <img alt="image de profil" style={{borderRadius:"10%", height:"100%"}}
 					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
             </div>
             <div className="messageText">
-                <h2 style={{fontSize:"100%"}}>{user.username}</h2>
+                <h2 style={{fontSize:"100%", color:"white"}}>{user.username}</h2>
             </div>
         </div>
     )

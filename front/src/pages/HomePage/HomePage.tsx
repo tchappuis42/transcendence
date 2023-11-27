@@ -18,18 +18,18 @@ const HomePage = () => {
     }
 
     return (
-        <div className="signup" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", marginBottom:30}}>
+        <div  style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", marginBottom:30}}>
             <div style={{ height: "80%", width: "90%", display: "flex", flexWrap: "wrap" }}>
+			<MenuCard>
+                <div className="rankingContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
+                    <Ranking></Ranking>
+                </div>
+			</MenuCard>
 			<MenuCard>
 				<ProfilCard></ProfilCard>
 			</MenuCard>
-			<MenuCard>
-				<ChatCard></ChatCard>
-			</MenuCard>
             <MenuCard>
-                <div style={{transition: "transform 0.3s ease-in-out"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
-                    <Ranking></Ranking>
-                </div>
+				<ChatCard></ChatCard>
             </MenuCard>
             <MenuCard>
                     <AddFriendCard></AddFriendCard>

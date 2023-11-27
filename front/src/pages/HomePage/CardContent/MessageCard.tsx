@@ -17,7 +17,7 @@ const MessageCard = () => {
 					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
             </div>
             <div className="messageText">
-                <h2 style={{fontSize:"100%"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, dolor soluta repellat officiis similique consequatur quam adipisci consectetur eum tempora, error saepe a, sit animi dolore illo distinctio dolorum vitae.</h2>
+                <h2 style={{fontSize:"100%"}}>Jambon ipsum dolor sit amet consectetur adipisicing elit. Et, dolor soluta repellat officiis similique consequatur quam adipisci consectetur eum tempora, error saepe a, sit animi dolore illo distinctio dolorum vitae.</h2>
             </div>
         </div>
     )

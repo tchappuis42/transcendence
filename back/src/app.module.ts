@@ -15,7 +15,7 @@ import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [
     UserModule,
-    TypeOrmModule.forRoot(typeormconfig),
+    TypeOrmModule.forRoot(typeormconfig,),
     AuthModule,
     GameModule,
     ChatModule,

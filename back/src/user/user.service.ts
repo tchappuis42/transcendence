@@ -9,6 +9,7 @@ import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
+import { elementAt } from 'rxjs';
 
 
 
@@ -61,7 +62,12 @@ export class UserService {
 				user.connected = ConnctionState.Online
 				Logger.log("user connected")
 			}
-			user.socket.push(client.id)
+			const newSocket = new sockets
+			newSocket.id = client.id
+			newSocket.userid = userId
+			this.Sockets.push(newSocket); //debug/
+			//user.socket.push(client.id)
+			user.socket = this.getsocket(user.id)
 			await this.usersRepository.save(user);
 			const status = {
 				id: userId,
@@ -69,12 +75,15 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
+		console.log("bug :", user.socket)
 	}
 
 	async removeUser(client: Socket, server: Server) {
+		this.Sockets = this.Sockets.filter(element => element.id !== client.id); //debug
 		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
 		if (user) {
-			user.socket = user.socket.filter((socket) => socket !== client.id);
+			user.socket = this.getsocket(user.id)
+			//user.socket = user.socket.filter((socket) => socket !== client.id);
 			if (user.socket.length === 0) {
 				user.connected = ConnctionState.Offline
 				Logger.log("user disconnected")
@@ -86,6 +95,7 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
+		console.log("delog bug :", user.socket)
 	}
 
 	async StatueGameOn(userId: number, server: Server) {
@@ -168,10 +178,18 @@ export class UserService {
 	}
 
 
+
+	//debug
 	async clearsocket(userId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		user.socket = [];
 		await this.usersRepository.save(user);
 		console.log("clear", user.socket)
+	}
+
+	getsocket(userId: number) {
+		const userSocket = this.Sockets.filter(socket => socket.userid === userId)
+		const socket = userSocket.map((socket) => (socket.id))
+		return socket
 	}
 }

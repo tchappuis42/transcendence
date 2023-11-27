@@ -38,7 +38,7 @@ const Ranking = () => {
 			<h1 className="text-3xl sm:text-3xl font-bold h-10 md:h-12">Ranking</h1>
 			<div className="flex flex-col h-[10rem] w-full sm:h-60 md:h-80">
 				<div className="rounded border border-black">
-					<table className="sticky top-0 w-full">
+					<table className="sticky top-0 w-full z-0">
 						<tr>
 							<th className="w-1/3 text-center">rank</th>
 							<th className="w-1/3 text-center">name</th>

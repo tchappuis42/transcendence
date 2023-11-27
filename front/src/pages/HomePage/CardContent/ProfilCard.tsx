@@ -7,7 +7,7 @@ import axios from "axios";
 import FriendCard from "./FriendCard";
 import Ranking from "../../Game/gameRanking";
 import RankingCard from "./RankingCard";
-import Friends from "../../friend/friends";
+import Friends from "../../Friend/Friends";
 
 interface Friend {
     id: number;

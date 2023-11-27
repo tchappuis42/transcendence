@@ -1,7 +1,7 @@
-import Friends from "./friends";
-import FriendsToAdd from "./friendsToAdd";
+import Friends from "./Friends";
+import FriendsToAdd from "./AddFriend";
 import Friendss from "./friendss";
-import PendingFriend from "./pendingFriend";
+import PendingFriend from "./PendingFriend";
 import Status from "./status";
 
 const Testfriends = () => {

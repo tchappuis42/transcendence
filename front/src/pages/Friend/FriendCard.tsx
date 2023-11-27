@@ -19,16 +19,15 @@ const FriendCard: React.FC<{ friend: Friend }> = ({ friend }) => {
 	}
 
 	return (
-		<div className="h-[15%] bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleNav(friend.id)}>
-			<div className="h-[90%] w-1/5 flex items-center content-center cursor-pointer">
-				<img alt="image de profil" className="rounded-xl h-full"
+		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleNav(friend.id)}>
+			<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
+				<img alt="image de profil" className="rounded-md h-full"
 					src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
 			</div>
-			<div className="friendName" >
-				<h2 style={{ fontSize: "100%" }}>{friend.username}</h2>
+			<div className="h-full w-3/5 flex justify-center items-center" >
+				<h2>{friend.username}</h2>
 			</div>
-
-			<div style={{ height: "20px", width: "20px", borderRadius: "100%", background: getStatusColor(friend.status), marginRight: 20 }}>
+			<div style={{ background: getStatusColor(friend.status) }} className="h-5 w-5 rounded-full mr-5">
 			</div>
 		</div>
 	);

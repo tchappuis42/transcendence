@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 import Friend from './interface/friendDto';
 import { useFriends } from './useFriends';
-import FriendCard from "./FriendCard";
 import { FriendStatus } from './interface/friendStatus';
+import FriendRequestCard from './AddFriendCard';
 
 
 const FriendsToAdd = () => {
@@ -34,7 +34,7 @@ const FriendsToAdd = () => {
 
 				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{friends?.map((friend: Friend) => (
-						<FriendCard key={friend.id} friend={friend} />
+						<FriendRequestCard key={friend.id} friend={friend} />
 					))}
 				</div>
 			)

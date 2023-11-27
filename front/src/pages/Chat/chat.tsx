@@ -27,7 +27,7 @@ const Chat = () => {
 	const [all_DMChannels, setDMCHannel] = useState<DMChan[]>([]);
 //	let [count, setCount] = useState(0)
 	const [set_channel, setSetChannel] = useState("");
-//	let [ref_channel, setRef_channel] = useState("");
+	const [RepCss, setRepCss] = useState("");
 	const socket = useSocket();
 //	const channels = useState<Chan[]>([])
 //	const [status, setStatue] = React.useState(false);
@@ -39,6 +39,7 @@ const Chat = () => {
 	const [userId, setUserId] = useState(Number);
 	const [DM_Chann, setDM_Chann] = useState("");
 	const [Owner, setOwner] = useState("");
+	const [iniitButton, init_Button] = useState("")
 
 	
 
@@ -82,12 +83,14 @@ const Chat = () => {
 				console.log("la valeur du status du channel", datta)
 				console.log(owner)
 				if (owner === '1') {
-					setdis(false);
+					setinfo(false);
+					//setdis(false);
 					setOwner(owner);
 					console.log("je suis owner")
 				}
 				else {
-					setdis(true);
+					setinfo(true);
+					//setdis(true);
 					setOwner(owner);
 					console.log("je suis pas owner")
 				}
@@ -179,6 +182,7 @@ const Chat = () => {
 				else {
 					setChannels((prevchan) => prevchan.map(chan => chan.name === name ? { ...chan, status: "Private"} : chan));
 				}*/
+				setButton(data);
 				
 			});
 			socket.on("banUser", (channelName) => {
@@ -411,7 +415,20 @@ const Chat = () => {
 			alert("you don't have seleted a User!")
 	}
 
+	function setButton(data: any) {
+		for (let i = 0; data[i]; ++i) {
+			if (data[i].name === set_channel) {
+				if (data[i].statue === 'Public')
+					setIsOn(false);
+				else
+					setIsOn(true);
+			}
+		}
+	}
 
+	function setinfo(info: boolean) {
+		setdis(info);
+	}
 
 	function takeChan(channelSet: string) {
 		setSetChannel(channelSet)
@@ -422,6 +439,8 @@ const Chat = () => {
 			setPass("ok")
 			setMessages([]);
 		}
+		setRepCss("inner");
+		init_Button("hola")
 	}
 
 	function takeDMChan(channelSet: string) {
@@ -431,6 +450,8 @@ const Chat = () => {
 			setPass("ok")
 			setMessages([]);
 		}
+		setRepCss("innerDM");
+		init_Button("bye")
 	}
 
 	function takeUserName(user_Id: number) { 
@@ -503,12 +524,12 @@ const Chat = () => {
 						/>
 
        				<label className="label" htmlFor="status"> 
-					   	<span className="inner"/>
+					   	<span className={RepCss}/>
         			</label>
 
 				</div>
 
-				<div className="hola">
+				<div className={iniitButton}>
 					<button onClick={removeAdmin}>removeAdmin</button>
 					<button onClick={addAdmin}>addAdmin</button>
 					<button onClick={deleteChannel}>deleteChannel</button>

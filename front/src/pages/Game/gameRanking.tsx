@@ -38,7 +38,7 @@ const Ranking = () => {
 			<h1 className="text-3xl sm:text-3xl font-bold h-10 md:h-12">Ranking</h1>
 			<div className="flex flex-col h-[10rem] w-full sm:h-60 md:h-80">
 				<div className="rounded border border-black">
-					<table className="sticky top-0 w-full z-0">
+					<table className="top-0 w-full">
 						<tr>
 							<th className="w-1/3 text-center">rank</th>
 							<th className="w-1/3 text-center">name</th>
@@ -48,7 +48,7 @@ const Ranking = () => {
 				</div>
 				<div className="rounded border border-black overflow-y-auto h-full">
 					<table className="w-full">
-						<thead className="sticky top-0 bg-sky-200 w-full">
+						<thead className="bg-sky-200 w-full">
 							<tr className="text-blue-800">
 								<td className="text-center">{myIndex + 1}</td>
 								<td className="text-center">{myRank?.username}</td>

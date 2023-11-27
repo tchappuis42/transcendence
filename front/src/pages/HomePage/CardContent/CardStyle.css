@@ -35,6 +35,11 @@
 
         }
 
+        .picContainer.zoomed {
+                transform: scale(1.05);
+                background-color: rgba(255, 255, 255, 1);
+        }
+
         .profilNameCard {
             height: 90%;
             width: 80%;
@@ -72,6 +77,10 @@
             align-items: center;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
             box-sizing: border-box;
+        }
+
+        .profilInfoCard.zoomed{
+            transform: scale(1.1);
         }
 
             .ProfilInfoFriendTitle {
@@ -152,7 +161,8 @@
     height: 15%;
     background-color: rgba(255, 255, 255, 0.5);
     margin: 10px;
-    transition: transform 0.3s ease-in-out;
+    z-index: 0;
+    transition: transform 0.2s ease-in-out;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     box-sizing: border-box;
@@ -163,6 +173,12 @@
     cursor: pointer;
 
 }
+
+.messageContainer.zoomed {
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 1);
+
+  }
 
         .messagePicContainer {
             height: 90%;
@@ -323,3 +339,14 @@
         .noFriendRequestText {
             color: rgba(255, 255, 255, 0.7);
         }
+
+/* Ranking */
+
+.rankingContainer {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.rankingContainer.zoomed {
+    transform: scale(1.1);
+}

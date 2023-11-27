@@ -47,7 +47,7 @@ const Chat = () => {
 	
 
 	return (
-		<div className="signup">
+		<div>
 			<form onSubmit={sendMessage} id="chat">
 				<div className="lol">
 					{messages.map((msg, index) => (

@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Like, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt'
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
@@ -175,7 +175,19 @@ export class UserService {
 		return user.connected
 	}
 
+	async searchUsers(userId: number, query: string) {
+		const users = await this.usersRepository.find({
+			where: [
+				{ username: ILike(`%${query}%`) },
+			],
+			//TODO Rajouter photo de profil
+			select: ['id', 'username'],
+		});
 
+		const filteredUsers = users.filter((user) => user.id !== userId);
+
+		return filteredUsers;
+	}
 
 	//debug
 	async clearsocket(userId: number) {

@@ -8,10 +8,13 @@ const Testfriends = () => {
 	return (
 		<div className="w-full h-[800px] p-20">
 			<div className="grid gap-2 grid-cols-2 grid-rows-2 w-full h-full">
-				<Friends />
+				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
+					<Friends />
+				</div>
 				<FriendsToAdd />
 				<PendingFriend />
 				<Friendss />
+				<Status></Status>
 			</div>
 		</div>
 	)

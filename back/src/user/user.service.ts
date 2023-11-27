@@ -75,7 +75,6 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
-		console.log("bug :", user.socket)
 	}
 
 	async removeUser(client: Socket, server: Server) {
@@ -95,7 +94,6 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
-		console.log("delog bug :", user.socket)
 	}
 
 	async StatueGameOn(userId: number, server: Server) {

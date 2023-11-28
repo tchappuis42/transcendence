@@ -8,8 +8,8 @@ import {useParams} from "react-router-dom";
 import {RankUsers} from "../../../../tools/rank";
 
 interface Rank {
-	id: number,
-	username: string,
+	id: number | undefined,
+	username: string  | undefined,
 	index: number
 }
 
@@ -33,7 +33,7 @@ export const MyName = ({id, username, index}: Rank) => {
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component">
-					rank: {index}
+					rank: {index + 1}
 				</div>
 			</div>
 		</div>

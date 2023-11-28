@@ -1,23 +1,31 @@
 import "./leftComponent.css"
-import {GameStats} from "./infoCurrentUserStats/componentInfoGame"
 import {InfoProfilComponent} from "./infoCurrentUser/InfoProfilComponent"
-import {UserStatus} from "../tools/userStatus";
+import { GameStats } from "./infoCurrentUserStats/componentInfoGame";
 
 interface Props {
 	id: number;
 }
 
+interface User {
+	id: number;
+	username: string;
+  }
+  
+  interface LeftComponentProps {
+	user: User | undefined;
+  }
 
-export const LeftComponent = ({id}: Props) => {
+export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 	return (
 		<div className="z-20 left-component-main text-xs">
 			<div className="info-profile-component gray-border"
 				 style={{gridTemplateRows: "5fr 2fr 1fr"}}>
-				<InfoProfilComponent id={id}/>
+				<InfoProfilComponent user={user}/>
 			</div>
 			<div className="user-stat-component">
-				<GameStats id={id}/>
+				<GameStats id={user?.id}/>
 			</div>
 		</div>
 	);
 }
+

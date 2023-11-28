@@ -33,14 +33,20 @@ export const ChatUserHistoric = ({index, user, status, id}: Props) => {
 
 	const navigate = useNavigate();
 
+	const handleNav = (id : number) => {
+        navigate("/profil", {
+            state : {
+                id : id
+            }
+        })
+    }
+
 	return (
 		<tr className="gap-2">
 			<div className={`bubble-main-chat black-border-fine snap-start w-full`}>
 				<td className="col-span-1">
 					<Badge color={getStatusColor(status)}>
-						<Button onClick={() => {
-							navigate(`/profil/${id}`);
-						}}>
+						<Button onClick={() => { handleNav(id)}}>
 							<div className="bubble-row justify-center">
 								{id}
 							</div>

@@ -23,7 +23,7 @@ const BubbleBody = ({stats, name}: Props) => {
 }
 
 interface Id {
-	id: number;
+	id: number | undefined;
 }
 
 export const GameStats = ({id}: Id) => {

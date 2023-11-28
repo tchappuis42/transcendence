@@ -9,26 +9,6 @@ import {useAccount} from "../../../ui/organisms/useAccount";
 import {RankUsers} from "../tools/rank";
 import axios from "axios"
 
-interface CurrentUser {
-	user: string;
-	name: string;
-	stats: number;
-}
-
-interface Player {
-	user: string;
-	name: string;
-	stats: number;
-}
-
-interface Match {
-	player1: string;
-	player2: string;
-	score1: number;
-	score2: number;
-	winner: string;
-}
-
 interface User {
 	id: number;
 	username: string;

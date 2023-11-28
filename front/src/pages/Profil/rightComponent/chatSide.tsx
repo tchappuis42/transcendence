@@ -1,13 +1,30 @@
-import * as React from "react"
+import React, { useEffect } from "react";
 import "./chatSide.css"
 import "../styleProfilPage/mainCSS.css"
 import "./chatFriendsInfo/chatFriendsInfo.css"
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
 import {UserStatus} from "../tools/userStatus";
+import axios from "axios";
+
+interface Users {
+	username : string;
+	id : number;
+}
 
 export const ChatSide = () => {
 
-	const { sorted } = UserStatus();
+	const [users, setUsers] = React.useState<Users[] | undefined>()
+
+	useEffect(() => {
+		const getUsers = async () => {
+			const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true })
+			console.log("first,", response.data);
+			setUsers(response.data)
+		}
+		getUsers()
+	}, [])
+
+	// console.log("userStatus :", sorted);
 	return(
 		<div className="right-component-main">
 			<div className="right-component-table gap-5">
@@ -15,14 +32,15 @@ export const ChatSide = () => {
 					<table className="border-separate border-spacing-2 w-full items-start">
 						<tbody>
 							<div className="bubble-component-chat">
-								{sorted.map(u =>
-										<ChatUserHistoric
-											key={u.id}
-											index={u.id + 1}
-											user={u.username}
-											status={u.status}
-											id={u.id}
-										/>
+								{users?.map(u =>
+										// <ChatUserHistoric
+										// 	key={u.id}
+										// 	index={u.id + 1}
+										// 	user={u.username}
+										// 	status={u.status}
+										// 	id={u.id}
+										// />
+										<div>jambon</div>
 									)}
 							</div>
 						</tbody>

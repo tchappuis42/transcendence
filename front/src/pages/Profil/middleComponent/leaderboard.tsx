@@ -107,6 +107,8 @@ export const Leaderboard = ({id}: Props) => {
 	const {account} = useAccount();
 	const { userRank, myRank, myIndex} = RankUsers();
 
+	
+
 	const user = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
 	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === user);
 

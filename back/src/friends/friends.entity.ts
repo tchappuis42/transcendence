@@ -6,6 +6,12 @@ export class Friends {
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@Column()
+	first_id: number;
+
+	@Column()
+	second_id: number;
+
 	@ManyToOne(() => User, { eager: true })
 	@JoinColumn()
 	first_User: User;

@@ -29,13 +29,7 @@ export const InfoProfilComponent : React.FC<InfoProfilComponentProps> = ({user})
 				</div>
 			</div>
 			<div className="information-level-component">
-				<LevelUser id={user?.id}/>
-				<div className="level-user-component black-border-fine">
-					<div className="level-current-component">
-						level
-					</div>
-					{/* <LevelBar progress={ progress }/> */}
-		</div>
+				<LevelUser user={user}/>
 			</div>
 		</>
 	);

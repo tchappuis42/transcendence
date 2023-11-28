@@ -23,7 +23,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 				<InfoProfilComponent user={user}/>
 			</div>
 			<div className="user-stat-component">
-				<GameStats id={user?.id}/>
+				{/* <GameStats id={user?.id}/> */}
 			</div>
 		</div>
 	);

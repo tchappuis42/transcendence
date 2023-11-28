@@ -5,21 +5,23 @@ import {useAccount} from "../../../../../ui/organisms/useAccount";
 import {useGetUser, UserStatus} from "../../../tools/userStatus";
 import {RankUsers} from "../../../tools/rank";
 
-interface Props {
-	id: number | undefined;
-}
+interface User {
+	id: number;
+	username: string;
+  }
+  
+  interface LevelUserProps {
+	user: User | undefined;
+  }
 
-class Rank {
-	score: number | undefined;
-	username: string | undefined;
-}
 
-export const LevelUser = ({id}: Props): JSX.Element => {
+export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 
 	const [progress, setProgress] = useState(0);
 	const [level, setLevel] = useState(0);
-	const {myRank} = RankUsers();
-	const userScore = myRank?.score;
+	const {userRank} = RankUsers();
+	const rank = userRank.find(u => u.username === user?.username)
+	const userScore = rank?.score
 
 	useEffect(()=>{
 		if (userScore)
@@ -29,6 +31,7 @@ export const LevelUser = ({id}: Props): JSX.Element => {
 			const remainingProgress = userScore % 500;
 			const newProgress = (remainingProgress / 500) * 100;
 			setProgress(newProgress);
+			console.log("newProgrss and level :", level, newProgress);
 		}
 	}, [userScore])
 

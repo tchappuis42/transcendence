@@ -14,7 +14,7 @@ const App = () => {
           {/*<Route path='/' element={<TopBar />} >*/}
           <Route path='pong' element={<SocketPong />} />
           <Route path='chat' element={<Chat />} />
-          <Route path='profil/:id' element={<Profil />} />
+          <Route path='profil' element={<Profil />} />
         </Route >
       </Routes >
     </BrowserRouter >

@@ -10,6 +10,7 @@ export class GameController {
 
 	@Get('history/:id')
 	async getGameByUser(@Param() params: any) {
+		console.log("biiiiiite")
 		const games = await this.gameService.getGameByUser(params.id);
 		return games;
 	}

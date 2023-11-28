@@ -9,6 +9,7 @@ import axios from "axios";
 interface Users {
 	username : string;
 	id : number;
+	status : number;
 }
 
 export const ChatSide = () => {
@@ -33,14 +34,14 @@ export const ChatSide = () => {
 						<tbody>
 							<div className="bubble-component-chat">
 								{users?.map(u =>
-										// <ChatUserHistoric
-										// 	key={u.id}
-										// 	index={u.id + 1}
-										// 	user={u.username}
-										// 	status={u.status}
-										// 	id={u.id}
-										// />
-										<div>jambon</div>
+										<ChatUserHistoric
+											key={u.id}
+											index={u.id + 1}
+											user={u.username}
+											status={u.status}
+											id={u.id}
+										/>
+										
 									)}
 							</div>
 						</tbody>

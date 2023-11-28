@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import "../../css/index.css"
 import "./styleProfilPage/mainCSS.css"
@@ -21,68 +21,34 @@ interface User {
 }
 
 export const Profil = () => {
-	// const [user, setUser] = useState<string | undefined>();
 	const [score, setScore] = useState<number | undefined>();
 	const { account } = useAccount()
-	const { id } = useParams();
+	// const { id } = useParams();
 	const [user, setUser] = useState<User>()
-
-	// const FetchUser = useCallback(async () => {
-	// 	const user = await getUserByID(id);
-	// 	console.log("getUserById: ", user);
-	// 	// debugger
-	// 	setUser(user.username);
-	// 	setScore(user.score);
-	// }, []);
-	// useEffect(() => {
-	// 	FetchUser();
-	// }, []);
+	const location = useLocation();
+	const { id } = location.state;
 
 	useEffect(() => {
+		console.log("user id :", id);
 		if (String(id) !== String(account.id))
 		{
+			console.log("on charge un autre utilisateur")
 			const getUsersByID = async () => {
 				try {
 					const response = await axios.get(`http://localhost:4000/user/${id}`)
-					console.log("id", response.data)
+					console.log("iddddddddd", response.data)
 					setUser(response.data)
 				}
 				catch (error) {
-					console.error(`Error fetching user with ID ${id}:`, error);
+					console.error(`Error fetching user game history with ID ${id}:`, error);
 					return (null);
 				}
 			}
 			getUsersByID()
 		}
-	}, [])
-
-	console.log("user and score: ", user, score);
-
-	function renderElement() {
-		if(parseInt(id as string, 10) !== account.id) {
-			return (
-				<>
-					<div className="mainTable h-screen-top-bar
-					grid-cols-1 md:grid-cols-2">
-						{/* <LeftComponent id={parseInt(id as string, 10)}/> */}
-						{/* <Leaderboard id={parseInt(id as string, 10)}/> */}
-					</div>
-				</>
-			)
-		}
-		return (
-			<>
-				<div className="mainTable h-screen-top-bar
-				grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-					{/* <LeftComponent id={parseInt(id as string, 10)}/> */}
-					{/* <Leaderboard id={parseInt(id as string, 10)}/> */}
-					<ChatSide/>
-				</div>
-			</>
-		);
-	}
-
-	// console.log("account: ",id, account.id);
+		else
+		setUser(account);
+	}, [id])
 
 
 	return (
@@ -91,7 +57,8 @@ export const Profil = () => {
 			<div className="mainTable h-screen-top-bar
 				grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 					{/* <LeftComponent id={parseInt(id as string, 10)}/> */}
-					{/* <Leaderboard id={parseInt(id as string, 10)}/> */}
+					<Leaderboard user={user}/>
+					<div>{user?.username}</div>
 					{String(id) === String(account.id) &&
 						<ChatSide />
 					}

@@ -213,6 +213,7 @@ export class GameService {
 	//recupere l'historique des games d'un client
 	async getGameByUser(userId: number) {
 		const user = await this.userservice.validateUser(userId)
+		console.log("biiiiiite")
 		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
 		const matchs = games.map(match => {
 			if (match.scoreOne > match.scoreTwo)

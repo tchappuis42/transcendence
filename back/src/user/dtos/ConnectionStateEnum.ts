@@ -1,5 +1,5 @@
 export enum ConnctionState {
+	Offline = 0,
 	Online = 1,
-	Offline = 2,
-	InGame = 3
+	InGame = 2
 }

@@ -48,11 +48,11 @@ const Status = () => {
 	function getStatusColor(status: number) {
 		switch (status) {
 			case 0:
-				return 'blue'; // Hors ligne
+				return 'red'; // Hors ligne
 			case 1:
 				return 'green'; // En ligne
 			case 2:
-				return 'red'; // En jeu (ou tout autre statut)
+				return 'blue'; // En jeu (ou tout autre statut)
 			default:
 				return 'black'; // Par défaut (au cas où)
 		}

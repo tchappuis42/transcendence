@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {useAccount} from "../../../../ui/organisms/useAccount";
 
 const navigationOptionsProfil = [
-	{ label: 'profil', url: '/profil/1' },
+	{ label: 'profil', url: '/profil' },
 ];
 
 interface Props {
@@ -31,7 +31,14 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 		logout();
 	}
 
-	console.log("account id: ", account.id);
+	const handleNav = (id : number) => {
+        navigate("/profil", {
+            state : {
+                id : id
+            }
+        })
+    }
+
 	const id: string = account.id.toString();
 	return (
 		<div className="profil-pictures-with-slanderous-menu black-border-fine rounded" ref={ref}
@@ -45,7 +52,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 				<div className={`menu-slanderous black-border-fine`}>
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 						<li className="menu-slanderous-list">
-							<button onClick={() => navigate(`/profil/${id}`)}>
+							<button onClick={() => handleNav(account.id)}>
 								profil
 								{/*<Navigation options={navigationOptionsProfil} />*/}
 							</button>

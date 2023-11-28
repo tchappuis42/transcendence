@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {UserStatus} from "../tools/userStatus";
 import {useAccount} from "../../../ui/organisms/useAccount";
 import {RankUsers} from "../tools/rank";
+import axios from "axios"
 
 interface CurrentUser {
 	user: string;
@@ -28,99 +29,48 @@ interface Match {
 	winner: string;
 }
 
-interface Props {
+interface User {
 	id: number;
+	username: string;
+  }
+  
+  interface LeaderboardProps {
+	user: User | undefined;
+  }
+
+interface gameHistory {
+	scoreOne : number;
+	scoreTwo : number;
+	userOne : string;
+	userTwo : string;
+	winner : string;
 }
-
-export const BubbleData = () => {
-	let bubbleData = [
-		{ stats: 100, name: "total win", user: "keke" },
-		{ stats: 110, name: "total win", user: "nene" },
-		{ stats: 10, name: "total win", user: "pepe" },
-		{ stats: 1900, name: "total win", user: "cece" },
-		{ stats: 2, name: "total win", user: "gege" },
-		{ stats: 3333, name: "total win", user: "lele" },
-		{ stats: 230, name: "total win", user: "ieie" },
-		{ stats: 890, name: "total win", user: "zeze" },
-		{ stats: 35345, name: "total win", user: "xexe" },
-		{ stats: 453, name: "total win", user: "rere" },
-		{ stats: 34, name: "total win", user: "jeje" },
-		{ stats: 57, name: "total win", user: "meme" },
-		{ stats: 5755, name: "total win", user: "oeoe" },
-		{ stats: 5664, name: "total win", user: "hehe" },
-		{ stats: 566, name: "total win", user: "ueue" },
-		{ stats: 345, name: "total win", user: "sese" },
-	];
-	return (bubbleData);
-}
-
-export const GetHistoricalMatch = (bubbleData: Player[], CUser: CurrentUser): Match[] => {
-	let matches: Match[] = [];
-	const currentUserIndex = bubbleData.findIndex(player => player.user === CUser?.user);
-	let user: Player = bubbleData[currentUserIndex];
-		for (let j = 0; j < bubbleData.length; j++) {
-			if (j === currentUserIndex)
-				j++;
-			let player2: Player = bubbleData[j];
-
-			let score1: number = Math.round((user.stats * Math.random() * 10) % 10);
-			let score2: number = Math.round((player2.stats * Math.random() * 10) % 10);
-
-			let winner;
-
-			if (score1 > score2)
-				winner = user;
-			else
-				winner = player2;
-
-			matches.push({
-				player1: user.user,
-				player2: player2.user,
-				score1: score1,
-				score2: score2,
-				winner: winner.user
-			});
-		}
-	return (matches);
-}
-
-export const SetCurrentUsr = (bubbleData: Player[], cUser: string): Match[] => {
-	const [currentUser, setCurrentUser] = useState<Player | null>(null);
-
-	bubbleData.sort((a, b) => b.stats - a.stats);
-	const user = bubbleData.find(player => player.user === cUser);
-
-	useEffect((): void => {
-		setCurrentUser(user ? user : null);
-	}, [cUser, user]);
-	let matches: Match[] = [];
-
-	if (currentUser)
-		matches = GetHistoricalMatch(bubbleData, currentUser);
-
-	const currentUserMatches: Match[] = matches.filter(match => match.player1 === currentUser?.user);
-	return (currentUserMatches);
-}
-
-export const Leaderboard = ({id}: Props) => {
-	const { sorted } = UserStatus();
+  
+  export const Leaderboard: React.FC<LeaderboardProps> = ({ user }) => {
 	const {account} = useAccount();
 	const { userRank, myRank, myIndex} = RankUsers();
+	const [history, setHistory] = useState<gameHistory[]>();
 
+
+	useEffect(() => {
+		if (user?.id) {
+			const getHistory = async () => {
+				try {
+					console.log("user.id in leaderborad : ", user?.id)
+					const response = await axios.get(`http://localhost:4000/game/history/${user?.id}`);
+					console.log("jambon",response.data);
+					setHistory(response.data)
+				} catch (error) {
+					console.error("Erreur lors de la récupération des scores :", error);
+				}
+			}
+			getHistory();
+		}
+	}, [user])
 	
-
-	const user = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
-	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === user);
-
-	const cUser: "ieie" = "ieie";
-	// const user = id === account.id ? account:sorted.find(u => u.id === id);
-
-	// console.log("user, rank: ", user, rank);
-	let bubbleData = BubbleData();
-	const currentUserMatches: Match[] = SetCurrentUsr(bubbleData, cUser);
-
 	return (
 		<div className="z-10 middle-component-main">
+			
 			<div className="middle-component-table gray-border">
 				<table className="border-separate border-spacing-2 w-full items-start">
 					<thead>
@@ -140,7 +90,8 @@ export const Leaderboard = ({id}: Props) => {
 												stats={u.score}
 												name={u.username}
 												user={0}
-												className={u.username === myRank?.username ? "sticky top-0 bg-blue-200" : undefined}
+												// ça fonctionne mais check par username et non id...
+												className={u.username === user?.username ? "bg-blue-200" : undefined}
 										/>
 								)
 							}
@@ -158,17 +109,17 @@ export const Leaderboard = ({id}: Props) => {
 					</thead>
 					<tbody>
 						<div className="bubble-component">
-							{/*{currentUserMatches.map((match, index) => (*/}
-							{/*	// <BubbleBodyMatchHistory key={index}*/}
-							{/*	// 						index={index + 1}*/}
-							{/*	// 						player1={match.player1}*/}
-							{/*	// 						player2={match.player2}*/}
-							{/*	// 						score1={match.score1}*/}
-							{/*	// 						score2={match.score2}*/}
-							{/*	// 						winner={match.winner}*/}
-							{/*	// 						currentUser={(match.player1 === cUser || match.player2 === cUser) ? cUser : ""}*/}
-							{/*	// />*/}
-							{/*))}*/}
+							{history?.map((match, index) => (
+							 <BubbleBodyMatchHistory key={index}
+											index={index + 1}
+													player1={match.userOne}
+													player2={match.userTwo}
+													score1={match.scoreOne}
+													score2={match.scoreTwo}
+													winner={match.winner}
+													currentUser={(match.userOne === account.username || match.userTwo === account.username) ? account.username : ""}
+							/>
+							))}
 						</div>
 					</tbody>
 				</table>
@@ -176,3 +127,4 @@ export const Leaderboard = ({id}: Props) => {
 		</div>
 	);
 }
+

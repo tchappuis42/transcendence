@@ -10,9 +10,9 @@ interface Props {
 	id: number;
 }
 export const InfoProfilComponent = ({id}: Props): JSX.Element => {
-
-	const { sorted } = UserStatus();
-	const user = sorted.find(u => u.id === id);
+	//
+	// const { sorted } = UserStatus();
+	// const user = sorted.find(u => u.id === id);
 
 	return (
 		<>

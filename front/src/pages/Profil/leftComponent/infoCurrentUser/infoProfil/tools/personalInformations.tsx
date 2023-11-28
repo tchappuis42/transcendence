@@ -8,34 +8,28 @@ import {useParams} from "react-router-dom";
 import {RankUsers} from "../../../../tools/rank";
 
 interface Rank {
+	id: number,
 	username: string,
-	score: number
+	index: number
 }
 
 interface Id {
-	id: number;
+	username: string;
+	index: number;
 }
-export const MyName = ({id}: Id) => {
+
+export const MyName = ({id, username, index}: Rank) => {
 	const { account } = useAccount()
 	const { sorted } = UserStatus();
 	const {userRank, myRank, myIndex} = RankUsers();
-	const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
-	const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
+	// const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
+	// const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
 
-	let index: number = 0;
-	if (scores !== undefined) {
-		for (let i = 0; i < userRank.length; i++) {
-			if (userRank[i].score <= scores) {
-				index = i + 1;
-				break;
-			}
-		}
-	}
-	console.log("index: ", index);
+	console.log("index: ", username, index);
 	return (
 		<div className="rest-information-component black-border-fine">
 			<div className="name-component black-border-separation-b">
-				{cUser}
+				{username}
 			</div>
 			<div className="rank-component">
 				<div className="current-level-component">

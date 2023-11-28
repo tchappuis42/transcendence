@@ -9,6 +9,7 @@ import {Leaderboard} from "./middleComponent/leaderboard"
 import {ChatSide} from "./rightComponent/chatSide"
 import { Button } from "@material-tailwind/react";
 import {useAccount} from "../../ui/organisms/useAccount";
+import {useCallback, useEffect, useState} from "react";
 
 export default function Example() {
 	return <Button>Button</Button>;
@@ -26,13 +27,23 @@ async function getUserByID(id: any) {
 }
 
 export const Profil = () => {
+	const [user, setUser] = useState<string | undefined>();
+	const [score, setScore] = useState<number | undefined>();
 	const { account } = useAccount()
 	const { id } = useParams();
 
-	const fetchUser = async () => {
-		const user = await getUserByID(id);
-		console.log("getUserById: ", user);
-	}
+	// const FetchUser = useCallback(async () => {
+	// 	const user = await getUserByID(id);
+	// 	console.log("getUserById: ", user);
+	// 	// debugger
+	// 	setUser(user.username);
+	// 	setScore(user.score);
+	// }, []);
+	// useEffect(() => {
+	// 	FetchUser();
+	// }, []);
+
+	console.log("user and score: ", user, score);
 
 	function renderElement() {
 		if(parseInt(id as string, 10) !== account.id) {
@@ -60,7 +71,6 @@ export const Profil = () => {
 
 	// console.log("account: ",id, account.id);
 
-	fetchUser();
 
 	return (
 		<>

@@ -11,6 +11,10 @@ const FriendsToAdd = () => {
 	const { getFriends } = useFriends();
 	const socket = useSocket();
 
+	const removeCard = (id: number) => {
+		setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== id))
+	}
+
 	useEffect(() => {
 		const fetchFriends = async () => {
 			const friendsData = await getFriends(FriendStatus.to_add);
@@ -19,6 +23,20 @@ const FriendsToAdd = () => {
 		};
 		fetchFriends();
 	}, []);
+
+	useEffect(() => {
+		if (socket) {
+			socket.on("friendRequest", (data) => {
+				console.log("data friend =", data)
+				setFriends((prevFriends) => [...prevFriends, data])
+			});
+		}
+		return () => {
+			if (socket) {
+				socket.off("friendRequest");
+			}
+		};
+	}, [socket]);
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
@@ -34,7 +52,7 @@ const FriendsToAdd = () => {
 
 				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{friends?.map((friend: Friend) => (
-						<FriendRequestCard key={friend.id} friend={friend} />
+						<FriendRequestCard key={friend.id} friend={friend} removeCard={removeCard} />
 					))}
 				</div>
 			)

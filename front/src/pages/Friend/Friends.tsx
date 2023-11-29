@@ -7,9 +7,8 @@ import { FriendStatus } from './interface/friendStatus';
 
 const Friends = () => {
 	const [friends, setFriends] = useState<Friend[]>([]);
-	const { getFriends } = useFriends();
+	const { getFriends, sortByStatus } = useFriends();
 	const socket = useSocket();
-	console.log(socket)
 
 	useEffect(() => {
 		const fetchFriends = async () => {
@@ -22,28 +21,30 @@ const Friends = () => {
 
 	useEffect(() => {
 		if (socket) {
-			console.log("la")
 			socket.on("status", (data) => {
-				setFriends((prevFriends) => prevFriends.map(user => user.id === data.id ? { ...user, status: data.status } : user))
+				setFriends((prevFriends) =>
+					prevFriends
+						.map(user =>
+							user.id === data.id ? { ...user, status: data.status } : user)
+						.sort((a, b) => b.status - a.status))
 			});
 			socket.on("friend", (data) => {
-				if (data.accept === true)
-					setFriends((prevFriends) => [...prevFriends, data.friend])
+				const friend = friends.find((friend) => friend.id === data.id)
+				if (!friend) {
+					setFriends((prevFriends) => [...prevFriends, data]
+						.sort((a, b) => b.status - a.status))
+				}
 				else
-					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.friend.id))
+					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.id))
 			});
 		}
 		return () => {
 			if (socket) {
 				socket.off("status");
+				socket.off("friend");
 			}
 		};
-	}, [socket]);
-
-	/*useEffect(() => {
-		const sortUser = users.sort((a, b) => a.status - b.status)
-		setSorted(sortUser)
-	}, [friends]);*/
+	}, [socket, friends, sortByStatus]);
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">

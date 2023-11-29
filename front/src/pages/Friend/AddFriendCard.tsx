@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Friend from "./interface/friendDto";
 
-const FriendRequestCard = ({ friend }: { friend: Friend }) => {
+const FriendRequestCard = ({ friend, removeCard }: { friend: Friend, removeCard: (id: number) => void }) => {
     const navigate = useNavigate();
-    // const {account} = useAccount();
 
     const handleNav = (toNav: string, id: number) => {
         navigate(toNav, {
@@ -16,17 +15,17 @@ const FriendRequestCard = ({ friend }: { friend: Friend }) => {
         })
     }
 
-    const acceptFriend = async (friendId: Number, accept: boolean) => {
+    const acceptFriend = async (friendId: number, accept: boolean) => {
         const data = {
             id: friendId,
             accept: accept
         }
         await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
             alert(response.data)
+            removeCard(friendId)
         }).catch((error) => {
             alert(error)
         })
-
     }
 
     return (

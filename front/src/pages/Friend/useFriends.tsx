@@ -4,7 +4,7 @@ import Friend from './interface/friendDto';
 export function useFriends() {
 
 	const sortByStatus = (friends: Friend[], friendStatus: number): Friend[] => {
-		const sortedFriends = friends.sort((a, b) => b.status + a.status);
+		const sortedFriends = friends.sort((a, b) => b.status - a.status);
 		const filteredFriends = sortedFriends.filter(friend => friend.friend_status === friendStatus);
 		return filteredFriends;
 	};
@@ -20,7 +20,6 @@ export function useFriends() {
 	}
 
 	function getStatusColor(status: number) {
-		console.log("color =", status)
 		switch (status) {
 			case 0:
 				return 'red'; // Hors ligne
@@ -35,6 +34,7 @@ export function useFriends() {
 
 	return {
 		getStatusColor,
-		getFriends
+		getFriends,
+		sortByStatus
 	}
 }

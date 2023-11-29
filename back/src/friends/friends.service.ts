@@ -4,10 +4,15 @@ import { PrimaryColumn, Repository } from 'typeorm';
 import { Friends } from './friends.entity';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.entity';
-import { AcceptDTO } from './dtos/AcceptDto';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
+import { FriendDto } from './dtos/FriendDto';
 
 @Injectable()
+@WebSocketGateway()
 export class FriendsService {
+	@WebSocketServer() server: Server;
 
 	constructor(
 		@InjectRepository(Friends) private friendsRepository: Repository<Friends>, private readonly userservice: UserService) { }
@@ -23,6 +28,8 @@ export class FriendsService {
 		friends.second_id = friendUser.id;
 		friends.second_User = friendUser;
 		await this.friendsRepository.save(friends);
+		if (friendUser.connected !== ConnctionState.Offline)
+			await this.sendFriendMessage(friends.second_id, friends.first_User, "friendRequest")
 		return "demande d'ami envoyé"
 	}
 
@@ -45,11 +52,32 @@ export class FriendsService {
 		return friends;
 	}
 
+	getdata(relationship: Friends, user: User) {
+		if (relationship.first_id === user.id) {
+			const data: { user: User, friend: User } = {
+				user: relationship.first_User,
+				friend: relationship.second_User
+			};
+			return data
+		}
+		else {
+			const data: { user: User, friend: User } = {
+				user: relationship.second_User,
+				friend: relationship.first_User
+			};
+			return data
+		}
+	}
+
 	async acceptFriend(user: User, friend: number) {
 		const friendUser = await this.userservice.validateUser(friend);
-		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
-		if (check && check.friend_status === false) {
-			await this.friendsRepository.update(check.id, { friend_status: true })
+		const relationship = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
+		if (relationship && relationship.friend_status === false) {
+			const data = this.getdata(relationship, user)
+			await this.friendsRepository.update(relationship.id, { friend_status: true })
+			if (friendUser.connected !== ConnctionState.Offline)
+				await this.sendFriendMessage(friend, data.user, "friend")
+			await this.sendFriendMessage(user.id, data.friend, "friend")
 			return "ami ajouté";
 		}
 		return "erreur";
@@ -57,9 +85,9 @@ export class FriendsService {
 
 	async refuseFriend(user: User, friend: number) {
 		const friendUser = await this.userservice.validateUser(friend);
-		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
-		if (check && check.friend_status === false) {
-			await this.friendsRepository.delete(check.id)
+		const relationship = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
+		if (relationship && relationship.friend_status === false) {
+			await this.friendsRepository.delete(relationship.id)
 			return "demande d'ami refuser";
 		}
 		return "erreur";
@@ -67,11 +95,34 @@ export class FriendsService {
 
 	async removeFriend(user: User, friend: number) {
 		const friendUser = await this.userservice.validateUser(friend);
-		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
-		if (check) {
-			await this.friendsRepository.delete(check.id)
+		const relationship = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
+		if (relationship) {
+			await this.friendsRepository.delete(relationship.id)
+			const data = this.getdata(relationship, user)
+			if (friendUser.connected !== ConnctionState.Offline)
+				await this.sendFriendMessage(friend, data.user, "friend")
+			await this.sendFriendMessage(user.id, data.friend, "friend")
 			return "ami suprimé";
 		}
 		return "erreur";
+	}
+
+	async sendFriendMessage(send_id: number, user: User, event: string) {
+		const Socket = await this.userservice.getSocketUser(send_id);
+		const data: FriendDto = {
+			id: user.id,
+			username: user.username,
+			status: user.connected,
+			friend_status: 1
+		}
+		if (Socket) {
+			Socket.socket.forEach(socketId => {
+				this.server.sockets.sockets.forEach(socket => {
+					if (socket.id === socketId) {
+						socket.emit(event, data)
+					}
+				})
+			})
+		}
 	}
 }

@@ -72,16 +72,11 @@ export class TextChannelService {
       status: true,
     });
 
-    //console.log(admin)
-   // console.log('hello petite sac')
     try {
       await this.textChannelRepository.save(currentChannel);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-
-    //console.log(currentChannel)
-    //console.log(currentChannel.users)
     return currentChannel;
   }
 
@@ -89,14 +84,12 @@ export class TextChannelService {
     channelName: string,
   ): Promise<TextChannel> {
     let channel = null;
-    //console.log(channelId)
     if (channelName)
       channel = await this.textChannelRepository.findOne({
         where: { name: channelName },
       });
     if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-   // console.log(channel)
     return channel;
   }
 
@@ -104,14 +97,12 @@ export class TextChannelService {
     channelName: string,
   ): Promise<number> {
     let channel = null;
-    //console.log(channelId)
     if (channelName)
       channel = await this.textChannelRepository.findOne({
         where: { name: channelName },
       });
     if (!channel)
       return 0;
-   // console.log(channel)
     return 1;
   }
 
@@ -120,14 +111,12 @@ export class TextChannelService {
     relations = [] as string[],
   ): Promise<TextChannel> {
     let channel = null;
-    //console.log(channelId)
     if (channelId)
       channel = await this.textChannelRepository.findOne({
         where: { id: channelId },
       });
     if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-   // console.log(channel)
     return channel;
   }
 
@@ -141,7 +130,6 @@ export class TextChannelService {
       });
       if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
-   // console.log(channel.name)
     return channel;
   }
 
@@ -173,11 +161,12 @@ export class TextChannelService {
       )};
 
     await this.msgRepository.remove(channel.msgs);
+    await this.mutedUserRepository.remove(channel.muted);
+    await this.bannedUserRepository.remove(channel.banned);
     await this.textChannelRepository.remove(channel);
   }
 
-  async addUserToChannel(channel: TextChannel, userId: number/*, adminId: number*/): Promise<void> {
-  //  const admin = await this.userService.validateUser(adminId);
+  async addUserToChannel(channel: TextChannel, userId: number): Promise<void> {
     const user = await this.userService.validateUser(userId);
     const curchannel = await this.getChannel(
       channel.id, [
@@ -214,9 +203,7 @@ export class TextChannelService {
   async removeUserFromChannel(
     channel: TextChannel,
     userId: number,
-   // adminId: number,
   ): Promise<void> {
-   // const admin = await this.userService.validateUser(adminId);
     const user = await this.userService.validateUser(userId);
     const curchannel = await this.getChannel(channel.id, [
       'users',
@@ -242,7 +229,6 @@ export class TextChannelService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
    }
-    //console.log(curchannel);
   }
 
   async addAdmin(
@@ -261,7 +247,7 @@ export class TextChannelService {
         'User isnt admin in channel',
         HttpStatus.FORBIDDEN,
       )};
-
+  
     if (curchannel.adminId.find((admin1) => admin1.id == user.id))
       throw new HttpException('User already in admin', HttpStatus.CONFLICT);
 
@@ -306,7 +292,6 @@ export class TextChannelService {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-   // console.log(curchannel);
   }
 
   async addMsgForChannel(
@@ -338,11 +323,10 @@ export class TextChannelService {
   async changeStatue(
     channel: TextChannel,
     status: boolean,
-  ): Promise<void> {
+   ): Promise<void> {
     await this.textChannelRepository.update(channel.id, {status} )
-  //  console.log("satus dans le changeStatue apres changeemnt", status)
-   // console.log("changement dans le channel dans le changeStatue", channel.status)
-    /*try {
+  
+   /* try {
       await this.textChannelRepository.save(channel);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -352,24 +336,27 @@ export class TextChannelService {
   async setPassword(
     channel: TextChannel,
     pass: string,
-  ): Promise<void> {
+  ): Promise<number> {
     if (pass.length > 16) {
       throw new HttpException('New password too long', HttpStatus.FORBIDDEN);
     }
 
     if (!pass){
-      throw new HttpException(
-        'New password cannot be empty',
-        HttpStatus.FORBIDDEN,
-      );
+      return 1;
+    //  throw new HttpException(
+     //   'New password cannot be empty',
+     //   HttpStatus.FORBIDDEN,
+    //  );
     }
 
     try {
       const password = await bcrypt.hash(pass, 10);
       await this.textChannelRepository.update(channel.id, { password });
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+        return 1;
+     // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+    return 0;
   }
 
   async checkPassWord(
@@ -418,7 +405,7 @@ export class TextChannelService {
     }
 
     if (userMute.id == channel.owner.id)
-      throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
+      throw new HttpException('Cannot muet an owner', HttpStatus.FORBIDDEN);
 
     if (!channel.users.find((user1) => user1.id == userMute.id))
       throw new HttpException('User isnt in channel', HttpStatus.NOT_FOUND);
@@ -432,7 +419,6 @@ export class TextChannelService {
     if (channel.muted.find((user1) => user1.id == userMute.id))
       throw new HttpException('User is already muted', HttpStatus.FORBIDDEN);
     
-    console.log(temporary)
     const time = new Date(Date.now() + temporary);
     const muted = this.mutedUserRepository.create({
         endOfMute: time,

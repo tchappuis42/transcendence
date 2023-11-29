@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
 import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from './dtos/UserDto';
+import { UserDto } from './dtos/UserDto';;
 
 @Controller('user')
 export class UserController {
@@ -17,18 +17,12 @@ export class UserController {
 		return req.user
 	}
 
-	@Post("/avatar")
-	@UseInterceptors(FileInterceptor('files'))
-	uploadFile(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
-		//console.log(file);
-		//async postAvatar(@Body() body : any){
-		return body
-	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	async getUsers(@Req() req: Request) {
-		return req.user
+		const user = req.user as UserDto;
+		const users = await this.userService.usersListe(user.id);
+		return users
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -38,5 +32,20 @@ export class UserController {
 		const code = await this.userService.generateTfaSecret(user.username);
 		const qrcode = this.userService.generateQrCode(code);
 		return qrcode
+	}
+
+	@Get("/ranking")
+	async getRanking() {
+		const rank = await this.userService.getRanking();
+		return rank;
+	}
+
+	@Get(':id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
 	}
 }

@@ -45,7 +45,6 @@ export class DMChannelService {
             'DMChannel already exists',
             HttpStatus.FORBIDDEN,
         );
-         console.log("hello")
 
         const DMChannel = this.dmChannelRepository.create({
           name: name,
@@ -55,14 +54,12 @@ export class DMChannelService {
           block1: false,
           block2: false,
         });
-        console.log(DMChannel)
+       
         try {
           await this.dmChannelRepository.save(DMChannel);
         } catch (error) {
           throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
-        console.log(DMChannel.id)
-        console.log("hello")
         return DMChannel;
   }
 
@@ -101,14 +98,14 @@ export class DMChannelService {
         channelName: string,
       ): Promise<DMChannel> {
         let channel = null;
-        //console.log(channelId)
+        
         if (channelName)
           channel = await this.dmChannelRepository.findOne({
             where: { name: channelName },
           });
         if (!channel)
           throw new HttpException('DMChannel not found', HttpStatus.NOT_FOUND);
-       // console.log(channel)
+       
         return channel;
   }
 
@@ -116,14 +113,14 @@ export class DMChannelService {
         channelName: string,
       ): Promise<number> {
         let channel = null;
-        //console.log(channelId)
+        
         if (channelName)
           channel = await this.dmChannelRepository.findOne({
             where: { name: channelName },
           });
         if (!channel)
           return 0;
-       // console.log(channel)
+       
         return 1;
   }
     
@@ -151,7 +148,6 @@ export class DMChannelService {
           } catch (error) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
           }
-          console.log(channel.msgs)
   }
 
   async DMBlock(

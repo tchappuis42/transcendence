@@ -13,7 +13,9 @@ build:
 		@ sudo docker compose -f docker-compose.yml up --build
 
 
-down:
+re:			clean all
+
+clean:		
 		docker-compose down
 
 re:			down all

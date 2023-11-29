@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { Account } from "../types";
 import { useAccountStore } from "./store";
 import axios from "axios";

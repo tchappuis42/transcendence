@@ -1,6 +1,5 @@
 import React, { SyntheticEvent } from 'react';
 import { NavLink } from 'react-router-dom';
-import NavDropDown from './NavDropDown';
 
 type Props = {
 	options: Option[];
@@ -12,7 +11,7 @@ export type Option = {
 };
 
 const NavigationItem = ({ option }: { option: Option }) => {
-	return <NavLink to={option.url} className='link'>
+	return <NavLink to={option.url} className='link aria-[current=page]:text-blue-400'>
 		{option.label}
 	</NavLink >
 }
@@ -23,7 +22,6 @@ const Navigation = ({ options }: Props) => {
 			{
 				options.map((option) => <NavigationItem option={option} />)
 			}
-			<NavDropDown />
 		</div>
 	);
 };

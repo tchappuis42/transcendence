@@ -3,6 +3,8 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import React from "react";
 import ReactDOM from "react-dom";
+import Friends from "../Friend/Friends";
+import FriendsChat from "./component/FriendsChat";
 
 interface Message {
 	message: string;
@@ -435,7 +437,7 @@ const Chat = () => {
 							</b>
 						))}
 				</div>
-				<div className="container"> 
+				<div className="containerStatus"> 
       				<li>{"status"}</li>
 					  <input type="checkbox" className="checkbox"
 					  	name={"status"}
@@ -487,6 +489,7 @@ const Chat = () => {
 				<div className="textUser"><h1> user </h1></div>
 				<button className="hola1" onClick={createDMChannel}>createDM</button>
 				<button className="hola1" onClick={createchannel}>createchannel</button>
+				<FriendsChat/>
 			</div>
 		</div>
 	);

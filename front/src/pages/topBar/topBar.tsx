@@ -18,10 +18,6 @@ const navigationOptionsPong = [
 	{ label: 'pong', url: '/pong' },
 ];
 
-const navigationOptionstest = [
-	{ label: 'test', url: '/testfriends' },
-];
-
 export const TopBar = () => {
 	const myRef = useRef<HTMLDivElement | null>(null);
 	return (
@@ -32,7 +28,6 @@ export const TopBar = () => {
 				</div>
 				<Navigation options={navigationOptionsChat} />
 				<Navigation options={navigationOptionsPong} />
-				<Navigation options={navigationOptionstest} />
 				<SlanderousMenu myRef={myRef} />
 			</div>
 		</div>

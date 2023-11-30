@@ -18,6 +18,12 @@ import { DMChannel } from "./entity/dmChannel.entity";
 	}
 })
 
+@WebSocketGateway({
+	cors: {
+		origin: ['http://localhost:3000']
+	}
+})
+
 export class ChatGateway {
 	constructor(private readonly userService: UserService,
 		private readonly textChannelService: TextChannelService,
@@ -28,6 +34,7 @@ export class ChatGateway {
 
 /*	@SubscribeMessage('message')
 	handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		console.log("oui js suis la")
 		this.server.emit('message', data, client.id)
 	}*/
 

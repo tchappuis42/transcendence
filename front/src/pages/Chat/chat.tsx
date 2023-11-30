@@ -48,7 +48,7 @@ const Chat = () => {
 				]);
 			});
 		}
-		
+
 		return () => {
 			if (socket) {
 				socket.off("message");

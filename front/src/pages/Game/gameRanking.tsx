@@ -33,31 +33,38 @@ const Ranking = () => {
 		getRank();
 	}, []);
 
+	function background(id: number) {
+		if (id % 2)
+			return 'rgba(169, 169, 169, 0.5)';
+		return 'rgba(169, 169, 169, 0.3)'
+	}
+
 	return (
-		<div className="w-full p-4 h-56 bg-white/50 rounded-3xl items-center flex-col flex my-1 sm:w-[49%] sm:h-72 md:w-[39%] md:h-96 md:mt-0 xl:w-[468px]">
-			<h1 className="text-3xl sm:text-3xl font-bold h-10 md:h-12">Ranking</h1>
-			<div className="flex flex-col h-[10rem] w-full sm:h-60 md:h-80">
-				<div className="rounded border border-black">
-					<table className="top-0 w-full">
-						<tr>
-							<th className="w-1/3 text-center">rank</th>
-							<th className="w-1/3 text-center">name</th>
-							<th className="w-1/3 text-center">points</th>
-						</tr>
-					</table>
-				</div>
-				<div className="rounded border border-black overflow-y-auto h-full">
-					<table className="w-full">
-						<thead className="bg-sky-200 w-full">
+		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+				<h1>Ranking</h1>
+			</div>
+
+			<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center max-h-[80%]">
+				<table className="top-0 w-full bg-white rounded-md">
+					<tr>
+						<th className="w-1/3 text-center">rank</th>
+						<th className="w-1/3 text-center">name</th>
+						<th className="w-1/3 text-center">points</th>
+					</tr>
+				</table>
+				<div className="h-[90%] rounded-md overflow-y-auto p-2.5">
+					<table className="w-full h-full">
+						<thead className="bg-sky-200 w-full h-1/5">
 							<tr className="text-blue-800">
 								<td className="text-center">{myIndex + 1}</td>
 								<td className="text-center">{myRank?.username}</td>
 								<td className="text-center">{myRank?.score}</td>
 							</tr>
 						</thead>
-						<tbody className="w-full">
+						<tbody className="w-full h-1/5">
 							{rank.map((user, id) => (
-								<tr key={id} className="">
+								<tr key={id} style={{ background: background(id + 1) }} className="h-2/5">
 									<td className="w-1/3 text-center">{id + 1}</td>
 									<td className="text-center">{user.username}</td>
 									<td className="w-1/3 text-center">{user.score}</td>
@@ -66,7 +73,6 @@ const Ranking = () => {
 						</tbody>
 					</table>
 				</div>
-
 			</div>
 		</div>
 	);

@@ -1,8 +1,8 @@
 import * as React from "react"
 import "./topBar.css"
 import "./components/slanderousMenu.css"
-import {SlanderousMenu} from "./components/slanderousMenu"
-import {useRef} from "react";
+import { SlanderousMenu } from "./components/slanderousMenu"
+import { useRef } from "react";
 import Navigation from "../../ui/organisms/Navigation";
 // import {Outlet} from "react-router-dom";
 
@@ -28,7 +28,7 @@ export const TopBar = () => {
 				</div>
 				<Navigation options={navigationOptionsChat} />
 				<Navigation options={navigationOptionsPong} />
-				<SlanderousMenu myRef={myRef}/>
+				<SlanderousMenu myRef={myRef} />
 			</div>
 		</div>
 	);

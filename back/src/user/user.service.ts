@@ -73,7 +73,7 @@ export class UserService {
 			newSocket.userid = userId
 			this.Sockets.push(newSocket); //debug/
 			//user.socket.push(client.id)
-			user.socket = this.getsocket(user.id)
+			user.socket = this.getsocketInArray(user.id)
 			await this.usersRepository.save(user);
 			const status = {
 				id: userId,
@@ -87,7 +87,7 @@ export class UserService {
 		this.Sockets = this.Sockets.filter(element => element.id !== client.id); //debug
 		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
 		if (user) {
-			user.socket = this.getsocket(user.id)
+			user.socket = this.getsocketInArray(user.id)
 			//user.socket = user.socket.filter((socket) => socket !== client.id);
 			if (user.socket.length === 0) {
 				user.connected = ConnctionState.Offline
@@ -195,6 +195,13 @@ export class UserService {
 		return filteredUsers;
 	}
 
+	async getSocketUser(userId: number) {
+		const userSocket = await this.usersRepository.findOne({ where: { id: userId }, select: { socket: true } })
+		if (userSocket)
+			return userSocket
+		return null
+	}
+
 	//debug
 	async clearsocket(userId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
@@ -203,7 +210,7 @@ export class UserService {
 		console.log("clear", user.socket)
 	}
 
-	getsocket(userId: number) {
+	getsocketInArray(userId: number) {
 		const userSocket = this.Sockets.filter(socket => socket.userid === userId)
 		const socket = userSocket.map((socket) => (socket.id))
 		return socket

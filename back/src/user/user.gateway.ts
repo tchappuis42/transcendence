@@ -21,7 +21,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		const id = parseInt(client.handshake.query.user as string);
 		const user = await this.userService.validateUser(id);
 		client.data.user = user;
-		await this.userService.addUser(client, this.server);
+		await this.userService.addUser(user.id, client, this.server);
 	}
 
 	//deconnexionls

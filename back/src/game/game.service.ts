@@ -185,6 +185,8 @@ export class GameService {
 			if (room.pong.player1.score === 10 || room.pong.player2.score === 10) {
 
 				const newGame = new Game();
+				newGame.idOne = room.socket1.data.user.id;
+				newGame.idTwo = room.socket2.data.user.id;
 				newGame.scoreOne = room.pong.player1.score;
 				newGame.scoreTwo = room.pong.player2.score;
 				newGame.userOne = room.socket1.data.user;
@@ -213,7 +215,7 @@ export class GameService {
 	//recupere l'historique des games d'un client
 	async getGameByUser(userId: number) {
 		const user = await this.userservice.validateUser(userId)
-		const games = await this.gameRepository.find({ where: [{ userOne: user }, { userTwo: user }] })
+		const games = await this.gameRepository.find({ where: [{ idOne: user.id }, { idTwo: user.id }] })
 		const matchs = games.map(match => {
 			if (match.scoreOne > match.scoreTwo)
 				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winner: match.userOne.username }

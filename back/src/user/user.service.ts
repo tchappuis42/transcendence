@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { ILike, Like, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt'
-import { UserDto } from './dtos/UserDto';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
-import { stat } from 'fs';
+import { elementAt } from 'rxjs';
+
 
 
 @Injectable()
@@ -55,17 +55,22 @@ export class UserService {
 		return withoutMe
 	}
 
-	async addUser(client: Socket, server: Server) {
-		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
-		const newUser: sockets = {
-			id: client.id,
-			user: client.data.user
-		}
-		this.Sockets.push(newUser);
-		if (find === undefined) {
-			await this.setConnection(client.data.user)
+	async addUser(userId: number, client: Socket, server: Server) {
+		const user = await this.usersRepository.findOne({ where: { id: userId } });
+		if (user) {
+			if (user.connected === ConnctionState.Offline) {
+				user.connected = ConnctionState.Online
+				Logger.log("user connected")
+			}
+			const newSocket = new sockets
+			newSocket.id = client.id
+			newSocket.userid = userId
+			this.Sockets.push(newSocket); //debug/
+			//user.socket.push(client.id)
+			user.socket = this.getsocketInArray(user.id)
+			await this.usersRepository.save(user);
 			const status = {
-				id: client.data.user.id,
+				id: userId,
 				status: ConnctionState.Online
 			}
 			server.emit('status', status)
@@ -73,10 +78,16 @@ export class UserService {
 	}
 
 	async removeUser(client: Socket, server: Server) {
-		this.Sockets = this.Sockets.filter(element => element.id !== client.id);
-		const find = this.Sockets.find((element) => element.user.id === client.data.user.id)
-		if (find === undefined) {
-			await this.setDisconnect(client.data.user)
+		this.Sockets = this.Sockets.filter(element => element.id !== client.id); //debug
+		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
+		if (user) {
+			user.socket = this.getsocketInArray(user.id)
+			//user.socket = user.socket.filter((socket) => socket !== client.id);
+			if (user.socket.length === 0) {
+				user.connected = ConnctionState.Offline
+				Logger.log("user disconnected")
+			}
+			await this.usersRepository.save(user);
 			const status = {
 				id: client.data.user.id,
 				status: ConnctionState.Offline
@@ -106,16 +117,6 @@ export class UserService {
 			}
 			server.emit('status', status)
 		}
-	}
-
-	async setConnection(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: ConnctionState.Online })
-		Logger.log("user connected")
-	}
-
-	async setDisconnect(user: UserDto) {
-		await this.usersRepository.update(user.id, { connected: ConnctionState.Offline })
-		Logger.log("user disconnected")
 	}
 
 	async saveScore(scores: Game) {
@@ -176,15 +177,36 @@ export class UserService {
 
 	async searchUsers(userId: number, query: string) {
 		const users = await this.usersRepository.find({
-		  where: [
-			{ username: ILike(`%${query}%`) },
-		  ],
-		  //TODO Rajouter photo de profil
-		  select: ['id', 'username'],
+			where: [
+				{ username: ILike(`%${query}%`) },
+			],
+			//TODO Rajouter photo de profil
+			select: ['id', 'username'],
 		});
 
 		const filteredUsers = users.filter((user) => user.id !== userId);
-	
+
 		return filteredUsers;
-	  }
+	}
+
+	async getSocketUser(userId: number) {
+		const userSocket = await this.usersRepository.findOne({ where: { id: userId }, select: { socket: true } })
+		if (userSocket)
+			return userSocket
+		return null
+	}
+
+	//debug
+	async clearsocket(userId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: userId } })
+		user.socket = [];
+		await this.usersRepository.save(user);
+		console.log("clear", user.socket)
+	}
+
+	getsocketInArray(userId: number) {
+		const userSocket = this.Sockets.filter(socket => socket.userid === userId)
+		const socket = userSocket.map((socket) => (socket.id))
+		return socket
+	}
 }

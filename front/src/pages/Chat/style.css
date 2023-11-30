@@ -9,26 +9,32 @@
 }
 
 #chat {
-	
 	display: flex;
 	flex: 3;
 	align-items: center;
 	
-	background: rgb(255 255 255 / 66%);
-	border-radius: 20px;
-	box-shadow: 10px 10px 20px 0px #f90;
+	background: rgba(29, 28, 28, 0.855);
+	border-radius: 8px;
+	
 	flex-direction: column;
 	justify-content: flex-end;
-	color: rgb(10, 45, 242);
+	color: rgb(210, 212, 219);
 
 	height: 100%;
-	min-height: 700px;
-  	max-width: 80%;
-	margin: 0 auto;
-	padding: 3em;
+	min-height: 750px;
+	max-height: 700px;
+  	max-width: 100%;
+	margin: 5px;
+	padding: 2em 2em 2em 2em;
 	font: 100%/1.4 serif;
-	border: 1px solid #f90;
 	
+	
+}
+
+.textChannelName {
+	color: rgb(241, 246, 241);
+	padding: 30px;
+	margin: 0;
 }
 
 .channel {
@@ -36,13 +42,28 @@
 	flex-direction: column;
 	align-items: center;
 	flex: 1;
-	background: #f6f3f100;
+	background: #292827ba;
+	border-radius: 8px;
 
-	min-height: 800px;
+	min-height: 750px;
 	height: 100%;
   	max-width: 100%;
-	margin: 0 auto;
-	
+	margin: 5px ;
+}
+
+.textChannel {
+	color: rgb(241, 246, 241);
+	padding: 5px;
+}
+
+.textDM {
+	color: rgb(241, 246, 241);
+	padding: 5px;
+}
+
+.textUser {
+	color: rgb(241, 246, 241);
+	padding: 5px;
 }
 
 .chann {
@@ -51,7 +72,9 @@
 	column-count: 10;
 	column-width: 10em;
 	align-items: flex-end;
-	background: #e4630751;
+	background: #29282759;
+	border-radius: 8px;
+	box-shadow: 2px 2px 2px 2px #eaeaed96;
 	white-space: nowrap;
 	overflow: scroll;
 
@@ -62,7 +85,7 @@
 	margin: 0 ;
 	padding: 0;
 	font: 100%/1.4 serif;
-	border: 1px solid #f90;
+	
 	
 }
 
@@ -72,7 +95,9 @@
 	column-count: 10;
 	column-width: 10em;
 	align-items: flex-end;
-	background: #e4630751;
+	background: #29282759;
+	border-radius: 8px;
+	box-shadow: 2px 2px 2px 2px #eaeaed96;
 	white-space: nowrap;
 	overflow: scroll;
 
@@ -83,7 +108,7 @@
 	margin: 0 ;
 	padding: 0;
 	font: 100%/1.4 serif;
-	border: 1px solid #f90;
+	/*border: 1px solid #f90;*/
 }
 
 .b {
@@ -93,6 +118,7 @@
 	font-size: 2rem;
 	max-height: 30px;
 	height: 10%;
+	color: rgb(241, 246, 241);
 
 	font: 100%/1.4 serif;
 	/*border: 1px solid #f90;*/
@@ -116,8 +142,11 @@
      transition: all 0.5s;
 }
 .select:hover{
-	background-color: #3aef0803;
-	color: #095dee;
+	background-color: rgba(237, 240, 236, 0.519);
+	color: #070707;
+	border: 1px solid rgb(20, 20, 20);
+	box-shadow: 4px 2px 2px #9b9b9d7b;
+	border-radius: 4px;
 	text-align: center;
 	font-size: 22px;
 }
@@ -139,7 +168,9 @@
      transition: all 0.5s;
 }
 .channnel:hover{
-	background-color: #081bef;
+	background-color: #aeafb394;
+	box-shadow: 4px 2px 2px #f1f1f391;
+	border-radius: 8px;
 	font-size: 22px;
 }
 
@@ -160,8 +191,10 @@
 	transition: all 0.5s;
 }
 .DMchannnel:hover{
-   background-color: #081bef;
-   font-size: 22px;
+	background-color: #aeafb394;
+	box-shadow: 4px 2px 2px #f1f1f391;
+	border-radius: 8px;
+	font-size: 22px;
 }
 
 .User {
@@ -174,10 +207,15 @@
 	height: 90%;
   	max-width: 80%;
 	margin: 0 auto;
+
+	min-height: 750px;
+	height: 100%;
+  	max-width: 100%;
+	margin: 5px ;
 	
 }
 
-.lol {
+.boxForChat {
 	display: flex;
 	flex-direction: column;
 	
@@ -185,7 +223,8 @@
 	width: 100%;
 	min-height: 600px;
 	
-	border: 1px solid #f90;
+	
+	border: 1px solid rgb(235, 233, 230);
 	border-radius: 5px;
 	padding: 2px 5px;
 	white-space: nowrap;
@@ -198,13 +237,12 @@
     flex-direction: row;
     align-items: center;
 	justify-content: center;
-	
-
 }
+
 .hola1 {
-	background:rgba(39, 40, 41, 0.025);
-	border: 1px solid rgba(255, 153, 0, 0.54);
-	color: #115ad7ce;
+	background:rgba(135, 136, 137, 0.025);
+	border: 1px solid rgba(240, 239, 236, 0.54);
+	color: #e6e8eace;
 	padding: 0px 8px;
 	cursor: pointer;
 	-webkit-transition: all 0.5s;
@@ -213,10 +251,10 @@
      transition: all 0.5s;
 }
 .hola1:hover{
-	background-color: #08efc5b0;
-	border: 2px solid #1f69ec;
-	
-	color: #4b453dad;
+	background-color: rgba(255, 255, 255, 0.322);
+	border: 2px solid #131313d5;
+	box-shadow: 4px 2px 2px #f1f1f3aa;
+	color: rgba(9, 9, 9, 0.948);
 	text-align: center;
 	font-size: 22px;
 }
@@ -225,18 +263,23 @@
 	display: none;
 }
 
-.buttton {
+.barText {
+	color: rgb(18, 19, 18);
+	border: 1px solid rgba(107, 107, 105, 0.722);
+}
+
+.sendButton {
 	
 	background: rgba(36, 38, 38, 0.322);
 	background-color: rgb(10 15 235 / 20%);
-	color: #f90;
+	color: rgb(224, 220, 220);
 
 	padding: 0px 19px;
 	text-align: center;
 	font-size: 16px;
 	border-radius: 2px;
 	margin-top: 20px;
-	border: 1px solid #f90;
+	border: 1px solid rgba(243, 241, 238, 0.851);
 	cursor: pointer;
 	-webkit-transition: all 0.5s;
      -moz-transition: all 0.5s;
@@ -245,10 +288,10 @@
 	
 }
 .buttton:hover{
-	background-color: #3aef08;
-	border: 2px solid #1f69ec;
-	box-shadow: 10px 5px 5px #719fee;
-	color: #1f69ec;
+	background-color: #e1e4dfbd;
+	border: 2px solid #545557b5;
+	box-shadow: 10px 5px 5px #edeeefb3;
+	color: #161616;
 	text-align: center;
 	font-size: 22px;
 }
@@ -267,10 +310,10 @@
 
 .lol::-webkit-scrollbar-thumb
 {
-  background-color: #F909;
+  background-color: rgba(157, 155, 153, 0.496);
   
   background-image: -webkit-gradient(linear, 0 0, 0 100%,
-                     color-stop(.5, rgba(255, 255, 255, .2)),
+                     color-stop(.5, rgba(71, 69, 69, 0.411)),
              color-stop(.5, transparent), to(transparent));
 }
 
@@ -290,7 +333,7 @@
 }
 
 .container li {
-	color: rgb(242, 140, 8);
+	color: rgb(237, 234, 230);
 }
 
 .checkbox { 

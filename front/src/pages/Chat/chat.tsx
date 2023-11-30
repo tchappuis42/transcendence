@@ -419,7 +419,7 @@ const Chat = () => {
 	return (
 		<div className="globale">	
 			<div className="channel">
-				<h1> channels </h1>	
+				<div className="textChannel"> <h1> channels </h1></div>	
 				<div className="chann">				
 					{all_channels.map((msg, id) => (
 						<b className="b" key={id}>
@@ -427,6 +427,7 @@ const Chat = () => {
 						</b>
 					))}
 				</div>
+				<div className="textDM"> <h1> DM </h1></div>
 				<div className="DMchann">			
 						{all_DMChannels.map((msg, id) => (
 							<b className="b" key={id}>
@@ -459,8 +460,8 @@ const Chat = () => {
 				</div>	
 			</div>
 			<div id="chat">
-				<h1> {set_channel} </h1>
-				<div className="lol">
+				<div className="textChannelName"><h1> {set_channel} </h1></div>
+				<div className="boxForChat">
 					{messages.map((msg, index) => (
 						<b className="b" key={index}>	
 							<button className="select" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}	
@@ -470,19 +471,20 @@ const Chat = () => {
 				<form onSubmit={sendMessage}>
 					<label htmlFor="text">
 						<input
+							className="barText"
 							type="text"
 							name="data"
 							onChange={(e) => setData(e.target.value)}
 							placeholder="Type your messsage..." value={data}
 						/>
-						<button type="submit" className="buttton">
+						<button type="submit" className="sendButton">
 							send
 						</button>
 					</label>
 				</form>
 			</div>
 			<div className="User">
-				<h1> user </h1>
+				<div className="textUser"><h1> user </h1></div>
 				<button className="hola1" onClick={createDMChannel}>createDM</button>
 				<button className="hola1" onClick={createchannel}>createchannel</button>
 			</div>

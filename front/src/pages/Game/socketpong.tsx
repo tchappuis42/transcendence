@@ -144,7 +144,9 @@ const SocketPong = () => {
 								</div>
 							</div>
 						</div>
-						<Ranking />
+						<div className="w-full h-40 mb-1 my-1 md:mt-0 bg-black/50 rounded-3xl sm:w-[49%] sm:my-1 sm:h-72 md:w-[39%] md:h-96 xl:w-[468px] p-2.5">
+							<Ranking />
+						</div>
 						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5 md:h-80 xl:w-[480px] p-2.5">
 							<Friends />
 						</div>

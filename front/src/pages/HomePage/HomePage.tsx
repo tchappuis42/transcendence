@@ -31,9 +31,7 @@ const HomePage = () => {
                     <ChatCard></ChatCard>
                 </MenuCard>
                 <MenuCard>
-                    <div className="rankingContainer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(handleNav)}>
-                        <Ranking></Ranking>
-                    </div>
+                    <Ranking></Ranking>
                 </MenuCard>
             </div>
         </div>

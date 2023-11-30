@@ -8,20 +8,20 @@ interface MenuCardProps {
 const MenuCard: React.FC<MenuCardProps> = ({ backgroundColor, children }) => {
     const containerStyle: React.CSSProperties = {
         backgroundColor: backgroundColor || "rgba(0,0,0,0.5)",
-        margin: 10,
-        height: "80%",
-        width: "calc(50% - 20px)",
+        height: "100%",
+        width: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 5,
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.4)",
         boxSizing: "border-box",
+        padding: "10px"
     };
 
     return (
         <div style={containerStyle}>
-                {children}
+            {children}
         </div>
     );
 };

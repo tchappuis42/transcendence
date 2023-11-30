@@ -1,4 +1,4 @@
-export class AcceptDTO {
+export class AcceptDto {
 	id: number
 	accept: boolean
 }

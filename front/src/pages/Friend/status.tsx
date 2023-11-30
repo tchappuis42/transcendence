@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 
 interface user {
@@ -9,13 +9,27 @@ interface user {
 }
 
 const Status = () => {
-
+	const socket = useSocket();
 	const [users, setUsers] = useState<user[]>([]);
 	const [sorted, setSorted] = useState<user[]>([]);
-	const socket = useSocket();
+
 
 	useEffect(() => {
-		const sortUser = users.sort((a, b) => a.status - b.status)
+		console.log("oulalalala")
+		if (socket) {
+			socket.on("status", (data) => {
+				//setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
+			})
+		}
+		return () => {
+			if (socket) {
+				socket.off("status");
+			}
+		};
+	}, [socket]);
+
+	useEffect(() => {
+		const sortUser = users.sort((a, b) => a.status + b.status)
 		setSorted(sortUser)
 	}, [users]);
 
@@ -33,18 +47,7 @@ const Status = () => {
 	}, []);
 
 
-	useEffect(() => { //socket
-		if (socket) {
-			socket.on("status", (data) => {
-				setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
-			})
-		}
-		return () => {
-			if (socket) {
-				socket.off("status");
-			}
-		};
-	}, [socket]);
+
 
 	function getStatusColor(status: number) {
 		switch (status) {

@@ -26,7 +26,7 @@ const Chat = () => {
 			socket.on("test", (data) => {
 			});
 		}
-		
+
 		return () => {
 			if (socket) {
 				socket.off("message");
@@ -38,13 +38,14 @@ const Chat = () => {
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
 
+		console.log("emit")
 		if (socket) {
 			socket.emit("message", data);
 			setData("");
 		}
 	};
 
-	
+
 
 	return (
 		<div>

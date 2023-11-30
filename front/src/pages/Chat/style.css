@@ -261,6 +261,27 @@
 	/* font-size: 10px; */
 }
 
+.createChannelBtn {
+	background:rgba(135, 136, 137, 0.025);
+	border: 1px solid rgba(240, 239, 236, 0.54);
+	color: #e6e8eace;
+	padding: 0px 8px;
+	margin-top: 30px;
+	border-radius: 10%;
+	height: 20%;
+	width: 80%;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.createChannelBtn:hover {
+	background-color: rgba(255, 255, 255, 0.322);
+	border: 2px solid #131313d5;
+	box-shadow: 4px 2px 2px #f1f1f3aa;
+	color: rgba(9, 9, 9, 0.948);
+	text-align: center;
+}
+
 .bye {
 	display: none;
 }

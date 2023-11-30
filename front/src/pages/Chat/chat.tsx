@@ -337,18 +337,6 @@ const Chat = () => {
 			alert("you don't have choice a channel!")
 	};
 
-	const createDMChannel = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (userId !== 0) {	
-			if (socket) {
-				socket.emit("createDMChannel", userId, set_channel);
-			}
-		}
-		else
-			alert("you don't have seleted a User!")
-	}
-
 	function setButton(data: any) {
 		for (let i = 0; data[i]; ++i) {
 			if (data[i].name === set_channel) {
@@ -486,10 +474,11 @@ const Chat = () => {
 				</form>
 			</div>
 			<div className="User">
-				<div className="textUser"><h1> user </h1></div>
-				<button className="hola1" onClick={createDMChannel}>createDM</button>
-				<button className="hola1" onClick={createchannel}>createchannel</button>
-				<FriendsChat/>
+				<div className="textUser"></div>
+				<div className="h-80 mt-12">
+					<FriendsChat set_channel={set_channel}/>
+				</div>
+				<button className="createChannelBtn" onClick={createchannel}>createchannel</button>
 			</div>
 		</div>
 	);

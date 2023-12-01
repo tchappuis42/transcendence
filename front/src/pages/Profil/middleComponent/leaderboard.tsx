@@ -78,31 +78,6 @@ interface gameHistory {
 						</div>
 					</tbody>
 				</table>
-				<table className="border-separate border-spacing-2 w-full items-end">
-					<thead>
-						<div className="flex justify-center items-center h-[86px] font-bold">
-							Match history
-						</div>
-					</thead>
-					<thead>
-						<BubbleHeadMatchHistory index={"rank"} user={"user"} name={"name"} stats={"stats"}/>
-					</thead>
-					<tbody>
-						<div className="bubble-component">
-							{history?.map((match, index) => (
-							 <BubbleBodyMatchHistory key={index}
-											index={index + 1}
-													player1={match.userOne}
-													player2={match.userTwo}
-													score1={match.scoreOne}
-													score2={match.scoreTwo}
-													winner={match.winner}
-													currentUser={(match.userOne === account.username || match.userTwo === account.username) ? account.username : ""}
-							/>
-							))}
-						</div>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	);

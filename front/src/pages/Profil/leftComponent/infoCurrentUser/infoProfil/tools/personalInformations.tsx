@@ -27,12 +27,12 @@ export const MyName = ({id, username, index}: Rank) => {
 
 	console.log("index: ", username, index);
 	return (
-		<div className="rest-information-component black-border-fine">
-			<div className="name-component black-border-separation-b">
+		<div className="rest-information-component gray-border">
+			<div className="name-component black-border-separation-b text-white">
 				{username}
 			</div>
 			<div className="rank-component">
-				<div className="current-level-component">
+				<div className="current-level-component text-white">
 					rank: {index + 1}
 				</div>
 			</div>

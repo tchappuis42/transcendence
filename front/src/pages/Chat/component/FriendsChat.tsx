@@ -77,9 +77,13 @@ const FriendsChat = ({set_channel} : channel) => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 bg-black/10 rounded-md shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{users?.map((user: Users) => (
-						<FriendCardChat key={user.id} friend={user} set_channel={set_channel}/>
+						set_channel ? (
+							<FriendCardChat key={user.id} friend={user} set_channel={set_channel} />
+						) : (
+							<FriendCard key={user.id} friend={user} />
+						)
 					))}
 				</div>
 			)

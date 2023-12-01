@@ -3,6 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 import friend from './interface/friendDto';
 
+export const DeleteFriend = async (userId: number | undefined) => {
+	const data = {
+		id: userId,
+	}
+	await axios.post("http://localhost:4000/friends/removeFriend", data, { withCredentials: true }).then((response) => {
+		alert(response.data)
+	}).catch((error) => {
+		alert(error)
+	})
+}
+
 const Friendss = () => {
 
 	const [friends, setFriends] = useState<friend[]>([]);

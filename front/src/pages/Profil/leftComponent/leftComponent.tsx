@@ -1,4 +1,5 @@
 import "./leftComponent.css"
+import { GameStats } from "./infoCurrentUserStats/componentInfoGame";
 import {MyName} from "./infoCurrentUser/infoProfil/tools/personalInformations";
 import {LevelUser} from "./infoCurrentUser/infoLevel/infoLevel";
 import React, {useEffect, useState} from "react";

@@ -12,7 +12,6 @@ const FriendCard: React.FC<{ friend: Account }> = ({ friend }) => {
 	const { getStatusColor } = useFriends()
 
 	const handleNav = (id: number) => {
-		// console.log("ciic : ", friend.id)
 		navigate("/profil", {
 			state: {
 				id: id

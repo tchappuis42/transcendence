@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+    .hover\:bg-sky-700:hover {
+        background-color: #0369a1;
+    }
+
+    .game-win-component {
+        @apply w-full h-full
+        grid grid-cols-5
+        items-center justify-center
+        rounded
+    }
+
+    .game-win-result {
+        @apply col-span-2 h-full
+        flex justify-center items-center
+        font-extrabold
+        rounded
+    }
+    .game-win-up-down {
+        @apply col-span-3 h-full
+        flex flex-row
+        justify-center items-center
+        font-bold
+        rounded
+    }
+    .size-shape {
+        @apply h-full w-full
+        rounded
+    }
+}
+.game-button-up-down {
+    height: 100%;
+    width: 100%;
+    border-radius: 0.25rem;
+    border: solid 1px darkslategray;
+    background-color: rgb(95, 158, 160);
+}
+
+.game-button-up-down:hover {
+    background-color: rgb(95, 158, 80);
+}

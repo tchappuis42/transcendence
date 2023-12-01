@@ -9,8 +9,10 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './user.strategy';
 import { UserGateway } from './user.gateway';
 
+
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JwtModule.register({
+  imports: [TypeOrmModule.forFeature([User,]), JwtModule.register({
     global: true,
     secret: 'test',
     signOptions: { expiresIn: '60d' },

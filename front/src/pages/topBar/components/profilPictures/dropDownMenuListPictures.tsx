@@ -4,10 +4,8 @@ import { useAuth } from "../../../../ui/organisms/useAuth";
 import { SyntheticEvent, useState } from "react";
 import { ClickOutside } from "../../tools/clickoutside"
 import Navigation from "../../../../ui/organisms/Navigation";
-
-const navigationOptionsProfil = [
-	{ label: 'profil', url: '/profil' },
-];
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "../../../../ui/organisms/useAccount";
 
 interface Props {
 	height: number;
@@ -16,6 +14,8 @@ interface Props {
 export const DropDownMenuListPictures = ({ height, width }: Props) => {
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
+	const navigate = useNavigate();
+	const {account} = useAccount();
 
 	// let menuRef = useRef<HTMLInputElement>(null);
 	const handleOpen = (): void => {
@@ -28,6 +28,14 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 		logout();
 	}
 
+	const handleNav = (toNav: string, id: number) => {
+        navigate(toNav, {
+            state: {
+                id: id
+            }
+        })
+    }
+
 	return (
 		<div className="profil-pictures-with-slanderous-menu black-border-fine rounded" ref={ref}
 			style={{ width: `${height}px`, height: `${width}px` }}>
@@ -39,10 +47,10 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 			{open && (
 				<div className={`menu-slanderous black-border-fine`}>
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-						<li className="menu-slanderous-list">
-							<button>
-								<Navigation options={navigationOptionsProfil} />
-							</button>
+						<li className="menu-slanderous-list" onClick={() => handleNav("/profil", account.id)}>
+							{/* <button onClick={() => handleNav("/profil", account.id)}> */}
+								profil
+							{/* </button> */}
 						</li>
 						<li className="menu-slanderous-list">
 							<button onClick={LogoutSubmit}>logout</button>

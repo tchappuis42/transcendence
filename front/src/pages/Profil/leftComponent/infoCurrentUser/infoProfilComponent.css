@@ -1,0 +1,22 @@
+@import "../../styleProfilPage/toolsCss.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .wallpaper {
+        @apply max-h-[300px] h-full w-full
+        object-cover
+        rounded
+    }
+    .game-stats-component {
+        @apply
+        flex flex-col gap-2 p-4
+        overflow-y-scroll
+        rounded bg-gray-100
+    }
+    .information-level-component {
+        @apply h-full
+    }
+}

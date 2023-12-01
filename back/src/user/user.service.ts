@@ -26,6 +26,12 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		return user;
 	}
+/*
+	async validateUserByName(username: string): Promise<UserDto> {
+		const user = await this.usersRepository.findOne({ where: { username: username } })
+		if (!user) throw new NotFoundException("user not found")
+		return user;
+	}*/
 
 	async validateUserByName(name: string): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { username: name } })

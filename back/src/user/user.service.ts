@@ -26,12 +26,12 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		return user;
 	}
-/*
-	async validateUserByName(username: string): Promise<UserDto> {
-		const user = await this.usersRepository.findOne({ where: { username: username } })
-		if (!user) throw new NotFoundException("user not found")
-		return user;
-	}*/
+	/*
+		async validateUserByName(username: string): Promise<UserDto> {
+			const user = await this.usersRepository.findOne({ where: { username: username } })
+			if (!user) throw new NotFoundException("user not found")
+			return user;
+		}*/
 
 	async validateUserByName(name: string): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { username: name } })
@@ -88,7 +88,7 @@ export class UserService {
 		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
 		if (user) {
 			user.socket = this.getsocketInArray(user.id)
-			//user.socket = user.socket.filter((socket) => socket !== client.id);
+			//user.socket = user.socket.filter((socket) => socket !== client.id) ;
 			if (user.socket.length === 0) {
 				user.connected = ConnctionState.Offline
 				Logger.log("user disconnected")

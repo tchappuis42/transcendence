@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../Tools";
 import axios from "axios";
 import FriendCard from "./FriendCard";
-import Ranking from "../../Game/gameRanking";
+import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/Friends";
 

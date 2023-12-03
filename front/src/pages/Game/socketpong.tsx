@@ -3,7 +3,7 @@ import { useSocket } from "../../ui/organisms/SocketContext";
 import PongTest from "./Pong";
 import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
-import Ranking from "./gameRanking";
+import Ranking from "./Ranking";
 import PlayerCard from "./playerCard";
 import { useAccount } from "../../ui/organisms/useAccount";
 import Friends from "../Friend/Friends";
@@ -150,7 +150,9 @@ const SocketPong = () => {
 						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5 md:h-80 xl:w-[480px] p-2.5">
 							<Friends />
 						</div>
-						<MatchHistory />
+						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:my-1 sm:h-72 md:w-[59%] md:h-80 xl:w-[708px] p-2.5">
+							<MatchHistory />
+						</div>
 					</div>
 				}
 				{

@@ -151,7 +151,7 @@ const SocketPong = () => {
 							<Friends />
 						</div>
 						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:my-1 sm:h-72 md:w-[59%] md:h-80 xl:w-[708px] p-2.5">
-							<MatchHistory />
+							<MatchHistory userId={account.id} />
 						</div>
 					</div>
 				}

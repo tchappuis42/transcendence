@@ -39,7 +39,6 @@ const MatchHistory: React.FC<{ userId: number }> = ({ userId }) => {
 					<h1 className="text-white">No match</h1>
 				</div>
 			) : (
-
 				<div className="h-full m-2.5 rounded-md bg-black/10 shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{matchs?.map((match: Match, id: number) => (
 						<MatchHistoryCard key={id} match={match} userId={userId} />

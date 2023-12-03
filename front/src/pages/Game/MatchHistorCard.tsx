@@ -1,3 +1,4 @@
+
 interface Match {
 	userOne: string;
 	userTwo: string;
@@ -16,7 +17,7 @@ const MatchHistoryCard: React.FC<{ match: Match, userId: number }> = ({ match, u
 
 	return (
 		<div className="h-1/5 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center"
-			 style={{ background: background(match.winnerId) }}>
+			style={{ background: background(match.winnerId) }}>
 			<h1>{match.userOne}</h1>
 			<h1>{match.scoreOne}</h1>
 			<h1>-</h1>

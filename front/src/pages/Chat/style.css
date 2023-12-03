@@ -66,7 +66,7 @@
 	padding: 5px;
 }
 
-.chann {
+.boxChann {
 	display: flex;
 	flex-direction: column;
 	column-count: 10;
@@ -79,17 +79,15 @@
 	overflow: scroll;
 
 	height: 50%;
-	min-height: 280px;
+	height: 250px;
 	width: 90%;
 	max-width: 90%;
 	margin: 0 ;
 	padding: 0;
 	font: 100%/1.4 serif;
-	
-	
 }
 
-.DMchann {
+.boxDMchann {
 	display: flex;
 	flex-direction: column;
 	column-count: 10;
@@ -102,7 +100,7 @@
 	overflow: scroll;
 
 	height: 50%;
-	min-height: 280px;
+	height: 250px;
 	width: 90%;
 	max-width: 90%;
 	margin: 0 ;
@@ -111,7 +109,49 @@
 	/*border: 1px solid #f90;*/
 }
 
-.b {
+.text_textButonChannel {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	font-size: 2rem;
+	max-width: 100%;
+	max-height: 30px;
+	height: 10%;
+	color: rgb(242, 245, 242);
+
+	font: 100%/1.4 serif;
+	/*border: 1px solid #f90;*/
+	
+}
+
+@media (min-width: 1200px) {
+	.text_textButonChannel {
+	  font-size: 2rem;
+	}
+}
+
+.text_textButonDM {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	font-size: 2rem;
+	max-width: 100%;
+	max-height: 310px;
+	height: 10%;
+	color: rgb(242, 245, 242);
+
+	font: 100%/1.4 serif;
+	/*border: 1px solid #f90;*/
+	
+}
+
+@media (min-width: 1200px) {
+	.text_textButonDM {
+	  font-size: 2rem;
+	}
+}
+
+.textChat {
 	display: flex;
 	align-items: center;
 	white-space: nowrap;
@@ -126,12 +166,12 @@
 }
 
 @media (min-width: 1200px) {
-	.b {
+	.textChat {
 	  font-size: 2rem;
 	}
   }
 
-.select {
+.selectUserText {
 	background-color: rgba(9, 12, 215, 0);
 	padding: 0;
 	border: 0;
@@ -141,7 +181,7 @@
      -o-transition: all 0.5s;
      transition: all 0.5s;
 }
-.select:hover{
+.selectUserText:hover{
 	background-color: rgba(237, 240, 236, 0.519);
 	color: #070707;
 	border: 1px solid rgb(20, 20, 20);
@@ -151,50 +191,50 @@
 	font-size: 22px;
 }
 
-.channnel {
-	background-color: rgba(172, 35, 35, 0.931);
-	color: rgb(228, 26, 26);
+.text_butonChannel {
+	color: rgb(7, 7, 7);
 	text-align: center;
-	padding: 4px 16px;
+	padding: 2px 16px;
+	border-radius: 8px;
 	font-size: 16px;
 	
-	height: 80%;
-	background: #f00606;
+	height: 90%;
+	background: #727171;
 	
 	cursor: pointer;
-	-webkit-transition: all 0.5s;
+	/*-webkit-transition: all 0.5s;
      -moz-transition: all 0.5s;
      -o-transition: all 0.5s;
-     transition: all 0.5s;
+     transition: all 0.5s;*/
 }
-.channnel:hover{
-	background-color: #aeafb394;
+.text_butonChannel:hover{
+	background-color: #ffffffc1;
 	box-shadow: 4px 2px 2px #f1f1f391;
 	border-radius: 8px;
-	font-size: 22px;
+/*	font-size: 22px;*/
 }
 
 
-.DMchannnel{
-	background-color: #ffffff2a;
-	color: rgb(230, 17, 17);
+.text_butonDM{
+	color: rgb(7, 7, 7);
 	text-align: center;
-	padding: 4px 16px;
+	padding: 1px 14px;
+	border-radius: 8px;
 	font-size: 16px;
 
-	height: 80%;
-	background: #fa0d0542;
+	height: 90%;
+	background: #727171;
 	cursor: pointer;
-	-webkit-transition: all 0.5s;
+	/*-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 	-o-transition: all 0.5s;
-	transition: all 0.5s;
+	transition: all 0.5s;*/
 }
-.DMchannnel:hover{
-	background-color: #aeafb394;
+.text_butonDM:hover{
+	background-color: #ffffffc1;
 	box-shadow: 4px 2px 2px #f1f1f391;
 	border-radius: 8px;
-	font-size: 22px;
+	/*font-size: 22px;*/
 }
 
 .User {
@@ -239,7 +279,7 @@
 	justify-content: center;
 }
 
-.hola1 {
+.butonAdministrationChat {
 	background:rgba(135, 136, 137, 0.025);
 	border: 1px solid rgba(240, 239, 236, 0.54);
 	color: #e6e8eace;
@@ -252,7 +292,7 @@
      -o-transition: all 0.5s;
      /* transition: all 0.5s; */
 } 
-.hola1:hover{
+.butonAdministrationChat:hover{
 	background-color: rgba(255, 255, 255, 0.322);
 	border: 2px solid #131313d5;
 	box-shadow: 4px 2px 2px #f1f1f3aa;

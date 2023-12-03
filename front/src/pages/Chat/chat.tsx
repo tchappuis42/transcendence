@@ -410,18 +410,24 @@ const Chat = () => {
 		<div className="globale">	
 			<div className="channel">
 				<div className="textChannel"> <h1> channels </h1></div>	
-				<div className="chann">				
-					{all_channels.map((msg, id) => (
-						<b className="b" key={id}>
-							{msg.name} : {msg.statue} <input className="channnel" type="button" name="channel" onClick={() => takeChan(msg.name)}></input>
-						</b>
-					))}
+				<div className="boxChann">	
+					<div>
+						{all_channels.map((msg, id) => (
+							<b className="text_textButonChannel" key={id}>
+								<div className="text_butonChannel" onClick={() => takeChan(msg.name)}>
+									{msg.name} : {msg.statue}
+								</div>
+							</b>
+						))}
+					</div>
 				</div>
-				<div className="textDM"> <h1> DM </h1></div>
-				<div className="DMchann">			
+					<div className="textDM"> <h1> DM </h1></div>
+				<div className="boxDMchann">			
 						{all_DMChannels.map((msg, id) => (
-							<b className="b" key={id}>
-								{msg.name} : {msg.statue} <input className="DMchannnel" type="button" name="channel" onClick={() => takeDMChan(msg.name)}></input>				
+							<b className="text_textButonDM" key={id}>
+								 <div className="text_butonDM" onClick={() => takeDMChan(msg.name)}>				
+									 {msg.name} : {msg.statue}
+								 </div>
 							</b>
 						))}
 				</div>
@@ -441,20 +447,20 @@ const Chat = () => {
         			</label>
 				</div>				
 				<div className={iniitButton}>
-					<button className="hola1" onClick={removeAdmin}>removeAdmin</button>
-					<button className="hola1" onClick={addAdmin}>addAdmin</button>
-					<button className="hola1" onClick={deleteChannel}>deleteChannel</button>
-					<button className="hola1" onClick={changePass}>changePass</button>
-					<button className="hola1" onClick={MuetUser}>Muet</button>
-					<button className="hola1" onClick={banUser}>ban</button>	
+					<button className="butonAdministrationChat" onClick={removeAdmin}>removeAdmin</button>
+					<button className="butonAdministrationChat" onClick={addAdmin}>addAdmin</button>
+					<button className="butonAdministrationChat" onClick={deleteChannel}>deleteChannel</button>
+					<button className="butonAdministrationChat" onClick={changePass}>changePass</button>
+					<button className="butonAdministrationChat" onClick={MuetUser}>Muet</button>
+					<button className="butonAdministrationChat" onClick={banUser}>ban</button>	
 				</div>	
 			</div>
 			<div id="chat">
 				<div className="textChannelName"><h1> {set_channel} </h1></div>
 				<div className="boxForChat">
 					{messages.map((msg, index) => (
-						<b className="b" key={index}>	
-							<button className="select" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}	
+						<b className="textChat" key={index}>	
+							<button className="selectUserText" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}	
 						</b>
 					))}
 				</div>

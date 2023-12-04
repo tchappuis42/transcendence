@@ -1,10 +1,11 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { handleMouseEnter, handleMouseLeave } from "./interface/Tools";
+import { handleMouseEnter, handleMouseLeave } from "../interface/Tools";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Friend from "./interface/friendDto";
+import Friend from "../interface/friendDto";
+import { Account } from "../../../ui/types";
 
-const FriendRequestCard = ({ friend, removeCard }: { friend: Friend, removeCard: (id: number) => void }) => {
+const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard: (id: number) => void }) => {
     const navigate = useNavigate();
 
     const handleNav = (toNav: string, id: number) => {

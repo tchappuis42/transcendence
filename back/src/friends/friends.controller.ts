@@ -2,7 +2,6 @@ import { Body, Controller, Post, Get, Param, UseGuards, Req, BadRequestException
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
-import { UserDto } from 'src/user/dtos/UserDto';
 import { User } from 'src/user/user.entity';
 import { AcceptDto } from './dtos/AcceptDto';
 
@@ -19,6 +18,7 @@ export class FriendsController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("friends")
+	@UseInterceptors(ClassSerializerInterceptor)
 	async getFriends(@Req() req: Request) {
 		const user = req.user as User
 		const friends = await this.frindsService.getFriends(user)

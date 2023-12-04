@@ -4,5 +4,5 @@ export type Account = {
 	email: string;
 	avatar: string;
 	twoFa: boolean;
-	twoFaSecret: string;
+	status: number;
 };

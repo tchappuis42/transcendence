@@ -59,12 +59,12 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-  @Get("/getUsersByName/:query")
-  @UseInterceptors(ClassSerializerInterceptor)
-  async getUsersByName(@Req() req: Request, @Param('query') query: string) {
-    const user = req.user as UserDto;
+	@Get("/getUsersByName/:query")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
+		const user = req.user as UserDto;
 
-    const foundUsers = await this.userService.searchUsers(user.id, query);
-    return foundUsers;
-  }
+		const foundUsers = await this.userService.searchUsers(user.id, query);
+		return foundUsers;
+	}
 }

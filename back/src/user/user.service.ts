@@ -9,9 +9,6 @@ import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
-import { elementAt } from 'rxjs';
-
-
 
 @Injectable()
 export class UserService {
@@ -26,12 +23,6 @@ export class UserService {
 		if (!user) throw new NotFoundException("user not found")
 		return user;
 	}
-/*
-	async validateUserByName(username: string): Promise<UserDto> {
-		const user = await this.usersRepository.findOne({ where: { username: username } })
-		if (!user) throw new NotFoundException("user not found")
-		return user;
-	}*/
 
 	async validateUserByName(name: string): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { username: name } })
@@ -56,7 +47,7 @@ export class UserService {
 	}
 	async usersListe(id: number) {
 		const users = await this.usersRepository.find()
-		const liste = users.map((user) => ({ username: user.username, status: user.connected, id: user.id }))
+		const liste = users.map((user) => ({ username: user.username, status: user.status, id: user.id }))
 		const withoutMe = liste.filter((me) => me.id !== id)
 		return withoutMe
 	}
@@ -64,8 +55,8 @@ export class UserService {
 	async addUser(userId: number, client: Socket, server: Server) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } });
 		if (user) {
-			if (user.connected === ConnctionState.Offline) {
-				user.connected = ConnctionState.Online
+			if (user.status === ConnctionState.Offline) {
+				user.status = ConnctionState.Online
 				Logger.log("user connected")
 			}
 			const newSocket = new sockets
@@ -90,7 +81,7 @@ export class UserService {
 			user.socket = this.getsocketInArray(user.id)
 			//user.socket = user.socket.filter((socket) => socket !== client.id);
 			if (user.socket.length === 0) {
-				user.connected = ConnctionState.Offline
+				user.status = ConnctionState.Offline
 				Logger.log("user disconnected")
 			}
 			await this.usersRepository.save(user);
@@ -105,7 +96,7 @@ export class UserService {
 	async StatueGameOn(userId: number, server: Server) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		if (!user) throw new NotFoundException("user not found")
-		await this.usersRepository.update(user.id, { connected: ConnctionState.InGame })
+		await this.usersRepository.update(user.id, { status: ConnctionState.InGame })
 		const status = {
 			id: user.id,
 			status: ConnctionState.InGame
@@ -116,7 +107,7 @@ export class UserService {
 	async StatueGameOff(userId: number, server: Server) {
 		const userStatue = await this.userStatue(userId)
 		if (userStatue === ConnctionState.InGame) {
-			await this.usersRepository.update(userId, { connected: ConnctionState.Online })
+			await this.usersRepository.update(userId, { status: ConnctionState.Online })
 			const status = {
 				id: userId,
 				status: ConnctionState.Online
@@ -140,6 +131,8 @@ export class UserService {
 				throw new Error("joueur non trouve")
 			}
 			playerTwo.score -= number;
+			if (playerTwo.score < 0)
+				playerTwo.score = 0;
 			await this.usersRepository.save(playerTwo);
 		}
 		else {
@@ -149,6 +142,8 @@ export class UserService {
 				throw new Error("joueur non trouve")
 			}
 			playerOne.score -= number;
+			if (playerOne.score < 0)
+				playerOne.score = 0;
 			await this.usersRepository.save(playerOne);
 
 			const playerTwo = await this.usersRepository.findOne({ where: { id: scores.userTwo.id } })
@@ -178,7 +173,7 @@ export class UserService {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		if (!user)
 			throw new NotFoundException("user not found")
-		return user.connected
+		return user.status
 	}
 
 	async searchUsers(userId: number, query: string) {

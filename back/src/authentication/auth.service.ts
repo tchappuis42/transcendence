@@ -6,7 +6,6 @@ import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from 'src/user/dtos/UserDto';
 import { authenticator } from 'otplib';
 
 @Injectable()
@@ -42,7 +41,7 @@ export class AuthService {
 		}
 	}
 
-	async postTwoFa(user: UserDto, token: string) {
+	async postTwoFa(user: User, token: string) {
 		const isCodeValid = authenticator.verify({
 			token: token,
 			secret: user.twoFaSecret,

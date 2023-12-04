@@ -1,7 +1,7 @@
+import { Account } from "../../../ui/types";
+
 interface Friend {
-	id: number
-	username: string
-	status: number
+	friend_user: Account
 	friend_status: number
 }
 

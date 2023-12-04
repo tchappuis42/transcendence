@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSocket } from '../../ui/organisms/SocketContext';
-import Friend from './interface/friendDto';
-import { useFriends } from './useFriends';
-import { FriendStatus } from './interface/friendStatus';
+import { useSocket } from '../../../ui/organisms/SocketContext';
+import Friend from '../interface/friendDto';
+import { useFriends } from '../useFriends';
+import { FriendStatus } from '../interface/friendStatus';
 import FriendRequestCard from './AddFriendCard';
+import { Account } from '../../../ui/types';
 
 
 const FriendsToAdd = () => {
-	const [friends, setFriends] = useState<Friend[]>([]);
+	const [friends, setFriends] = useState<Account[]>([]);
 	const { getFriends } = useFriends();
 	const socket = useSocket();
 
@@ -28,7 +29,7 @@ const FriendsToAdd = () => {
 		if (socket) {
 			socket.on("friendRequest", (data) => {
 				console.log("data friend =", data)
-				setFriends((prevFriends) => [...prevFriends, data])
+				setFriends((prevFriends) => [...prevFriends, data.friend_user])
 			});
 		}
 		return () => {
@@ -51,7 +52,7 @@ const FriendsToAdd = () => {
 			) : (
 
 				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
-					{friends?.map((friend: Friend) => (
+					{friends?.map((friend: Account) => (
 						<FriendRequestCard key={friend.id} friend={friend} removeCard={removeCard} />
 					))}
 				</div>

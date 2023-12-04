@@ -6,7 +6,7 @@ import MatchHistory from "./matchHistory";
 import Ranking from "./gameRanking";
 import PlayerCard from "./playerCard";
 import { useAccount } from "../../ui/organisms/useAccount";
-import Friends from "../Friend/Friends";
+import Friends from "../Friend/component/Friends";
 
 const SocketPong = () => {
 	const { account } = useAccount()

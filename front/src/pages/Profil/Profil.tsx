@@ -54,16 +54,12 @@ export const Profil = () => {
 
 	return (
 		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
-			<div className="grid grid-cols-1 grid-rows-4 gap-4 lg:grid-cols-2 lg:grid-rows-2 w-full h-full p-2.5">
+			<div className="grid grid-cols-3 grid-rows-1 gap-4 w-full h-full p-2.5">
 				<MenuCard>
-					{/*<ProfilCard></ProfilCard>*/}
 					<LeftComponent user={user}/>
 				</MenuCard>
 				<MenuCard>
 					<FriendsToAdd />
-				</MenuCard>
-				<MenuCard>
-					<FriendsChat set_channel={""}/>
 				</MenuCard>
 				<MenuCard>
 					<Ranking></Ranking>

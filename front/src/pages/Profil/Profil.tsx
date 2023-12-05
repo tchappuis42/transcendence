@@ -11,10 +11,8 @@ import "./styleProfilPage/toolsCss.css"
 import {useCallback, useEffect, useState} from "react";
 import MenuCard from "../HomePage/MenuCard";
 import ProfilCard from "../HomePage/CardContent/ProfilCard";
-import FriendsToAdd from "../Friend/AddFriend";
 import ChatCard from "../HomePage/CardContent/ChatCard";
 import Ranking from "../Game/gameRanking";
-import Friends from "../Friend/Friends";
 import {useAccount} from "../../ui/organisms/useAccount";
 import FriendsChat from "../Chat/component/FriendsChat";
 import {LeftComponent} from "./leftComponent/leftComponent";

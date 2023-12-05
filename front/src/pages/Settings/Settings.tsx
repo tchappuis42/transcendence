@@ -39,7 +39,7 @@ const Settings = () => {
                   {/* changeUsername */}
                   <div className="w-4/5 h-1/3 bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
                         <h1 className="text-white">Change your username</h1>
-                        <input type="text" className="mt-2 px-4 py-2 bg-white text-black rounded-md" onChange={handleChangeUsername} />
+                        <input type="text" placeholder={account.username} className="mt-2 px-4 py-2 bg-white text-black rounded-md" onChange={handleChangeUsername} />
                     </div>
                     {/* ChangeProfilPic */}
                     <div className="w-4/5 h-1/3 bg-black/80 rounded-xl shadow-md flex justify-between items-center shadow-white mt-10">

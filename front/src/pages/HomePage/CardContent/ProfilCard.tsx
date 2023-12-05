@@ -59,7 +59,7 @@ const ProfilCard = () => {
             <div className="h-1/3 w-full flex">
                 <div className="h-full w-1/5" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
                     <img alt="image de profil" className="h-full rounded-xl ml-2.5"
-                        src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
+                        src={account.avatar} />
                 </div>
                 <div className="h-full w-4/5">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-3xl">

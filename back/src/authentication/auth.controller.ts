@@ -18,8 +18,8 @@ export class AuthController {
 		if (!body.twoFa)
 			return { message: await this.authService.postSignup(body) }
 		await this.authService.postSignup(body);
-		const code = await this.userService.generateTfaSecret(body.username);
-		const qrcode = this.userService.generateQrCode(code);
+		const code = await this.userService.generateTfaSecret(300, body.username);
+		const qrcode = this.userService.generateQrCode(code.otpauthUrl);
 		return qrcode
 	}
 

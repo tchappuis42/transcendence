@@ -11,7 +11,15 @@ import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
 import { elementAt } from 'rxjs';
 
+interface changeObj{
+	value: string;
+	type: boolean;
+}
 
+interface twoFa {
+	code : string;
+	validation : number;
+}
 
 @Injectable()
 export class UserService {
@@ -39,21 +47,27 @@ export class UserService {
 		return user;
 	}
 
-	async setTfaSecret(secret: string, username: string) {
-		const user = await this.usersRepository.findOne({ where: { username: username } })
+	async setTfaSecret(secret: string,id: number) {
+		const user = await this.usersRepository.findOne({ where: { id : id } })
 		await this.usersRepository.update(user.id, { twoFaSecret: secret })
 	}
 
-	async generateTfaSecret(username: string) {
+	async generateTfaSecret(id: number, username: string) {
 		const secret = authenticator.generateSecret();
+		console.log("secret :", secret);
 		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
-		await this.setTfaSecret(secret, username);
-		return otpauthUrl
+		// await this.setTfaSecret(secret, id);
+		const secretTfaObj = {
+			secret : secret,
+			otpauthUrl: otpauthUrl
+		}
+		return secretTfaObj
 	}
 
 	async generateQrCode(otpauthUrl: string) {
 		return toDataURL(otpauthUrl);
 	}
+
 	async usersListe(id: number) {
 		const users = await this.usersRepository.find()
 		const liste = users.map((user) => ({ username: user.username, status: user.connected, id: user.id }))
@@ -214,5 +228,29 @@ export class UserService {
 		const userSocket = this.Sockets.filter(socket => socket.userid === userId)
 		const socket = userSocket.map((socket) => (socket.id))
 		return socket
+	}
+
+	async changeSettings(userId: number, body : changeObj) {
+		try {
+			if (body.type)
+				await this.usersRepository.update(userId, {avatar:body.value})
+			if (!body.type)
+				await this.usersRepository.update(userId, {username:body.value})
+		}
+		catch (error) {
+			throw new ConflictException(error.driverError.detail) // peux mieux faire
+		}
+	}
+
+	async validateTwoFa(twoFa : twoFa, userId : number) {
+		console.log("2fa ava :", twoFa)
+		const isCodeValid = authenticator.verify({
+			token: twoFa.validation.toString(),
+			secret: twoFa.code,
+		});
+		if (!isCodeValid) {
+			throw new UnauthorizedException('Wrong authentication code');
+		}
+		await this.usersRepository.update(userId, {twoFaSecret : twoFa.code, twoFa : true})
 	}
 }

@@ -80,7 +80,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 					 style={{gridTemplateRows: "2fr 1fr"}}>
 					<div className="information-user-component">
 						<img alt="image de profil" className="rounded h-full col-span-1 gray-border"
-							 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
+							 src={account.avatar}/>
 						<div className="text-information-component">
 							<MyName id={user?.id} username={user?.username} index={0}/>
 						</div>

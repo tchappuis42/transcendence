@@ -6,7 +6,12 @@ import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from './dtos/UserDto'; import { get } from 'http';
 import { User } from './user.entity';
-;
+import { AcceptDto } from 'src/friends/dtos/AcceptDto';
+
+class changeObj{
+	value: string;
+	type: boolean;
+}
 
 @Controller('user')
 export class UserController {
@@ -27,15 +32,6 @@ export class UserController {
 		return users
 	}
 
-	@UseGuards(JwtAuthGuard)
-	@Get("/2fa")
-	async get2fa(@Req() req: Request) {
-		const user = req.user as UserDto;
-		const code = await this.userService.generateTfaSecret(user.username);
-		const qrcode = this.userService.generateQrCode(code);
-		return qrcode
-	}
-
 	@Get("/ranking")
 	async getRanking() {
 		const rank = await this.userService.getRanking();
@@ -49,15 +45,6 @@ export class UserController {
 		this.userService.clearsocket(user.id)
 	}
 
-	@Get(':id')
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
-			throw new BadRequestException()
-		return await this.userService.getUserById(userId);
-	}
-
 	@UseGuards(JwtAuthGuard)
   @Get("/getUsersByName/:query")
   @UseInterceptors(ClassSerializerInterceptor)
@@ -67,4 +54,41 @@ export class UserController {
     const foundUsers = await this.userService.searchUsers(user.id, query);
     return foundUsers;
   }
+
+  	@UseGuards(JwtAuthGuard)
+  @Post("/settings")
+  async changeSettings(@Body() body: changeObj, @Req() req: Request) {
+	const user = req.user as User
+	return await this.userService.changeSettings(user.id, body)
+  }
+
+//   @Get(':id')
+// 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+// 	async getUserById(@Param() params: any) {
+// 		const userId = parseInt(params.id)
+// 		if (!userId)
+// 			throw new BadRequestException()
+// 		return await this.userService.getUserById(userId);
+// 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/TwoFa")
+		async getQrCode(@Req() req: Request) {
+			const user = req.user as UserDto
+			const code = await this.userService.generateTfaSecret(user.id, user.username);
+			const qrcode = await this.userService.generateQrCode(code.otpauthUrl);
+			const twoFaObj = {
+				code : code.secret,
+				qrcode : qrcode,
+			}
+			return twoFaObj
+		}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaKey")
+	async validateTwoFa(@Body() body : any, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.validateTwoFa(body, user.id)
+	}
+
 }

@@ -1,12 +1,14 @@
 import axios from 'axios';
 import Friend from './interface/friendDto';
+import { Account } from '../../ui/types';
 
 export function useFriends() {
 
-	const sortByStatus = (friends: Friend[], friendStatus: number): Friend[] => {
-		const sortedFriends = friends.sort((a, b) => b.status - a.status);
+	const sortByStatus = (friends: Friend[], friendStatus: number): Account[] => {
+		const sortedFriends = friends.sort((a, b) => b.friend_user.status - a.friend_user.status);
 		const filteredFriends = sortedFriends.filter(friend => friend.friend_status === friendStatus);
-		return filteredFriends;
+		const friend = filteredFriends.map((f) => { return f.friend_user })
+		return friend;
 	};
 
 	const getFriends = async (friendStatus: number) => {

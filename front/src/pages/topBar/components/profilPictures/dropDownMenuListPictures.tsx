@@ -15,7 +15,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 	const [open, setOpen] = useState(false);
 	const ref = ClickOutside({ setOpen });
 	const navigate = useNavigate();
-	const {account} = useAccount();
+	const { account } = useAccount();
 
 	// let menuRef = useRef<HTMLInputElement>(null);
 	const handleOpen = (): void => {
@@ -29,19 +29,19 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 	}
 
 	const handleNav = (toNav: string, id: number) => {
-        navigate(toNav, {
-            state: {
-                id: id
-            }
-        })
-    }
+		navigate(toNav, {
+			state: {
+				id: id
+			}
+		})
+	}
 
 	return (
 		<div className="profil-pictures-with-slanderous-menu black-border-fine rounded" ref={ref}
 			style={{ width: `${height}px`, height: `${width}px` }}>
 			<span className="test" onClick={handleOpen}>
 				<img alt="userPhoto" style={{ width: `${height}px`, height: `${width}px` }}
-					src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"
+					src={account.avatar}
 					className="object-cover rounded" />
 			</span>
 			{open && (
@@ -49,7 +49,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 						<li className="menu-slanderous-list" onClick={() => handleNav("/profil", account.id)}>
 							{/* <button onClick={() => handleNav("/profil", account.id)}> */}
-								profil
+							profil
 							{/* </button> */}
 						</li>
 						<li className="menu-slanderous-list">

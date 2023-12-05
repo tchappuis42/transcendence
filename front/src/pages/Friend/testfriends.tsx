@@ -1,8 +1,8 @@
-import Friends from "./Friends";
-import FriendsToAdd from "./AddFriend";
-import Friendss from "./friendss";
-import PendingFriend from "./PendingFriend";
-import Status from "./status";
+import Friends from "./component/Friends";
+import FriendsToAdd from "./component/AddFriend";
+import Friendss from "./testfriendss";
+import PendingFriend from "./component/PendingFriend";
+import Status from "./teststatus";
 
 const Testfriends = () => {
 	return (
@@ -18,7 +18,7 @@ const Testfriends = () => {
 					<PendingFriend />
 				</div>
 				<div className="h-full w-full p-2.5 bg-black/50 rounded-xl">
-					<Friendss />
+					{/* <Friendss /> */}
 				</div>
 				<Status></Status>
 			</div>

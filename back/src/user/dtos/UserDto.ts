@@ -3,6 +3,6 @@ export class UserDto {
 	username: string
 	avatar: string
 	twoFa: boolean
-	twoFaSecret: string
-	connected: number
+	score: number
+	status: number
 }

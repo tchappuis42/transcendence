@@ -60,7 +60,7 @@ export const Profil = () => {
 					<LeftComponent user={user}/>
 				</MenuCard>
 				<MenuCard>
-					<MatchHistory user={user ? user : undefined}/>
+					<MatchHistory userId={account.id}/>
 				</MenuCard>
 				<MenuCard>
 					<Ranking></Ranking>

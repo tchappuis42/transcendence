@@ -27,7 +27,7 @@ const FriendsToAdd = () => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("friendRequest", (data) => {
-				console.log("data friend =", data)
+				// console.log("data friend =", data)
 				setFriends((prevFriends) => [...prevFriends, data])
 			});
 		}

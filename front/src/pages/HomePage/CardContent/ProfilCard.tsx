@@ -32,10 +32,10 @@ const ProfilCard = () => {
         const getFriendRequest = async () => {
             try {
                 const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-                console.log("response :", response.data);
+                // console.log("response :", response.data);
                 const sortedFriends = sortByStatus(response.data);
-                console.log("data", response.data);
-                console.log("sorted", sortedFriends);
+                // console.log("data", response.data);
+                // console.log("sorted", sortedFriends);
                 setFriends(sortedFriends);
             }
             catch {

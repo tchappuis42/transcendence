@@ -31,7 +31,6 @@ export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 			const remainingProgress = userScore % 500;
 			const newProgress = (remainingProgress / 500) * 100;
 			setProgress(newProgress);
-			console.log("newProgrss and level :", level, newProgress);
 		}
 	}, [userScore])
 

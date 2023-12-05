@@ -36,9 +36,7 @@ interface gameHistory {
 		if (user?.id) {
 			const getHistory = async () => {
 				try {
-					console.log("user.id in leaderborad : ", user?.id)
 					const response = await axios.get(`http://localhost:4000/game/history/${user?.id}`);
-					console.log("jambon",response.data);
 					setHistory(response.data)
 				} catch (error) {
 					console.error("Erreur lors de la récupération des scores :", error);

@@ -11,6 +11,7 @@ import {useFriends} from "../../Friend/useFriends";
 import addFriend from "../../Friend/AddFriend";
 import {addFrind} from "../../Friend/status";
 import {DeleteFriend} from "../../Friend/friendss";
+import axios from "axios";
 
 interface Props {
 	id: number;
@@ -31,24 +32,27 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 	const [isFriend, setIsFriend] = useState<string>("");
 
 	useEffect(() => {
-		if (user?.id !== account.id) {
+		if (user?.id && user?.id !== account.id) {
+			console.log("user.id :", user?.id)
 			const fetchFriends = async () => {
-				const friendsData = await getFriends(FriendStatus.friend);
-				const userObject = friendsData?.find((friend) => friend?.id === user?.id);
-
-				console.log("friend: ",userObject);
-
-				if (userObject?.friend_status === 0)
-					setIsFriend("supprimer");
-				else if (userObject?.friend_status === 1)
-					setIsFriend("pending ...");
-				else
-					setIsFriend("ajouter");
-
+			try {
+					const response = await axios.get(`http://localhost:4000/friends:${user?.id}`, { withCredentials: true }); 
+					console.log("friend: ", response);
+				}
+				catch{
+					console.log("user not found");
+				}
+				// if (userObject?.friend_status === 0)
+				// 	setIsFriend("supprimer");
+				// else if (userObject?.friend_status === 1)
+				// 	setIsFriend("pending ...");
+				// else
+				// 	setIsFriend("ajouter");
+				
 			};
 			fetchFriends();
 		}
-	}, [user]);
+	}, [user?.id]);
 
 	const handleFriendsRequest = () => {
 			if (isFriend==="ajouter") {

@@ -33,14 +33,11 @@ export const Profil = () => {
 	const { id } = location.state;
 
 	useEffect(() => {
-		console.log("user id :", id);
 		if (String(id) !== String(account.id))
 		{
-			console.log("on charge un autre utilisateur")
 			const getUsersByID = async () => {
 				try {
 					const response = await axios.get(`http://localhost:4000/user/${id}`)
-					console.log("iddddddddd", response.data)
 					setUser(response.data)
 				}
 				catch (error) {

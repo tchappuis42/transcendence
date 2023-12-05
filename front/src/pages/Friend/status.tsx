@@ -26,7 +26,7 @@ const Status = () => {
 
 
 	useEffect(() => {
-		console.log("oulalalala")
+		// console.log("oulalalala")
 		if (socket) {
 			socket.on("status", (data) => {
 				//setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))

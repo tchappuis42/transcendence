@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, UseGuards, Req, BadRequestException } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
@@ -39,6 +39,15 @@ export class FriendsController {
 	async removeFriend(@Body() body: AcceptDto, @Req() req: Request) {
 		const user = req.user as User
 		return await this.frindsService.removeFriend(user, body.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get(':id')
+	async getFriendById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.frindsService.getFriendById(userId);
 	}
 }
 

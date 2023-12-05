@@ -125,4 +125,17 @@ export class FriendsService {
 			})
 		}
 	}
-}
+
+	async getFriendById(friendId: number): Promise<Friends> {
+		const friend = await this.friendsRepository.findOne({
+		  where: [{ id: friendId }],
+		  relations: ['first_User', 'second_User'], // Charger les utilisateurs associés
+		});
+	
+		if (!friend) {
+		  throw new NotFoundException('Friend not found');
+		}
+	
+		return friend;
+	  }
+	}

@@ -25,7 +25,7 @@ export const MyName = ({id, username, index}: Rank) => {
 	// const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
 	// const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
 
-	console.log("index: ", username, index);
+	// console.log("index: ", username, index);
 	return (
 		<div className="rest-information-component gray-border">
 			<div className="name-component black-border-separation-b text-white">

@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -54,6 +55,9 @@
 =======
       <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistoryComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/MatchHistorCard.tsx" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/socketpong.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/socketpong.tsx" afterDir="false" />
+>>>>>>> e11a799 (make matchhistory working)
       <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" afterDir="false" />
 >>>>>>> 4f4fbb1 (add matchHistory)
     </list>

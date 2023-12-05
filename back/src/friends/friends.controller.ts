@@ -1,8 +1,7 @@
-import { Body, Controller, Post, Get, Param, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, UseGuards, Req, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
-import { UserDto } from 'src/user/dtos/UserDto';
 import { User } from 'src/user/user.entity';
 import { AcceptDto } from './dtos/AcceptDto';
 
@@ -19,6 +18,7 @@ export class FriendsController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("friends")
+	@UseInterceptors(ClassSerializerInterceptor)
 	async getFriends(@Req() req: Request) {
 		const user = req.user as User
 		const friends = await this.frindsService.getFriends(user)
@@ -39,6 +39,15 @@ export class FriendsController {
 	async removeFriend(@Body() body: AcceptDto, @Req() req: Request) {
 		const user = req.user as User
 		return await this.frindsService.removeFriend(user, body.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("getFriendParId/:id")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getFriendParId(@Req() req: Request, @Param() params: any) {
+		const user = req.user as User
+		const friend = await this.frindsService.getFriendParId(user, params.id)
+		return friend;
 	}
 }
 

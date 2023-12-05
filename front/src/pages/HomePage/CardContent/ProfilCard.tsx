@@ -7,7 +7,7 @@ import axios from "axios";
 import FriendCard from "./FriendCard";
 import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
-import Friends from "../../Friend/Friends";
+import Friends from "../../Friend/component/Friends";
 
 interface Friend {
     id: number;
@@ -58,8 +58,8 @@ const ProfilCard = () => {
         <div className="h-full w-full">
             <div className="h-1/3 w-full flex">
                 <div className="h-full w-1/5" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
-                    <img alt="image de profil" className="h-full rounded-xl ml-2.5"
-                        src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
+                    <img alt="image de profil" className="h-full rounded-xl ml-2.5 w-full max-w-[100px]"
+                        src="https://cdn.pixabay.com/photo/2015/02/28/15/48/ape-653705_1280.jpg" />
                 </div>
                 <div className="h-full w-4/5">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-3xl">

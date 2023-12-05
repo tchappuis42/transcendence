@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSocket } from '../../ui/organisms/SocketContext';
-import Friend from './interface/friendDto';
-import { useFriends } from './useFriends';
+import { useSocket } from '../../../ui/organisms/SocketContext';
+import { useFriends } from '../useFriends';
 import FriendCard from "./FriendCard";
-import { FriendStatus } from './interface/friendStatus';
+import { FriendStatus } from '../interface/friendStatus';
+import { Account } from '../../../ui/types';
 
 const Friends = () => {
-	const [friends, setFriends] = useState<Friend[]>([]);
+	const [friends, setFriends] = useState<Account[]>([]);
 	const { getFriends, sortByStatus } = useFriends();
 	const socket = useSocket();
 
@@ -29,13 +29,14 @@ const Friends = () => {
 						.sort((a, b) => b.status - a.status))
 			});
 			socket.on("friend", (data) => {
-				const friend = friends.find((friend) => friend.id === data.id)
+				console.log("friend data = ", data)
+				const friend = friends.find((friend) => friend.id === data.friend_user.id)
 				if (!friend) {
-					setFriends((prevFriends) => [...prevFriends, data]
+					setFriends((prevFriends) => [...prevFriends, data.friend_user]
 						.sort((a, b) => b.status - a.status))
 				}
 				else
-					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.id))
+					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.friend_user.id))
 			});
 		}
 		return () => {
@@ -59,7 +60,7 @@ const Friends = () => {
 			) : (
 
 				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
-					{friends?.map((friend: Friend) => (
+					{friends?.map((friend: Account) => (
 						<FriendCard key={friend.id} friend={friend} />
 					))}
 				</div>

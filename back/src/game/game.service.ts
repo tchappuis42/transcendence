@@ -243,7 +243,3 @@ export class GameService {
 		}
 	}
 }
-function sleep() {
-	throw new Error('Function not implemented.');
-}
-

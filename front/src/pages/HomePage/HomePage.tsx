@@ -8,7 +8,7 @@ import Ranking from "../Game/Ranking";
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "./Tools";
 import AddFriendCard from "./CardContent/AddFriendCard";
-import FriendsToAdd from "../Friend/AddFriend";
+import FriendsToAdd from "../Friend/component/AddFriend";
 
 const HomePage = () => {
 

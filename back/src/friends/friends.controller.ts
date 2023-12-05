@@ -40,6 +40,15 @@ export class FriendsController {
 		const user = req.user as User
 		return await this.frindsService.removeFriend(user, body.id)
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("getFriendParId/:id")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getFriendParId(@Req() req: Request, @Param() params: any) {
+		const user = req.user as User
+		const friend = await this.frindsService.getFriendParId(user, params.id)
+		return friend;
+	}
 }
 
 

@@ -79,7 +79,7 @@ export class UserService {
 		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
 		if (user) {
 			user.socket = this.getsocketInArray(user.id)
-			//user.socket = user.socket.filter((socket) => socket !== client.id);
+			//user.socket = user.socket.filter((socket) => socket !== client.id) ;
 			if (user.socket.length === 0) {
 				user.status = ConnctionState.Offline
 				Logger.log("user disconnected")

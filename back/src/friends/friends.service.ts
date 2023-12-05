@@ -8,10 +8,12 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
 import { FriendDto } from './dtos/FriendDto';
+import { first } from 'rxjs';
 
 @Injectable()
 @WebSocketGateway()
 export class FriendsService {
+
 	@WebSocketServer() server: Server;
 
 	constructor(
@@ -121,6 +123,22 @@ export class FriendsService {
 					}
 				})
 			})
+		}
+	}
+
+	async getFriendParId(user: User, friendId: number) {
+		const friend = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendId }, { first_id: friendId, second_id: user.id }] })
+		if (friend) {
+			if (friend.first_User.id === user.id) {
+				if (friend.friend_status === true)
+					return { friend_user: friend.second_User, friend_status: 0 }
+				return { friend_user: friend.second_User, friend_status: 2 }
+			}
+			else {
+				if (friend.friend_status === true)
+					return { friend_user: friend.first_User, friend_status: 0 }
+				return { friend_user: friend.first_User, friend_status: 1 }
+			}
 		}
 	}
 }

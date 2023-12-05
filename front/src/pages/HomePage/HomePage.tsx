@@ -4,7 +4,7 @@ import Pong from "../Game/Pong";
 import ProfilCard from "./CardContent/ProfilCard";
 import ChatCard from "./CardContent/ChatCard";
 import PongCard from "./CardContent/PongCard";
-import Ranking from "../Game/gameRanking";
+import Ranking from "../Game/Ranking";
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "./Tools";
 import AddFriendCard from "./CardContent/AddFriendCard";

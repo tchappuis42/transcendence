@@ -4,6 +4,7 @@ import SocketPong from './pages/Game/socketpong';
 import Chat from './pages/Chat/chat';
 import { Profil } from './pages/Profil/Profil';
 import { TopBar } from "./pages/topBar/topBar";
+import Testfriends from './pages/Friend/testfriends';
 
 
 const App = () => {

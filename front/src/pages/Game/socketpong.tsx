@@ -3,10 +3,11 @@ import { useSocket } from "../../ui/organisms/SocketContext";
 import PongTest from "./Pong";
 import GameScore from "./gameScore";
 import MatchHistory from "./matchHistory";
-import Ranking from "./gameRanking";
+import Ranking from "./Ranking";
 import PlayerCard from "./playerCard";
 import { useAccount } from "../../ui/organisms/useAccount";
 import Friends from "../Friend/component/Friends";
+import Matchmaking from "./Matchmaking";
 
 const SocketPong = () => {
 	const { account } = useAccount()
@@ -16,12 +17,12 @@ const SocketPong = () => {
 	const [player2, setplayer2] = useState(0);
 	const [search, setsearch] = useState("trouver un match")
 	const [rules, setRules] = useState(false);
-	console.log(socket)
-	const [color, setColor] = useState({
+	const [color, setColor] = useState({ //la ba et ici
 		paddle: "white",
 		ball: "white",
 		map: "black"
 	})
+
 
 	useEffect(() => {
 		socket?.emit("info")
@@ -60,9 +61,6 @@ const SocketPong = () => {
 				else
 					setsearch("recherche de match")
 			});
-			socket.on("status", (data) => {
-				console.log("status = ", data)
-			})
 		}
 		return () => {
 			if (socket) {
@@ -71,14 +69,6 @@ const SocketPong = () => {
 			}
 		};
 	}, [socket]);
-
-	const matchmaking = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (socket) {
-			socket.emit("matchmaking");
-		}
-	};
 
 	//debug
 	const clean = (e: SyntheticEvent) => {
@@ -106,51 +96,30 @@ const SocketPong = () => {
 		setColor({ ...color, map: event.target.value });
 	}
 
+	//color et change serach
 	return (
 		<div className="flex justify-center">
 			<div className="flex w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
 				{!page &&
-					<div className="flex w-full flex-col justify-between align-between sm:flex-wrap sm:flex-row">
-						<div className="w-full h-60 p-4 rounded-3xl bg-black/50 sm:h-60 md:w-3/5 md:h-96 xl:w-[720px]">
-							<div className="flex items-center justify-center h-36">
-								<button onClick={matchmaking} className="border h-10 border-black px-2">
-									{search}
-								</button>
-							</div>
-							<div className="px-10 sm:px-14">
-								<div className="flex justify-between">
-									<h1>couleur de la raquette :</h1>
-									<select name="paddleColor" className="w-20 hover:bg-black" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
-										<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-										<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-										<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-									</select>
-								</div>
-								<div className="flex justify-between">
-									couleur de la balle :
-									<select name="paddleColor" className="w-20" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
-										<option value="white" style={{ backgroundColor: 'white', color: 'white' }}>white</option>
-										<option value="red" style={{ backgroundColor: 'red', color: 'red' }}>red</option>
-										<option value="green" style={{ backgroundColor: 'green', color: 'green' }}>green</option>
-									</select>
-								</div>
-								<div className="flex justify-between">
-									couleur du terrain :
-									<select name="paddleColor" className="w-20" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
-										<option value="black" style={{ backgroundColor: 'black', color: 'black' }}>black</option>
-										<option value="gold" style={{ backgroundColor: 'gold', color: 'gold' }}>gold</option>
-										<option value="silver" style={{ backgroundColor: 'silver', color: 'silver' }}>silver</option>
-									</select>
-								</div>
-							</div>
+					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
+						<div className="w-full h-96 p-4 rounded-3xl bg-black/50 md:w-3/5 md:h-96 xl:w-[720px]">
+							<Matchmaking
+								search={search}
+								color={color}
+								paddleChange={paddleChange}
+								ballChange={ballChange}
+								mapChange={mapChange}
+							/>
 						</div>
-						<div className="w-full h-40 mb-1 my-1 md:mt-0 bg-black/50 rounded-3xl sm:w-[49%] sm:my-1 sm:h-72 md:w-[39%] md:h-96 xl:w-[468px] p-2.5">
+						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-3xl md:w-[39%] md:h-96 xl:w-[468px] p-2.5">
 							<Ranking />
 						</div>
-						<div className="w-full h-40 mb-1 bg-black/50 rounded-3xl sm:w-1/2 sm:my-1 sm:h-72 md:w-2/5 md:h-80 xl:w-[480px] p-2.5">
+						<div className="w-full h-80 mb-1 bg-black/50 rounded-3xl md:w-2/5 md:h-96 xl:w-[480px] p-2.5">
 							<Friends />
 						</div>
-						<MatchHistory />
+						<div className="w-full h-80 mb-1 bg-black/50 rounded-3xl md:w-[59%] md:h-96 xl:w-[708px] p-2.5">
+							<MatchHistory userId={account.id} />
+						</div>
 					</div>
 				}
 				{

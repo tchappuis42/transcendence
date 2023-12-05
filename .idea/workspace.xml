@@ -4,11 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="" />
+    <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistoryComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/MatchHistorCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

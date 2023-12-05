@@ -18,7 +18,7 @@ import Friends from "../Friend/Friends";
 import {useAccount} from "../../ui/organisms/useAccount";
 import FriendsChat from "../Chat/component/FriendsChat";
 import {LeftComponent} from "./leftComponent/leftComponent";
-import MatchHistoryCard from "../Game/matchHistoryComponent";
+import MatchHistory from "../Game/matchHistory";
 
 interface User {
 	username : string;
@@ -60,7 +60,7 @@ export const Profil = () => {
 					<LeftComponent user={user}/>
 				</MenuCard>
 				<MenuCard>
-					<MatchHistoryCard />
+					<MatchHistory user={user ? user : undefined}/>
 				</MenuCard>
 				<MenuCard>
 					<Ranking></Ranking>

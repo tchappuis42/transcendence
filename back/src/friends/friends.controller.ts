@@ -42,12 +42,11 @@ export class FriendsController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get(':id')
-	async getFriendById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
-			throw new BadRequestException()
-		return await this.frindsService.getFriendById(userId);
+	@Get("getFriendParId/:id")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getFriendParId(@Req() req: Request, @Param() params: any) {
+		const user = req.user as User
+		const friend = await this.frindsService.getFriendParId(user, params.id)
 	}
 }
 

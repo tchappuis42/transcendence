@@ -48,9 +48,10 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 				<div className={`menu-slanderous black-border-fine`}>
 					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
 						<li className="menu-slanderous-list" onClick={() => handleNav("/profil", account.id)}>
-							{/* <button onClick={() => handleNav("/profil", account.id)}> */}
 								profil
-							{/* </button> */}
+						</li>
+						<li className="menu-slanderous-list" onClick={() => handleNav("/settings", account.id)}>
+								Paramètres
 						</li>
 						<li className="menu-slanderous-list">
 							<button onClick={LogoutSubmit}>logout</button>

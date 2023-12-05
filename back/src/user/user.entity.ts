@@ -20,14 +20,16 @@ export class User {
   twoFa: boolean;
 
   @Column({ nullable: true })
+  @Exclude()
   twoFaSecret: string;
 
   @Column({ type: 'simple-json', default: [] })
+  @Exclude()
   socket: string[];
 
   @Column({ default: 500 })
   score: number;
 
   @Column({ default: 0 })
-  connected: number;
+  status: number;
 }

@@ -8,6 +8,7 @@ import { JwtAuthGuard } from 'src/user/user.guard';
 import { UserService } from 'src/user/user.service';
 import { TempJwtAuthGuard } from './auth.guard';
 import { UserDto } from 'src/user/dtos/UserDto';
+import { User } from 'src/user/user.entity';
 
 @Controller('authentication')
 export class AuthController {
@@ -47,7 +48,7 @@ export class AuthController {
 	@Post("/twoFa")
 	@UseGuards(TempJwtAuthGuard)
 	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
-		const user = req.user as UserDto;
+		const user = req.user as User;
 		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
@@ -60,8 +61,7 @@ export class AuthController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
-	async postLogout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-		const user = req.user as UserDto;
+	async postLogout(@Res({ passthrough: true }) res: Response) {
 		res.clearCookie('access_token');
 	}
 }

@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Friends from "../Friend/component/Friends";
 import FriendsChat from "./component/FriendsChat";
+import { Account } from "../../ui/types";
 
 interface Message {
 	message: string;
@@ -23,6 +24,7 @@ interface DMChan {
 }
 
 const Chat = () => {
+	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [all_channels, setChannels] = useState<Chan[]>([]);
@@ -77,7 +79,7 @@ const Chat = () => {
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
 			});
-			socket.on("getChannelMeOne", (Id, lol, datta, owner, pass) => {
+			socket.on("getChannelMeOne", (Id, lol, datta, owner, pass, user) => {
 				if (owner === '1') {
 					setinfo(false);
 					setOwner(owner);
@@ -98,14 +100,21 @@ const Chat = () => {
 				}
 				setPassword(pass);
 				setDM_Chann("chan");
+				setteur(user);
+				//setUserInChannel(user);
 			});
-			socket.on("getDMChannelMe", (name, status) => {
+			socket.on("getDMChannelMe", (name, status, user) => {
 				setdis(false);
 				setPassword('0');
 				setIsOn(status);
 				socket.emit("DMmessage", data, name, '1');
 				setDM_Chann("DM")
+				setteur(user);
+				//setUserInChannel(user);
 			});
+			socket.on("setUserInChannel", (user) => {
+				setteur(user);
+			})
 			socket.on("checkPass", (name, datta) => {
 				setPass(datta);
 				if (datta === "ok") {
@@ -197,6 +206,7 @@ const Chat = () => {
 				socket.off("refreshDMChannel");
 				socket.off("trans");
 				socket.off("getDMChannelMe");
+				socket.off("setUserInChannel");
 				socket.off("changePass");
 				socket.off("emptyPassWord");
 			}
@@ -348,6 +358,10 @@ const Chat = () => {
 		}
 	}
 
+	function setteur(user: any) {
+		setUserInChannel(user);
+	}
+
 	function setinfo(info: boolean) {
 		setdis(info);
 	}
@@ -445,12 +459,12 @@ const Chat = () => {
 					</label>
 				</div>
 				<div className={iniitButton}>
-					<button className="hola1" onClick={removeAdmin}>removeAdmin</button>
-					<button className="hola1" onClick={addAdmin}>addAdmin</button>
-					<button className="hola1" onClick={deleteChannel}>deleteChannel</button>
-					<button className="hola1" onClick={changePass}>changePass</button>
-					<button className="hola1" onClick={MuetUser}>Muet</button>
-					<button className="hola1" onClick={banUser}>ban</button>	
+					<button className="butonAdministrationChat" onClick={removeAdmin}>removeAdmin</button>
+					<button className="butonAdministrationChat" onClick={addAdmin}>addAdmin</button>
+					<button className="butonAdministrationChat" onClick={deleteChannel}>deleteChannel</button>
+					<button className="butonAdministrationChat" onClick={changePass}>changePass</button>
+					<button className="butonAdministrationChat" onClick={MuetUser}>Muet</button>
+					<button className="butonAdministrationChat" onClick={banUser}>ban</button>	
 				</div>	
 			</div>
 			<div id="chat">
@@ -481,6 +495,13 @@ const Chat = () => {
 				<div className="textUser"></div>
 				<div className="h-80 mt-12">
 					<FriendsChat set_channel={set_channel} />
+				</div>
+				<div className="userInChannel">
+					{userInChannel.map((msg, id) => (
+						<b className="b" key={id}>
+							{msg.id} {msg.username}
+						</b>
+					))}
 				</div>
 				<button className="createChannelBtn" onClick={createchannel}>createchannel</button>
 			</div>

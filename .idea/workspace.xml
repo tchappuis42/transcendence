@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -33,6 +34,11 @@
 >>>>>>> 4fc5fd0 (modif style leftcomponent + button for add or remove friends)
 =======
 >>>>>>> bfd6e5b (modif style leftcomponent + button for add or remove friends)
+=======
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/matchHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Game/matchHistoryComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Game/MatchHistorCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Profil/Profil.tsx" afterDir="false" />
+>>>>>>> 1dc084b (add matchHistory)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

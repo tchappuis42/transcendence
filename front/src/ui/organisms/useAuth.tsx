@@ -44,6 +44,7 @@ export function useAuth() {
 				return true;
 			}
 		} catch (error) {
+			return error;
 			setAccount(null);
 			throw error;
 		}

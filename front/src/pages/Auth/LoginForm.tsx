@@ -1,6 +1,9 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useCallback, useState } from "react";
 import { useAuth } from '../../ui/organisms/useAuth';
 import FormProps from './interface/FormDto';
+import axios from "axios";
+import { Account } from "../../ui/types";
+import { log } from "console";
 
 const LoginForm: React.FC<FormProps> = ({
 	data,
@@ -10,27 +13,43 @@ const LoginForm: React.FC<FormProps> = ({
 	togglePassword
 }) => {
 
-	const { login } = useAuth();
+	const [errorMessage, setErrorMessage] = useState<string>();
+	const { authenticate } = useAuth();
 
 	const loginSubmit = async (e: SyntheticEvent) => {
+		setErrorMessage("")
 		e.preventDefault();
-
-		try {
-			const twofa = await login(data.username, data.password);
-
-			if (twofa) {
-				settingPage("twofa")
-			}
-		} catch (error) {
+			try {
+				const obj = 
+				{
+					username : data.username,
+					password : data.password
+				}
+				const response = await axios.post("http://localhost:4000/authentication/login", obj, { withCredentials: true });
+				if (response.data.message) {
+					authenticate();
+				} else {
+					settingPage("twofa")
+				}
+			} catch (error) {
+				setErrorMessage("Username or Password invalid")
+				// setAccount(null);
 		}
+
 	};
 
 	return (
-		<div className="flex min-w-112 min-h-125 w-112 h-125 shadow-black shadow-xl rounded-4xl items-center flex-col text-center" >
-			<form onSubmit={loginSubmit} className="w-full h-full">
-				<h1 className="text-7xl my-10" >Login</h1>
-				<label htmlFor="text">
-					<input className='w-11/12 h-14 rounded-3xl pl-5'
+		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20">
+		<div className="flex items-center justify-center h-screen">
+			<form onSubmit={loginSubmit} className="w-2/5 h-3/5 bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow-white">
+			<div className="w-full h-1/6  mt-3 flex justify-center items-center" >
+					<h1 className="text-7xl text-white" >Login</h1>
+			</div>
+			<div className="w-full h-3/6 mt-5 flex flex-col justify-end pb-5 items-center" >
+				{errorMessage && 
+							<h2 className="text-red-500">{errorMessage}</h2>}
+				<label htmlFor="text" className="w-1/2">
+					<input className='w-full h-14 rounded-3xl pl-5 mt-1'
 						type="text"
 						name="username"
 						value={data.username}
@@ -38,29 +57,33 @@ const LoginForm: React.FC<FormProps> = ({
 						placeholder='username'
 					/>
 				</label>
-				<label htmlFor="password">
-					<input className='w-11/12 h-14 rounded-3xl my-5 pl-5'
+				<label htmlFor="password"  className="w-1/2">
+					<input className='w-full h-14 rounded-3xl mt-5 pl-5'
 						type={showPassword ? "text" : "password"}
 						name="password"
 						value={data.password}
 						onChange={handleChange}
 						placeholder='password'
-					/>
+						/>
 				</label>
-				<div className="text-start ml-5">
+				<div className="text-start">
 					<input type="checkbox" onClick={togglePassword}></input>
 					<a className="text-lg ml-2 text-white">show password</a>
 				</div>
-				<button type="submit" className="bg-transparent hover:bg-slate-100 hover:text-black text-white font-bold py-2 px-4 rounded-full w-28 h-16 shadow-black shadow-xl">
+				<button type="submit" className="border-2 w-1/3 mt-3 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
 					Login
 				</button>
-				<div className='text-2xl text-start ml-5 flex mt-5 text-white'>
+			</div>
+			<div className="w-full h-1/6 flex flex-col mt-3 justify-center items-center" >
+				<div className=' text-start flex mt-3 text-white'>
 					Don't have an account?
-					<span onClick={() => settingPage("signup")} >
-						<p className="cursor-pointer ml-2">Signup</p>
-					</span>
 				</div>
+				<button onClick={() => settingPage("signup")} className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
+					Signup
+				</button>
+			</div>
 			</form>
+		</div>
 		</div>
 	);
 };

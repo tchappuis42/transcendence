@@ -19,6 +19,7 @@ import FriendsChat from "../Chat/component/FriendsChat";
 import {LeftComponent} from "./leftComponent/leftComponent";
 import FriendsToAdd from '../Friend/component/AddFriend';
 import Ranking from '../Game/Ranking';
+import MatchHistory from '../Game/matchHistory';
 
 interface User {
 	username : string;
@@ -64,7 +65,7 @@ export const Profil = () => {
 					<LeftComponent user={user}/>
 				</MenuCard>
 				<MenuCard>
-					<FriendsToAdd />
+					<MatchHistory userId={user?.id}></MatchHistory>
 				</MenuCard>
 				<MenuCard>
 					<FriendsChat set_channel={""}/>

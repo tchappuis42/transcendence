@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
+import ChangeProfilPic from "./changeProfilPic";
 
 interface changeObj {
     value: string;
@@ -27,15 +28,6 @@ const Settings = () => {
         setNewusername(event.target.value)
     }
 
-    const handleImageChange = (event: any) => {
-        /* const file = event.target.files[0];
- 
-         if (file) {
-             const imageUrl = URL.createObjectURL(file);
-             setSelectedImage(imageUrl);
-         }*/
-        setNewAvatar(event.target.value)
-    };
 
     const navigateToProfil = () => {
         navigate("/profil", {
@@ -99,19 +91,7 @@ const Settings = () => {
                         {error && <h2 className="text-red-500">{error}</h2>}
                     </div>
                     {/* ChangeProfilPic */}
-                    <div className="w-4/5 h-1/3 flex justify-between items-center mt-5">
-                        <div className="w-4/12 h-full rounded-xl flex justify-center items-center">
-                            <img alt="image de profil" className="rounded-md h-5/6 ml-3"
-                                src={newAvatar} />
-                        </div>
-                        <div className="w-7/12 h-full flex justify-center items-center rounded-xl">
-                            <h1 className="text-white">Choose a new pic</h1>
-                            <label className="w-1/2 h-1/2 flex justify-center items-center border-dashed border-2 border-gray-300 rounded-lg cursor-pointer">
-                                <input type="text" onChange={handleImageChange} />
-
-                            </label>
-                        </div>
-                    </div>
+                    <ChangeProfilPic setNewAvatar={setNewAvatar}/>
                     <TwoFa setTwoFaStatus={setTwoFaStatus} setSecret={setSecret} />
                     <div className="w-full flex justify-center items-center p-8">
                         <Button className="w-32 h-8 rounded p-2 text-white" variant="outlined" onClick={handleValidation}>

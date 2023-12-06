@@ -12,7 +12,7 @@ import {useCallback, useEffect, useState} from "react";
 import MenuCard from "../HomePage/MenuCard";
 import ProfilCard from "../HomePage/CardContent/ProfilCard";
 import ChatCard from "../HomePage/CardContent/ChatCard";
-import Ranking from "../Game/gameRanking";
+import Ranking from "../Game/Ranking";
 import {useAccount} from "../../ui/organisms/useAccount";
 import FriendsChat from "../Chat/component/FriendsChat";
 import {LeftComponent} from "./leftComponent/leftComponent";

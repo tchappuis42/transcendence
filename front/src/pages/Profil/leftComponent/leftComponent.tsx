@@ -1,15 +1,11 @@
 import "./leftComponent.css"
-import {InfoProfilComponent} from "./infoCurrentUser/InfoProfilComponent"
-import { GameStats } from "./infoCurrentUserStats/componentInfoGame";
 import {MyName} from "./infoCurrentUser/infoProfil/tools/personalInformations";
 import {LevelUser} from "./infoCurrentUser/infoLevel/infoLevel";
 import React, {useEffect, useState} from "react";
 import { Button } from "@material-tailwind/react";
 import {useAccount} from "../../../ui/organisms/useAccount";
-import {FriendStatus} from "../../Friend/interface/friendStatus";
 import {useFriends} from "../../Friend/useFriends";
-import addFriend from "../../Friend/AddFriend";
-import {addFrind} from "../../Friend/status";
+import {addFrind} from "../../Friend/teststatus";
 import {DeleteFriend} from "../../Friend/friendss";
 import axios from "axios";
 

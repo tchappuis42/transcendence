@@ -7,6 +7,7 @@ interface Rank {
 	id: number,
 	username: string,
 	score: number
+	avatar:string
 }
 
 const Ranking = () => {
@@ -26,12 +27,12 @@ const Ranking = () => {
 	}, []);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+		<div className="bg-black/50 h-full w-full rounded-md">
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1>Ranking</h1>
 			</div>
 
-			<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center max-h-[80%]">
+			<div className="h-full m-2.5 bg-black/10 rounded-md	 box-border justify-center items-center max-h-[80%]">
 				<div className="h-[10%] bg-white flex w-full items-center text-center font-semibold rounded-md">
 					<h1 className="w-1/3">rank</h1>
 					<h1 className="w-1/3">name</h1>

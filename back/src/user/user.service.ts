@@ -179,7 +179,7 @@ export class UserService {
 	}
 
 	async getRanking() {
-		const scores = await this.usersRepository.find({ select: { username: true, score: true } })
+		const scores = await this.usersRepository.find({ select: { username: true, score: true, id: true, avatar: true } })
 		scores.sort((a, b) => b.score - a.score)
 		return scores
 	}

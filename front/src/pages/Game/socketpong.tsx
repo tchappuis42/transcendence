@@ -7,6 +7,7 @@ import Ranking from "./Ranking";
 import PlayerCard from "./playerCard";
 import { useAccount } from "../../ui/organisms/useAccount";
 import Friends from "../Friend/component/Friends";
+import Matchmaking from "./Matchmaking";
 
 const SocketPong = () => {
 	const { account } = useAccount()

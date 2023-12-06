@@ -41,7 +41,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 					src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
 			</div>
 			<div className="h-full w-3/5 flex justify-center items-center" onClick={() => handleNav(friend.id)} >
-				<h2>{friend.username.slice(0, 8)}</h2>
+				<h2>{friend.username}</h2>
 			</div>
 			<div
 				className="h-5 w-10 rounded-md mr-5 flex justify-center items-center cursor-pointer border-1"

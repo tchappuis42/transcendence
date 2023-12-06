@@ -57,7 +57,7 @@ const ProfilCard = () => {
     return (
         <div className="h-full w-full">
             <div className="h-1/3 w-full flex">
-                <div className="h-full w-1/5" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
+                <div className="h-full w-1/5 mt-1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
                     <img alt="image de profil" className="h-full rounded-xl ml-2.5"
                         src={account.avatar} />
                 </div>
@@ -68,10 +68,10 @@ const ProfilCard = () => {
                 </div>
             </div>
             <div className="h-2/3 w-full flex pt-px">
-                <div className="w-1/2 bg-black/10 p-2 rounded-xl">
+                <div className="w-1/2 p-2 rounded-xl">
                     <Friends />
                 </div>
-                <div className="w-1/2 bg-black/10 p-2 rounded-xl" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("pong", account.id) }}>
+                <div className="w-1/2  p-2 rounded-xl" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("pong", account.id) }}>
                     <div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
                         <div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
                             <h1>Ranking</h1>

@@ -28,7 +28,7 @@ const FriendsToAdd = () => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("friendRequest", (data) => {
-				setFriends((prevFriends) => [...prevFriends, data])
+				setFriends((prevFriends) => [...prevFriends, data.friend_user])
 			});
 		}
 		return () => {
@@ -39,18 +39,17 @@ const FriendsToAdd = () => {
 	}, [socket]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+		<div className="bg-black/50 h-full w-full rounded-md">
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1>Friends Request ({friends?.length})</h1>
 			</div>
 
-			{!friends ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
-					<h1>No friends</h1>
+			{!friends.length ? (
+				<div className="h-full flex justify-center items-center">
+					<h1 className='text-white opacity-50'>No new friends request</h1>
 				</div>
 			) : (
-
-				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 bg-black/10 rounded-md box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{friends?.map((friend: Account) => (
 						<FriendRequestCard key={friend.id} friend={friend} removeCard={removeCard} />
 					))}

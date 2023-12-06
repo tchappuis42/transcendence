@@ -67,14 +67,14 @@ export class UserController {
 	return await this.userService.changeSettings(user.id, body)
   }
 
-//   @Get(':id')
-// 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-// 	async getUserById(@Param() params: any) {
-// 		const userId = parseInt(params.id)
-// 		if (!userId)
-// 			throw new BadRequestException()
-// 		return await this.userService.getUserById(userId);
-// 	}
+  @Get('/byId/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
+	}
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/TwoFa")

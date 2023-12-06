@@ -16,9 +16,12 @@ interface Props {
 }
 
 interface User {
-	id: number;
-	username: string;
-  }
+	username : string;
+	id : number;
+	avatar : string;
+	twoFa: boolean;
+	status : number;
+}
   
   interface LeftComponentProps {
 	user: User | undefined;
@@ -30,22 +33,20 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 	const [isFriend, setIsFriend] = useState<string>("");
 
 	useEffect(() => {
+		console.log("useEffect lets go ")
 		if (user?.id && user?.id !== account.id) {
-			console.log("user.id :", user?.id)
 			const fetchFriends = async () => {
-			try {
-					const response = await axios.get(`http://localhost:4000/friends:${user?.id}`, { withCredentials: true }); 
-					console.log("friend: ", response);
+				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${user?.id}`, { withCredentials: true }); 
+				if (response.data)
+				{
+
+					if (response.data?.friend_status === 0)
+						setIsFriend("supprimer");
+					if (response.data?.friend_status === 2)
+						setIsFriend("pending ...");
 				}
-				catch{
-					console.log("user not found");
-				}
-				// if (userObject?.friend_status === 0)
-				// 	setIsFriend("supprimer");
-				// else if (userObject?.friend_status === 1)
-				// 	setIsFriend("pending ...");
-				// else
-				// 	setIsFriend("ajouter");
+				else 
+					setIsFriend("ajouter");
 				
 			};
 			fetchFriends();
@@ -78,7 +79,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 					 style={{gridTemplateRows: "2fr 1fr"}}>
 					<div className="information-user-component">
 						<img alt="image de profil" className="rounded h-full col-span-1 gray-border"
-							 src={account.avatar}/>
+							 src={user?.avatar}/>
 						<div className="text-information-component">
 							<MyName id={user?.id} username={user?.username} index={0}/>
 						</div>

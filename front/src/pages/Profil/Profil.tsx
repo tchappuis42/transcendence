@@ -23,6 +23,9 @@ import Ranking from '../Game/Ranking';
 interface User {
 	username : string;
 	id : number;
+	avatar : string;
+	twoFa: boolean;
+	status : number;
 }
 
 export const Profil = () => {
@@ -31,14 +34,15 @@ export const Profil = () => {
 	// const { id } = useParams();
 	const [user, setUser] = useState<User>()
 	const location = useLocation();
-	const { id } = location.state;
+	const { id } = location.state ? location.state : account.id;
 
 	useEffect(() => {
 		if (String(id) !== String(account.id))
 		{
 			const getUsersByID = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/user/${id}`)
+					const response = await axios.get(`http://localhost:4000/user/byId/${id}`)
+					console.log("user in profil :", user);
 					setUser(response.data)
 				}
 				catch (error) {
@@ -57,7 +61,6 @@ export const Profil = () => {
 		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
 			<div className="grid grid-cols-1 grid-rows-4 gap-4 lg:grid-cols-2 lg:grid-rows-2 w-full h-full p-2.5">
 				<MenuCard>
-					{/*<ProfilCard></ProfilCard>*/}
 					<LeftComponent user={user}/>
 				</MenuCard>
 				<MenuCard>

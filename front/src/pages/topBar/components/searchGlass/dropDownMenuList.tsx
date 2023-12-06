@@ -37,20 +37,16 @@ export const DropDownMenuList = ({inputRef}: IsActivComponent) => {
 		}
 	  }, [fetchUser, input]);
 	  
-
-	// handleOpen: permet d'ouvrir la barre de recherche.
 	const handleOpen = (): void => {
 		setOpen(true);
 		setFetchUser(true);
 	}
 
-	// handleSearchInput: permet de taper du text dans la barre de recherche.
 	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearch(event.target.value);
 		setInput(event.target.value);
 	};
 
-	// handleKeyDown: permet de rechercher un nom en tapant enter sur le clavier
 	const handleKeyDown = (event: React.KeyboardEvent): void => {
 		if (event.key === "Enter")
 			setSearch("");

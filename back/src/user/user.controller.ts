@@ -8,14 +8,14 @@ import { UserDto } from './dtos/UserDto'; import { get } from 'http';
 import { User } from './user.entity';
 import { AcceptDto } from 'src/friends/dtos/AcceptDto';
 
-class changeObj{
+class changeObj {
 	value: string;
 	type: boolean;
 }
 
 class TwoFa {
-	code : string;
-	validation : number;
+	code: string;
+	validation: number;
 }
 
 @Controller('user')
@@ -56,18 +56,18 @@ export class UserController {
 	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
 		const user = req.user as UserDto;
 
-    const foundUsers = await this.userService.searchUsers(user.id, query);
-    return foundUsers;
-  }
+		const foundUsers = await this.userService.searchUsers(user.id, query);
+		return foundUsers;
+	}
 
-  	@UseGuards(JwtAuthGuard)
-  @Post("/settings")
-  async changeSettings(@Body() body: changeObj, @Req() req: Request) {
-	const user = req.user as User
-	return await this.userService.changeSettings(user.id, body)
-  }
+	@UseGuards(JwtAuthGuard)
+	@Post("/settings")
+	async changeSettings(@Body() body: changeObj, @Req() req: Request) {
+		const user = req.user as User
+		return await this.userService.changeSettings(user.id, body)
+	}
 
-  @Get('/byId/:id')
+	@Get('/byId/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserById(@Param() params: any) {
 		const userId = parseInt(params.id)
@@ -78,29 +78,28 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/TwoFa")
-		async getQrCode(@Req() req: Request) {
-			const user = req.user as UserDto
-			const code = await this.userService.generateTfaSecret(user.id, user.username);
-			const qrcode = await this.userService.generateQrCode(code.otpauthUrl);
-			const twoFaObj = {
-				code : code.secret,
-				qrcode : qrcode,
-			}
-			return twoFaObj
+	async getQrCode(@Req() req: Request) {
+		const user = req.user as UserDto
+		const code = await this.userService.generateTfaSecret(user.id, user.username);
+		const qrcode = await this.userService.generateQrCode(code.otpauthUrl);
+		const twoFaObj = {
+			code: code.secret,
+			qrcode: qrcode,
 		}
+		return twoFaObj
+	}
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaKey")
-	async validateTwoFa(@Body() body : TwoFa, @Req() req: Request) {
+	async validateTwoFa(@Body() body: TwoFa, @Req() req: Request) {
 		const user = req.user as UserDto
 		const validation = await this.userService.validateTwoFa(body, user.id)
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaFalse")
-	async twoFaFalse(@Body() body : boolean, @Req() req: Request) {
+	async twoFaFalse(@Body() body: any, @Req() req: Request) {
 		const user = req.user as UserDto
-		console.log("back response : ", user)
 		const validation = await this.userService.twoFaFalse(body, user.id)
 		return (true)
 	}

@@ -6,30 +6,30 @@ import { createPortal } from "react-dom";
 
 
 interface TwoFa {
-    code : string,
-    qrcode : string,
+    code: string,
+    qrcode: string,
 }
 
 interface TwoFaProps {
     setTwoFaStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    setSecret: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
+const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
 
-    const {account} = useAccount();
+    const { account } = useAccount();
     const [QRCodeBol, setQrCodeBol] = useState<boolean>(account.twoFa);
     const [TwoFa, setTwoFa] = useState<TwoFa>();
     const [codeValidation, setCodeValidation] = useState<number>()
     const [error, setError] = useState<string>();
     const [codeValidated, setCodeValidated] = useState<boolean>(false);
-    
+
     const handleCheckBoxChange = () => {
         setQrCodeBol(!QRCodeBol)
-        if (!QRCodeBol)
-        {
+        if (!QRCodeBol) {
             const fetchQrCode = async () => {
                 try {
-                    const response = await axios.get("http://localhost:4000/user/TwoFa", {withCredentials:true})
+                    const response = await axios.get("http://localhost:4000/user/TwoFa", { withCredentials: true })
                     console.log("respons : ", response.data);
                     setTwoFa(response.data)
                 }
@@ -39,8 +39,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
             }
             fetchQrCode();
         }
-        if (QRCodeBol)
-        {
+        if (QRCodeBol) {
             console.log("on set two fa a false");
             // const setTwoFaFalse = async () => {
             //     await axios.post("http://localhost:4000/user/twoFaFalse", {withCredentials:true})
@@ -50,17 +49,18 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
         }
     }
 
-    const handleCodeValidation = (event : any) => {
+    const handleCodeValidation = (event: any) => {
         const validationObj = {
-            code : TwoFa?.code,
-            validation : codeValidation,
+            code: TwoFa?.code,
+            validation: codeValidation,
         }
         const postTwoValidation = async () => {
             try {
-                await axios.post("http://localhost:4000/user/twoFaKey", validationObj , {withCredentials:true})
+                await axios.post("http://localhost:4000/user/twoFaKey", validationObj, { withCredentials: true })
                 setError("Success")
                 setCodeValidated(true);
                 setTwoFaStatus(true);
+                setSecret(TwoFa?.code);
             }
             catch (error) {
                 setError("Wrong code")
@@ -76,14 +76,14 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
         setTwoFaStatus(false);
     };
 
-    return(
+    return (
         <div className="w-5/6 flex justify-center items-center mt-10">
-        <div className=" w-2/6 flex justify-around border-2 border-white p-2 rounded border-dashed">
-            <input type={"checkbox"} checked={QRCodeBol} className="w-6 rounded-full" onChange={handleCheckBoxChange}>
-            </input>
-            <h1 className="text-white ">Activate 2FA</h1>
-        </div>
-        {QRCodeBol && TwoFa?.qrcode && !codeValidated && (
+            <div className=" w-2/6 flex justify-around border-2 border-white p-2 rounded border-dashed">
+                <input type={"checkbox"} checked={QRCodeBol} className="w-6 rounded-full" onChange={handleCheckBoxChange}>
+                </input>
+                <h1 className="text-white ">Activate 2FA</h1>
+            </div>
+            {QRCodeBol && TwoFa?.qrcode && !codeValidated && (
                 createPortal(
                     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
                         <div className="w-80 rounded-lg p-8 bg-gray-900">
@@ -93,7 +93,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
                                 </button>
                             </div>
                             <div className="h-3/5 w-full flex justify-center items-center mt-3">
-                                <img src={TwoFa?.qrcode} alt="QrCode" className="rounded"/>
+                                <img src={TwoFa?.qrcode} alt="QrCode" className="rounded" />
                             </div>
                             <div className="h-3/5 w-full flex justify-center items-center mt-5 flex-col">
                                 <input type="number" onChange={(event: any) => setCodeValidation(event.target.value)} className="w-2/3 rounded h-8" placeholder="Code" />
@@ -109,7 +109,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus }) => {
                     document.body
                 )
             )}
-            </div>
+        </div>
     )
 }
 

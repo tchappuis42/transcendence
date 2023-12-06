@@ -49,6 +49,7 @@ export class AuthController {
 	@UseGuards(TempJwtAuthGuard)
 	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
 		const user = req.user as User;
+		console.log("ici")
 		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,

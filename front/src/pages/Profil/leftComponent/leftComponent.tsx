@@ -33,19 +33,18 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const [isFriend, setIsFriend] = useState<string>("");
 
 	useEffect(() => {
-		console.log("useEffect lets go ")
 		if (user?.id && user?.id !== account.id) {
 			const fetchFriends = async () => {
 				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${user?.id}`, { withCredentials: true });
 				if (response.data) {
 
 					if (response.data?.friend_status === 0)
-						setIsFriend("supprimer");
+						setIsFriend("Delete");
 					if (response.data?.friend_status !== 0)
-						setIsFriend("pending ...");
+						setIsFriend("Pending ...");
 				}
 				else
-					setIsFriend("ajouter");
+					setIsFriend("Add");
 
 			};
 			fetchFriends();
@@ -53,22 +52,29 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	}, [user?.id]);
 
 	const handleFriendsRequest = () => {
-		if (isFriend === "ajouter") {
+		if (isFriend === "Add") {
 			try {
 				addFrind(user?.id);
-				setIsFriend("en attente");
+				setIsFriend("Pending ...");
 			} catch {
 				console.error("error while sending friends request");
 			}
 		}
-		if (isFriend === "supprimer") {
-			try {
-				// DeleteFriend(user?.id);
-				setIsFriend("ajouter");
-			} catch {
-				console.error("error while sending friends request");
+		if (isFriend === "Delete") {
+			const removeFriend = async () => {
+				const friendObj = {
+					id : user?.id,
+					accept : true
+				}
+				try {
+					const response = await axios.post("http://localhost:4000/friends/removeFriend", friendObj, {withCredentials:true})
+					setIsFriend("Add")
+				} catch {
+					console.error("error while deleting friends request");
+				}
 			}
-		}
+			removeFriend();
+		}	
 	}
 
 	return (

@@ -1,16 +1,14 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req, Param, BadRequestException } from '@nestjs/common';
+import { Controller, Get, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
-import { Request, Response } from 'express';
-import { JwtService } from '@nestjs/jwt';
-import { UserDto } from './dtos/UserDto'; import { get } from 'http';
+import { Request } from 'express';
+import { UserDto } from './dtos/UserDto';
 import { User } from './user.entity';
-;
+import { FriendsService } from 'src/friends/friends.service';
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
+	constructor(private readonly userService: UserService, private readonly friendService: FriendsService) { }
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
@@ -49,6 +47,41 @@ export class UserController {
 		this.userService.clearsocket(user.id)
 	}
 
+	@UseGuards(JwtAuthGuard)
+	@Get("/getUsersByName/:query")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
+		const user = req.user as UserDto;
+		const foundUsers = await this.userService.searchUsers(user.id, query);
+		return foundUsers;
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('block/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async blockById(@Req() req: Request, @Param('id') blockId: number) {
+		console.log(blockId)
+		const user = req.user as User;
+		await this.friendService.removeFriend(user, blockId);
+		return await this.userService.blockbyId(user.id, blockId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('unblock/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async unblockById(@Req() req: Request, @Param('id') unblockId: number) {
+		const user = req.user as UserDto;
+		return await this.userService.unblockbyId(user.id, unblockId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('getUserBlocked')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserBlocked(@Req() req: Request) {
+		const user = req.user as UserDto;
+		return await this.userService.getUserBlocked(user.id);
+	}
+
 	@Get(':id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserById(@Param() params: any) {
@@ -56,15 +89,5 @@ export class UserController {
 		if (!userId)
 			throw new BadRequestException()
 		return await this.userService.getUserById(userId);
-	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get("/getUsersByName/:query")
-	@UseInterceptors(ClassSerializerInterceptor)
-	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
-		const user = req.user as UserDto;
-
-		const foundUsers = await this.userService.searchUsers(user.id, query);
-		return foundUsers;
 	}
 }

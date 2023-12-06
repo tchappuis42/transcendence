@@ -27,6 +27,10 @@ export class User {
   @Exclude()
   socket: string[];
 
+  @Column({ type: 'simple-json', default: [] })
+  @Exclude()
+  blockedId: number[];
+
   @Column({ default: 500 })
   score: number;
 

@@ -73,7 +73,11 @@ const Chat = () => {
 	useEffect(() => {
 		if (!set_channel) {
 			setSetChannel("create a channel!")
+		//	socket?.emit("checkLogRoom")
 			init_Button("bye")
+			//if (socket)
+			//	socket.emit("")
+			socket?.emit("checkLogRoom")
 		}
 		if (socket) {
 			socket.on("getAllChannels", (data) => {

@@ -89,7 +89,6 @@ export class ChatGateway {
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
-			console.log("couki");
 			const channel = await this.textChannelService.getChannelMe(name[0]);
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
@@ -114,7 +113,6 @@ export class ChatGateway {
 				client.leave(name[1]);		
 			}
 			else {
-				console.log("kkk");
 				client.join(name[0]);
 				await this.textChannelService.addUserToChannel(channel, user.id)//, channel.owner.id);
 				let pass: string;
@@ -134,9 +132,24 @@ export class ChatGateway {
 					const userAllOut = channelOut.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
 					this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
 				}
-				console.log(channel.name);
 				this.server.to(channel.name).emit('setUserInChannel', userAll);
 			}
+		} catch {}
+	}
+
+	@SubscribeMessage('checkLogRoom')
+	async checkRoom(@ConnectedSocket() client: Socket) {
+		try {
+			const user = client.data.user as UserDto;
+			const channels = await this.textChannelService.getChannelsForUser(user.id);
+			const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
+			for(let i = 0; channels[i]; i++) {
+				client.leave(channels[i].name);
+			}
+			for(let i = 0; DMChannel[i]; i++) {
+				client.leave(DMChannel[i].name);
+			}
+
 		} catch {}
 	}
 

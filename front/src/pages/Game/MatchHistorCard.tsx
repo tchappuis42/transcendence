@@ -7,13 +7,15 @@ interface Match {
 	winnerId: number;
 }
 
-const MatchHistoryCard: React.FC<{ match: Match, userId: number }> = ({ match, userId }) => {
+const MatchHistoryCard: React.FC<{ match: Match, userId: number | undefined}> = ({ match, userId }) => {
 
 	function background(id: number) {
 		if (id === userId)
 			return 'rgba(0, 200, 0, 0.5)';
 		return 'rgba(200, 0, 0, 0.5)'
 	}
+
+	console.log("match", match)
 
 	return (
 		<div className="h-1/5 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center"

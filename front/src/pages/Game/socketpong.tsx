@@ -102,7 +102,7 @@ const SocketPong = () => {
 			<div className="flex w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
 				{!page &&
 					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
-						<div className="w-full h-96 p-4 rounded-3xl bg-black/50 md:w-3/5 md:h-96 xl:w-[720px]">
+						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow-white">
 							<Matchmaking
 								search={search}
 								color={color}
@@ -111,7 +111,7 @@ const SocketPong = () => {
 								mapChange={mapChange}
 							/>
 						</div>
-						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-3xl md:w-[39%] md:h-96 xl:w-[468px] p-2.5">
+						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-md md:w-[39%] md:h-96 xl:w-[468px] shadow-md shadow-white">
 							<Ranking />
 						</div>
 						<div className="w-full h-80 mb-1 bg-black/50 rounded-3xl md:w-2/5 md:h-96 xl:w-[480px] p-2.5">

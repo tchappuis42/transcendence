@@ -32,12 +32,6 @@ const FriendRequestCard = ({ friend }: { friend: friend }) => {
 		}
 		await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
 			alert(response.data)
-			// if (accept === true)
-			// 	setFriends((prevUser) => prevUser.map(user => user.id === data.id ? { ...user, friend_status: 0 } : user))
-			// else {
-			// 	const reject = friends.filter(e => e.id !== userId)
-			// 	setFriends(reject)
-			// }
 		}).catch((error) => {
 			alert(error)
 		})

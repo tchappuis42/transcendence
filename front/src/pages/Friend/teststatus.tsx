@@ -8,6 +8,17 @@ interface user {
 	status: number
 }
 
+export const addFrind = async (userId: number | undefined) => {
+	const data = {
+		id: userId,
+	}
+	await axios.post("http://localhost:4000/friends/addFriend", data, { withCredentials: true }).then((response) => {
+		alert(response.data)
+	}).catch((error) => {
+		alert(error)
+	})
+}
+
 const Status = () => {
 	const socket = useSocket();
 	const [users, setUsers] = useState<user[]>([]);
@@ -15,7 +26,7 @@ const Status = () => {
 
 
 	useEffect(() => {
-		console.log("oulalalala")
+		// console.log("oulalalala")
 		if (socket) {
 			socket.on("status", (data) => {
 				//setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
@@ -61,7 +72,6 @@ const Status = () => {
 				return 'black'; // Par défaut (au cas où)
 		}
 	}
-
 	const addFrind = async (userId: number) => {
 		const data = {
 			id: userId,

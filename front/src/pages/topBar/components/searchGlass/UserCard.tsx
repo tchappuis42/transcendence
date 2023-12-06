@@ -17,6 +17,7 @@ interface UserCardProps {
     const navigate = useNavigate();
         
     const handleNav = (toNav : string, id : number) => {
+        console.log("navi")
         navigate("/profil", {
             state : {
                 id : id

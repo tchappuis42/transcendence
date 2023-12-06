@@ -19,8 +19,8 @@ export class AuthController {
 		if (!body.twoFa)
 			return { message: await this.authService.postSignup(body) }
 		await this.authService.postSignup(body);
-		const code = await this.userService.generateTfaSecret(body.username);
-		const qrcode = this.userService.generateQrCode(code);
+		const code = await this.userService.generateTfaSecret(300, body.username);
+		const qrcode = this.userService.generateQrCode(code.otpauthUrl);
 		return qrcode
 	}
 
@@ -49,6 +49,7 @@ export class AuthController {
 	@UseGuards(TempJwtAuthGuard)
 	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
 		const user = req.user as User;
+		console.log("ici")
 		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,

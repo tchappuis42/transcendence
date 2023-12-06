@@ -31,13 +31,12 @@ export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 			const remainingProgress = userScore % 500;
 			const newProgress = (remainingProgress / 500) * 100;
 			setProgress(newProgress);
-			console.log("newProgrss and level :", level, newProgress);
 		}
 	}, [userScore])
 
 	return (
-		<div className="level-user-component black-border-fine">
-			<div className="level-current-component">
+		<div className="level-user-component gray-border">
+			<div className="level-current-component text-white">
 				level {level}
 			</div>
 			<LevelBar progress={ progress }/>

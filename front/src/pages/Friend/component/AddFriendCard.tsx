@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Friend from "../interface/friendDto";
 import { Account } from "../../../ui/types";
+import { fireEvent } from "@testing-library/react";
 
 const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard: (id: number) => void }) => {
+
     const navigate = useNavigate();
 
     const handleNav = (toNav: string, id: number) => {
@@ -33,7 +35,7 @@ const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard
         <div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="h-full w-1/5 flex items-center content-center" onClick={() => { handleNav("profil", friend.id) }}>
                 <img alt="image de profil" className="rounded-md h-full"
-                    src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg" />
+                    src={friend.avatar} />
             </div>
             <div className="h-full sm:w-1/5 w-2/5 flex justify-center items-center" onClick={() => { handleNav("profil", friend.id) }}>
                 <h2>{friend.username}</h2>

@@ -42,6 +42,7 @@ export class AuthService {
 	}
 
 	async postTwoFa(user: User, token: string) {
+		console.log("user secret = ", user.twoFaSecret)
 		const isCodeValid = authenticator.verify({
 			token: token,
 			secret: user.twoFaSecret,

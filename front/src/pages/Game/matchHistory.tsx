@@ -36,8 +36,8 @@ const MatchHistory: React.FC<{ userId: number | undefined}> = ({ userId }) => {
 			</div>
 
 			{!matchs.length ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
-					<h1 className="text-white">No match</h1>
+				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "90%" }}>
+					<h1 className="text-white/50">No match</h1>
 				</div>
 			) : (
 

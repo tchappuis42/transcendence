@@ -10,7 +10,7 @@ interface Match {
 	winnerId: number;
 }
 
-const MatchHistory: React.FC<{ userId: number }> = ({ userId }) => {
+const MatchHistory: React.FC<{ userId: number | undefined}> = ({ userId }) => {
 
 	const [matchs, setMatchs] = useState<Match[]>([]);
 
@@ -18,6 +18,7 @@ const MatchHistory: React.FC<{ userId: number }> = ({ userId }) => {
 	useEffect(() => {
 		const getHistory = async () => {
 			try {
+				console.log("userId :",userId)
 				const response = await axios.get(`http://localhost:4000/game/history/${userId}`, { withCredentials: true });
 				console.log("h data = ", response.data)
 				setMatchs(response.data);
@@ -26,10 +27,10 @@ const MatchHistory: React.FC<{ userId: number }> = ({ userId }) => {
 			}
 		}
 		getHistory();
-	}, []);
+	}, [userId]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+		<div className="bg-black/50 h-full w-full rounded-md">
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1>Match history</h1>
 			</div>
@@ -40,7 +41,7 @@ const MatchHistory: React.FC<{ userId: number }> = ({ userId }) => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5  rounded-md bg-black/10 shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5  rounded-md bg-black/10 box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{matchs?.map((match: Match, id: number) => (
 						<MatchHistoryCard key={id} match={match} userId={userId} />
 					))}

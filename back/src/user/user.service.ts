@@ -1,8 +1,7 @@
-import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException, } from '@nestjs/common';
+import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { ILike, Like, Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt'
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { Game } from 'src/game/game.entity';
@@ -28,9 +27,8 @@ interface validateTwoFa {
 
 @Injectable()
 export class UserService {
-
 	constructor(
-		@InjectRepository(User) private usersRepository: Repository<User>, private jwtService: JwtService) { }
+		@InjectRepository(User) private usersRepository: Repository<User>) { }
 
 	Sockets: sockets[] = [];
 
@@ -217,6 +215,32 @@ export class UserService {
 		if (userSocket)
 			return userSocket
 		return null
+	}
+
+	async unblockbyId(id: number, unblockId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		if (!user) {
+			return { success: false, message: "User not found" };
+		}
+		user.blockedId = user.blockedId.filter((blockedId) => blockedId !== unblockId)
+		await this.usersRepository.save(user);
+		return { success: true, message: "User unblocked" };
+	}
+
+	async blockbyId(id: number, blockId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		if (!user) {
+			return { success: false, message: "User not found" };
+		}
+		user.blockedId.push(blockId);
+		await this.usersRepository.save(user);
+		return { success: true, message: "User blocked" };
+	}
+
+	async getUserBlocked(id: number) {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		if (user.blockedId.length)
+			return user.blockedId
 	}
 
 	//debug

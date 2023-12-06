@@ -8,11 +8,11 @@ import { JwtAuthGuard } from './user.guard';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './user.strategy';
 import { UserGateway } from './user.gateway';
-
-
+import { FriendsService } from 'src/friends/friends.service';
+import { Friends } from 'src/friends/friends.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User,]), JwtModule.register({
+  imports: [TypeOrmModule.forFeature([User, Friends]), JwtModule.register({
     global: true,
     secret: 'test',
     signOptions: { expiresIn: '60d' },
@@ -21,6 +21,6 @@ import { UserGateway } from './user.gateway';
     defaultStrategy: 'jwt'
   })],
   controllers: [UserController],
-  providers: [UserService, JwtAuthGuard, JwtStrategy, UserGateway]
+  providers: [UserService, JwtAuthGuard, JwtStrategy, UserGateway, FriendsService]
 })
 export class UserModule { }

@@ -13,6 +13,11 @@ class changeObj{
 	type: boolean;
 }
 
+class TwoFa {
+	code : string;
+	validation : number;
+}
+
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
@@ -46,10 +51,10 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-  @Get("/getUsersByName/:query")
-  @UseInterceptors(ClassSerializerInterceptor)
-  async getUsersByName(@Req() req: Request, @Param('query') query: string) {
-    const user = req.user as UserDto;
+	@Get("/getUsersByName/:query")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
+		const user = req.user as UserDto;
 
     const foundUsers = await this.userService.searchUsers(user.id, query);
     return foundUsers;
@@ -86,9 +91,18 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaKey")
-	async validateTwoFa(@Body() body : any, @Req() req: Request) {
+	async validateTwoFa(@Body() body : TwoFa, @Req() req: Request) {
 		const user = req.user as UserDto
 		const validation = await this.userService.validateTwoFa(body, user.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaFalse")
+	async twoFaFalse(@Body() body : boolean, @Req() req: Request) {
+		const user = req.user as UserDto
+		console.log("back response : ", user)
+		const validation = await this.userService.twoFaFalse(body, user.id)
+		return (true)
 	}
 
 }

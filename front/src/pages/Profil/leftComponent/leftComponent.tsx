@@ -8,10 +8,8 @@ import { Button } from "@material-tailwind/react";
 import {useAccount} from "../../../ui/organisms/useAccount";
 import {FriendStatus} from "../../Friend/interface/friendStatus";
 import {useFriends} from "../../Friend/useFriends";
-import addFriend from "../../Friend/AddFriend";
-import {addFrind} from "../../Friend/status";
-import {DeleteFriend} from "../../Friend/friendss";
 import axios from "axios";
+import { addFrind } from "../../Friend/teststatus";
 
 interface Props {
 	id: number;
@@ -65,7 +63,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({user}) => {
 			}
 			if (isFriend === "supprimer") {
 				try {
-					DeleteFriend(user?.id);
+					// DeleteFriend(user?.id);
 					setIsFriend("ajouter");
 				} catch {
 					console.error("error while sending friends request");

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSocket } from '../../ui/organisms/SocketContext';
-import Friend from './interface/friendDto';
-import { useFriends } from './useFriends';
+import { useSocket } from '../../../ui/organisms/SocketContext';
+import Friend from '../interface/friendDto';
+import { useFriends } from '../useFriends';
 import FriendCard from "./FriendCard";
-import { FriendStatus } from './interface/friendStatus';
+import { FriendStatus } from '../interface/friendStatus';
 import PendingFriendCard from './PendingFriendCard';
+import { Account } from '../../../ui/types';
 
 const PendingFriend = () => {
-	const [friends, setFriends] = useState<Friend[]>([]);
+	const [friends, setFriends] = useState<Account[]>([]);
 	const { getFriends } = useFriends();
 	const socket = useSocket();
 
@@ -33,7 +34,7 @@ const PendingFriend = () => {
 			) : (
 
 				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
-					{friends?.map((friend: Friend) => (
+					{friends?.map((friend: Account) => (
 						<PendingFriendCard key={friend.id} friend={friend} />
 					))}
 				</div>

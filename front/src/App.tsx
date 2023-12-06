@@ -5,6 +5,7 @@ import Chat from './pages/Chat/chat';
 import { Profil } from './pages/Profil/Profil';
 import { TopBar } from "./pages/topBar/topBar";
 import Settings from './pages/Settings/Settings';
+import Testfriends from './pages/Friend/testfriends';
 
 
 const App = () => {

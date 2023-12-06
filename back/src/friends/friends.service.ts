@@ -8,10 +8,12 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
 import { FriendDto } from './dtos/FriendDto';
+import { first } from 'rxjs';
 
 @Injectable()
 @WebSocketGateway()
 export class FriendsService {
+
 	@WebSocketServer() server: Server;
 
 	constructor(
@@ -28,7 +30,7 @@ export class FriendsService {
 		friends.second_id = friendUser.id;
 		friends.second_User = friendUser;
 		await this.friendsRepository.save(friends);
-		if (friendUser.connected !== ConnctionState.Offline)
+		if (friendUser.status !== ConnctionState.Offline)
 			await this.sendFriendMessage(friends.second_id, friends.first_User, "friendRequest")
 		return "demande d'ami envoyé"
 	}
@@ -37,16 +39,16 @@ export class FriendsService {
 		const list = await this.friendsRepository.find({ where: [{ first_id: user.id }, { second_id: user.id }] })
 		if (!list)
 			throw new NotFoundException("user not found") // bonne erreur
-		const friends = list.map((friend) => {
+		const friends: FriendDto[] = list.map((friend) => {
 			if (friend.first_User.id === user.id) {
 				if (friend.friend_status === true)
-					return { id: friend.second_User.id, username: friend.second_User.username, status: friend.second_User.connected, friend_status: 0 }
-				return { id: friend.second_User.id, username: friend.second_User.username, status: friend.second_User.connected, friend_status: 2 }
+					return { friend_user: friend.second_User, friend_status: 0 }
+				return { friend_user: friend.second_User, friend_status: 2 }
 			}
 			else {
 				if (friend.friend_status === true)
-					return { id: friend.first_User.id, username: friend.first_User.username, status: friend.first_User.connected, friend_status: 0 }
-				return { id: friend.first_User.id, username: friend.first_User.username, status: friend.first_User.connected, friend_status: 1 }
+					return { friend_user: friend.first_User, friend_status: 0 }
+				return { friend_user: friend.first_User, friend_status: 1 }
 			}
 		});
 		return friends;
@@ -75,7 +77,7 @@ export class FriendsService {
 		if (relationship && relationship.friend_status === false) {
 			const data = this.getdata(relationship, user)
 			await this.friendsRepository.update(relationship.id, { friend_status: true })
-			if (friendUser.connected !== ConnctionState.Offline)
+			if (friendUser.status !== ConnctionState.Offline)
 				await this.sendFriendMessage(friend, data.user, "friend")
 			await this.sendFriendMessage(user.id, data.friend, "friend")
 			return "ami ajouté";
@@ -99,7 +101,7 @@ export class FriendsService {
 		if (relationship) {
 			await this.friendsRepository.delete(relationship.id)
 			const data = this.getdata(relationship, user)
-			if (friendUser.connected !== ConnctionState.Offline)
+			if (friendUser.status !== ConnctionState.Offline)
 				await this.sendFriendMessage(friend, data.user, "friend")
 			await this.sendFriendMessage(user.id, data.friend, "friend")
 			return "ami suprimé";
@@ -110,9 +112,7 @@ export class FriendsService {
 	async sendFriendMessage(send_id: number, user: User, event: string) {
 		const Socket = await this.userservice.getSocketUser(send_id);
 		const data: FriendDto = {
-			id: user.id,
-			username: user.username,
-			status: user.connected,
+			friend_user: user,
 			friend_status: 1
 		}
 		if (Socket) {
@@ -126,16 +126,19 @@ export class FriendsService {
 		}
 	}
 
-	async getFriendById(friendId: number): Promise<Friends> {
-		const friend = await this.friendsRepository.findOne({
-		  where: [{ id: friendId }],
-		  relations: ['first_User', 'second_User'], // Charger les utilisateurs associés
-		});
-	
-		if (!friend) {
-		  throw new NotFoundException('Friend not found');
+	async getFriendParId(user: User, friendId: number) {
+		const friend = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendId }, { first_id: friendId, second_id: user.id }] })
+		if (friend) {
+			if (friend.first_User.id === user.id) {
+				if (friend.friend_status === true)
+					return { friend_user: friend.second_User, friend_status: 0 }
+				return { friend_user: friend.second_User, friend_status: 2 }
+			}
+			else {
+				if (friend.friend_status === true)
+					return { friend_user: friend.first_User, friend_status: 0 }
+				return { friend_user: friend.first_User, friend_status: 1 }
+			}
 		}
-	
-		return friend;
-	  }
 	}
+}

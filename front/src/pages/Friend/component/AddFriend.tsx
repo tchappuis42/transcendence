@@ -45,7 +45,7 @@ const FriendsToAdd = () => {
 			</div>
 
 			{!friends.length ? (
-				<div className="h-full flex justify-center items-center">
+				<div className="flex h-5/6 justify-center items-center">
 					<h1 className='text-white opacity-50'>No new friends request</h1>
 				</div>
 			) : (

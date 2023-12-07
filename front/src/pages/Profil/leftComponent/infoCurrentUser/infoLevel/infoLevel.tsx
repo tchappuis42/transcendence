@@ -36,7 +36,7 @@ export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 
 	return (
 		<div className="level-user-component gray-border">
-			<div className="level-current-component text-white">
+			<div className="level-current-component text-white ">
 				level {level}
 			</div>
 			<LevelBar progress={ progress }/>

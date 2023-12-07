@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../../../HomePage/Tools";
 import "./dropDownStyle.css"
+import AvatarContainer from "../../../HomePage/CardContent/avatarContainer";
 
 interface User {
 	id : number;
 	username : string;
+    avatar : string
 }
 
 interface UserCardProps {
@@ -29,12 +31,9 @@ interface UserCardProps {
 
     return(
         <div className="messageContainer"  style={{background: "rgba(0,0,0,0.8)", borderWidth:1, boxShadow:"0 4px 8px rgba(255, 255, 255, 0.6)"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("profil", user.id)}}>
-            <div className="messagePicContainer">
-            <img alt="image de profil" style={{borderRadius:"10%", height:"100%"}}
-					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>
-            </div>
+           <AvatarContainer src={user.avatar} navigation={true} id={user.id} square={5}/>
             <div className="messageText">
-                <h2 style={{fontSize:"100%", color:"white"}}>{user.username}</h2>
+                <h2 className="text-white flex justify-center items-center">{user.username}</h2>
             </div>
         </div>
     )

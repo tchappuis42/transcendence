@@ -6,15 +6,16 @@ interface Props {
 	progress: number;
 }
 export const LevelBar = ({progress}: Props) => {
+
 	const getColor = (): string => {
 		if (progress < 40) {
-			return ("#ff0000");
+			return ("rgba(255,0,0, 0.9)");
 		}
 		else if (progress < 70) {
-			return ("#ffa500");
+			return ("rgba(255,165,0, 0.9)");
 		}
 		else {
-			return ("#2ecc71");
+			return ("rgba(0, 200, 0, 0.5)");
 		}
 	}
 	return (

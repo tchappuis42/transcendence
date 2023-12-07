@@ -8,6 +8,8 @@ interface Match {
 	scoreOne: number;
 	scoreTwo: number;
 	winnerId: number;
+	avatarOne: string;
+	avatarTwo: string;
 }
 
 const MatchHistory: React.FC<{ userId: number | undefined}> = ({ userId }) => {

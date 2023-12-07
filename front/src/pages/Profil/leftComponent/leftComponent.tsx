@@ -10,6 +10,7 @@ import { FriendStatus } from "../../Friend/interface/friendStatus";
 import { useFriends } from "../../Friend/useFriends";
 import axios from "axios";
 import { addFrind } from "../../Friend/teststatus";
+import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
 
 interface Props {
 	id: number;
@@ -29,7 +30,6 @@ interface LeftComponentProps {
 
 export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const { account } = useAccount();
-	const { getFriends, sortByStatus } = useFriends();
 	const [isFriend, setIsFriend] = useState<string>("");
 
 	useEffect(() => {
@@ -83,8 +83,9 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 				<div className="info-profile-component gray-border"
 					style={{ gridTemplateRows: "2fr 1fr" }}>
 					<div className="information-user-component">
-						<img alt="image de profil" className="rounded h-full col-span-1 gray-border"
-							src={user?.avatar} />
+						< div className="rounded h-full col-span-1 gray-border">
+							<AvatarContainer src={user?.avatar} navigation={false}/>
+						</div>
 						<div className="text-information-component">
 							<MyName id={user?.id} username={user?.username} index={0} />
 						</div>

@@ -19,6 +19,7 @@ const FriendsChat = ({ set_channel }: channel) => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
 				const sortedUsers = response.data.sort((a: Account, b: Account) => b.status - a.status);
+				console.log("resooinse users  : ", response)
 				setUsers(sortedUsers);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
@@ -58,7 +59,7 @@ const FriendsChat = ({ set_channel }: channel) => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2 bg-black/10 rounded-mdbox-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{users?.map((user: Account) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={set_channel} />
 					))}

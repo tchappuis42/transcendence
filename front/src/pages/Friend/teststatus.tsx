@@ -13,9 +13,8 @@ export const addFrind = async (userId: number | undefined) => {
 		id: userId,
 	}
 	await axios.post("http://localhost:4000/friends/addFriend", data, { withCredentials: true }).then((response) => {
-		alert(response.data)
 	}).catch((error) => {
-		alert(error)
+		console.error("error while adding friend :", error);
 	})
 }
 

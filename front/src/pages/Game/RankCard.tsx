@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../Friend/interface/Tools";
+import AvatarContainer from "../HomePage/CardContent/avatarContainer";
 
 interface Rank {
 	id: number,
@@ -11,8 +12,6 @@ interface Rank {
 const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 
 	const navigate = useNavigate();
-	console.log("rank :", rank)
-
 
 	const handleNav = (id: number) => {
 		navigate("/profil", {
@@ -39,7 +38,7 @@ const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 			</div>
 			<div className="w-5/12 h-full flex flex-row p-2">
 				<div className="flex flex-row w-2/4  justify-center items-center">
-					<img src={rank.avatar} alt="profil pic" className="h-full mr-10" />
+					<AvatarContainer src={rank.avatar} navigation={true} id={rank.id} square={10}/>
 				</div>
 				<div className="flex flex-row w-2/4 items-center">
 					<h1>{rank.username}</h1>

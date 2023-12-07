@@ -435,6 +435,14 @@ export class ChatGateway {
 		try {
 			const user = client.data.user as UserDto;
 			const channel = await this.DMChannelService.getDMChannelMe(data[1]);
+			let userId: number;
+			if (channel.user1.find((user) => user.id == user.id))
+				userId = channel.user2[0].id;
+			else
+				userId = channel.user1[0].id;
+			const blocked = await this.userService.getUserBlocked(user.id);
+			if (blocked.find((userI) => userI == userId))
+			
 			if (data[2] == '0') {
 				if ((channel.block1 || channel.block2) === false) {
 					await this.DMChannelService.addMsgForDMChannel(data[0], data[1], user.id);

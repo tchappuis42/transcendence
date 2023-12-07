@@ -1,3 +1,4 @@
+import { handleMouseEnter, handleMouseLeave } from "../Friend/interface/Tools";
 import AvatarContainer from "../HomePage/CardContent/avatarContainer";
 
 interface Match {
@@ -20,7 +21,10 @@ const MatchHistoryCard: React.FC<{ match: Match, userId: number | undefined}> = 
 
 	return (
 		<div className="h-1/5 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center"
-			style={{ background: background(match.winnerId) }}>
+			style={{ background: background(match.winnerId) }}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+			>
 			<div className=" w-2/6 flex justify-between p-3 items-center h-full ">
 				<AvatarContainer src={match.avatarOne} navigation={false} square={10} />
 				<div className="w-full h-full flex justify-start pl-2 item-center ">

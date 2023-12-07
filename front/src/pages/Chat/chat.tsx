@@ -7,6 +7,7 @@ import Friends from "../Friend/component/Friends";
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
 import { useLocation } from 'react-router-dom';
+import UserInChannel from "./component/UserInChannel";
 
 interface Message {
 	message: string;
@@ -61,7 +62,7 @@ const Chat = () => {
 			}
 		};
 
-	}, [socket]);	
+	}, [socket]);
 	//socket?.emit("leaveChat", set_channel);	
 	useEffect(() => {
 		setChannels([])
@@ -75,11 +76,11 @@ const Chat = () => {
 	useEffect(() => {
 		if (!set_channel) {
 			setSetChannel("create a channel!")
-		//	socket?.emit("checkLogRoom")
+			//	socket?.emit("checkLogRoom")
 			init_Button("bye")
 			//if (socket)
 			//	socket.emit("")
-		//	socket?.emit("checkLogRoom")
+			//	socket?.emit("checkLogRoom")
 		}
 		if (socket) {
 			socket.on("getAllChannels", (data) => {
@@ -429,25 +430,25 @@ const Chat = () => {
 	return (
 		<div className="globale">
 			<div className="channel">
-				<div className="textChannel"> <h1> channels </h1></div>	
-				<div className="boxChann">	
-						{all_channels.map((msg, id) => (
-							<b className="text_textButonChannel" key={id}>
-								<div className="text_butonChannel" onClick={() => takeChan(msg.name)}>
-									{msg.name} : {msg.statue}
-								</div>
-							</b>
-						))}
+				<div className="textChannel"> <h1> channels </h1></div>
+				<div className="boxChann">
+					{all_channels.map((msg, id) => (
+						<b className="text_textButonChannel" key={id}>
+							<div className="text_butonChannel" onClick={() => takeChan(msg.name)}>
+								{msg.name} : {msg.statue}
+							</div>
+						</b>
+					))}
 				</div>
-					<div className="textDM"> <h1> DM </h1></div>
-				<div className="boxDMchann">			
-						{all_DMChannels.map((msg, id) => (
-							<b className="text_textButonDM" key={id}>
-								 <div className="text_butonDM" onClick={() => takeDMChan(msg.name)}>				
-									 {msg.name} : {msg.statue}
-								 </div>
-							</b>
-						))}
+				<div className="textDM"> <h1> DM </h1></div>
+				<div className="boxDMchann">
+					{all_DMChannels.map((msg, id) => (
+						<b className="text_textButonDM" key={id}>
+							<div className="text_butonDM" onClick={() => takeDMChan(msg.name)}>
+								{msg.name} : {msg.statue}
+							</div>
+						</b>
+					))}
 				</div>
 				<div className="containerStatus">
 					<li>{"status"}</li>
@@ -470,15 +471,15 @@ const Chat = () => {
 					<button className="butonAdministrationChat" onClick={deleteChannel}>deleteChannel</button>
 					<button className="butonAdministrationChat" onClick={changePass}>changePass</button>
 					<button className="butonAdministrationChat" onClick={MuetUser}>Muet</button>
-					<button className="butonAdministrationChat" onClick={banUser}>ban</button>	
-				</div>	
+					<button className="butonAdministrationChat" onClick={banUser}>ban</button>
+				</div>
 			</div>
 			<div id="chat">
 				<div className="textChannelName"><h1> {set_channel} </h1></div>
 				<div className="boxForChat">
 					{messages.map((msg, index) => (
-						<b className="b" key={index}>	
-							<button className="select" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}	
+						<b className="b" key={index}>
+							<button className="select" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}
 						</b>
 					))}
 				</div>
@@ -502,12 +503,8 @@ const Chat = () => {
 				<div className="h-80 mt-12">
 					<FriendsChat set_channel={set_channel} />
 				</div>
-				<div className="userInChannel">
-					{userInChannel.map((msg, id) => (
-						<b className="b" key={id}>
-							{msg.id} {msg.username}
-						</b>
-					))}
+				<div className="h-80 mt-12">
+					<UserInChannel userInChannel={userInChannel} />
 				</div>
 				<button className="createChannelBtn" onClick={createchannel}>createchannel</button>
 			</div>

@@ -13,7 +13,7 @@ import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
 interface roomName {
 	name: string;
 	socket1: Socket;
-	socket2: Socket
+	socket2: Socket;
 	pong: Pong;
 	intervalId?: NodeJS.Timer;
 	timeStart: number

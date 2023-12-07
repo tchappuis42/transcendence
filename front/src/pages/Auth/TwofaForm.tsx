@@ -7,7 +7,7 @@ interface TwoFaFormProps {
 	settingPage: (newPage: string) => void;
 }
 
-const TwoFaForm: React.FC<TwoFaFormProps> = ({settingPage}) => {
+const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage }) => {
 
 	const { authenticate } = useAuth();
 	const [token, setToken] = useState("");
@@ -27,11 +27,10 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({settingPage}) => {
 	}
 
 	return (
-		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20">
-            <div className="flex items-center justify-center h-screen">
-			<form onSubmit={qrCodeSubmit} className="w-2/5 h-3/5 bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow-white">
+		<div className="flex items-center justify-center h-screen w-full">
+			<form onSubmit={qrCodeSubmit} className="w-[450px] h-[550px] bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow-white">
 				<div className="w-full h-1/6 flex flex-row-reverse mr-20">
-					<button  onClick={() => settingPage("login")} className="text-gray-500 hover:text-gray-800 rounded-full">
+					<button onClick={() => settingPage("login")} className="text-gray-500 hover:text-gray-800 rounded-full">
 						<h1 className="text-red-500/60 font-bold text-4xl">X</h1>
 					</button>
 				</div>
@@ -39,8 +38,8 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({settingPage}) => {
 					<h1 className='text-white text-5xl'>Enter your code</h1>
 				</div>
 				<div className="w-full h-1/6  flex flex-col  justify-center items-center" >
-						{errorMessage && 
-							<h2 className="text-red-500">{errorMessage}</h2>}
+					{errorMessage &&
+						<h2 className="text-red-500">{errorMessage}</h2>}
 					<label htmlFor="text" className="flex justify-center items-center">
 						<input className='input'
 							type="number"
@@ -48,7 +47,7 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({settingPage}) => {
 							value={token}
 							onChange={e => setToken(e.target.value)}
 							placeholder='code'
-							/>
+						/>
 					</label>
 				</div>
 				<div className="w-full h-1/6  mt-5 flex justify-center items-center" >
@@ -57,7 +56,6 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({settingPage}) => {
 					</button>
 				</div>
 			</form>
-			</div>
 		</div>
 	);
 };

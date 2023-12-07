@@ -18,6 +18,7 @@ export class AuthService {
 			const { password } = body
 			const hash = await bcrypt.hash(password, 10)
 			const user = this.usersRepository.create({ ...body, password: hash })
+			// user.username = body.identifiant;
 			await this.usersRepository.save(user)
 			return "User Created!"
 		} catch (error) {

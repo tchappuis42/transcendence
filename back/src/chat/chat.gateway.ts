@@ -128,9 +128,16 @@ export class ChatGateway {
 				else
 					client.emit('getChannelMeOne', channel.id, channel.name, channel.status, '0', pass, userAll);
 				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
-					const channelOut = await this.textChannelService.getChannelMe(name[1]);
-					const userAllOut = channelOut.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
-					this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
+					if (name[1] != "create a channel!") {
+						const channelOut = await this.textChannelService.getChannelMe(name[1]);
+						const userAllOut = channelOut.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
+						this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
+					}
+					else {
+						const channelOut = await this.textChannelService.getChannelMe(name[0]);
+						const userAllOut = channelOut.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
+						this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
+					}
 				}
 				this.server.to(channel.name).emit('setUserInChannel', userAll);
 			}
@@ -151,6 +158,27 @@ export class ChatGateway {
 			}
 
 		} catch {}
+	}
+
+	@SubscribeMessage('leaveChat')
+	async leaveChat(@ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		const channels = await this.textChannelService.getChannelsForUser(user.id);
+		const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
+		if (channels) {
+			for(let i = 0; channels[i]; i++) {
+				await this.textChannelService.removeUserFromChannel(channels[i], user.id);
+				const channel = await this.textChannelService.getChannelMe(channels[i].name);
+				const userAllOut = channel.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
+				client.leave(channel.name);
+				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+			}
+		}
+		if (DMChannel) {
+			for(let i = 0; DMChannel[i]; i++)
+				client.leave(DMChannel[i].name);
+		}
+	
 	}
 
 	@SubscribeMessage('channel')

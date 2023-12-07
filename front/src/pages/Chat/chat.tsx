@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import Friends from "../Friend/component/Friends";
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
+import { useLocation } from 'react-router-dom';
 
 interface Message {
 	message: string;
@@ -24,6 +25,7 @@ interface DMChan {
 }
 
 const Chat = () => {
+	const location = useLocation();
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
@@ -59,8 +61,8 @@ const Chat = () => {
 			}
 		};
 
-	}, [socket]);
-
+	}, [socket]);	
+	//socket?.emit("leaveChat", set_channel);	
 	useEffect(() => {
 		setChannels([])
 		if (socket) {
@@ -77,7 +79,7 @@ const Chat = () => {
 			init_Button("bye")
 			//if (socket)
 			//	socket.emit("")
-			socket?.emit("checkLogRoom")
+		//	socket?.emit("checkLogRoom")
 		}
 		if (socket) {
 			socket.on("getAllChannels", (data) => {

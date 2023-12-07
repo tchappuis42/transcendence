@@ -37,6 +37,24 @@ export class ChatGateway {
 		console.log("oui js suis la")
 		this.server.emit('message', data, client.id)
 	}*/
+	async handleDisconnect(client: Socket) {
+		const user = client.data.user as UserDto;
+		const channels = await this.textChannelService.getChannelsForUser(user.id);
+		const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
+		if (channels) {
+			for(let i = 0; channels[i]; i++) {
+				await this.textChannelService.removeUserFromChannel(channels[i], user.id);
+				const channel = await this.textChannelService.getChannelMe(channels[i].name);
+				const userAllOut = channel.users.map((chan) => { return {id: chan.id, username: chan.username, avatar: chan.avatar}});
+				client.leave(channel.name);
+				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+			}
+		}
+		if (DMChannel) {
+			for(let i = 0; DMChannel[i]; i++)
+				client.leave(DMChannel[i].name);
+		}
+	}
 
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
@@ -178,7 +196,6 @@ export class ChatGateway {
 			for(let i = 0; DMChannel[i]; i++)
 				client.leave(DMChannel[i].name);
 		}
-	
 	}
 
 	@SubscribeMessage('channel')

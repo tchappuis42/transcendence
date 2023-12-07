@@ -12,12 +12,14 @@ const FriendCard: React.FC<{ friend: Account }> = ({ friend }) => {
 	const { getStatusColor } = useFriends()
 
 	const handleNav = (id: number) => {
+		// console.log("ciic : ", friend.id)
 		navigate("/profil", {
 			state: {
 				id: id
 			}
 		})
 	}
+
 
 	return (
 		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleNav(friend.id)}>

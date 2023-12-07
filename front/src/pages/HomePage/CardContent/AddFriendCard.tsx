@@ -22,7 +22,7 @@ const AddFriendCard = () => {
             try {
 
                 const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-                console.log("response :", response.data);
+                // console.log("response :", response.data);
                 const filteredFriends = sortByStatus(response.data);
                 setFriendsToAdd(filteredFriends);   
             }

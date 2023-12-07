@@ -1,10 +1,21 @@
-import { Controller, Get, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Body, Post, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from './user.guard';
 import { Request } from 'express';
 import { UserDto } from './dtos/UserDto';
 import { User } from './user.entity';
+import { AcceptDto } from 'src/friends/dtos/AcceptDto';
 import { FriendsService } from 'src/friends/friends.service';
+
+class changeObj {
+	value: string;
+	type: boolean;
+}
+
+class TwoFa {
+	code: string;
+	validation: number;
+}
 
 @Controller('user')
 export class UserController {
@@ -25,15 +36,6 @@ export class UserController {
 		return users
 	}
 
-	@UseGuards(JwtAuthGuard)
-	@Get("/2fa")
-	async get2fa(@Req() req: Request) {
-		const user = req.user as UserDto;
-		const code = await this.userService.generateTfaSecret(user.username);
-		const qrcode = this.userService.generateQrCode(code);
-		return qrcode
-	}
-
 	@Get("/ranking")
 	async getRanking() {
 		const rank = await this.userService.getRanking();
@@ -52,8 +54,53 @@ export class UserController {
 	@UseInterceptors(ClassSerializerInterceptor)
 	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
 		const user = req.user as UserDto;
+
 		const foundUsers = await this.userService.searchUsers(user.id, query);
 		return foundUsers;
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/settings")
+	async changeSettings(@Body() body: changeObj, @Req() req: Request) {
+		const user = req.user as User
+		return await this.userService.changeSettings(user.id, body)
+	}
+
+	@Get('/byId/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/TwoFa")
+	async getQrCode(@Req() req: Request) {
+		const user = req.user as UserDto
+		const code = await this.userService.generateTfaSecret(user.id, user.username);
+		const qrcode = await this.userService.generateQrCode(code.otpauthUrl);
+		const twoFaObj = {
+			code: code.secret,
+			qrcode: qrcode,
+		}
+		return twoFaObj
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaKey")
+	async validateTwoFa(@Body() body: TwoFa, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.validateTwoFa(body, user.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaFalse")
+	async twoFaFalse(@Body() body: any, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.twoFaFalse(body, user.id)
+		return (true)
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -80,14 +127,5 @@ export class UserController {
 	async getUserBlocked(@Req() req: Request) {
 		const user = req.user as UserDto;
 		return await this.userService.getUserBlocked(user.id);
-	}
-
-	@Get(':id')
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
-			throw new BadRequestException()
-		return await this.userService.getUserById(userId);
 	}
 }

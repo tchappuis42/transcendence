@@ -28,7 +28,6 @@ export const DropDownMenuList = ({inputRef}: IsActivComponent) => {
 		  const fetchData = async () => {
 			try {
 			  const response = await axios.get(`http://localhost:4000/user/getUsersByName/${input}`, { withCredentials: true });
-			  console.log("response fetch user", response);
 			setUsers(response.data);
 			} catch (error) {
 			  console.error("Error fetching user data:", error);
@@ -38,21 +37,16 @@ export const DropDownMenuList = ({inputRef}: IsActivComponent) => {
 		}
 	  }, [fetchUser, input]);
 	  
-
-	// handleOpen: permet d'ouvrir la barre de recherche.
 	const handleOpen = (): void => {
 		setOpen(true);
 		setFetchUser(true);
 	}
 
-	// handleSearchInput: permet de taper du text dans la barre de recherche.
 	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearch(event.target.value);
-		console.log("value : ", event.target.value)
 		setInput(event.target.value);
 	};
 
-	// handleKeyDown: permet de rechercher un nom en tapant enter sur le clavier
 	const handleKeyDown = (event: React.KeyboardEvent): void => {
 		if (event.key === "Enter")
 			setSearch("");

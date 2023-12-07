@@ -16,7 +16,7 @@
 
     .profile-user {
         @apply grid grid-cols-2 gap-2
-        h-[100px] w-full text-xs font-sans
+        h-[100px] w-full text-xs text-white font-sans
     }
     .img-user {
         @apply aspect-4/5 h-full rounded object-cover shrink-0

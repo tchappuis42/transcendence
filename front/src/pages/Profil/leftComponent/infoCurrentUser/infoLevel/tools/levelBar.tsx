@@ -22,7 +22,7 @@ export const LevelBar = ({progress}: Props) => {
 			<div className="level-current-percentage">
 				{progress}%
 			</div>
-			<div className="h-full"
+			<div className="h-full text-white"
 				 style={{width: `${progress}%`, backgroundColor: getColor()}}>
 			</div>
 		</div>

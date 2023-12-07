@@ -37,21 +37,11 @@ const FriendsChat = ({ set_channel }: channel) => {
 							user.id === data.id ? { ...user, status: data.status } : user)
 						.sort((a, b) => b.status - a.status))
 			});
-			socket.on("friend", (data) => {
-				const friend = users.find((friend) => friend.id === data.id)
-				if (!friend) {
-					setUsers((prevFriends) => [...prevFriends, data]
-						.sort((a, b) => b.status - a.status))
-				}
-				else
-					setUsers((prevFriends) => prevFriends.filter(friend => friend.id !== data.id))
-			});
 		}
 
 		return () => {
 			if (socket) {
 				socket.off("status");
-				socket.off("friend");
 			}
 		};
 	}, [socket, users, sortByStatus]);

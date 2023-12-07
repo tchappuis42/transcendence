@@ -114,10 +114,10 @@ const SocketPong = () => {
 						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-md md:w-[39%] md:h-96 xl:w-[468px] shadow-md shadow-white">
 							<Ranking />
 						</div>
-						<div className="w-full h-80 mb-1 bg-black/50 rounded-3xl md:w-2/5 md:h-96 xl:w-[480px]">
+						<div className="w-full h-80 mb-1 mt-3 bg-black/50 rounded-3xl md:w-2/5 md:h-96 xl:w-[480px]">
 							<Friends />
 						</div>
-						<div className="w-full h-80 mb-1 bg-black/50 rounded-md md:w-[59%] md:h-96 xl:w-[708px] shadow-md shadow-white">
+						<div className="w-full h-80 mb-1 bg-black/50 mt-3 rounded-md md:w-[59%] md:h-96 xl:w-[708px] shadow-md shadow-white">
 							<MatchHistory userId={account.id} />
 						</div>
 					</div>

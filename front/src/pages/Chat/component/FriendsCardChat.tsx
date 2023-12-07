@@ -39,7 +39,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			onClick={() => handleNav(friend.id)}>
+			>
 			<div className=" h-full flex  justify-center items-center w-1/3">
 				<AvatarContainer src={friend.avatar} square={10} navigation={false}/>
 			</div>

@@ -90,10 +90,10 @@ const Settings = () => {
                 account.avatar = newAvatar;
                 navigateToProfil();
             } else {
-                setError("An error occurred while saving settings.");
+                setError("Username already taken or too short");
             }
         } catch (error) {
-            setError("An error occurred while saving settings.");
+            setError("Username already taken or too short");
         }
     };
     

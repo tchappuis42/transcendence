@@ -47,6 +47,8 @@ const Settings = () => {
             setNoError(false);
             if (error.response.request.status === 409)
                 setError("Username already taken");
+            if (error.response.request.status === 400)
+                setError(error.response.data.message)
             return false
         }
     }
@@ -90,10 +92,11 @@ const Settings = () => {
                 account.avatar = newAvatar;
                 navigateToProfil();
             } else {
-                setError("Username already taken or too short");
+
+                // setError("Username already taken or too shorte");
             }
         } catch (error) {
-            setError("Username already taken or too short");
+            setError("Intern Error");
         }
     };
     

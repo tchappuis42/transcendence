@@ -263,7 +263,7 @@ export class UserService {
 				await this.usersRepository.update(userId, { avatar: body.value })
 			if (!body.type) {
 				if (body.value.length < 4 || body.value.length > 15)
-					throw new BadRequestException("l")
+					throw new BadRequestException("Username must contain 3 to 15 caracter")
 				await this.usersRepository.update(userId, { username: body.value })
 			}
 		}

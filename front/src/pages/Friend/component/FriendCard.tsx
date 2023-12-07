@@ -23,10 +23,14 @@ const FriendCard: React.FC<{ friend: Account }> = ({ friend }) => {
 
 
 	return (
-		<div className="h-1/5 bg-white/50 m-2 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleNav(friend.id)}>
+		<div className="h-1/5 bg-white/50 m-2 rounded-md shadow-lg box-border flex justify-between items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleNav(friend.id)}>
 			<AvatarContainer src={friend.avatar} navigation={true} id={friend.id}/>
 			<div className="h-full w-3/5 flex justify-center items-center" >
-				<h2>{friend.username}</h2>
+				{friend.username.length <= 10 ? (
+					<h2>{friend.username}</h2>
+				) : (
+					<h2>{friend.username.slice(0,10)}.</h2>
+				)}
 			</div>
 			<div style={{ background: getStatusColor(friend.status) }} className="h-5 w-5 rounded-full mr-5">
 			</div>

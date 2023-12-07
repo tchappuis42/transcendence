@@ -36,33 +36,47 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 	}
 
 	return (
-		<div className="h-1/5 w-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-			<div className=" h-full flex  justify-center items-center">
+		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+			onClick={() => handleNav(friend.id)}>
+			<div className=" h-full flex  justify-center items-center w-1/3">
 				<AvatarContainer src={friend.avatar} square={10} navigation={false}/>
 			</div>
-			<div className="h-full w-2/5  flex justify-center items-center" onClick={() => handleNav(friend.id)} >
-				{friend.username.length > 8 ? (
-					<h2>{friend.username.slice(0,8)}...</h2>
+			<div className="h-full w-1/3  flex justify-center items-center" onClick={() => handleNav(friend.id)} >
+				{friend.username.length >= 15 ? (
+					<h2>{friend.username.slice(0,15)}...</h2>
 				) :  (
 					<h2>{friend.username}</h2>
 				)
 				
 			}
 			</div>
-			<div className=" h-full flex justify-center items-center">
-				<div
-					className="h-5 w-10 rounded-md flex justify-center items-center cursor-pointer border-1"
-					style={{
-						borderWidth: 1,
-						borderColor: getStatusColor(friend.status),
-						transition: 'background-color 0.3s',
-					}}
-					onMouseOver={(e) => { e.currentTarget.style.backgroundColor = getStatusColor(friend.status); }}
-					onMouseOut={(e) => { e.currentTarget.style.backgroundColor = ''; }}
-					onClick={createDMChannel}
-					>
-					<h3 className="text-white">DM</h3>
-				</div>
+			<div className=" h-full w-1/3 flex justify-center items-center">
+				{set_channel.length ? (
+						<div
+							className="h-5 w-10 rounded-md flex justify-center items-center cursor-pointer border-1"
+							style={{
+								borderWidth: 1,
+								borderColor: getStatusColor(friend.status),
+								transition: 'background-color 0.3s',
+							}}
+							onMouseOver={(e) => { e.currentTarget.style.backgroundColor = getStatusColor(friend.status); }}
+							onMouseOut={(e) => { e.currentTarget.style.backgroundColor = ''; }}
+							onClick={createDMChannel}
+							>
+							<h3 className="text-white">DM</h3>
+						</div>
+				) : (
+					<div
+							className="h-5 w-10 rounded-md flex justify-center items-center border-1"
+							style={{
+								background : getStatusColor(friend.status),
+							}}
+							>
+							
+						</div>
+				)}
 			</div>
 
 		</div>

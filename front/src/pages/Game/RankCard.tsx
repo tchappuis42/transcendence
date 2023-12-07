@@ -31,7 +31,6 @@ const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			// TODO ya pas de rank.id
 			onClick={() => handleNav(rank.id)}>
 			<div className="flex w-3/12 justify-center items-center">
 				<h1>{id}</h1>

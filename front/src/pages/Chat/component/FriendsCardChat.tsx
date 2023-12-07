@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom";
-
-
-import { handleMouseEnter, handleMouseLeave } from "../../HomePage/Tools";
 import Friend from "../../Friend/interface/friendDto";
 import { useFriends } from "../../Friend/useFriends";
 import { SyntheticEvent } from "react";
 import { useSocket } from "../../../ui/organisms/SocketContext";
 import { Account } from "../../../ui/types";
 import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
+import { handleMouseEnter, handleMouseLeave } from "../../Friend/interface/Tools";
 
 
 // interface Channel {

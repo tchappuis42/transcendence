@@ -16,7 +16,7 @@ const LoginForm: React.FC<FormProps> = ({
 		e.preventDefault();
 
 		try {
-			const twofa = await login(data.username, data.password);
+			const twofa = await login(data.identifiant, data.password);
 
 			if (twofa) {
 				settingPage("twofa")
@@ -32,10 +32,10 @@ const LoginForm: React.FC<FormProps> = ({
 				<label htmlFor="text">
 					<input className='w-11/12 h-14 rounded-3xl pl-5'
 						type="text"
-						name="username"
-						value={data.username}
+						name="identifiant"
+						value={data.identifiant}
 						onChange={handleChange}
-						placeholder='username'
+						placeholder='identifiant'
 					/>
 				</label>
 				<label htmlFor="password">

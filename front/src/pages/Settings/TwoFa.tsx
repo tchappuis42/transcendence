@@ -30,7 +30,6 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
             const fetchQrCode = async () => {
                 try {
                     const response = await axios.get("http://localhost:4000/user/TwoFa", { withCredentials: true })
-                    console.log("respons : ", response.data);
                     setTwoFa(response.data)
                 }
                 catch {

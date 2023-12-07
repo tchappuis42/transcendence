@@ -218,9 +218,9 @@ export class GameService {
 		const games = await this.gameRepository.find({ where: [{ idOne: user.id }, { idTwo: user.id }] })
 		const matchs = games.map(match => {
 			if (match.scoreOne > match.scoreTwo)
-				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winnerId: match.userOne.id }
+				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winnerId: match.userOne.id, avatarOne: match.userOne.avatar, avatarTwo: match.userTwo.avatar }
 			else
-				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winnerId: match.userTwo.id }
+				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winnerId: match.userTwo.id, avatarOne: match.userOne.avatar, avatarTwo: match.userTwo.avatar }
 		});
 		return matchs;
 	}

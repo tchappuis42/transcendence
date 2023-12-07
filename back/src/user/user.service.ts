@@ -67,7 +67,7 @@ export class UserService {
 
 	async usersListe(id: number) {
 		const users = await this.usersRepository.find()
-		const liste = users.map((user) => ({ username: user.username, status: user.status, id: user.id }))
+		const liste = users.map((user) => ({ username: user.username, status: user.status, id: user.id, avatar: user.avatar }))
 		const withoutMe = liste.filter((me) => me.id !== id)
 		return withoutMe
 	}
@@ -202,7 +202,7 @@ export class UserService {
 				{ username: ILike(`%${query}%`) },
 			],
 			//TODO Rajouter photo de profil
-			select: ['id', 'username'],
+			select: ['id', 'username', "avatar"],
 		});
 
 		const filteredUsers = users.filter((user) => user.id !== userId);

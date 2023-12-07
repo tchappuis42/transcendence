@@ -5,6 +5,7 @@ import axios from "axios";
 import Friend from "../interface/friendDto";
 import { Account } from "../../../ui/types";
 import { fireEvent } from "@testing-library/react";
+import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
 
 const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard: (id: number) => void }) => {
 
@@ -24,18 +25,16 @@ const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard
             accept: accept
         }
         await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
-            alert(response.data)
             removeCard(friendId)
         }).catch((error) => {
-            alert(error)
+            console.error("error while handling friend request :", error)
         })
     }
 
     return (
         <div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="h-full w-1/5 flex items-center content-center" onClick={() => { handleNav("profil", friend.id) }}>
-                <img alt="image de profil" className="rounded-md h-full"
-                    src={friend.avatar} />
+               <AvatarContainer src={friend.avatar} navigation={true} id={friend.id} square={10}/>
             </div>
             <div className="h-full sm:w-1/5 w-2/5 flex justify-center items-center" onClick={() => { handleNav("profil", friend.id) }}>
                 <h2>{friend.username}</h2>

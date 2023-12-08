@@ -19,13 +19,11 @@ export const ChatSide = () => {
 	useEffect(() => {
 		const getUsers = async () => {
 			const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true })
-			console.log("first,", response.data);
 			setUsers(response.data)
 		}
 		getUsers()
 	}, [])
 
-	// console.log("userStatus :", sorted);
 	return(
 		<div className="right-component-main">
 			<div className="right-component-table gap-5">

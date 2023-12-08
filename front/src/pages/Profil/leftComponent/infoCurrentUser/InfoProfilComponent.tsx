@@ -20,7 +20,6 @@ export const InfoProfilComponent : React.FC<InfoProfilComponentProps> = ({user})
 
 	return (
 		<>
-			<img alt={"wallpaper"} src={Wallpaper} className="wallpaper black-border-fine"/>
 			<div className="information-user-component">
 				<img alt="image de profil" className="rounded h-full col-span-1 black-border-fine"
 					 src="https://cdn.intra.42.fr/users/9f5331cff289327a4c7d42c2a66884de/kdi-noce.jpg"/>

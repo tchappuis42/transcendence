@@ -53,13 +53,13 @@ const Friends = () => {
 				<h1>Friends ({friends?.length})</h1>
 			</div>
 
-			{!friends ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
-					<h1>No friends</h1>
+			{!friends.length ? (
+				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
+					<h1 className='text-white/80'>No friends</h1>
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 bg-black/10 rounded-md	 box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{friends?.map((friend: Account) => (
 						<FriendCard key={friend.id} friend={friend} />
 					))}

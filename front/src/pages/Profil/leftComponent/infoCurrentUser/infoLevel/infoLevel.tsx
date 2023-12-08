@@ -31,14 +31,28 @@ export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 			const remainingProgress = userScore % 500;
 			const newProgress = (remainingProgress / 500) * 100;
 			setProgress(newProgress);
-			console.log("newProgrss and level :", level, newProgress);
 		}
 	}, [userScore])
 
+	const getColor = (): string => {
+		if (level < 4) {
+			return ("rgba(200, 0, 0, 0.5)");
+		}
+		else if (level < 7) {
+			return ("rgba(255,165,0, 0.5)");
+		}
+		else {
+			return ("rgba(0, 200, 0, 0.5)");
+		}
+	}
+
 	return (
-		<div className="level-user-component black-border-fine">
-			<div className="level-current-component">
-				level {level}
+		<div className="level-user-component gray-border">
+			<div className="level-current-component text-white">
+				<div className="absolute ml-3">level {level}</div>
+				<div className="h-full text-white"
+					style={{width: `${level * 10}%`, backgroundColor: getColor()}}>
+				</div>
 			</div>
 			<LevelBar progress={ progress }/>
 		</div>

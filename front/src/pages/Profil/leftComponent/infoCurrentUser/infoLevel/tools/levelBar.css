@@ -4,7 +4,7 @@
 
 @layer components {
     .level-bar-component {
-        @apply col-span-2
+        @apply col-span-3
         h-full w-full
         relative
     }
@@ -12,7 +12,7 @@
         @apply absolute
         top-1/2 left-1/2
         -translate-x-1/2 -translate-y-1/2
-        font-bold
+        font-bold text-white
     }
     .level-buttons-component {
         @apply row-span-1

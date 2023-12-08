@@ -32,12 +32,12 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 	};
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+		<div className="bg-black/50 h-full w-full rounded-md">
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1>Matchmaking</h1>
 			</div>
 			<div className="flex items-center justify-center h-2/5 bg-white/50 m-2.5 rounded-xl">
-				<button onClick={matchmaking} className="border h-10 border-black px-2">
+				<button onClick={matchmaking} className="border h-10 border-black px-2 rounded-md">
 					{search}
 				</button>
 			</div>

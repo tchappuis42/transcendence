@@ -1,4 +1,5 @@
-import { Body, Controller, Post, Get, Param, UseGuards, Req, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+
+import { Body, Controller, Post, Get, Param, UseGuards, Req, BadRequestException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';

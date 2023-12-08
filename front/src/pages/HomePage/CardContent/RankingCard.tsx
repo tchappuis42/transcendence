@@ -26,7 +26,7 @@ const RankingCard = () => {
     }, [])
 
     return (
-        <div className="h-4/5 m-2.5 rounded-md bg-black/10 shadow-md shadow-white">
+        <div className="h-4/5 m-2.5 rounded-md bg-black/10 ">
             <div className="h-1/2 w-full flex justify-center items-center text-white text-7xl">
                 <h1>{rankNbr}</h1>
             </div>

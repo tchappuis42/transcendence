@@ -8,7 +8,7 @@ interface userInChannel {
 
 const UserInChannel = ({ userInChannel }: userInChannel) => {
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white" >
+		<div className="bg-black/50 h-full w-full rounded-md " >
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1>Users ({userInChannel?.length})</h1>
 			</div>
@@ -18,7 +18,7 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	shadow-md shadow-white box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 bg-black/10 rounded-md	box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{userInChannel?.map((userIn: Account) => (
 						<UserInChannelCard key={userIn.id} userInChannel={userIn} />
 					))}

@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { useAccount } from '../../../ui/organisms/useAccount';
+import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 
 interface Chan {
 	id: number;
@@ -216,42 +217,62 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 	}
 
 	return (
-		<div h-full>
-			<div className="textChannel"> <h1> channels </h1></div>
-			<div className="boxChann">
-				{all_channels.map((msg, id) => (
-					<b className="text_textButonChannel" key={id}>
-						<div className="text_butonChannel" onClick={() => takeChan(msg.name)}>
-							{msg.name} : {msg.statue}
-						</div>
-					</b>
-				))}
+		<div className="bg-black/50 h-full w-full rounded-md" >
+			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+				<h1> channels </h1>
 			</div>
+			{!all_channels ? (
+				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "90%" }}>
+					<h1 className='text-white opacity-60'>No Channel</h1>
+				</div>
+			) : (
+				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
+					{all_channels.map((msg, id) => (
+					<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+						onMouseEnter={handleMouseEnter}
+						onMouseLeave={handleMouseLeave}
+						>
+						<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
+							<h1 className='text-xl w-1/3'>{msg.name}</h1>
+							 <h1 className='text-xl w-1/3'>:</h1> 
+							 <h1 className='text-xl  w-1/3'>{msg.statue}</h1>
+						</div>
+					</div>
+				))}
+				</div>
+			)}
 			{Owner === '1' && <div>
-				<div className="w-full h-1/5 bg-green-500">
-					<div className="containerStatus">
-						<li>{"status"}</li>
-						<input type="checkbox" className="checkbox"
-							name={"status"}
-							id={"status"}
-							onClick={onClick}
-							onChange={handleSwitchChange}
-							checked={isOn}
-							disabled={disabled}
-							aria-labelledby="switchLabel"
-						/>
-						<label className="label" htmlFor="status">
-							<span className="inner" />
-						</label>
+				<div className="w-full h-32 mt-2 rounded-md bg-black/60 pt-1 shadow-md shadow-white">
+					<div className="  h-2/6  flex flex-row justify-center items-center">
+						<h1 className='text-white text-xl w-1/3 flex items-center justify-end'>Status</h1>
+						<div className='w-2/3 flex justify-center'>
+							<input type="checkbox" className="checkbox"
+								name={"status"}
+								id={"status"}
+								onClick={onClick}
+								onChange={handleSwitchChange}
+								checked={isOn}
+								disabled={disabled}
+								aria-labelledby="switchLabel"
+								/>
+							<label className="label" htmlFor="status">
+								<span className="inner" />
+							</label>
+						</div>
+					</div>
+				<div className='h-3/5 w-full  mt-2 flex flex-row items-stretch button-container'>
+					<div className='h-1/2 w-full  flex flex-row justify-between button-container p-2'>
+
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={addAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>addAdmin</button>
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={MuetUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Muet</button>
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={removeAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>removeAdmin</button>
+					</div>
+					<div className='h-1/2 w-full flex flex-row justify-between button-container p-2'>
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={changePass} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>changePass</button>
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={banUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>ban</button>
+						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
 					</div>
 				</div>
-				<div>
-					<button className="butonAdministrationChat" onClick={removeAdmin}>removeAdmin</button>
-					<button className="butonAdministrationChat" onClick={addAdmin}>addAdmin</button>
-					<button className="butonAdministrationChat" onClick={deleteChannel}>deleteChannel</button>
-					<button className="butonAdministrationChat" onClick={changePass}>changePass</button>
-					<button className="butonAdministrationChat" onClick={MuetUser}>Muet</button>
-					<button className="butonAdministrationChat" onClick={banUser}>ban</button>
 				</div>
 			</div>}
 		</div>

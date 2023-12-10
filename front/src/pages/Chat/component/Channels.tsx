@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
+import { createPortal } from "react-dom";
 
 interface Chan {
 	id: number;
@@ -30,6 +31,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 	const [password, setPassword] = useState("");
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("");
+	const [settings, setSettings] = useState(false);
 
 	function setButton(data: any) {
 		for (let i = 0; data[i]; ++i) {
@@ -222,61 +224,98 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 				<h1> channels </h1>
 			</div>
 			{!all_channels ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "90%" }}>
+				<div className='flex justify-center items-center h-[80%]'>
 					<h1 className='text-white opacity-60'>No Channel</h1>
 				</div>
 			) : (
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
+				<div className="h-4/5 overflow-y-auto overflow-x-hidden">
 					{all_channels.map((msg, id) => (
-					<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
-						onMouseEnter={handleMouseEnter}
-						onMouseLeave={handleMouseLeave}
+						<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+							onMouseEnter={handleMouseEnter}
+							onMouseLeave={handleMouseLeave}
 						>
-						<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
-							<h1 className='text-xl w-1/3'>{msg.name}</h1>
-							 <h1 className='text-xl w-1/3'>:</h1> 
-							 <h1 className='text-xl  w-1/3'>{msg.statue}</h1>
+							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
+								<h1 className='text-xl w-1/3'>{msg.name}</h1>
+								<h1 className='text-xl w-1/3'>:</h1>
+								<h1 className='text-xl  w-1/3'>{msg.statue}</h1>
+							</div>
 						</div>
-					</div>
-				))}
+					))}
 				</div>
 			)}
-			{Owner === '1' && <div>
-				<div className="w-full h-32 mt-2 rounded-md bg-black/60 pt-1 shadow-md shadow-white">
-					<div className="  h-2/6  flex flex-row justify-center items-center">
-						<h1 className='text-white text-xl w-1/3 flex items-center justify-end'>Status</h1>
-						<div className='w-2/3 flex justify-center'>
-							<input type="checkbox" className="checkbox"
-								name={"status"}
-								id={"status"}
-								onClick={onClick}
-								onChange={handleSwitchChange}
-								checked={isOn}
-								disabled={disabled}
-								aria-labelledby="switchLabel"
-								/>
-							<label className="label" htmlFor="status">
-								<span className="inner" />
-							</label>
+			{Owner === '1' && <div className='h-[1/5] w-full flex justify-center'>
+				<h1 onClick={() => setSettings(true)} className='text-white cursor-pointer'>setting</h1>
+			</div>
+			}
+			{settings &&
+				createPortal(
+					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50"> {/*possible de mettre ca dans un composant*/}
+						<div className="w-96 rounded-lg p-8 bg-gray-900 text-white">
+							<div className="h-1/5 w-full flex flex-row-reverse justify-between">
+								<button onClick={() => setSettings(false)} className="text-gray-500 hover:text-gray-800 rounded-full">
+									<h1 className="text-red-500 font-bold">X</h1>
+								</button>
+								<h1 className='font-semibold'>paramètres du channel : {currentChannel}</h1>
+							</div>
+							<div className=' '>
+								status : {isOn ? "private" : "public"}
+							</div>
+							{isOn ? <div>
+								changer de mdp
+							</div> : <div>
+								mettre un mdp
+							</div>}
+							<div> {/* super admin ???? seulement*/}
+								addamin {/*select avec les users du chat*/}
+								removeadmin {/*selcet avec a les admins ?????*/}
+							</div>
+							<div>
+								muet {/*select avec les users du chat*/}
+								ban {/*select avec les users du chat*/}
+							</div>
+							<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
 						</div>
-					</div>
-				<div className='h-3/5 w-full  mt-2 flex flex-row items-stretch button-container'>
-					<div className='h-1/2 w-full  flex flex-row justify-between button-container p-2'>
-
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={addAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>addAdmin</button>
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={MuetUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Muet</button>
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={removeAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>removeAdmin</button>
-					</div>
-					<div className='h-1/2 w-full flex flex-row justify-between button-container p-2'>
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={changePass} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>changePass</button>
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={banUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>ban</button>
-						<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
-					</div>
-				</div>
-				</div>
-			</div>}
+					</div>,
+					document.body
+				)}
 		</div>
 	);
 };
 
 export default Channels;
+
+
+/*
+<div className="w-full h-[20%] mt-2 rounded-md bg-black/60 pt-1 shadow-md shadow-white">
+								<div className="  h-2/6  flex flex-row justify-center items-center">
+									<h1 className='text-white text-xl w-1/3 flex items-center justify-end'>Status</h1>
+									<div className='w-2/3 flex justify-center'>
+										<input type="checkbox" className="checkbox"
+											name={"status"}
+											id={"status"}
+											onClick={onClick}
+											onChange={handleSwitchChange}
+											checked={isOn}
+											disabled={disabled}
+											aria-labelledby="switchLabel"
+										/>
+										<label className="label" htmlFor="status">
+											<span className="inner" />
+										</label>
+									</div>
+								</div>
+								<div className='h-3/5 w-full  mt-2 flex flex-row items-stretch button-container'>
+									<div className='h-1/2 w-full  flex flex-row justify-between button-container p-2'>
+
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={addAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>addAdmin</button>
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={MuetUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Muet</button>
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={removeAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>removeAdmin</button>
+									</div>
+									<div className='h-1/2 w-full flex flex-row justify-between button-container p-2'>
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={changePass} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>changePass</button>
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={banUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>ban</button>
+										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
+									</div>
+								</div>
+							</div>
+							*/

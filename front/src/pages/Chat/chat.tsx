@@ -32,7 +32,7 @@ const Chat = () => {
 	const [userId, setUserId] = useState(Number);
 	const [DM_Chann, setDM_Chann] = useState("");
 	const socket = useSocket();
-	const {account} = useAccount();
+	const { account } = useAccount();
 
 	useEffect(() => {
 		//setChannels([])
@@ -207,29 +207,36 @@ const Chat = () => {
 	}
 
 	return (
-		<div className="w-full flex justify-center items-center h-[850px] p-10"> {/*div prinsipale*/}
-			<div className="h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5"> {/*div de gauche en rouge*/}
-				<div className="w-full h-2/5 bg-black/60 shadow-md flex-start shadow-white rounded-md">
+		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
+			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
+				<div className="flex justify-center items-center h-[10%]">
+					<button onClick={createchannel} className="w-2/3 h-2/3 shadow-md shadow-white bg-black/60 rounded hover:bg-white"
+						onMouseEnter={handleMouseEnter}
+						onMouseLeave={handleMouseLeave}>
+						<h1 className="text-white hover:text-black text-2xl">Create Channel</h1>
+					</button>
+				</div>
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
 					<Channels takeChan={takeChan} currentChannel={set_channel} setMessages={setMessages} data={data} disabled={dis} userId={userId} />
 				</div>
-				<div className="w-full h-2/5 bg-black/60 shadow-md flex-start shadow-white rounded-md">
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={set_channel} setMessages={setMessages} data={data} disabled={dis} userId={userId} />
 				</div>
 			</div>
-			<div className="w-full h-full lg:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
-				<div className="h-20 rounded-md w-full bg-black/80 flex justify-center items-center">
-					<h1 className="text-white">{set_channel.split("_")[0]}</h1>
+			<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
+				<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
+					<h1 className="text-white text-3xl font-semibold">{set_channel.split("_")[0]}</h1>
 				</div>
-				<div className="w-full h-full shadow-md shadow-white border-2 border-white rounded-md">
-					<div className="w-full h-4/5 bg-black/60 overflow-scroll p-5 shadow-md shadow-white">
+				<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
+					<div className="w-full h-5/6 bg-black/60 overflow-scroll p-5 shadow-md shadow-white">
 						{messages.map((msg, index) => (
 							<MessageChatCard msg={msg} index={index} takeUserName={takeUserName} />
-							))}
+						))}
 					</div>
-					<div className="w-full h-1/5  flex justify-center items-center bg-black/60 rounded-md">
+					<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
 						<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
 							<label htmlFor="text" className="flex flex-col w-4/5">
-							<textarea
+								<textarea
 									className="h-12 pl-2 resize-none rounded-md"
 									name="data"
 									onChange={(e) => setData(e.target.value)}
@@ -247,18 +254,12 @@ const Chat = () => {
 					</div>
 				</div>
 			</div>
-			<div className="h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5">  {/*div de droite en vert*/}
-			<div className="w-full h-2/5 bg-black/60 shadow-md flex-start shadow-white rounded-md">
+			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<FriendsChat set_channel={set_channel} />
 				</div>
-				<div className=" h-20 flex justify-center items-center">
-					<button onClick={createchannel} className="w-2/3 h-2/3 shadow-md shadow-white bg-black/60 rounded hover:bg-white"
-						onMouseEnter={handleMouseEnter}
-						onMouseLeave={handleMouseLeave}>
-						<h1 className="text-white hover:text-black text-2xl">Create Channel</h1>
-					</button>
-				</div>
-				<div className="w-full h-2/5 bg-black/60 shadow-md flex-start shadow-white rounded-md">
+
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>
 			</div>

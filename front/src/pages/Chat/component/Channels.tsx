@@ -120,7 +120,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 		if (currentChannel !== "create a channel!") {
 			if (userId !== 0) {
 				if (socket) {
-					socket.emit("muetUser", currentChannel, userId);
+					socket.emit("muetUser", currentChannel, userId); //number
 				}
 			}
 			else
@@ -136,7 +136,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 		if (currentChannel !== "create a channel!") {
 			if (userId !== 0) {
 				if (socket) {
-					socket.emit("banUser", currentChannel, userId);
+					socket.emit("banUser", currentChannel, userId); //number
 				}
 			}
 			else
@@ -267,7 +267,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 							</div>}
 							<div> {/* super admin ???? seulement*/}
 								addamin {/*select avec les users du chat*/}
-								removeadmin {/*selcet avec a les admins ?????*/}
+								removeadmin {/*selcet avec les users du chat*/}
 							</div>
 							<div>
 								muet {/*select avec les users du chat*/}

@@ -43,7 +43,7 @@ const PlayerCard: React.FC<cardProps> = ({ idOne, idTwo }) => {
 		<div className="bg-white w-full h-20 min-[830px]:w-[750px] rounded-t-xl flex sm:h-32">
 			<div className="w-1/2 flex">
 				<div className="w-[29%]">
-					<img src={playerOne?.avatar} alt="" className="rounded-tl-xl w-full h-full scale-100" />
+					<img src={playerOne?.avatar} alt="" className="rounded-tl-xl w-full h-full scale-100 object-cover" />
 				</div>
 				<div>
 					<h1 className="text-2xl font-semibold pl-3 pt-2 sm:text-3xl sm:pl-4 sm:pt-4">{playerOne?.username}</h1>
@@ -52,7 +52,7 @@ const PlayerCard: React.FC<cardProps> = ({ idOne, idTwo }) => {
 			</div>
 			<div className="w-1/2 flex flex-row-reverse">
 				<div className="w-[29%]">
-					<img src={playerTwo?.avatar} alt="" className="rounded-tr-xl h-full w-full scale-100" />
+					<img src={playerTwo?.avatar} alt="" className="rounded-tr-xl h-full w-full scale-100 object-cover"/>
 				</div>
 				<div>
 					<h1 className="text-2xl font-semibold pr-3 pt-2 sm:text-3xl sm:pr-4 sm:pt-4">{playerTwo?.username}</h1>

@@ -17,11 +17,35 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
   const [error, setError] = useState<string>();
   const [stringToSearch, setStringToSearch] = useState<string>();
 
-  const handleImageLink = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const imageUrl = event.target.value;
-    setNewAvatar(imageUrl);
-    setAvatar(imageUrl);
+
+  const checkImageUrl = async (url: string): Promise<boolean> => {
+    try {
+      const response = await axios.head(url);
+      const contentType = response.headers['content-type'];
+      return contentType && contentType.startsWith('image/');
+    } catch (error) {
+      console.error('Error checking image URL:', error);
+      return false;
+    }
   };
+  
+  const handleImageLink = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const imageUrl = event.target.value;
+    if (imageUrl.length === 0 )
+    {
+      setError("");
+      return 
+    }
+    const isValidImageUrl = await checkImageUrl(imageUrl);
+    if (!isValidImageUrl) {
+      setError('Not a valid image URL');
+    } else {
+      setError('');
+      setNewAvatar(imageUrl);
+      setAvatar(imageUrl);
+    }
+  };
+  
 
   const handleImageSearch = () => {
     console.log("stringtotsearch :", stringToSearch)
@@ -48,7 +72,7 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
     return(
         <div className="w-4/5 h-1/3 flex justify-between items-center mt-5">
         <div className="w-4/12 h-full rounded-xl flex justify-center items-center">
-            <img alt="image de profil" className="rounded-md h-5/6 ml-3"
+            <img alt="image de profil" className="rounded-md h-5/6 ml-3 border-2 border-white"
                 src={avatar}/>
         </div>
         <div className="w-7/12 h-full flex flex-col justify-center items-center rounded-xl">
@@ -64,6 +88,7 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
             {!selectorType ? (
               <div className="mt-5">
                 <input type="text" onChange={handleImageLink} className="rounded w-full" placeholder="Enter an image link"/>
+                {error && <h2 className="text-red-500">{error}</h2>}
               </div>
             ):(
               <div>

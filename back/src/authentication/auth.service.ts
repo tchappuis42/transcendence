@@ -17,7 +17,7 @@ export class AuthService {
 		try {
 			const { password } = body
 			const hash = await bcrypt.hash(password, 10)
-			const user = this.usersRepository.create({ ...body, password: hash })
+			const user = this.usersRepository.create({ ...body, password: hash, username: body.identifiant })
 			await this.usersRepository.save(user)
 			return "User Created!"
 		} catch (error) {
@@ -27,14 +27,16 @@ export class AuthService {
 	}
 
 	async postLogin(body: LoginDto) {
-		const { password, username } = body
-		const user = await this.usersRepository.findOne({ where: { username: username } })
-		if (!user) throw new NotFoundException("user not found")
+		const { password, identifiant } = body
+		const user = await this.usersRepository.findOne({ where: { identifiant: identifiant } })
+		if (!user)
+			throw new NotFoundException("user not found")
 		const match = await bcrypt.compare(password, user.password)
-		if (!match) throw new UnauthorizedException("Ivalide password")
+		if (!match)
+			throw new UnauthorizedException("Ivalide password")
 
 		//return la cle jwt au login
-		const payload = { sub: user.id, username: user.username };
+		const payload = { sub: user.id, identifiant: user.identifiant };
 		return {
 			access_token: await this.jwtService.signAsync(payload),
 			user: user
@@ -42,7 +44,6 @@ export class AuthService {
 	}
 
 	async postTwoFa(user: User, token: string) {
-		console.log("user secret = ", user.twoFaSecret)
 		const isCodeValid = authenticator.verify({
 			token: token,
 			secret: user.twoFaSecret,

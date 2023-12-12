@@ -22,6 +22,7 @@ const Settings = () => {
     const [twoFaStatus, setTwoFaStatus] = useState<boolean>(account.twoFa)
     const [secret, setSecret] = useState<string | undefined>("")
     const [newAvatar, setNewAvatar] = useState<string>(account.avatar);
+    const [noError, setNoError] = useState<boolean>(false)
 
 
     const handleChangeUsername = (event: any) => {
@@ -40,45 +41,65 @@ const Settings = () => {
     const changeSettings = async (changeObj: changeObj) => {
         try {
             const respons = await axios.post("http://localhost:4000/user/settings", changeObj, { withCredentials: true });
-            account.username = newUsername;
-            account.avatar = newAvatar;
-            navigateToProfil();
+            return true
         }
         catch (error: any) {
+            setNoError(false);
             if (error.response.request.status === 409)
                 setError("Username already taken");
+            if (error.response.request.status === 400)
+                setError(error.response.data.message)
+            return false
         }
     }
 
-    const handleValidation = () => {
+    const handleValidation = async () => {
+        let promises: Promise<boolean>[] = [];
+    
         if (newAvatar !== account.avatar) {
             const imageObj = {
                 value: newAvatar,
                 type: true
-            }
-            changeSettings(imageObj);
+            };
+            promises.push(changeSettings(imageObj));
         }
+    
         if (newUsername !== account.username && newUsername.length) {
             const userNameObj = {
                 value: newUsername,
                 type: false
-            }
-            changeSettings(userNameObj);
+            };
+            promises.push(changeSettings(userNameObj));
         }
+    
         if (account.twoFa !== twoFaStatus) {
             const status = {
                 value: twoFaStatus,
                 secret: secret
-            }
-            const setTwoFaFalse = async () => {
-                await axios.post("http://localhost:4000/user/twoFaFalse", status, { withCredentials: true })
-            }
+            };
+            
+            await axios.post("http://localhost:4000/user/twoFaFalse", status, { withCredentials: true });
             account.twoFa = twoFaStatus;
-            setTwoFaFalse();
-            navigateToProfil();
         }
-        navigateToProfil();
-    }
+    
+        try {
+            const results = await Promise.allSettled(promises);
+    
+            const allSucceeded = results.every(result => result.status === 'fulfilled' && result.value);
+    
+            if (allSucceeded) {
+                account.username = newUsername;
+                account.avatar = newAvatar;
+                navigateToProfil();
+            } else {
+
+                // setError("Username already taken or too shorte");
+            }
+        } catch (error) {
+            setError("Intern Error");
+        }
+    };
+    
 
     return (
         <div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >

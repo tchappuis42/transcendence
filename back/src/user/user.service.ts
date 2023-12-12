@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { ILike, Like, Repository } from 'typeorm';
@@ -68,7 +68,7 @@ export class UserService {
 
 	async usersListe(id: number) {
 		const users = await this.usersRepository.find()
-		const liste = users.map((user) => ({ username: user.username, status: user.status, id: user.id }))
+		const liste = users.map((user) => ({ username: user.username, status: user.status, id: user.id, avatar: user.avatar }))
 		const withoutMe = liste.filter((me) => me.id !== id)
 		return withoutMe
 	}
@@ -203,7 +203,7 @@ export class UserService {
 				{ username: ILike(`%${query}%`) },
 			],
 			//TODO Rajouter photo de profil
-			select: ['id', 'username'],
+			select: ['id', 'username', "avatar"],
 		});
 
 		const filteredUsers = users.filter((user) => user.id !== userId);
@@ -271,10 +271,15 @@ export class UserService {
 		try {
 			if (body.type)
 				await this.usersRepository.update(userId, { avatar: body.value })
-			if (!body.type)
+			if (!body.type) {
+				if (body.value.length < 4 || body.value.length > 15)
+					throw new BadRequestException("Username must contain 3 to 15 caracter")
 				await this.usersRepository.update(userId, { username: body.value })
+			}
 		}
 		catch (error) {
+			if (error instanceof BadRequestException)
+				throw error
 			throw new ConflictException(error.driverError.detail) // peux mieux faire
 		}
 	}

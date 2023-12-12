@@ -43,7 +43,6 @@ export const Profil = () => {
 			const getUsersByID = async () => {
 				try {
 					const response = await axios.get(`http://localhost:4000/user/byId/${id}`)
-					console.log("user in profil :", user);
 					setUser(response.data)
 				}
 				catch (error) {

@@ -6,7 +6,7 @@ import TwoFaForm from './TwofaForm';
 const Login = () => {
 	const [data, setData] = useState({
 		password: "",
-		username: "",
+		identifiant: "",
 		twoFa: false
 	});
 
@@ -32,7 +32,7 @@ const Login = () => {
 	}
 
 	return (
-		<div className="flex h-screen items-center justify-center">
+		<div className="flex h-screen items-center justify-center w-full min-h-[600px]">
 			{page === 'login' && (
 				<LoginForm
 					data={data}

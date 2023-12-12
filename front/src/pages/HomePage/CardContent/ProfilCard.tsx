@@ -8,6 +8,7 @@ import FriendCard from "./FriendCard";
 import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/component/Friends";
+import AvatarContainer from "./avatarContainer";
 
 interface Friend {
     id: number;
@@ -32,10 +33,7 @@ const ProfilCard = () => {
         const getFriendRequest = async () => {
             try {
                 const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
-                // console.log("response :", response.data);
                 const sortedFriends = sortByStatus(response.data);
-                // console.log("data", response.data);
-                // console.log("sorted", sortedFriends);
                 setFriends(sortedFriends);
             }
             catch {
@@ -56,11 +54,8 @@ const ProfilCard = () => {
 
     return (
         <div className="h-full w-full">
-            <div className="h-1/3 w-full flex">
-                <div className="h-full w-1/5 mt-1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("profil", account.id) }}>
-                    <img alt="image de profil" className="h-full rounded-xl ml-2.5"
-                        src={account.avatar} />
-                </div>
+            <div className="h-1/3 flex justify-around items-center mx-2 mt-1">
+                <AvatarContainer src={account.avatar} id={account.id} navigation={true}/>
                 <div className="h-full w-4/5">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-3xl">
                         {account.username}

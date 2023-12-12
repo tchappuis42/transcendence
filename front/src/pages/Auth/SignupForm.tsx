@@ -40,8 +40,8 @@ const SignupForm: React.FC<FormProps> = ({
 					<label htmlFor="text">
 						<input className='input'
 							type="text"
-							name="username"
-							value={data.username}
+							name="identifiant"
+							value={data.identifiant}
 							onChange={handleChange}
 							placeholder='user'
 						/>

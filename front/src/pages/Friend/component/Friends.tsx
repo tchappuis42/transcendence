@@ -53,9 +53,9 @@ const Friends = () => {
 				<h1>Friends ({friends?.length})</h1>
 			</div>
 
-			{!friends ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
-					<h1>No friends</h1>
+			{!friends.length ? (
+				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
+					<h1 className='text-white/80'>No friends</h1>
 				</div>
 			) : (
 

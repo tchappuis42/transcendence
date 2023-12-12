@@ -6,7 +6,7 @@ import TwoFaForm from './TwofaForm';
 const Login = () => {
 	const [data, setData] = useState({
 		password: "",
-		username: "",
+		identifiant: "",
 		twoFa: false
 	});
 

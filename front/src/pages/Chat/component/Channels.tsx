@@ -3,6 +3,11 @@ import { useSocket } from '../../../ui/organisms/SocketContext';
 import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { createPortal } from "react-dom";
+import AddAdmin from './AddAdmin';
+import { Account } from '../../../ui/types';
+import RemoveAdmin from './RemoveAdmin';
+import MuteUser from './MuteUser';
+import BanUser from './BanUser';
 
 interface Chan {
 	id: number;
@@ -21,17 +26,17 @@ interface Props {
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	data: string;
-	disabled: boolean;
-	userId: number;
+	userInChannel: Account[];
 }
 
-const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data, disabled, userId }) => {
+const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data, userInChannel }) => {
 	const [all_channels, setChannels] = useState<Chan[]>([]);
 	const [isOn, setIsOn] = useState(false)
 	const [password, setPassword] = useState("");
 	const socket = useSocket();
-	const [Owner, setOwner] = useState("");
+	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
+	let userId = 1;
 
 	function setButton(data: any) {
 		for (let i = 0; data[i]; ++i) {
@@ -76,22 +81,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			alert("you don't have choice a channel!")
 	};
 
-	const addAdmin = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("addAdmin", currentChannel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
 	const changePass = (e: SyntheticEvent) => {
 		e.preventDefault();
 
@@ -114,59 +103,12 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			alert("you don't have choice a channel!")
 	};
 
-	const MuetUser = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("muetUser", currentChannel, userId); //number
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const banUser = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("banUser", currentChannel, userId); //number
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const removeAdmin = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("removeAdmin", currentChannel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
 	useEffect(() => {
-		setOwner("")
+		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, lol, datta, owner, pass, user) => {
-				setOwner(owner);
+				console.log("owner = ", owner)
+				setOwner(owner); //string pas number
 				if (datta === true) {
 					setIsOn(false);
 					socket.emit("message", data, lol, '1');
@@ -243,35 +185,39 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 					))}
 				</div>
 			)}
-			{Owner === '1' && <div className='h-[1/5] w-full flex justify-center'>
+			{Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
 				<h1 onClick={() => setSettings(true)} className='text-white cursor-pointer'>setting</h1>
 			</div>
 			}
 			{settings &&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50"> {/*possible de mettre ca dans un composant*/}
-						<div className="w-96 rounded-lg p-8 bg-gray-900 text-white">
+						<div className="w-1/2 h-1/2 rounded-lg p-8 bg-gray-900 text-white">
 							<div className="h-1/5 w-full flex flex-row-reverse justify-between">
 								<button onClick={() => setSettings(false)} className="text-gray-500 hover:text-gray-800 rounded-full">
 									<h1 className="text-red-500 font-bold">X</h1>
 								</button>
 								<h1 className='font-semibold'>paramètres du channel : {currentChannel}</h1>
 							</div>
-							<div className=' '>
-								status : {isOn ? "private" : "public"}
-							</div>
-							{isOn ? <div>
-								changer de mdp
-							</div> : <div>
-								mettre un mdp
+							{Owner === '1' && <div>
+								<div className=' '>
+									status : {isOn ? "private" : "public"}
+								</div>
+								<div>
+									changer de mdp
+									old
+									<input type="text" />
+									new
+									<input type="text" />
+								</div>
+								<div> {/* super admin ???? seulement*/}
+									<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+									<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+								</div>
 							</div>}
-							<div> {/* super admin ???? seulement*/}
-								addamin {/*select avec les users du chat*/}
-								removeadmin {/*selcet avec les users du chat*/}
-							</div>
 							<div>
-								muet {/*select avec les users du chat*/}
-								ban {/*select avec les users du chat*/}
+								<MuteUser currentChannel={currentChannel} userInChannel={userInChannel} />
+								<BanUser currentChannel={currentChannel} userInChannel={userInChannel} />
 							</div>
 							<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
 						</div>

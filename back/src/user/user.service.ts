@@ -9,6 +9,7 @@ import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
 import { elementAt } from 'rxjs';
+import { getEnabledCategories } from 'trace_events';
 
 interface changeObj {
 	value: string;
@@ -236,11 +237,20 @@ export class UserService {
 		await this.usersRepository.save(user);
 		return { success: true, message: "User blocked" };
 	}
-
+	
 	async getUserBlocked(id: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		if (user.blockedId.length)
 			return user.blockedId
+	}
+
+	async getUserBlockedOn(id: number, serachUserId: number): Promise<number> {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		if (user.blockedId.length) {
+			if (user.blockedId.find((userI) => userI == serachUserId))
+				return 1;
+		}
+		return 0;
 	}
 
 	//debug

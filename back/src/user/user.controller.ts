@@ -122,6 +122,14 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@Get('getUserBlockedOn')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserBlockedOn(@Req() req: Request) {
+		const user = req.user as UserDto;
+		return await this.userService.getUserBlockedOn(user.id, user.id);
+	}
+
+	@UseGuards(JwtAuthGuard)
 	@Get('getUserBlocked')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserBlocked(@Req() req: Request) {

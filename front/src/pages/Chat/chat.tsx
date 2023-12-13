@@ -84,6 +84,7 @@ const Chat = () => {
 					socket.emit("message", data, name, '1');
 					setMessages([]);
 				}
+				setMessages([]);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -160,10 +161,11 @@ const Chat = () => {
 
 	function takeChan(channelSet: string) {
 		setCurrentChannel(channelSet)
+		console.log("chann = , current =", channelSet, currentChannel)
 		if (socket) {
 			socket.emit("getChannelMeOne", channelSet, currentChannel);
 			setPass("ok")
-			setMessages([]);
+			//setMessages([]);
 		}
 	}
 
@@ -172,7 +174,7 @@ const Chat = () => {
 		if (socket) {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
-			setMessages([]);
+			//setMessages([]);
 		}
 	}
 

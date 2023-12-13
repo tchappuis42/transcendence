@@ -55,12 +55,15 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner, pass, user) => {  //chatid chatname chatstatus userstatus succespassword user
+				console.log("data = ", Id, status, channelStatus, owner, pass, user)
 				console.log("owner = ", owner)
 				setOwner(owner); //string pas number
 				setChannelStatus(status)
 				if (status)
 					socket.emit("message", data, chanName, '1');
 				else { //todo
+
+					console.log("la")
 					const password = prompt("what is the PassWord?");
 					if (socket)
 						socket.emit("checkPass", chanName, password);
@@ -76,9 +79,17 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			socket.on("refreshChannel", (data) => {
 				setChannels(data);
 			})
-			socket.on("refreshChannelStatus", (data) => {
+			socket.on("refreshChannelStatus", (data: Chan[]) => {
 				setChannels(data);
-				setButton(data);
+				console.log(data)
+				const status = data.find((chan) => { if (chan.name === currentChannel) { return chan.statue } })
+				console.log(status)
+				if (status?.statue === 'Private') {
+					console.log("status === private")
+					setChannelStatus(false);
+				}
+				else
+					setChannelStatus(true);
 
 			});
 			socket.on("createchannel", (data, channel) => {
@@ -99,6 +110,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 				socket.off("refreshChannelStatus");
 				socket.off("getChannelMeOne");
 				socket.off("createchannel");
+				socket.off("deleteChannelForAllUser");
 			}
 		};
 	}, [socket, currentChannel]);

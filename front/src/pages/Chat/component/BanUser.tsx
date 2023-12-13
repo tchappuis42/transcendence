@@ -49,6 +49,7 @@ const BanUser: React.FC<Props> = ({ userInChannel, currentChannel }) => {
 				<option value="10" key={2}>10 minutes</option>
 				<option value="15" key={3}>15 minutes</option>
 				<option value="30" key={4}>30 minutes</option>
+				<option value="0" key={5}>expulser</option>
 			</select>
 			<div className='w-10 lg:w-14 flex items-center'>
 				{selectedUser &&

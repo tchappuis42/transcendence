@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv"
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { TextChannel } from "src/chat/entity/textChannel";
 import { Game } from "src/game/game.entity";
@@ -8,12 +9,13 @@ import { MutedUser } from "src/chat/entity/muet.entity";
 import { BannedUser } from "src/chat/entity/banned.entity";
 import { DMChannel } from "src/chat/entity/dmChannel.entity";
 
+dotenv.config();
 
 export const typeormconfig: TypeOrmModuleOptions = {
 		type: 'postgres',
-		host: 'postgres',
+		host: process.env.DB_HOST,
 		port: 5432,
-		username: 'root',
+		username: process.env.DB_USER,
 		password: 'pswd',
 		database: 'test',
 		entities: [User, TextChannel, Msg, MutedUser, BannedUser, DMChannel, Game, Friends],

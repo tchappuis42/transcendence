@@ -8,6 +8,7 @@ import RemoveAdmin from './RemoveAdmin';
 import MuteUser from './MuteUser';
 import BanUser from './BanUser';
 import DeleteChannel from './DeleteChannel';
+import ChangePassword from './ChangePassword';
 
 interface Chan {
 	id: number;
@@ -61,28 +62,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			}
 		}
 	}
-
-	const changePass = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (Owner === '1') {
-				if (password === '1') {
-					if (socket) {
-						const oldPass = prompt("the old passWorl!");
-						const newPass = prompt("the new PassWorld!");
-						socket.emit("changePass", currentChannel, oldPass, newPass);
-					}
-				}
-				else
-					alert("it is impossible to change an unknown password!")
-			}
-			else
-				alert("you are not the Owner");
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
 
 	useEffect(() => {
 		setOwner("0")
@@ -187,12 +166,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 									<input type="text" placeholder='mot de passe' className='m-1' />
 									<div className='w-14'></div>
 								</div>
-								<div className='h-1/5 flex justify-between'>
-									<h1 className='w-2/5 items-end flex'>changer de mot de passe</h1>
-									<input type="text" placeholder='ancien mot de passe' className='m-1' />
-									<input type="text" placeholder='nouveau mot de passe' className='m-1' />
-									<div className='w-14'></div>
-								</div>
+								<ChangePassword currentChannel={currentChannel} />
 								<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
 								<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
 								<DeleteChannel currentChannel={currentChannel} setSettings={setSettings} />

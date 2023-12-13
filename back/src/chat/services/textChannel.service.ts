@@ -45,6 +45,7 @@ export class TextChannelService {
   async createChannel(
     namechannel: string,
     userId: number,
+    passWorld: string,
   ): Promise<TextChannel> {
     const admin = await this.userService.validateUser(userId);
     
@@ -64,12 +65,15 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
 
+      const cryptPassword = await bcrypt.hash(passWorld, 10);
+
     const currentChannel = this.textChannelRepository.create({
       name: namechannel,
       owner: admin,
       users: [admin],
       adminId: [admin],
       status: true,
+      password: cryptPassword,
     });
 
     try {
@@ -381,6 +385,7 @@ export class TextChannelService {
       if (!newPass){
         return 0;
       }
+      
       try {
         const password = await bcrypt.hash(newPass, 10);
         await this.textChannelRepository.update(channel.id, { password });

@@ -123,10 +123,10 @@ export class ChatGateway {
 			
 		client.join(name[0]);
 		const user = client.data.user as UserDto;
-		await this.textChannelService.createChannel(name[0], user.id);
+		await this.textChannelService.createChannel(name[0], user.id, name[2]);
 		const channel = await this.textChannelService.getChannelMe(name[0]);
 		const all_channels = await this.textChannelService.getAllChannels();
-		
+	
 		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
 		client.emit('createchannel', all, channel.name);
 		this.server.emit("refreshChannel", all);
@@ -320,7 +320,7 @@ export class ChatGateway {
 			this.server.emit("refreshChannelStatus", all);
 	}
 
-	@SubscribeMessage('setPassword')
+	/*@SubscribeMessage('setPassword')
 	async setPassword(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
 		try {
 			const channel = await this.textChannelService.getChannelByName(args[0]);
@@ -329,7 +329,7 @@ export class ChatGateway {
 				client.emit("emptyPassWord", channel.name);
 		} catch {}
 
-	}
+	}*/
 	
 	@SubscribeMessage('checkPass')
 	async checkPass(@MessageBody() args: string, @ConnectedSocket()client: Socket) {

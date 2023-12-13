@@ -21,7 +21,7 @@ export class TextChannel extends Channel {
   @Column({ default: true })
   status: boolean;
 
-  @Column({ nullable: true })
+  @Column()
   password: string;
 
   @ManyToMany(() => MutedUser, { eager: true })

@@ -123,10 +123,10 @@ export class ChatGateway {
 			
 		client.join(name[0]);
 		const user = client.data.user as UserDto;
-		await this.textChannelService.createChannel(name[0], user.id);
+		await this.textChannelService.createChannel(name[0], user.id, name[2]);
 		const channel = await this.textChannelService.getChannelMe(name[0]);
 		const all_channels = await this.textChannelService.getAllChannels();
-		
+	
 		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public"}} else  { return { id: chan.id, name: chan.name, statue: "Private"}}});
 		client.emit('createchannel', all, channel.name);
 		this.server.emit("refreshChannel", all);
@@ -136,6 +136,7 @@ export class ChatGateway {
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
 			const channel = await this.textChannelService.getChannelMe(name[0]);
+			console.log(channel.password)
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
 				client.leave(name[1]);
@@ -320,7 +321,7 @@ export class ChatGateway {
 			this.server.emit("refreshChannelStatus", all);
 	}
 
-	@SubscribeMessage('setPassword')
+	/*@SubscribeMessage('setPassword')
 	async setPassword(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
 		try {
 			const channel = await this.textChannelService.getChannelByName(args[0]);
@@ -329,7 +330,7 @@ export class ChatGateway {
 				client.emit("emptyPassWord", channel.name);
 		} catch {}
 
-	}
+	}*/
 	
 	@SubscribeMessage('checkPass')
 	async checkPass(@MessageBody() args: string, @ConnectedSocket()client: Socket) {
@@ -349,7 +350,9 @@ export class ChatGateway {
 
 	@SubscribeMessage('changePass')
 	async changePass(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
-		try {
+		//try {
+			console.log(args[0])
+			console.log(args)
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
 			let ret: number;
@@ -360,7 +363,11 @@ export class ChatGateway {
 				client.emit("changePass", "1");
 			else
 				client.emit("changePass", "0");
-		} catch {}
+
+			const channel1 = await this.textChannelService.getChannelByName(args[0]);
+			console.log("ancien mot de pass", channel.password)
+			console.log("nouveau mot de pass", channel1.password)
+		//} catch {}
 	}
 
 	@SubscribeMessage('muetUser')

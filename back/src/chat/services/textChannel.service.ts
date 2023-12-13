@@ -45,6 +45,7 @@ export class TextChannelService {
   async createChannel(
     namechannel: string,
     userId: number,
+    passWorld: string,
   ): Promise<TextChannel> {
     const admin = await this.userService.validateUser(userId);
     
@@ -70,6 +71,7 @@ export class TextChannelService {
       users: [admin],
       adminId: [admin],
       status: true,
+      password: passWorld,
     });
 
     try {
@@ -377,15 +379,17 @@ export class TextChannelService {
     oldPass: string,
     newPass: string,
   ): Promise<number> {
+    console.log("hello")
     if ((await bcrypt.compare(oldPass, channel.password)) === true) {
       if (!newPass){
         return 0;
       }
+      console.log("hello")
       try {
         const password = await bcrypt.hash(newPass, 10);
         await this.textChannelRepository.update(channel.id, { password });
       } catch (error) {
-        return 0;
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);  //return 0;
       }
       return 1;
     }

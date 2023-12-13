@@ -78,7 +78,7 @@ const Chat = () => {
 			socket.on("setUserInChannel", (user) => {
 				setteur(user);
 			})
-			socket.on("checkPass", (name, datta) => {
+			socket.on("checkPass", (name, datta, user) => {
 				setPass(datta);
 				if (datta === "ok") {
 					socket.emit("message", "", name, '1');
@@ -88,6 +88,7 @@ const Chat = () => {
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
+				setteur(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")

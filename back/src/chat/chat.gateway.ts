@@ -176,7 +176,6 @@ export class ChatGateway {
 					userStatus = '1';
 				else
 					userStatus = '0';
-				console.log("userStatus", userStatus)
 				client.emit('getChannelMeOne', channel.id, channel.name, channel.status, userStatus, pass, userAll);
 				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
 					if (name[1] != "create a channel!") {
@@ -334,6 +333,7 @@ export class ChatGateway {
 	@SubscribeMessage('checkPass')
 	async checkPass(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
 		try {
+			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
 			let passStatue: string;
 			if (channel.status === false) {
@@ -343,7 +343,7 @@ export class ChatGateway {
 				passStatue = "ok";
 			if (passStatue === "ko") {
 				client.leave(channel.name);
-				console.log("lalala", channel.name)
+				await this.textChannelService.removeUserFromChannel(channel, user.id)
 			}
 			client.emit("checkPass", channel.name, passStatue);
 		} catch { }
@@ -367,8 +367,6 @@ export class ChatGateway {
 
 	@SubscribeMessage('muetUser')
 	async muetUser(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket() client: Socket) {
-		console.log(args1)
-		console.log(args2)
 		const channel = await this.textChannelService.getChannelByName(args1[0]);
 		const admin = client.data.user as UserDto;
 		const userMute = await this.userService.validateUser(args2[1]);
@@ -384,7 +382,7 @@ export class ChatGateway {
 		const userban = await this.userService.validateUser(args2[1]);
 		const baned1 = channel.banned.find((banned) => banned.userId == args2[1]);
 		if (!baned1)
-			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);// 1 modifier cette variable quand elle sera recu
+			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);
 		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
 		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
 		if (baned)

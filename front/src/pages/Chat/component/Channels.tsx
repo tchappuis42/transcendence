@@ -69,7 +69,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 					if (socket)
 						socket.emit("checkPass", chanName, password);
 				}
-				setPassword(pass);
+				//setPassword(pass);
 				//setteur(user);
 				//setUserInChannel(user);
 				console.log(owner)

@@ -18,12 +18,9 @@ interface Message {
 interface Props {
 	takeChan(channelSet: string): void
 	currentChannel: string;
-	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-	data: string;
-	userId: number;
 }
 
-const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data, userId }) => {
+const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 	const socket = useSocket();
 	const [all_DMChannels, setDMCHannel] = useState<DMChan[]>([]);
 	const [isOn, setIsOn] = useState(false)
@@ -47,7 +44,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel, setMessages,
 			socket.on("getDMChannelMe", (name, status, user) => {
 				//setPassword('0');
 				setIsOn(status);
-				socket.emit("DMmessage", data, name, '1');
+				socket.emit("DMmessage", " ", name, '1');
 				setBon(true)
 				//setteur(user);
 				//setUserInChannel(user);
@@ -55,7 +52,6 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel, setMessages,
 			socket.on("createDMChannel", (data, channel) => {
 				takeChan(channel);
 				setDMCHannel(data);
-				setMessages([]);
 			});
 			socket.on("refreshDMChannel", (data) => {
 				console.log("dataa :", data)
@@ -112,7 +108,6 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel, setMessages,
 			)}
 		</div>
 	);
-
 };
 
 export default DirectMessage;

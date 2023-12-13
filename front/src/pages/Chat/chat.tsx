@@ -33,7 +33,6 @@ const Chat = () => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
-	const [userId, setUserId] = useState(Number); // a sup
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
 
@@ -89,6 +88,9 @@ const Chat = () => {
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
 			});
+			socket.on("createDMChannel", () => {
+				setMessages([]);
+			});
 			/*socket.on("deleteChannel", (data) => {
 				setChannels(data);
 				if (data.length !== 0){
@@ -141,6 +143,7 @@ const Chat = () => {
 				socket.off("setUserInChannel");
 				socket.off("changePass");
 				socket.off("emptyPassWord");
+				socket.off("createDMChannel");
 			}
 		};
 	}, [socket, data, currentChannel]);
@@ -187,10 +190,6 @@ const Chat = () => {
 		}
 	}
 
-	function takeUserName(user_Id: number) {
-		setUserId(user_Id);
-	}
-
 	return (
 		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
@@ -199,7 +198,7 @@ const Chat = () => {
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userInChannel={userInChannel} />
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
-					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userId={userId} />
+					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
 			<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
@@ -209,7 +208,7 @@ const Chat = () => {
 				<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
 					<div className="w-full h-5/6 bg-black/60 overflow-scroll p-5 shadow-md shadow-white">
 						{messages.map((msg, index) => (
-							<MessageChatCard msg={msg} index={index} takeUserName={takeUserName} />
+							<MessageChatCard msg={msg} index={index} />
 						))}
 					</div>
 					<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">

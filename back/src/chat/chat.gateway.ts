@@ -59,6 +59,7 @@ export class ChatGateway {
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		try {
+			console.log(data)
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelMe(data[1]);
 			const baned = channel.banned.find((banned) => banned.userId == user.id);
@@ -135,6 +136,7 @@ export class ChatGateway {
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
+			console.log(name)
 			const channel = await this.textChannelService.getChannelMe(name[0]);
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
@@ -175,7 +177,6 @@ export class ChatGateway {
 					userStatus = '1';
 				else
 					userStatus = '0';
-				console.log("userStatus", userStatus)
 				client.emit('getChannelMeOne', channel.id, channel.name, channel.status, userStatus, pass, userAll);
 				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
 					if (name[1] != "create a channel!") {
@@ -364,8 +365,6 @@ export class ChatGateway {
 
 	@SubscribeMessage('muetUser')
 	async muetUser(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket()client: Socket) {
-		console.log(args1)
-		console.log(args2)
 		const channel = await this.textChannelService.getChannelByName(args1[0]);
 		const admin = client.data.user as UserDto;
 		const userMute = await this.userService.validateUser(args2[1]);
@@ -381,10 +380,10 @@ export class ChatGateway {
 		const userban = await this.userService.validateUser(args2[1]);
 		const baned1 = channel.banned.find((banned) => banned.userId == args2[1]);
 		if (!baned1) 
-			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);// 1 modifier cette variable quand elle sera recu
+			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);
 		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
 		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
-		if (baned) 
+		if (baned) 	
 			this.server.to(channel.name).emit('banUser', channel.name);
 	}
 

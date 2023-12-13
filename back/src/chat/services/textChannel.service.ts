@@ -337,7 +337,7 @@ export class TextChannelService {
     }*/
   }
 
-  async setPassword(
+  /*async setPassword(
     channel: TextChannel,
     pass: string,
   ): Promise<number> {
@@ -361,7 +361,7 @@ export class TextChannelService {
      // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
     return 0;
-  }
+  }*/
 
   async checkPassWord(
     channel: TextChannel,
@@ -381,6 +381,10 @@ export class TextChannelService {
     oldPass: string,
     newPass: string,
   ): Promise<number> {
+    if (newPass.length > 16) {
+      throw new HttpException('New password too long', HttpStatus.FORBIDDEN);
+    }
+
     if ((await bcrypt.compare(oldPass, channel.password)) === true) {
       if (!newPass){
         return 0;
@@ -473,8 +477,6 @@ export class TextChannelService {
     }
     else
       isTime = 52596000;
-
-    console.log("le timme", isTime)
 
     if (userBan.id == channel.owner.id)
       throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);

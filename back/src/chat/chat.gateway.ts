@@ -59,7 +59,6 @@ export class ChatGateway {
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		try {
-			console.log(data)
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelMe(data[1]);
 			const baned = channel.banned.find((banned) => banned.userId == user.id);
@@ -136,7 +135,6 @@ export class ChatGateway {
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
-			console.log(name)
 			const channel = await this.textChannelService.getChannelMe(name[0]);
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
@@ -334,6 +332,7 @@ export class ChatGateway {
 	@SubscribeMessage('checkPass')
 	async checkPass(@MessageBody() args: string, @ConnectedSocket()client: Socket) {
 		try {
+			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
 			let passStatue: string;
 				if (channel.status === false) {
@@ -341,8 +340,10 @@ export class ChatGateway {
 				}
 				else
 					passStatue = "ok";
-				if (passStatue === "ko")
+				if (passStatue === "ko") {
 					client.leave(channel.name);
+					await this.textChannelService.removeUserFromChannel(channel, user.id)
+				}
 			client.emit("checkPass", channel.name, passStatue);
 		} catch {}
 	}

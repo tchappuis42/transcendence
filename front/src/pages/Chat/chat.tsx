@@ -105,6 +105,7 @@ const Chat = () => {
 			});*/
 			socket.on("deleteChannelForAllUser", (data) => {
 				setCurrentChannel("create a channel!");
+				setMessages([]);
 			});
 			socket.on("messages", (data) => {
 				setMessages(data)
@@ -114,19 +115,6 @@ const Chat = () => {
 				if (socket) {
 					socket.emit("getChannelMeOne", channelName, channelName)
 					setMessages([]);
-				}
-			});
-			socket.on("changePass", (passInfo) => {
-				if (passInfo === "1")
-					alert("PassWord change successfully!")
-				else
-					alert("failure to change PassWord!")
-			})
-			socket.on("emptyPassWord", (data) => {
-				alert("empty PassWord");
-				const pass = prompt("choice a Password for the Channel!");
-				if (socket) {
-					socket.emit("setPassword", data, pass);
 				}
 			});
 		}
@@ -141,8 +129,6 @@ const Chat = () => {
 				socket.off("trans");
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
-				socket.off("changePass");
-				socket.off("emptyPassWord");
 				socket.off("createDMChannel");
 			}
 		};

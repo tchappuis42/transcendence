@@ -9,6 +9,7 @@ import MuteUser from './MuteUser';
 import BanUser from './BanUser';
 import DeleteChannel from './DeleteChannel';
 import ChangePassword from './ChangePassword';
+import ChannelStatus from './ChannelStatus';
 
 interface Chan {
 	id: number;
@@ -34,6 +35,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 	const [all_channels, setChannels] = useState<Chan[]>([]);
 	const [isOn, setIsOn] = useState(false)
 	const [password, setPassword] = useState("");
+	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
@@ -49,35 +51,19 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 		}
 	}
 
-	const handleSwitchChange = (on: any) => {
-		if (socket) {
-			socket.emit("changeStatue", currentChannel, isOn);
-		}
-		if (isOn === false) {
-			if (password === '0') {
-				const pass = prompt("choice a Password for the Channel!");
-				if (socket) {
-					socket.emit("setPassword", currentChannel, pass);
-				}
-			}
-		}
-	}
-
 	useEffect(() => {
 		setOwner("0")
 		if (socket) {
-			socket.on("getChannelMeOne", (Id, lol, datta, owner, pass, user) => {
+			socket.on("getChannelMeOne", (Id, chanName, status, owner, pass, user) => {  //chatid chatname chatstatus userstatus succespassword user
 				console.log("owner = ", owner)
 				setOwner(owner); //string pas number
-				if (datta === true) {
-					setIsOn(false);
-					socket.emit("message", data, lol, '1');
-				}
-				else {
-					setIsOn(true);
+				setChannelStatus(status)
+				if (status)
+					socket.emit("message", data, chanName, '1');
+				else { //todo
 					const password = prompt("what is the PassWord?");
 					if (socket)
-						socket.emit("checkPass", lol, password);
+						socket.emit("checkPass", chanName, password);
 				}
 				setPassword(pass);
 				//setteur(user);
@@ -103,6 +89,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			socket.on("deleteChannelForAllUser", (data) => {
 				setChannels(data);
 				setMessages([]);
+				setSettings(false);
 			});
 		}
 		return () => {
@@ -161,11 +148,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 								{/*<h1 className='h-1/5'>status : {isOn ? "private" : "public"}</h1>*/}
 							</div>
 							{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl'>
-								<div className='h-1/5 flex justify-between'>
-									<h1 className='w-2/5 items-end flex'>changer le status du channel</h1>
-									<input type="text" placeholder='mot de passe' className='m-1' />
-									<div className='w-14'></div>
-								</div>
+								<ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />
 								<ChangePassword currentChannel={currentChannel} />
 								<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
 								<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />

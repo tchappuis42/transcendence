@@ -15,7 +15,7 @@ const ChangePassword: React.FC<{ currentChannel: string }> = (currentChannel) =>
 	const changePass = (e: SyntheticEvent) => {
 		e.preventDefault();
 		if (socket) {
-			socket.emit("changePass", currentChannel, data.oldPassword, data.password);
+			socket.emit("changePass", currentChannel.currentChannel, data.oldPassword, data.password);
 		}
 		resetData();
 	}
@@ -53,7 +53,6 @@ const ChangePassword: React.FC<{ currentChannel: string }> = (currentChannel) =>
 			setValidData(false)
 
 	}, [data]);
-
 
 	return (
 		<div className='h-1/5 flex justify-between'>

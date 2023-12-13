@@ -2,48 +2,47 @@ import "./style.css";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import React from "react";
-import ReactDOM from "react-dom";
-import Friends from "../Friend/component/Friends";
+
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
 import { useLocation } from 'react-router-dom';
+import UserInChannel from "./component/UserInChannel";
+import Channels from "./component/Channels";
+import DirectMessage from "./component/DirectMessage"
 
-interface Message {
+import { useAccount } from "../../ui/organisms/useAccount";
+import { handleMouseEnter, handleMouseLeave } from "../Friend/interface/Tools";
+import MessageChatCard from "./component/MessageChatCard";
+import CreateChannel from "./component/CreateChannel";
+
+interface Message { //mettre dans un fichier
 	message: string;
 	username: string;
 	uId: number
 }
-interface Chan {
-	id: number;
-	name: string;
-	statue: string;
-}
-interface DMChan {
-	id: number;
-	name: string
-	statue: string;
+
+enum Owner {
+	user = 0,
+	owner = 1,
+	admin = 2
 }
 
 const Chat = () => {
-	const location = useLocation();
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
-	const [all_channels, setChannels] = useState<Chan[]>([]);
-	const [all_DMChannels, setDMCHannel] = useState<DMChan[]>([]);
-	const [set_channel, setSetChannel] = useState("");
-	const [RepCss, setRepCss] = useState("");
-	const [dis, setdis] = React.useState(true);
-	const [isOn, setIsOn] = React.useState(false)
-	const [password, setPassword] = useState("");
-	const [pass, setPass] = useState("");
-	const [userId, setUserId] = useState(Number);
-	const [DM_Chann, setDM_Chann] = useState("");
-	const [Owner, setOwner] = useState("");
-	const [iniitButton, init_Button] = useState("")
+	const [currentChannel, setCurrentChannel] = useState("");
+	const [pass, setPass] = useState(""); // a voir chmager le nom
+	const [userId, setUserId] = useState(Number); // a sup
+	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
 
-
+	useEffect(() => {
+		if (socket) {
+			socket.emit("getAllChannels")
+			socket.emit("refreshDMChannel")
+		}
+	}, [socket]);
 
 	useEffect(() => {
 		if (socket) {
@@ -61,60 +60,19 @@ const Chat = () => {
 			}
 		};
 
-	}, [socket]);	
-	//socket?.emit("leaveChat", set_channel);	
-	useEffect(() => {
-		setChannels([])
-		if (socket) {
-			socket.emit("getAllChannels")
-			socket.emit("refreshDMChannel")
-		}
-		setChannels([])
 	}, [socket]);
 
 	useEffect(() => {
-		if (!set_channel) {
-			setSetChannel("create a channel!")
-		//	socket?.emit("checkLogRoom")
-			init_Button("bye")
-			//if (socket)
-			//	socket.emit("")
-		//	socket?.emit("checkLogRoom")
+		if (!currentChannel) {
+			setCurrentChannel("create a channel!")
 		}
 		if (socket) {
-			socket.on("getAllChannels", (data) => {
-				setChannels(data)
-			});
-			socket.on("getChannelMeOne", (Id, lol, datta, owner, pass, user) => {
-				if (owner === '1') {
-					setinfo(false);
-					setOwner(owner);
-				}
-				else {
-					setinfo(true);
-					setOwner(owner);
-				}
-				if (datta === true) {
-					setIsOn(false);
-					socket.emit("message", data, lol, '1');
-				}
-				else {
-					setIsOn(true);
-					const password = prompt("what is the PassWord?");
-					if (socket)
-						socket.emit("checkPass", lol, password);
-				}
-				setPassword(pass);
-				setDM_Chann("chan");
-				setteur(user);
-				//setUserInChannel(user);
+			socket.on("getChannelMeOne", (Id, lol, datta, owner) => {
+				setDM_Chann(true)
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
-				setdis(false);
-				setPassword('0');
-				setIsOn(status);
-				socket.emit("DMmessage", data, name, '1');
-				setDM_Chann("DM")
+				setDM_Chann(false)
+				//setdis(false);
 				setteur(user);
 				//setUserInChannel(user);
 			});
@@ -128,53 +86,27 @@ const Chat = () => {
 					setMessages([]);
 				}
 			});
-			socket.on("createchannel", (data, channel) => {
-				takeChan(channel);
-				setChannels(data);
-				setMessages([]);
-			});
-			socket.on("createDMChannel", (data, channel) => {
-				takeDMChan(channel);
-				setDMCHannel(data);
-
-				setMessages([]);
-			});
-			socket.on("refreshChannel", (data) => {
-				setChannels(data);
-			})
-			socket.on("refreshDMChannel", (data) => {
-				setDMCHannel(data);
-			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
 			});
 			/*socket.on("deleteChannel", (data) => {
 				setChannels(data);
 				if (data.length !== 0){
-					setSetChannel(data[0].name)
+					setCurrentChannel(data[0].name)
 					socket.emit("message", data, data[0].name, '1');
-				//	setSetChannel(data[((data.length) - 1)].name);
+				//	setCurrentChannel(data[((data.length) - 1)].name);
 				}
 				else {
-					setSetChannel("create a channel!")
+					setCurrentChannel("create a channel!")
 					setMessages([]);
 				}
 			});*/
 			socket.on("deleteChannelForAllUser", (data) => {
-				setChannels(data);
-				setSetChannel("create a channel!");
-				setMessages([]);
-				init_Button("bye")
-				setRepCss("")
+				setCurrentChannel("create a channel!");
 			});
 			socket.on("messages", (data) => {
 				setMessages(data)
 				console.log(socket)
-			});
-			socket.on("refreshChannelStatus", (data) => {
-				setChannels(data);
-				setButton(data);
-
 			});
 			socket.on("banUser", (channelName) => {
 				if (socket) {
@@ -198,18 +130,12 @@ const Chat = () => {
 		}
 		return () => {
 			if (socket) {
-				socket.off("getAllChannels");
 				socket.off("getChannelMeOne");
-				socket.off("createchannel");
 				//	socket.off("deleteChannel");
 				socket.off("messages");
 				socket.off("deleteChannelForAllUser");
-				socket.off("refreshChannel");
-				socket.off("refreshChannelStatus");
 				socket.off("checkPass");
 				socket.off("banUser");
-				socket.off("createDMChannel");
-				socket.off("refreshDMChannel");
 				socket.off("trans");
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
@@ -217,299 +143,104 @@ const Chat = () => {
 				socket.off("emptyPassWord");
 			}
 		};
-	}, [socket, data, set_channel]);
+	}, [socket, data, currentChannel]);
 
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
+		console.log("DM_chann : ", DM_Chann)
 
-		if (set_channel !== "create a channel!" && pass !== "ko") {
-			if (socket) {
-				if (DM_Chann === "chan") {
-					socket.emit("message", data, set_channel, '0');
-					setData("");
-				}
-				else {
-					socket.emit("DMmessage", data, set_channel, '0')
-					setData("");
-				}
-			}
-		}
-	};
-
-	const createchannel = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		const namechannel = prompt("what is the name of new channel");
-		if (namechannel) {
-			if (socket) {
-				socket.emit("createchannel", namechannel, set_channel);
-			}
-		}
-		else
-			alert("wrong channel name")
-	}
-
-	const deleteChannel = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (Owner === '1') {
-				alert('you delete a channel');
+		if (data) {
+			if (currentChannel !== "create a channel!" && pass !== "ko") {
 				if (socket) {
-					socket.emit("deleteChannel", set_channel);
-				}
-				alert('you have delete a channel');
-			}
-			else
-				alert("you are not the Owner");
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const addAdmin = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("addAdmin", set_channel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const removeAdmin = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("removeAdmin", set_channel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const MuetUser = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("muetUser", set_channel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const banUser = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (userId !== 0) {
-				if (socket) {
-					socket.emit("banUser", set_channel, userId);
-				}
-			}
-			else
-				alert("you don't have seleted a User!")
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
-
-	const changePass = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (set_channel !== "create a channel!") {
-			if (Owner === '1') {
-				if (password === '1') {
-					if (socket) {
-						const oldPass = prompt("the old passWorl!");
-						const newPass = prompt("the new PassWorld!");
-						socket.emit("changePass", set_channel, oldPass, newPass);
+					if (DM_Chann) {
+						socket.emit("message", data, currentChannel, '0');
+						setData("");
+					}
+					else {
+						socket.emit("DMmessage", data, currentChannel, '0')
+						setData("");
 					}
 				}
-				else
-					alert("it is impossible to change an unknown password!")
 			}
-			else
-				alert("you are not the Owner");
 		}
-		else
-			alert("you don't have choice a channel!")
 	};
-
-	function setButton(data: any) {
-		for (let i = 0; data[i]; ++i) {
-			if (data[i].name === set_channel) {
-				if (data[i].statue === 'Public')
-					setIsOn(false);
-				else
-					setIsOn(true);
-			}
-		}
-	}
 
 	function setteur(user: any) {
 		setUserInChannel(user);
 	}
 
-	function setinfo(info: boolean) {
-		setdis(info);
-	}
-
 	function takeChan(channelSet: string) {
-		setSetChannel(channelSet)
+		setCurrentChannel(channelSet)
 		if (socket) {
-			socket.emit("getChannelMeOne", channelSet, set_channel);
+			socket.emit("getChannelMeOne", channelSet, currentChannel);
 			setPass("ok")
 			setMessages([]);
 		}
-		setRepCss("inner");
-		init_Button("hola")
 	}
 
 	function takeDMChan(channelSet: string) {
-		setSetChannel(channelSet)
+		setCurrentChannel(channelSet)
 		if (socket) {
-			socket.emit("getDMChannelMe", channelSet, set_channel);
+			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
 			setMessages([]);
 		}
-		setRepCss("innerDM");
-		init_Button("bye")
 	}
 
 	function takeUserName(user_Id: number) {
 		setUserId(user_Id);
 	}
 
-	const onClick = () => {
-		setIsOn(!isOn)
-	}
-
-	const handleSwitchChange = (on: any) => {
-		console.log(`new switch "on" state:`, isOn)
-		if (DM_Chann === "DM") {
-			if (socket)
-				if (isOn === false)
-					socket.emit("DMBlock", set_channel, true);
-				else
-					socket.emit("DMBlock", set_channel, false);
-		}
-		else {
-			if (socket) {
-				socket.emit("changeStatue", set_channel, isOn);
-			}
-			if (isOn === false) {
-				if (password === '0') {
-					const pass = prompt("choice a Password for the Channel!");
-					if (socket) {
-						socket.emit("setPassword", set_channel, pass);
-					}
-				}
-			}
-		}
-	}
-
 	return (
-		<div className="globale">
-			<div className="channel">
-				<div className="textChannel"> <h1> channels </h1></div>	
-				<div className="boxChann">	
-						{all_channels.map((msg, id) => (
-							<b className="text_textButonChannel" key={id}>
-								<div className="text_butonChannel" onClick={() => takeChan(msg.name)}>
-									{msg.name} : {msg.statue}
-								</div>
-							</b>
-						))}
+		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
+			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
+				<CreateChannel currentChannel={currentChannel} />
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userInChannel={userInChannel} />
 				</div>
-					<div className="textDM"> <h1> DM </h1></div>
-				<div className="boxDMchann">			
-						{all_DMChannels.map((msg, id) => (
-							<b className="text_textButonDM" key={id}>
-								 <div className="text_butonDM" onClick={() => takeDMChan(msg.name)}>				
-									 {msg.name} : {msg.statue}
-								 </div>
-							</b>
-						))}
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userId={userId} />
 				</div>
-				<div className="containerStatus">
-					<li>{"status"}</li>
-					<input type="checkbox" className="checkbox"
-						name={"status"}
-						id={"status"}
-						onClick={onClick}
-						onChange={handleSwitchChange}
-						checked={isOn}
-						disabled={dis}
-						aria-labelledby="switchLabel"
-					/>
-					<label className="label" htmlFor="status">
-						<span className={RepCss} />
-					</label>
-				</div>
-				<div className={iniitButton}>
-					<button className="butonAdministrationChat" onClick={removeAdmin}>removeAdmin</button>
-					<button className="butonAdministrationChat" onClick={addAdmin}>addAdmin</button>
-					<button className="butonAdministrationChat" onClick={deleteChannel}>deleteChannel</button>
-					<button className="butonAdministrationChat" onClick={changePass}>changePass</button>
-					<button className="butonAdministrationChat" onClick={MuetUser}>Muet</button>
-					<button className="butonAdministrationChat" onClick={banUser}>ban</button>	
-				</div>	
 			</div>
-			<div id="chat">
-				<div className="textChannelName"><h1> {set_channel} </h1></div>
-				<div className="boxForChat">
-					{messages.map((msg, index) => (
-						<b className="b" key={index}>	
-							<button className="select" onClick={() => takeUserName(msg.uId)} >{msg.username}</button>: {msg.message}	
-						</b>
-					))}
+			<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
+				<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
+					<h1 className="text-white text-3xl font-semibold">{currentChannel.split("_")[0]}</h1>
 				</div>
-				<form onSubmit={sendMessage}>
-					<label htmlFor="text">
-						<input
-							className="barText"
-							type="text"
-							name="data"
-							onChange={(e) => setData(e.target.value)}
-							placeholder="Type your messsage..." value={data}
-						/>
-						<button type="submit" className="sendButton">
-							send
-						</button>
-					</label>
-				</form>
+				<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
+					<div className="w-full h-5/6 bg-black/60 overflow-scroll p-5 shadow-md shadow-white">
+						{messages.map((msg, index) => (
+							<MessageChatCard msg={msg} index={index} takeUserName={takeUserName} />
+						))}
+					</div>
+					<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
+						<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
+							<label htmlFor="text" className="flex flex-col w-4/5">
+								<textarea
+									className="h-12 pl-2 resize-none rounded-md"
+									name="data"
+									onChange={(e) => setData(e.target.value)}
+									placeholder="Type your message..."
+									value={data}
+									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
+								/>
+								<button type="submit" className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
+									onMouseEnter={handleMouseEnter}
+									onMouseLeave={handleMouseLeave}>
+									<h1 className="text-white hover:text-black">Send</h1>
+								</button>
+							</label>
+						</form>
+					</div>
+				</div>
 			</div>
-			<div className="User">
-				<div className="textUser"></div>
-				<div className="h-80 mt-12">
-					<FriendsChat set_channel={set_channel} />
+			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+					<FriendsChat currentChannel={currentChannel} />
 				</div>
-				<div className="userInChannel">
-					{userInChannel.map((msg, id) => (
-						<b className="b" key={id}>
-							{msg.id} {msg.username}
-						</b>
-					))}
+
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+					<UserInChannel userInChannel={userInChannel} />
 				</div>
-				<button className="createChannelBtn" onClick={createchannel}>createchannel</button>
 			</div>
 		</div>
 	);

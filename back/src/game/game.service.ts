@@ -13,7 +13,7 @@ import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
 interface roomName {
 	name: string;
 	socket1: Socket;
-	socket2: Socket
+	socket2: Socket;
 	pong: Pong;
 	intervalId?: NodeJS.Timer;
 	timeStart: number
@@ -214,6 +214,7 @@ export class GameService {
 
 	//recupere l'historique des games d'un client
 	async getGameByUser(userId: number) {
+		console.log("userid = ", userId)
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ idOne: user.id }, { idTwo: user.id }] })
 		const matchs = games.map(match => {
@@ -222,7 +223,7 @@ export class GameService {
 			else
 				return { userOne: match.userOne.username, userTwo: match.userTwo.username, scoreOne: match.scoreOne, scoreTwo: match.scoreTwo, winnerId: match.userTwo.id, avatarOne: match.userOne.avatar, avatarTwo: match.userTwo.avatar }
 		});
-		return matchs;
+		return matchs; //
 	}
 
 	//recupere les info du client quand il revient sur la page game

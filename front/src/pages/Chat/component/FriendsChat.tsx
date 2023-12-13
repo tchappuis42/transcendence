@@ -6,10 +6,10 @@ import FriendCardChat from './FriendsCardChat';
 import { Account } from '../../../ui/types';
 
 interface channel {
-	set_channel: string;
+	currentChannel: string;
 }
 
-const FriendsChat = ({ set_channel }: channel) => {
+const FriendsChat = ({ currentChannel }: channel) => {
 	const [users, setUsers] = useState<Account[]>([]);
 	const { sortByStatus } = useFriends();
 	const socket = useSocket();
@@ -61,7 +61,7 @@ const FriendsChat = ({ set_channel }: channel) => {
 
 				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
 					{users?.map((user: Account) => (
-						<FriendCardChat key={user.id} friend={user} set_channel={set_channel} />
+						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />
 					))}
 				</div>
 			)

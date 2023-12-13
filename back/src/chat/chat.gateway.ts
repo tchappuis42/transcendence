@@ -173,7 +173,6 @@ export class ChatGateway {
 					userStatus = '2';
 				else if (channel.owner.id == user.id)
 					userStatus = '1';
-				//le 1 si le client est le owner // admin 2, user 0
 				else
 					userStatus = '0';
 				console.log("userStatus", userStatus)
@@ -365,12 +364,14 @@ export class ChatGateway {
 
 	@SubscribeMessage('muetUser')
 	async muetUser(@MessageBody() args1: string, @MessageBody() args2: number, @ConnectedSocket()client: Socket) {
+		console.log(args1)
+		console.log(args2)
 		const channel = await this.textChannelService.getChannelByName(args1[0]);
 		const admin = client.data.user as UserDto;
 		const userMute = await this.userService.validateUser(args2[1]);
 		const muted = channel.muted.find((muted) => muted.userId == args2[1]);
 		if (!muted) 
-			await this.textChannelService.muteUserInChannel(channel, admin, userMute, 1);// 1 modifier cette variable quand elle sera recu
+			await this.textChannelService.muteUserInChannel(channel, admin, userMute, args2[2]);
 	}
 
 	@SubscribeMessage('banUser')
@@ -380,7 +381,7 @@ export class ChatGateway {
 		const userban = await this.userService.validateUser(args2[1]);
 		const baned1 = channel.banned.find((banned) => banned.userId == args2[1]);
 		if (!baned1) 
-			await this.textChannelService.banUserInChannel(channel, admin, userban, 1);// 1 modifier cette variable quand elle sera recu
+			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);// 1 modifier cette variable quand elle sera recu
 		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
 		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
 		if (baned) 

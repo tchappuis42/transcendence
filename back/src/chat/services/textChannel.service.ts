@@ -467,6 +467,14 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
     }
+    let isTime: number;
+    if (Time >= 1) {
+      isTime = Time;
+    }
+    else
+      isTime = 52596000;
+
+    console.log("le timme", isTime)
 
     if (userBan.id == channel.owner.id)
       throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
@@ -483,7 +491,7 @@ export class TextChannelService {
     if (channel.banned.find((user1) => user1.id == userBan.id))
       throw new HttpException('User is already banned', HttpStatus.FORBIDDEN);
 
-    const temp = Time * 60 * 1000;
+    const temp = isTime * 60 * 1000;
     
     const time = new Date(Date.now() + temp);
     const banned = this.bannedUserRepository.create({

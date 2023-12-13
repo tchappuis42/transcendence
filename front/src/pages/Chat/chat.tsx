@@ -13,8 +13,9 @@ import DirectMessage from "./component/DirectMessage"
 import { useAccount } from "../../ui/organisms/useAccount";
 import { handleMouseEnter, handleMouseLeave } from "../Friend/interface/Tools";
 import MessageChatCard from "./component/MessageChatCard";
+import CreateChannel from "./component/CreateChannel";
 
-interface Message {
+interface Message { //mettre dans un fichier
 	message: string;
 	username: string;
 	uId: number
@@ -27,12 +28,11 @@ enum Owner {
 }
 
 const Chat = () => {
-	const location = useLocation();
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [currentChannel, setCurrentChannel] = useState("");
-	const [pass, setPass] = useState(""); // a sup
+	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [userId, setUserId] = useState(Number); // a sup
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
@@ -165,19 +165,6 @@ const Chat = () => {
 		}
 	};
 
-	const createchannel = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		const namechannel = prompt("what is the name of new channel");
-		if (namechannel) {
-			if (socket) {
-				socket.emit("createchannel", namechannel, currentChannel);
-			}
-		}
-		else
-			alert("wrong channel name")
-	}
-
 	function setteur(user: any) {
 		setUserInChannel(user);
 	}
@@ -185,7 +172,6 @@ const Chat = () => {
 	function takeChan(channelSet: string) {
 		setCurrentChannel(channelSet)
 		if (socket) {
-			console.log("lalala = ", channelSet, currentChannel)
 			socket.emit("getChannelMeOne", channelSet, currentChannel);
 			setPass("ok")
 			setMessages([]);
@@ -208,13 +194,7 @@ const Chat = () => {
 	return (
 		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
-				<div className="flex justify-center items-center h-[10%]">
-					<button onClick={createchannel} className="w-2/3 h-2/3 shadow-md shadow-white bg-black/60 rounded hover:bg-white"
-						onMouseEnter={handleMouseEnter}
-						onMouseLeave={handleMouseLeave}>
-						<h1 className="text-white hover:text-black text-2xl text-xl lg:text-3xl">Create Channel</h1>
-					</button>
-				</div>
+				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userInChannel={userInChannel} />
 				</div>

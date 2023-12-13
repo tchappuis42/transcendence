@@ -55,7 +55,7 @@ const Settings = () => {
 
     const handleValidation = async () => {
         let promises: Promise<boolean>[] = [];
-    
+
         if (newAvatar !== account.avatar) {
             const imageObj = {
                 value: newAvatar,
@@ -63,7 +63,7 @@ const Settings = () => {
             };
             promises.push(changeSettings(imageObj));
         }
-    
+
         if (newUsername !== account.username && newUsername.length) {
             const userNameObj = {
                 value: newUsername,
@@ -71,22 +71,22 @@ const Settings = () => {
             };
             promises.push(changeSettings(userNameObj));
         }
-    
+
         if (account.twoFa !== twoFaStatus) {
             const status = {
                 value: twoFaStatus,
                 secret: secret
             };
-            
+
             await axios.post("http://localhost:4000/user/twoFaFalse", status, { withCredentials: true });
             account.twoFa = twoFaStatus;
         }
-    
+
         try {
             const results = await Promise.allSettled(promises);
-    
+
             const allSucceeded = results.every(result => result.status === 'fulfilled' && result.value);
-    
+
             if (allSucceeded) {
                 account.username = newUsername;
                 account.avatar = newAvatar;
@@ -99,10 +99,10 @@ const Settings = () => {
             setError("Intern Error");
         }
     };
-    
+
 
     return (
-        <div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
+        <div className="w-full h-[850px] lg:h-[850px] py-10 px-2 xl:px-20" >
             <div className="flex items-center justify-center h-screen">
                 <div className="w-3/5 h-4/5 bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
                     {/* changeUsername */}
@@ -112,7 +112,7 @@ const Settings = () => {
                         {error && <h2 className="text-red-500">{error}</h2>}
                     </div>
                     {/* ChangeProfilPic */}
-                    <ChangeProfilPic setNewAvatar={setNewAvatar}/>
+                    <ChangeProfilPic setNewAvatar={setNewAvatar} />
                     <TwoFa setTwoFaStatus={setTwoFaStatus} setSecret={setSecret} />
                     <div className="w-full flex justify-center items-center p-8">
                         <Button className="w-32 h-8 rounded p-2 text-white" variant="outlined" onClick={handleValidation}>

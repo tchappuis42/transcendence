@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
-import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { createPortal } from "react-dom";
 import AddAdmin from './AddAdmin';
@@ -8,6 +7,7 @@ import { Account } from '../../../ui/types';
 import RemoveAdmin from './RemoveAdmin';
 import MuteUser from './MuteUser';
 import BanUser from './BanUser';
+import DeleteChannel from './DeleteChannel';
 
 interface Chan {
 	id: number;
@@ -36,7 +36,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
-	let userId = 1;
 
 	function setButton(data: any) {
 		for (let i = 0; data[i]; ++i) {
@@ -62,24 +61,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			}
 		}
 	}
-
-	const deleteChannel = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (currentChannel !== "create a channel!") {
-			if (Owner === '1') {
-				alert('you delete a channel');
-				if (socket) {
-					socket.emit("deleteChannel", currentChannel);
-				}
-				alert('you have delete a channel');
-			}
-			else
-				alert("you are not the Owner");
-		}
-		else
-			alert("you don't have choice a channel!")
-	};
 
 	const changePass = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -192,34 +173,34 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			{settings &&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50"> {/*possible de mettre ca dans un composant*/}
-						<div className="w-1/2 h-1/2 rounded-lg p-8 bg-gray-900 text-white">
+						<div className="w-[450px] lg:w-[900px] h-1/2 rounded-lg p-8 bg-gray-900 text-white">
 							<div className="h-1/5 w-full flex flex-row-reverse justify-between">
-								<button onClick={() => setSettings(false)} className="text-gray-500 hover:text-gray-800 rounded-full">
+								<button onClick={() => setSettings(false)} className="h-10">
 									<h1 className="text-red-500 font-bold">X</h1>
 								</button>
-								<h1 className='font-semibold'>paramètres du channel : {currentChannel}</h1>
+								<h1 className='text-xl flex font-semibold lg:text-4xl items-center'>Paramètres du channel : {currentChannel}</h1>
+								{/*<h1 className='h-1/5'>status : {isOn ? "private" : "public"}</h1>*/}
 							</div>
-							{Owner === '1' && <div>
-								<div className=' '>
-									status : {isOn ? "private" : "public"}
+							{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl'>
+								<div className='h-1/5 flex justify-between'>
+									<h1 className='w-2/5 items-end flex'>changer le status du channel</h1>
+									<input type="text" placeholder='mot de passe' className='m-1' />
+									<div className='w-14'></div>
 								</div>
-								<div>
-									changer de mdp
-									old
-									<input type="text" />
-									new
-									<input type="text" />
+								<div className='h-1/5 flex justify-between'>
+									<h1 className='w-2/5 items-end flex'>changer de mot de passe</h1>
+									<input type="text" placeholder='ancien mot de passe' className='m-1' />
+									<input type="text" placeholder='nouveau mot de passe' className='m-1' />
+									<div className='w-14'></div>
 								</div>
-								<div> {/* super admin ???? seulement*/}
-									<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
-									<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
-								</div>
+								<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+								<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+								<DeleteChannel currentChannel={currentChannel} setSettings={setSettings} />
 							</div>}
-							<div>
+							<div className='h-1/5 text-sm lg:text-xl'>
 								<MuteUser currentChannel={currentChannel} userInChannel={userInChannel} />
 								<BanUser currentChannel={currentChannel} userInChannel={userInChannel} />
 							</div>
-							<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
 						</div>
 					</div>,
 					document.body
@@ -229,39 +210,3 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 };
 
 export default Channels;
-
-
-/*
-<div className="w-full h-[20%] mt-2 rounded-md bg-black/60 pt-1 shadow-md shadow-white">
-								<div className="  h-2/6  flex flex-row justify-center items-center">
-									<h1 className='text-white text-xl w-1/3 flex items-center justify-end'>Status</h1>
-									<div className='w-2/3 flex justify-center'>
-										<input type="checkbox" className="checkbox"
-											name={"status"}
-											id={"status"}
-											onClick={onClick}
-											onChange={handleSwitchChange}
-											checked={isOn}
-											disabled={disabled}
-											aria-labelledby="switchLabel"
-										/>
-										<label className="label" htmlFor="status">
-											<span className="inner" />
-										</label>
-									</div>
-								</div>
-								<div className='h-3/5 w-full  mt-2 flex flex-row items-stretch button-container'>
-									<div className='h-1/2 w-full  flex flex-row justify-between button-container p-2'>
-
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={addAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>addAdmin</button>
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={MuetUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Muet</button>
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={removeAdmin} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>removeAdmin</button>
-									</div>
-									<div className='h-1/2 w-full flex flex-row justify-between button-container p-2'>
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={changePass} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>changePass</button>
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={banUser} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>ban</button>
-										<button className=" shadow-sm shadow-white rounded-md px-2 h-6 flex justify-center text-white text-xs bg-black/80 hover:text-black hover:bg-white" onClick={deleteChannel} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>deleteChannel</button>
-									</div>
-								</div>
-							</div>
-							*/

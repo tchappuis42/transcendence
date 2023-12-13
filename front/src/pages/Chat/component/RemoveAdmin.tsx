@@ -17,9 +17,9 @@ const RemoveAdmin: React.FC<Props> = ({ userInChannel, currentChannel }) => {
 
 	useEffect(() => {
 		setUsers(userInChannel.filter(user => user.id !== account.id))
-	});
+	}, []);
 
-	const addAdmin = () => {
+	const removeAdmin = () => {
 		if (socket) {
 			socket.emit("removeAdmin", currentChannel, selectedUser?.id);
 		}
@@ -33,9 +33,9 @@ const RemoveAdmin: React.FC<Props> = ({ userInChannel, currentChannel }) => {
 	}
 
 	return (
-		<div className='flex justify-between'>
-			<h1>suprimer un Admin</h1>
-			<select value={selectedUser?.username} onChange={handleUserChange} className='w-32 text-black'>
+		<div className='flex justify-between h-1/5'>
+			<h1 className='w-2/5 items-center flex'>suprimer un Admin</h1>
+			<select value={selectedUser?.username} onChange={handleUserChange} className='w-32 lg:w-[295px] text-black m-1'>
 				<option value=''>-- Sélectionner un utilisateur --</option>
 				{users.map((user, index) => (
 					<option value={user.username} key={index}>
@@ -43,9 +43,11 @@ const RemoveAdmin: React.FC<Props> = ({ userInChannel, currentChannel }) => {
 					</option>
 				))}
 			</select>
-			{selectedUser &&
-				<button onClick={addAdmin}>valider</button>
-			}
+			<div className='w-10 lg:w-14 flex items-center'>
+				{selectedUser &&
+					<button onClick={removeAdmin}>valider</button>
+				}
+			</div>
 		</div>
 	);
 };

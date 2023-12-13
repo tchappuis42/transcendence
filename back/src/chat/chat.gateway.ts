@@ -370,7 +370,7 @@ export class ChatGateway {
 		const userMute = await this.userService.validateUser(args2[1]);
 		const muted = channel.muted.find((muted) => muted.userId == args2[1]);
 		if (!muted) 
-			await this.textChannelService.muteUserInChannel(channel, admin, userMute);	
+			await this.textChannelService.muteUserInChannel(channel, admin, userMute, 1);// 1 modifier cette variable quand elle sera recu
 	}
 
 	@SubscribeMessage('banUser')
@@ -380,7 +380,7 @@ export class ChatGateway {
 		const userban = await this.userService.validateUser(args2[1]);
 		const baned1 = channel.banned.find((banned) => banned.userId == args2[1]);
 		if (!baned1) 
-			await this.textChannelService.banUserInChannel(channel, admin, userban);
+			await this.textChannelService.banUserInChannel(channel, admin, userban, 1);// 1 modifier cette variable quand elle sera recu
 		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
 		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
 		if (baned) 

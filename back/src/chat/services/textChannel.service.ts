@@ -396,6 +396,7 @@ export class TextChannelService {
     channel: TextChannel,
     admin: UserDto,
     userMute: UserDto,
+    Time: number,
   ) {
     if (channel.owner == userMute){
       throw new HttpException(
@@ -419,7 +420,9 @@ export class TextChannelService {
     if (channel.muted.find((user1) => user1.id == userMute.id))
       throw new HttpException('User is already muted', HttpStatus.FORBIDDEN);
     
-    const time = new Date(Date.now() + temporary);
+    const temp = Time * 60 * 1000;
+    
+    const time = new Date(Date.now() + temp);
     const muted = this.mutedUserRepository.create({
         endOfMute: time,
         userId: userMute.id,
@@ -451,6 +454,7 @@ export class TextChannelService {
     channel: TextChannel,
     admin: UserDto,
     userBan: UserDto,
+    Time: number,
   ) {
     if (channel.owner == userBan){
       throw new HttpException(
@@ -473,8 +477,10 @@ export class TextChannelService {
 
     if (channel.banned.find((user1) => user1.id == userBan.id))
       throw new HttpException('User is already banned', HttpStatus.FORBIDDEN);
+
+    const temp = Time * 60 * 1000;
     
-    const time = new Date(Date.now() + temporary);
+    const time = new Date(Date.now() + temp);
     const banned = this.bannedUserRepository.create({
         endOfBan: time,
         userId: userBan.id,

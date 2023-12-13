@@ -345,7 +345,10 @@ export class ChatGateway {
 				client.leave(channel.name);
 				await this.textChannelService.removeUserFromChannel(channel, user.id)
 			}
-			client.emit("checkPass", channel.name, passStatue);
+			const channelOut = await this.textChannelService.getChannelMe(args[0]);
+			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+			client.emit("checkPass", channel.name, passStatue, userAllOut);
+			this.server.to(channel.name).emit('setUserInChannel', userAllOut);
 		} catch { }
 	}
 

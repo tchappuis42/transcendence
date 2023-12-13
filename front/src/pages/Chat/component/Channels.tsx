@@ -59,8 +59,9 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 				console.log("owner = ", owner)
 				setOwner(owner); //string pas number
 				setChannelStatus(status)
-				if (status)
+				if (status) {
 					socket.emit("message", data, chanName, '1');
+				}
 				else { //todo
 
 					console.log("la")

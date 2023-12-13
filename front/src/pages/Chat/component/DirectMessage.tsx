@@ -46,6 +46,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 				setIsOn(status);
 				socket.emit("DMmessage", " ", name, '1');
 				setBon(true)
+				console.log("ici")
 				//setteur(user);
 				//setUserInChannel(user);
 			});

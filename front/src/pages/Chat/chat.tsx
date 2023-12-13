@@ -81,8 +81,11 @@ const Chat = () => {
 			socket.on("checkPass", (name, datta) => {
 				setPass(datta);
 				if (datta === "ok") {
-					socket.emit("message", data, name, '1');
-					setMessages([]);
+					socket.emit("message", "", name, '1');
+				}
+				else {
+					setUserInChannel([])
+					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
 			});
@@ -138,6 +141,7 @@ const Chat = () => {
 	const sendMessage = (e: SyntheticEvent) => {
 		e.preventDefault();
 		console.log("DM_chann : ", DM_Chann)
+		console.log("pass ==", pass)
 
 		if (data) {
 			if (currentChannel !== "create a channel!" && pass !== "ko") {
@@ -160,12 +164,14 @@ const Chat = () => {
 	}
 
 	function takeChan(channelSet: string) {
+		console.log("takechanel")
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (socket) {
 			socket.emit("getChannelMeOne", channelSet, currentChannel);
 			setPass("ok")
 			//setMessages([]);
+			console.log("in if")
 		}
 	}
 
@@ -210,7 +216,7 @@ const Chat = () => {
 									value={data}
 									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
 								/>
-								<button type="submit" className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
+								<button type="submit" disabled={pass === 'ko' ? true : false} className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
 									onMouseEnter={handleMouseEnter}
 									onMouseLeave={handleMouseLeave}>
 									<h1 className="text-white hover:text-black">Send</h1>

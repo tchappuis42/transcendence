@@ -65,13 +65,15 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
 
+      const cryptPassword = await bcrypt.hash(passWorld, 10);
+
     const currentChannel = this.textChannelRepository.create({
       name: namechannel,
       owner: admin,
       users: [admin],
       adminId: [admin],
       status: true,
-      password: passWorld,
+      password: cryptPassword,
     });
 
     try {
@@ -379,17 +381,16 @@ export class TextChannelService {
     oldPass: string,
     newPass: string,
   ): Promise<number> {
-    console.log("hello")
     if ((await bcrypt.compare(oldPass, channel.password)) === true) {
       if (!newPass){
         return 0;
       }
-      console.log("hello")
+      
       try {
         const password = await bcrypt.hash(newPass, 10);
         await this.textChannelRepository.update(channel.id, { password });
       } catch (error) {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);  //return 0;
+        return 0;
       }
       return 1;
     }

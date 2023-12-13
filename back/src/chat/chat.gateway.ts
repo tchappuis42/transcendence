@@ -136,7 +136,6 @@ export class ChatGateway {
 	async getChannelMeOne( client: Socket, name: string): Promise<void> {
 		try {
 			const channel = await this.textChannelService.getChannelMe(name[0]);
-			console.log(channel.password)
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
 				client.leave(name[1]);
@@ -350,9 +349,7 @@ export class ChatGateway {
 
 	@SubscribeMessage('changePass')
 	async changePass(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
-		//try {
-			console.log(args[0])
-			console.log(args)
+		try {
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
 			let ret: number;
@@ -363,11 +360,7 @@ export class ChatGateway {
 				client.emit("changePass", "1");
 			else
 				client.emit("changePass", "0");
-
-			const channel1 = await this.textChannelService.getChannelByName(args[0]);
-			console.log("ancien mot de pass", channel.password)
-			console.log("nouveau mot de pass", channel1.password)
-		//} catch {}
+		} catch {}
 	}
 
 	@SubscribeMessage('muetUser')

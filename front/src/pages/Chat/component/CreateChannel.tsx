@@ -2,23 +2,19 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { createPortal } from "react-dom";
-
-interface Data {
-	channelName: string,
-	password: string
-}
+import ChanInfo from '../interface/chanInfo';
 
 const CreateChannel: React.FC<{ currentChannel: string }> = (currentChannel) => {
 
 	const socket = useSocket();
 	const [createchan, setCreatChan] = useState(false);
-	const [data, setData] = useState<Data>({ channelName: "", password: "" });
+	const [data, setData] = useState<ChanInfo>({ channelName: "", password: "" });
 	const [validData, setValidData] = useState(false)
 
 	const createchannel = (e: SyntheticEvent) => {
 		e.preventDefault();
 		if (socket) {
-			socket.emit("createchannel", data.channelName, currentChannel, data.password); //password en 3
+			socket.emit("createchannel", data.channelName, currentChannel, data.password);
 		}
 		resetData();
 	}

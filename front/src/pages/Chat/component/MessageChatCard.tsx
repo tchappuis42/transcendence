@@ -2,12 +2,7 @@
 import React from "react";
 import { useAccount } from "../../../ui/organisms/useAccount";
 import { handleMouseEnter, handleMouseLeave } from "../../Friend/interface/Tools";
-
-interface Message {
-    message: string;
-    username: string;
-    uId: number
-}
+import Message from "../interface/messageDto";
 
 interface messageProps {
 

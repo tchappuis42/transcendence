@@ -2,18 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { useAccount } from '../../../ui/organisms/useAccount';
-
-interface DMChan {
-	id: number;
-	name: string
-	statue: string;
-}
-
-interface Message {
-	message: string;
-	username: string;
-	uId: number
-}
+import Channel from '../interface/channelDto';
 
 interface Props {
 	takeChan(channelSet: string): void
@@ -22,33 +11,13 @@ interface Props {
 
 const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 	const socket = useSocket();
-	const [all_DMChannels, setDMCHannel] = useState<DMChan[]>([]);
-	const [isOn, setIsOn] = useState(false)
-	const [bon, setBon] = useState(false)   // bien guez mais il etait 5h du sbarrr
+	const [all_DMChannels, setDMCHannel] = useState<Channel[]>([]);
 	const { account } = useAccount();
 
-	const handleSwitchChange = (on: any) => {
-		console.log(`new switch "on" state:`, isOn)
-		if (socket) {
-			if (isOn === false)
-				socket.emit("DMBlock", currentChannel, true);
-			else
-				socket.emit("DMBlock", currentChannel, false);
-		}
-	}
-
-
 	useEffect(() => {
-		setBon(false)
 		if (socket) {
 			socket.on("getDMChannelMe", (name, status, user) => {
-				//setPassword('0');
-				setIsOn(status);
 				socket.emit("DMmessage", " ", name, '1');
-				setBon(true)
-				console.log("ici")
-				//setteur(user);
-				//setUserInChannel(user);
 			});
 			socket.on("createDMChannel", (data, channel) => {
 				takeChan(channel);
@@ -68,18 +37,12 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 		};
 	}, [socket, currentChannel]);
 
-	const onClick = () => {
-		console.log("oclickckckc")
-		setIsOn(!isOn)
-	}
-
-	const getUserName = (name: string) => {
+	const getUserName = (name: string) => {  //todo
 		const users = name.split("_");
 		if (users[0] !== account.username)
 			return users[0];
 		if (users[1] !== account.username)
 			return users[1];
-
 		return ("")
 	}
 

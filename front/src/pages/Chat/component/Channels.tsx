@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { createPortal } from "react-dom";
@@ -10,68 +10,37 @@ import BanUser from './BanUser';
 import DeleteChannel from './DeleteChannel';
 import ChangePassword from './ChangePassword';
 import ChannelStatus from './ChannelStatus';
-
-interface Chan {
-	id: number;
-	name: string;
-	statue: string;
-}
-
-interface Message {
-	message: string;
-	username: string;
-	uId: number
-}
+import Message from '../interface/messageDto';
+import Channel from '../interface/channelDto';
 
 interface Props {
 	takeChan: (channelSet: string) => void;
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-	data: string;
 	userInChannel: Account[];
 }
 
-const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data, userInChannel }) => {
-	const [all_channels, setChannels] = useState<Chan[]>([]);
-	const [isOn, setIsOn] = useState(false)
-	const [password, setPassword] = useState("");
+const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel }) => {
+	const [all_channels, setChannels] = useState<Channel[]>([]);
 	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
 
-	function setButton(data: any) {
-		for (let i = 0; data[i]; ++i) {
-			if (data[i].name === currentChannel) {
-				if (data[i].statue === 'Public')
-					setIsOn(false);
-				else
-					setIsOn(true);
-			}
-		}
-	}
-
 	useEffect(() => {
 		setOwner("0")
 		if (socket) {
-			socket.on("getChannelMeOne", (Id, chanName, status, owner, pass, user) => {  //chatid chatname chatstatus userstatus succespassword user
-				console.log("data = ", Id, status, channelStatus, owner, pass, user)
-				console.log("owner = ", owner)
-				setOwner(owner); //string pas number
+			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				setOwner(owner);
 				setChannelStatus(status)
 				if (status) {
-					socket.emit("message", data, chanName, '1');
+					socket.emit("message", " ", chanName, '1');
 				}
 				else { //todo
-
-					console.log("la")
 					const password = prompt("what is the PassWord?");
 					if (socket)
 						socket.emit("checkPass", chanName, password);
 				}
-				//setPassword(pass);
-				//setteur(user);
-				//setUserInChannel(user);
 				console.log(owner)
 			});
 			socket.on("getAllChannels", (data) => {
@@ -80,15 +49,13 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			socket.on("refreshChannel", (data) => {
 				setChannels(data);
 			})
-			socket.on("refreshChannelStatus", (data: Chan[]) => {
+			socket.on("refreshChannelStatus", (data: Channel[]) => {
 				setChannels(data);
 				console.log(data)
 				const status = data.find((chan) => { if (chan.name === currentChannel) { return chan.statue } })
 				console.log(status)
-				if (status?.statue === 'Private') {
-					console.log("status === private")
+				if (status?.statue === 'Private')
 					setChannelStatus(false);
-				}
 				else
 					setChannelStatus(true);
 
@@ -115,10 +82,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 			}
 		};
 	}, [socket, currentChannel]);
-
-	const onClick = () => {
-		setIsOn(!isOn)
-	}
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
@@ -158,7 +121,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, data
 									<h1 className="text-red-500 font-bold">X</h1>
 								</button>
 								<h1 className='text-xl flex font-semibold lg:text-4xl items-center'>Paramètres du channel : {currentChannel}</h1>
-								{/*<h1 className='h-1/5'>status : {isOn ? "private" : "public"}</h1>*/}
 							</div>
 							{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl'>
 								<ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />

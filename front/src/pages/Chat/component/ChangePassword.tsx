@@ -1,15 +1,11 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
-
-interface Data {
-	oldPassword: string,
-	password: string
-}
+import ChanPassword from '../interface/chanPassword';
 
 const ChangePassword: React.FC<{ currentChannel: string }> = (currentChannel) => {
 
 	const socket = useSocket();
-	const [data, setData] = useState<Data>({ oldPassword: "", password: "" });
+	const [data, setData] = useState<ChanPassword>({ oldPassword: "", password: "" });
 	const [validData, setValidData] = useState(false)
 
 	const changePass = (e: SyntheticEvent) => {

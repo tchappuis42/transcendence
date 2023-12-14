@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Account } from '../../../ui/types';
-import { useAccount } from '../../../ui/organisms/useAccount';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 
 interface Props {

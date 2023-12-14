@@ -1,31 +1,13 @@
-import "./style.css";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
-import React from "react";
-
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
-import { useLocation } from 'react-router-dom';
 import UserInChannel from "./component/UserInChannel";
 import Channels from "./component/Channels";
 import DirectMessage from "./component/DirectMessage"
-
-import { useAccount } from "../../ui/organisms/useAccount";
-import { handleMouseEnter, handleMouseLeave } from "../Friend/interface/Tools";
-import MessageChatCard from "./component/MessageChatCard";
 import CreateChannel from "./component/CreateChannel";
-
-interface Message { //mettre dans un fichier
-	message: string;
-	username: string;
-	uId: number
-}
-
-enum Owner {
-	user = 0,
-	owner = 1,
-	admin = 2
-}
+import ChatBoard from "./component/ChatBoard";
+import Message from "./interface/messageDto";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -34,8 +16,6 @@ const Chat = () => {
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
-	const [userTyping, setUserTyping] = useState("");
-	const [Timer, setTimer] = useState(0);
 	const socket = useSocket();
 
 	useEffect(() => {
@@ -73,12 +53,10 @@ const Chat = () => {
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
 				setDM_Chann(false)
-				//setdis(false);
-				setteur(user);
-				//setUserInChannel(user);
+				setUserInChannel(user);
 			});
 			socket.on("setUserInChannel", (user) => {
-				setteur(user);
+				setUserInChannel(user);
 			})
 			socket.on("checkPass", (name, datta, user) => {
 				setPass(datta);
@@ -90,7 +68,7 @@ const Chat = () => {
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
-				setteur(user);
+				setUserInChannel(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -124,12 +102,6 @@ const Chat = () => {
 					setMessages([]);
 				}
 			});
-			socket.on("isTyping", (msg) => {
-				setTimeout(() => {
-					setUserTyping("")
-				}, 5000);
-				setUserTyping(msg);
-			});
 		}
 		return () => {
 			if (socket) {
@@ -143,45 +115,16 @@ const Chat = () => {
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
 				socket.off("createDMChannel");
-				socket.off("isTyping");
 			}
 		};
 	}, [socket, data, currentChannel]);
 
-	const sendMessage = (e: SyntheticEvent) => {
-		e.preventDefault();
-		console.log("DM_chann : ", DM_Chann)
-		console.log("pass ==", pass)
-
-		if (data) {
-			if (currentChannel !== "create a channel!" && pass !== "ko") {
-				if (socket) {
-					if (DM_Chann) {
-						socket.emit("message", data, currentChannel, '0');
-						setData("");
-					}
-					else {
-						socket.emit("DMmessage", data, currentChannel, '0')
-						setData("");
-					}
-				}
-			}
-		}
-	};
-
-	function setteur(user: any) {
-		setUserInChannel(user);
-	}
-
 	function takeChan(channelSet: string) {
-		console.log("takechanel")
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (socket) {
 			socket.emit("getChannelMeOne", channelSet, currentChannel);
 			setPass("ok")
-			//setMessages([]);
-			console.log("in if")
 			setData("");
 		}
 	}
@@ -192,20 +135,7 @@ const Chat = () => {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
 			setData("");
-			//setMessages([]);
 		}
-	}
-
-	function Typing() {
-		setTimer(1);
-		if (currentChannel !== "create a channel!" && Timer === 0)
-			socket?.emit("Typing", currentChannel);
-		if (data === "")
-			setTimer(0);
-	}
-
-	function sendOk() {
-		setTimer(0);
 	}
 
 	return (
@@ -213,51 +143,17 @@ const Chat = () => {
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
-					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} data={data} userInChannel={userInChannel} />
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
-			<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
-				<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
-					<h1 className="text-white text-3xl font-semibold">{currentChannel.split("_")[0]}</h1>
-				</div>
-				<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
-					<div className="w-full h-5/6 bg-black/60 overflow-scroll p-5 shadow-md shadow-white">
-						{messages.map((msg, index) => (
-							<MessageChatCard msg={msg} index={index} />
-						))}
-					</div>
-					<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
-						<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
-							<label htmlFor="text" className="flex flex-col w-4/5">
-								<h1 className="text-white">{userTyping}</h1>
-								<textarea
-									className="h-12 pl-2 resize-none rounded-md"
-									name="data"
-									onChange={(e) => setData(e.target.value)}
-									placeholder="Type your message..."
-									value={data}
-									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
-									onInput={Typing}
-								/>
-								<button type="submit" disabled={pass === 'ko' ? true : false} className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
-									onMouseEnter={handleMouseEnter}
-									onMouseLeave={handleMouseLeave}
-									onClick={sendOk}>
-									<h1 className="text-white hover:text-black">Send</h1>
-								</button>
-							</label>
-						</form>
-					</div>
-				</div>
-			</div>
+			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<FriendsChat currentChannel={currentChannel} />
 				</div>
-
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>

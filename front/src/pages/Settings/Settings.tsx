@@ -99,15 +99,14 @@ const Settings = () => {
             setError("Intern Error");
         }
     };
-    
-
+    // h-[1500px] lg:h-[850px]
     return (
-        <div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
+        <div className="w-full py-10 px-2 xl:px-20">
             <div className="flex items-center justify-center h-screen">
-                <div className="w-3/5 h-4/5 bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
+                <div className="w-3/5 min-w-[350px] max-w-[700px] h-4/5 min-h-[647px] bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
                     {/* changeUsername */}
                     <div className="w-4/5 h-1/5  flex flex-col justify-center items-center">
-                        <h1 className="text-white">Change your username</h1>
+                        <h1 className="text-white font-bold">Change your username</h1>
                         <input type="text" placeholder={account.username} className="mt-2 px-4 py-2 bg-white text-black rounded-md" onChange={handleChangeUsername} />
                         {error && <h2 className="text-red-500">{error}</h2>}
                     </div>

@@ -38,8 +38,8 @@ export const SlanderousMenu = ({myRef}: SlanderousMenuProps) => {
 	}, []);
 
 	return (
-		<div className="profile-bar-menu">
-			<BellNotificationComponent setIsActive={setIsActive}/>
+		<div className="flex items-center justify-between mr-2 w-[100px]">
+			{/*<BellNotificationComponent setIsActive={setIsActive}/>*/}
 			<DropDownMenuList inputRef={inputRef}/>
 			<DropDownMenuListPictures height={height} width={width}/>
 		</div>

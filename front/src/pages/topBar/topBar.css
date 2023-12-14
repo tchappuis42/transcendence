@@ -10,8 +10,7 @@
         bg-gray-100 rounded
     }
     .profile-bar-menu {
-        @apply w-[150px]
-        flex items-center justify-between
+        @apply flex items-center justify-between
     }
     .profil-pictures-with-slanderous-menu {
         @apply rounded

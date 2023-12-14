@@ -68,22 +68,23 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
   }
 }
  
-
+  //modifs:
+  // image: aspect-square object-cover min-w-[100px]
     return(
-        <div className="w-4/5 h-1/3 flex justify-between items-center mt-5">
+        <div className="w-4/5 h-1/4 flex justify-between items-center mt-5  ">
         <div className="w-4/12 h-full rounded-xl flex justify-center items-center">
-            <img alt="image de profil" className="rounded-md h-5/6 ml-3 border-2 border-white"
+            <img alt="image de profil" className="aspect-square h-full object-cover min-w-[100px] rounded-md ml-3 border-2 border-white"
                 src={avatar}/>
         </div>
-        <div className="w-7/12 h-full flex flex-col justify-center items-center rounded-xl">
-            <h1 className="text-white">Choose a new pic</h1>
-            <label className="w-1/2 h-1/4 flex justify-center items-center rounded-lg cursor-pointer">
-            <button className=" rounded h-full w-1/2 mr-2 border-dashed border-2 border-gray-300" onClick={() => setSelectorType(false)}>
-              <h3 className="text-white hover:transform hover:scale-150 transition duration-300">Link</h3>
-            </button>
-              <button className=" h-full rounded w-1/2 border-dashed border-2 border-gray-300" onClick={() => setSelectorType(true)}>
-                <h3 className="text-white hover:transform hover:scale-150 transition duration-300">Choose</h3>
-              </button>
+        <div className="w-7/12 min-w-[180px] h-full flex flex-col justify-center items-center rounded-md border-2 border-white p-2">
+            <h1 className="text-white px-2 py-4 font-bold">Choose a new pic</h1>
+            <label className="w-full flex justify-center items-center rounded-lg cursor-pointer">
+              <Button className="w-1/3 min-w-[60px] h-8 rounded mr-2 text-white" variant="outlined" onClick={() => setSelectorType(false)}>
+                <h3 className="text-white hover:transform hover:scale-110 transition duration-300">Link</h3>
+              </Button>
+              <Button className="w-1/3 min-w-[60px] h-8 rounded mr-2 text-white" variant="outlined" onClick={() => setSelectorType(true)}>
+                <h3 className="text-white hover:transform hover:scale-110 transition duration-300">search</h3>
+              </Button>
             </label>
             {!selectorType ? (
               <div className="mt-5">
@@ -91,7 +92,7 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
                 {error && <h2 className="text-red-500">{error}</h2>}
               </div>
             ):(
-              <div>
+              <div className="">
 
               <div className="mt-5 flex flex-row justify-center items-center">
                 <input type="text" onChange={(event) => setStringToSearch(event.target.value)} className="rounded w-full h-8" placeholder="Search a picture"/>

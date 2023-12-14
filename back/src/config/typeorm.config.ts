@@ -14,11 +14,11 @@ dotenv.config();
 export const typeormconfig: TypeOrmModuleOptions = {
 		type: 'postgres',
 		host: process.env.DB_HOST,
-		port: 5432,
+		port: process.env.DB_PORT,
 		username: process.env.DB_USER,
-		password: 'pswd',
-		database: 'test',
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_DATABASE,
 		entities: [User, TextChannel, Msg, MutedUser, BannedUser, DMChannel, Game, Friends],
-		synchronize: true,
+		synchronize: process.env.DB_SYNCHRONIZE,
 		//logging: true,
 }

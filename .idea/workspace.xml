@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/config/typeorm.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/config/typeorm.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/back/js.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/back/js.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/front/js.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/front/js.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

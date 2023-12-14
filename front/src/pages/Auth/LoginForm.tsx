@@ -22,7 +22,7 @@ const LoginForm: React.FC<FormProps> = ({
 		try {
 			const obj =
 			{
-				username: data.username,
+				identifiant: data.identifiant,
 				password: data.password
 			}
 			const response = await axios.post("http://localhost:4000/authentication/login", obj, { withCredentials: true });
@@ -50,10 +50,10 @@ const LoginForm: React.FC<FormProps> = ({
 					<label htmlFor="text" className="w-2/3">
 						<input className='w-full h-14 rounded-3xl pl-5 mt-1'
 							type="text"
-							name="username"
-							value={data.username}
+							name="identifiant"
+							value={data.identifiant}
 							onChange={handleChange}
-							placeholder='username'
+							placeholder='identifiant'
 						/>
 					</label>
 					<label htmlFor="password" className="w-2/3">

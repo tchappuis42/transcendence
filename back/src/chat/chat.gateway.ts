@@ -66,14 +66,43 @@ export class ChatGateway {
 			{
 				if (!muet) {
 					const msg = user.username + " " + "est entrain d'écrire";
-					this.server.to(channel.name).emit('isTyping', msg);
+					for (let i = 0; channel.users[i]; i++) {
+						if (channel.users[i].id !== user.id) {
+							const Socket = await this.userService.getSocketUser(channel.users[i].id);
+							if (Socket) {
+								Socket.socket.forEach(socketId => {
+									this.server.sockets.sockets.forEach(socket => {
+										if (socket.id === socketId) 
+											socket.emit('isTyping', msg);
+									})
+								})
+							}
+						}
+					}
 				}
 			}
 		}
 		else {
 			const channel = await this.DMChannelService.getDMChannelMe(data);
 			const msg = user.username + " " + "est entrain d'écrire";
-			this.server.to(channel.name).emit('isTyping', msg);
+			let userId: number;
+			if (channel.user1[0].id === user.id)
+				userId = channel.user2[0].id;
+			else
+				userId = channel.user1[0].id;
+			const clientInRoom = await this.server.in(channel.name).allSockets();
+			if (clientInRoom.size === 2) {
+				const Socket = await this.userService.getSocketUser(userId);
+				if (Socket) {
+					Socket.socket.forEach(socketId => {
+						this.server.sockets.sockets.forEach(socket => {
+							if (socket.id === socketId) {
+								socket.emit('isTyping', msg);
+							}
+						})
+					})
+				}
+			}
 		}
 	}
 

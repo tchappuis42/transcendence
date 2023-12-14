@@ -34,6 +34,8 @@ const Chat = () => {
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
+	const [userTyping, setUserTyping] = useState("");
+	const [Timer, setTimer] = useState(0);
 	const socket = useSocket();
 
 	useEffect(() => {
@@ -122,6 +124,12 @@ const Chat = () => {
 					setMessages([]);
 				}
 			});
+			socket.on("isTyping", (msg) => {
+				setTimeout(() => {
+					setUserTyping("")
+				}, 5000);
+				setUserTyping(msg);
+			});
 		}
 		return () => {
 			if (socket) {
@@ -135,6 +143,7 @@ const Chat = () => {
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
 				socket.off("createDMChannel");
+				socket.off("isTyping");
 			}
 		};
 	}, [socket, data, currentChannel]);
@@ -173,6 +182,7 @@ const Chat = () => {
 			setPass("ok")
 			//setMessages([]);
 			console.log("in if")
+			setData("");
 		}
 	}
 
@@ -181,8 +191,21 @@ const Chat = () => {
 		if (socket) {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
+			setData("");
 			//setMessages([]);
 		}
+	}
+
+	function Typing() {
+		setTimer(1);
+		if (currentChannel !== "create a channel!" && Timer === 0)
+			socket?.emit("Typing", currentChannel);
+		if (data === "")
+			setTimer(0);
+	}
+
+	function sendOk() {
+		setTimer(0);
 	}
 
 	return (
@@ -209,6 +232,7 @@ const Chat = () => {
 					<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
 						<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
 							<label htmlFor="text" className="flex flex-col w-4/5">
+								<h1 className="text-white">{userTyping}</h1>
 								<textarea
 									className="h-12 pl-2 resize-none rounded-md"
 									name="data"
@@ -216,10 +240,12 @@ const Chat = () => {
 									placeholder="Type your message..."
 									value={data}
 									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
+									onInput={Typing}
 								/>
 								<button type="submit" disabled={pass === 'ko' ? true : false} className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
 									onMouseEnter={handleMouseEnter}
-									onMouseLeave={handleMouseLeave}>
+									onMouseLeave={handleMouseLeave}
+									onClick={sendOk}>
 									<h1 className="text-white hover:text-black">Send</h1>
 								</button>
 							</label>

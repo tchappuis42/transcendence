@@ -56,6 +56,27 @@ export class ChatGateway {
 		}
 	}
 
+	@SubscribeMessage('Typing')
+	async Typing(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+		const user = client.data.user as UserDto;
+		if ((await this.DMChannelService.getDMChannelMeForText(data)) == 0) {
+			const channel = await this.textChannelService.getChannelMe(data);
+			const muet = channel.muted.find((muted) => muted.userId == user.id)
+			if (channel.users.find((user1) => user1.id == user.id)) 
+			{
+				if (!muet) {
+					const msg = user.username + " " + "est entrain d'écrire";
+					this.server.to(channel.name).emit('isTyping', msg);
+				}
+			}
+		}
+		else {
+			const channel = await this.DMChannelService.getDMChannelMe(data);
+			const msg = user.username + " " + "est entrain d'écrire";
+			this.server.to(channel.name).emit('isTyping', msg);
+		}
+	}
+
 	@SubscribeMessage('message')
 	async handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		try {
@@ -76,7 +97,6 @@ export class ChatGateway {
 					const muet1 = channel1.muted.find((mueted) => mueted.userId == user.id);
 					if (!muet1) {
 						await this.textChannelService.addMsgForChannel(data[0], data[1], admin.id);
-						console.log("user = ", channel.users)
 						for (let i = 0; channel.users[i]; i++) {
 							const blocked = await this.userService.getUserBlocked(channel.users[i].id)
 							let string_ret: string;
@@ -388,9 +408,24 @@ export class ChatGateway {
 			await this.textChannelService.banUserInChannel(channel, admin, userban, args2[2]);
 		const MajChannel = await this.textChannelService.getChannelByName(args1[0]);
 		const baned = MajChannel.banned.find((banned) => banned.userId == args2[1]);
-		if (baned)
-			this.server.to(channel.name).emit('banUser', channel.name);
-	}
+		if (baned) {
+			client.leave(channel.name)
+			await this.textChannelService.removeUserFromChannel(channel, userban.id)
+			const channelOut = await this.textChannelService.getChannelByName(args1[0]);
+			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+			this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
+			const Socket = await this.userService.getSocketUser(userban.id);
+						if (Socket) {
+							Socket.socket.forEach(socketId => {
+								this.server.sockets.sockets.forEach(socket => {
+									if (socket.id === socketId) {
+										socket.emit('banUser', channel.name);
+									}
+								})
+							})
+						}
+		}
+	}	
 
 	/*	@SubscribeMessage('bannedUser')
 		async bannedUser(@MessageBody() chanName: string, @ConnectedSocket()client: Socket) {

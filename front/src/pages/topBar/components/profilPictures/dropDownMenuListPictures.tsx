@@ -42,7 +42,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 			<span className="test" onClick={handleOpen}>
 				<img alt="userPhoto" style={{ width: `${height}px`, height: `${width}px` }}
 					src={account.avatar}
-					className="object-cover rounded" />
+					className="object-cover " />
 			</span>
 			{open && (
 				<div className={`menu-slanderous black-border-fine`}>

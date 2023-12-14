@@ -1,9 +1,9 @@
 npm install
 # cmd pour dev front
-#npm start
+npm start
 
 # cmd pour prod front
-npm i -g serve
+#npm i -g serve
 
-npm run build
-serve -s build
+#npm run build
+#serve -s build

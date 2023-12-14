@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a55f5296-b08e-4118-b94e-341fd5f48e46" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/config/typeorm.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/config/typeorm.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/back/js.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/back/js.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/front/js.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/front/js.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +71,7 @@
       <workItem from="1701434329610" duration="3011000" />
       <workItem from="1701437877794" duration="5851000" />
       <workItem from="1702402638517" duration="4093000" />
+      <workItem from="1702572162676" duration="995000" />
     </task>
     <servers />
   </component>

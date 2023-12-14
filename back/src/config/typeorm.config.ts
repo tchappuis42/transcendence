@@ -20,5 +20,4 @@ export const typeormconfig: TypeOrmModuleOptions = {
 		database: process.env.DB_DATABASE,
 		entities: [User, TextChannel, Msg, MutedUser, BannedUser, DMChannel, Game, Friends],
 		synchronize: process.env.DB_SYNCHRONIZE,
-		//logging: true,
 }

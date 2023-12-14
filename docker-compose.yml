@@ -7,6 +7,8 @@ services:
             POSTGRES_DB: test
             POSTGRES_USER: root
             POSTGRES_PASSWORD: pswd
+        ports:
+          - 5432:5432
         networks:  
             - transcendence
         volumes:
@@ -26,6 +28,8 @@ services:
             - transcendence
         working_dir: /usr/src/app
         restart: always
+        env_file:
+            - .env
     
     front:
         tty: true

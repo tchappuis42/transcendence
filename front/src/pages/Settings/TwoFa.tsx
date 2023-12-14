@@ -77,7 +77,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
 
     return (
         <div className="w-5/6 flex justify-center items-center mt-10">
-            <div className=" w-2/6 flex justify-around border-2 border-white p-2 rounded border-dashed">
+            <div className=" w-2/6 min-w-[200px] flex justify-around border-2 border-white p-2 rounded border-dashed ">
                 <input type={"checkbox"} checked={QRCodeBol} className="w-6 rounded-full" onChange={handleCheckBoxChange}>
                 </input>
                 <h1 className="text-white ">Activate 2FA</h1>

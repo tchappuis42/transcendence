@@ -31,13 +31,12 @@ interface LeftComponentProps {
 export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const { account } = useAccount();
 	const [isFriend, setIsFriend] = useState<string>("");
-	const [isFriendBlock, setIsFriendBlock] = useState<string>("");
+	const [isUserBlock, setUserBlock] = useState<string>("");
 
 	useEffect(() => {
 		if (user?.id && user?.id !== account.id) {
 			const fetchFriends = async () => {
 				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${user?.id}`, { withCredentials: true });
-				console.log("response friend: ", response);
 				if (response.data) {
 
 					if (response.data?.friend_status === 0)
@@ -50,19 +49,18 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 
 			};
 			fetchFriends();
-			const fetchFriendsBlocked = async () => {
-				const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
-				console.log("response block: ", response);
+			const fetchUserBlocked = async () => {
+				const response = await axios.get(`http://localhost:4000/user/getUserBlockedId/${user?.id}`, { withCredentials: true });
+				console.log("response block: ", response.data);
 				if (response.data) {
 
-					if (response.data?.friend_status === 0)
-						setIsFriendBlock("unblock");
+					if (response.data)
+						setUserBlock("unblock");
 				}
 				else
-					setIsFriendBlock("block");
-
+					setUserBlock("block");
 			};
-			fetchFriendsBlocked();
+			fetchUserBlocked();
 		}
 	}, [user?.id]);
 
@@ -91,31 +89,31 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			removeFriend();
 		}	
 	}
-	const handleFriendsBlockedRequest = () => {
-		if (isFriendBlock === "block") {
-				const blockFriend = async () => {
+	const handleBlockedRequest = () => {
+		if (isUserBlock === "block") {
+			const block = async () => {
+				console.log("hello");
 				try {
-					const response = await axios.get("http://localhost:4000/user/getUserBlocked", { withCredentials: true });
-					setIsFriendBlock("is blocked");
+					const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
+					console.log("block: ", response.data);
+					setUserBlock("unblock");
 				} catch {
 					console.error("error while sending friends request");
 				}
 			}
+			block();
 		}
-		if (isFriendBlock === "Delete") {
-			const deblockFriend = async () => {
-				const friendObj = {
-					id : user?.id,
-					accept : true
-				}
+		else {
+			const deblock = async () => {
 				try {
-					const response = await axios.post("http://localhost:4000/user/getUserBlocked", friendObj, {withCredentials:true})
-					setIsFriendBlock("block")
+					const response = await axios.get(`http://localhost:4000/user/unblock/${user?.id}`, {withCredentials:true})
+					console.log("unblock: ", response.data);
+					setUserBlock("block")
 				} catch {
 					console.error("error while deleting friends request");
 				}
 			}
-			deblockFriend();
+			deblock();
 		}
 	}
 
@@ -139,12 +137,12 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			</div>
 			{user?.id !== account.id &&
 				<div className="w-full flex justify-center items-center p-5">
-					<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsRequest() }} variant="outlined">
+					<Button className="w-32 h-8 rounded p-2 text-white mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
 						{isFriend}
 					</Button>
-                    {/*<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsBlockedRequest() }} variant="outlined">*/}
-					{/*	{isFriendBlock}*/}
-                    {/*</Button>*/}
+                    <Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleBlockedRequest() }} variant="outlined">
+						{isUserBlock}
+                    </Button>
 				</div>
 			}
 		</div>

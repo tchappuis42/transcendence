@@ -142,9 +142,9 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 					<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsRequest() }} variant="outlined">
 						{isFriend}
 					</Button>
-                    <Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsBlockedRequest() }} variant="outlined">
-						{isFriendBlock}
-                    </Button>
+                    {/*<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsBlockedRequest() }} variant="outlined">*/}
+					{/*	{isFriendBlock}*/}
+                    {/*</Button>*/}
 				</div>
 			}
 		</div>

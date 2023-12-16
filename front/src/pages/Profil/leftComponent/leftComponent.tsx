@@ -98,7 +98,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 					console.log("block: ", response.data);
 					setUserBlock("unblock");
 				} catch {
-					console.error("error while sending friends request");
+					console.error("error while blocking user request");
 				}
 			}
 			block();
@@ -110,7 +110,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 					console.log("unblock: ", response.data);
 					setUserBlock("block")
 				} catch {
-					console.error("error while deleting friends request");
+					console.error("error while unblocking friends request");
 				}
 			}
 			deblock();

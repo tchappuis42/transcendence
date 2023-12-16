@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -59,6 +59,42 @@ export class AuthController {
 		res.clearCookie('2fa_token');
 		return { message: user.twoFaSecret }; // msg succes
 	}
+
+	@Post("/api")
+async handleApiEndpoint(@Body() body: { code: string }): Promise<{ message: string}> {
+  const { code } = body;
+
+  if (code) {
+    try {
+		//chope le token en appelant l api avec le code et l'env
+      const token = await this.authService.getToken(code);
+      console.log(token);
+
+		//app call l'api pour avoir le data 
+      const profileData = await this.authService.getUserInfo(token.access_token);
+
+      // Process the profile data as needed
+      console.log(profileData);
+
+
+	  const userInfo = await this.authService.postLoginApi(profileData);
+      // Return the profile data along with a success message
+      return { message: 'Data received successfully!'};
+    } catch (error) {
+      // Handle any errors here
+      console.error(error);
+
+      // Return an error message or handle it as needed
+      throw new BadRequestException('Failed to fetch data from the API');
+    }
+  } else {
+    // Return an error message with a 400 status code if 'code' is missing or empty
+    throw new BadRequestException('Missing or empty code parameter');
+  }
+}
+
+
+  
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")

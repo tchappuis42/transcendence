@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { JwtService } from '@nestjs/jwt';
 import { authenticator } from 'otplib';
+import axios from "axios";
+import * as dotenv from "dotenv"
 
 @Injectable()
 export class AuthService {
@@ -54,4 +56,49 @@ export class AuthService {
 		const payload = { sub: user.id, username: user.username };
 		return await this.jwtService.signAsync(payload)
 	}
+
+	async getToken(code: string) {
+
+		dotenv.config();
+		const url = 'https://api.intra.42.fr/oauth/token';
+	
+		// Define the data to be sent in the POST request
+		const data = new URLSearchParams();
+		data.append('grant_type', 'authorization_code');
+		data.append('client_id', process.env.API_UID);
+		data.append('client_secret', process.env.API_SECRET);
+		data.append('code', code);
+		data.append('redirect_uri', 'http://localhost:3000/waiting');
+	
+		console.log(data);
+
+		try {
+		  // Make the POST request
+		  const response = await axios.post(url, data);
+	
+		  // Return the response data (access token, etc.)
+		  return response.data;
+		} catch (error) {
+			console.error(error);
+		  // Handle any errors here
+		  throw error;
+		}
+	  }
+
+	  async getUserInfo(token: string) {
+		const url = 'https://api.intra.42.fr/v2/me';
+
+		try {
+		  const response = await axios.get(url, {
+			headers: {
+			  Authorization: `Bearer ${token}`,
+			},
+		  });
+	
+		  return response.data;
+		} catch (error) {
+		  // Handle any errors here
+		  throw error;
+		}
+	  }
 }

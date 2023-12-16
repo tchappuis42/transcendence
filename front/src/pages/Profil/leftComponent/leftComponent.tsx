@@ -31,11 +31,13 @@ interface LeftComponentProps {
 export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const { account } = useAccount();
 	const [isFriend, setIsFriend] = useState<string>("");
+	const [isFriendBlock, setIsFriendBlock] = useState<string>("");
 
 	useEffect(() => {
 		if (user?.id && user?.id !== account.id) {
 			const fetchFriends = async () => {
 				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${user?.id}`, { withCredentials: true });
+				console.log("response friend: ", response);
 				if (response.data) {
 
 					if (response.data?.friend_status === 0)
@@ -48,6 +50,19 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 
 			};
 			fetchFriends();
+			const fetchFriendsBlocked = async () => {
+				const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
+				console.log("response block: ", response);
+				if (response.data) {
+
+					if (response.data?.friend_status === 0)
+						setIsFriendBlock("unblock");
+				}
+				else
+					setIsFriendBlock("block");
+
+			};
+			fetchFriendsBlocked();
 		}
 	}, [user?.id]);
 
@@ -76,6 +91,33 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			removeFriend();
 		}	
 	}
+	const handleFriendsBlockedRequest = () => {
+		if (isFriendBlock === "block") {
+				const blockFriend = async () => {
+				try {
+					const response = await axios.get("http://localhost:4000/user/getUserBlocked", { withCredentials: true });
+					setIsFriendBlock("is blocked");
+				} catch {
+					console.error("error while sending friends request");
+				}
+			}
+		}
+		if (isFriendBlock === "Delete") {
+			const deblockFriend = async () => {
+				const friendObj = {
+					id : user?.id,
+					accept : true
+				}
+				try {
+					const response = await axios.post("http://localhost:4000/user/getUserBlocked", friendObj, {withCredentials:true})
+					setIsFriendBlock("block")
+				} catch {
+					console.error("error while deleting friends request");
+				}
+			}
+			deblockFriend();
+		}
+	}
 
 	return (
 		<div>
@@ -100,6 +142,9 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 					<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsRequest() }} variant="outlined">
 						{isFriend}
 					</Button>
+                    <Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsBlockedRequest() }} variant="outlined">
+						{isFriendBlock}
+                    </Button>
 				</div>
 			}
 		</div>

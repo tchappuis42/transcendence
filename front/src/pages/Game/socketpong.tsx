@@ -15,7 +15,6 @@ const SocketPong = () => {
 	const [page, setPage] = useState(false);
 	const [player1, setplayer1] = useState(0);
 	const [player2, setplayer2] = useState(0);
-	const [search, setsearch] = useState("trouver un match")
 	const [rules, setRules] = useState(false);
 	const [color, setColor] = useState({ //la ba et ici
 		paddle: "white",
@@ -35,17 +34,8 @@ const SocketPong = () => {
 				if (typeof data === 'object') {
 					setplayer1(data.idOne);
 					setplayer2(data.idTwo);
-					setsearch("trouver un match");
 					setRules(true)
 					SetPage(true);
-				}
-				else {
-					if (data === 1)
-						setsearch("recherche de match")
-					else if (data === 2)
-						setsearch("trouver un match")
-					else
-						alert("vous etes deja en rechecher de partie")
 				}
 			});
 			socket.on("info", (data) => {
@@ -58,8 +48,6 @@ const SocketPong = () => {
 					if (data.readyTwo === false && data.idTwo === account.id)
 						setRules(true)
 				}
-				else
-					setsearch("recherche de match")
 			});
 		}
 		return () => {
@@ -104,7 +92,6 @@ const SocketPong = () => {
 					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
 						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow-white">
 							<Matchmaking
-								search={search}
 								color={color}
 								paddleChange={paddleChange}
 								ballChange={ballChange}

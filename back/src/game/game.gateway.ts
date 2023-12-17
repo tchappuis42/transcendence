@@ -59,4 +59,9 @@ export class GameGateway {
 		const info = this.gameService.getinfo(client);
 		client.emit('info', info);
 	}
+
+	@SubscribeMessage('GameInvit')
+	GameInvit(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
+		console.log("Gameinvit = ", data)
+	}
 }

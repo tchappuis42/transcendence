@@ -8,6 +8,8 @@ import DirectMessage from "./component/DirectMessage"
 import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
+import GameInvit from "./component/GameInvit";
+import { useAccount } from "../../ui/organisms/useAccount";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -17,6 +19,7 @@ const Chat = () => {
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
+	const { account } = useAccount();
 
 	useEffect(() => {
 		if (socket) {
@@ -53,10 +56,10 @@ const Chat = () => {
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
 				setDM_Chann(false)
-				setUserInChannel(user);
+				setUser(user);
 			});
 			socket.on("setUserInChannel", (user) => {
-				setUserInChannel(user);
+				setUser(user);
 			})
 			socket.on("checkPass", (name, datta, user) => {
 				setPass(datta);
@@ -68,7 +71,7 @@ const Chat = () => {
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
-				setUserInChannel(user);
+				setUser(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -119,6 +122,11 @@ const Chat = () => {
 		};
 	}, [socket, data, currentChannel]);
 
+	const setUser = (user: Account[]) => {
+		const withoutMe = user.filter(user => user.id !== account.id)
+		setUserInChannel(withoutMe);
+	}
+
 	function takeChan(channelSet: string) {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
@@ -140,7 +148,7 @@ const Chat = () => {
 
 	return (
 		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
-			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
+			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md">
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
@@ -150,12 +158,13 @@ const Chat = () => {
 				</div>
 			</div>
 			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
-			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
-					<FriendsChat currentChannel={currentChannel} />
-				</div>
+			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
+				<GameInvit userInChannel={userInChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
+				</div>
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+					<FriendsChat currentChannel={currentChannel} />
 				</div>
 			</div>
 		</div>

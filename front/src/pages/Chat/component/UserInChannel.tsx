@@ -1,5 +1,5 @@
 import { Account } from '../../../ui/types';
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FriendCardChat from './FriendsCardChat';
 import GameInvit from './GameInvit';
@@ -14,23 +14,46 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 
 	const socket = useSocket();
 	const navigate = useNavigate();
+	const [gameInvit, setGameInvit] = useState<number[]>([]);
 
-
-	const JoinGame = (e: SyntheticEvent) => {
+	const JoinGame = (e: SyntheticEvent, userid: number) => {
 		e.preventDefault();
 
 		if (socket)
-			socket.emit("JoinGame");
-		navigate("/pong")
+			socket.emit("JoinGame", userid);
 	}
 
 	const InvitGame = (userId: number) => {
-		const find = userInChannel.find(user => user.id === userId)
+		const find = gameInvit.find(invit => invit === userId)
+		console.log("ououla", find, gameInvit)
 		if (find)
-			return true
-		return false
+			return false
+		return true
 	}
 
+	useEffect(() => {
+		if (socket) {
+			socket.on("GameInvit", (data) => {
+				console.log(data)
+				if (typeof data === 'number')
+					alert(data);
+				else
+					setGameInvit((prevInvit) => [...prevInvit, data.id])
+			});
+			socket.on("JoinGame", (data) => {
+				if (data)
+					navigate("/pong")
+				else
+					alert("erreur de partie")
+			});
+		}
+		return () => {
+			if (socket) {
+				socket.off("GameInvit");
+				socket.off("JoinGame");
+			}
+		};
+	}, [socket]);
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md " >
@@ -54,7 +77,7 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 									<div className="h-full w-2/5 flex justify-center items-center">
 										<h2>{userIn.username.slice(0, 8)}</h2>
 									</div>
-									<button className="w-1/5 border" onClick={JoinGame}>rejoindre la partie</button>
+									<button className="w-1/5 border" onClick={(e) => JoinGame(e, userIn.id)}>rejoindre la partie</button>
 								</div>)
 							}
 						</div>

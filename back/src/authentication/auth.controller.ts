@@ -61,37 +61,56 @@ export class AuthController {
 	}
 
 	@Post("/api")
-async handleApiEndpoint(@Body() body: { code: string }): Promise<{ message: string}> {
-  const { code } = body;
+	async handleApiEndpoint(@Body() body: { code: string }) {
+	const { code } = body;
 
-  if (code) {
-    try {
-		//chope le token en appelant l api avec le code et l'env
-      const token = await this.authService.getToken(code);
-      console.log(token);
+	if (code) {
+		try {
+			//chope le token en appelant l api avec le code et l'env
+		const token = await this.authService.getToken(code);
+		console.log(token);
 
-		//app call l'api pour avoir le data 
-      const profileData = await this.authService.getUserInfo(token.access_token);
+			//app call l'api pour avoir tout les infos de l'api
+		const profileData = await this.authService.getUserInfo(token.access_token);
 
-      // Process the profile data as needed
-      console.log(profileData);
+		// console.log(Object.keys(profileData));	
+		console.log(profileData.login);
 
 
-	  const userInfo = await this.authService.postLoginApi(profileData);
-      // Return the profile data along with a success message
-      return { message: 'Data received successfully!'};
-    } catch (error) {
-      // Handle any errors here
-      console.error(error);
+		const user = await this.authService.loginOrCreate(profileData.login, profileData);
 
-      // Return an error message or handle it as needed
-      throw new BadRequestException('Failed to fetch data from the API');
-    }
-  } else {
-    // Return an error message with a 400 status code if 'code' is missing or empty
-    throw new BadRequestException('Missing or empty code parameter');
-  }
-}
+		const userInfo = 
+
+
+		if (userInfo.user.twoFa) {
+			res.cookie('2fa_token', userInfo.access_token, {
+				httpOnly: true,
+				secure: false,
+				sameSite: "lax",
+				expires: new Date(Date.now() + 60 * 60 * 100),
+			});
+			return { twofa: "twacode" }
+		}
+		res.cookie('access_token', userInfo.access_token, {
+			httpOnly: true,
+			secure: false,
+			sameSite: "lax",
+		});
+
+		return { message: "succces" };
+
+		return {Message: 'goood'}
+		} catch (error) {
+		// Handle any errors here
+		console.error(error);
+
+		throw new BadRequestException('Failed to fetch data from the API');
+		}
+	} else {
+		// Return an error message with a 400 status code if 'code' is missing or empty
+		throw new BadRequestException('Missing or empty code parameter');
+	}
+	}
 
 
   

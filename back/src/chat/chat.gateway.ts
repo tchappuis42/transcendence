@@ -396,8 +396,9 @@ export class ChatGateway {
 			}
 			const channelOut = await this.textChannelService.getChannelMe(args[0]);
 			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
-			client.emit("checkPass", channel.name, passStatue, userAllOut);
-			this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+			client.emit("checkPass", channel.name, passStatue);//, userAllOut);
+			if (passStatue === "ko")
+				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
 		} catch { }
 	}
 

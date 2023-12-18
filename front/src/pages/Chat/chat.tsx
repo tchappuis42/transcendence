@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
@@ -59,7 +59,8 @@ const Chat = () => {
 				setUserInChannel(user);
 			})
 			socket.on("checkPass", (name, datta, user) => {
-				setPass(datta);
+				setteurPass(datta);
+				//setPass(datta);
 				if (datta === "ok") {
 					socket.emit("message", "", name, '1');
 				}
@@ -68,7 +69,7 @@ const Chat = () => {
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
-				setUserInChannel(user);
+			//	setUserInChannel(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -119,13 +120,21 @@ const Chat = () => {
 		};
 	}, [socket, data, currentChannel]);
 
-	function takeChan(channelSet: string) {
+	function takeChan(channelSet: string, chanStatue: string) {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
-		if (socket) {
-			socket.emit("getChannelMeOne", channelSet, currentChannel);
-			setPass("ok")
-			setData("");
+		if (chanStatue !== "Public") {
+			const password = prompt("what is the PassWord?");//todo enlever le prompt;
+			if (socket)
+				socket.emit("checkPass", channelSet, password);
+		}
+		setTimeout(() => {}, 1000);
+		if (pass === "ok" || chanStatue === "Public") {	
+			if (socket) {
+				socket.emit("getChannelMeOne", channelSet, currentChannel);
+				setPass("ok")
+				setData("");
+			}
 		}
 	}
 
@@ -136,6 +145,10 @@ const Chat = () => {
 			setPass("ok")
 			setData("");
 		}
+	}
+
+	function setteurPass(passe: SetStateAction<string>) {
+		setPass(passe);
 	}
 
 	return (

@@ -14,7 +14,7 @@ import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
 
 interface Props {
-	takeChan: (channelSet: string) => void;
+	takeChan: (channelSet: string, chanStatue: string) => void;
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	userInChannel: Account[];
@@ -36,11 +36,11 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 				if (status) {
 					socket.emit("message", " ", chanName, '1');
 				}
-				else { //todo
+				/*else { //todo
 					const password = prompt("what is the PassWord?");
 					if (socket)
 						socket.emit("checkPass", chanName, password);
-				}
+				}*/
 				console.log(owner)
 			});
 			socket.on("getAllChannels", (data) => {
@@ -61,7 +61,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 
 			});
 			socket.on("createchannel", (data, channel) => {
-				takeChan(channel);
+				takeChan(channel, "Public");
 				setChannels(data);
 				setMessages([]);
 			});
@@ -99,7 +99,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>
-							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
+							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name, msg.statue)}>
 								<h1 className='text-xl w-1/3'>{msg.name}</h1>
 								<h1 className='text-xl w-1/3'>:</h1>
 								<h1 className='text-xl  w-1/3'>{msg.statue}</h1>

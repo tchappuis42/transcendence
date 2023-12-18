@@ -243,6 +243,14 @@ export class UserService {
 			return user.blockedId
 	}
 
+	async getUserBlockedId(id: number, blockedId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		const searchID = user.blockedId.find(id => id === blockedId);
+		if (searchID)
+			return true;
+		return false;
+	}
+
 	//debug
 	async clearsocket(userId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })

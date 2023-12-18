@@ -18,15 +18,17 @@ const MatchHistory: React.FC<{ userId: number | undefined}> = ({ userId }) => {
 
 
 	useEffect(() => {
-		const getHistory = async () => {
-			try {
-				const response = await axios.get(`http://localhost:4000/game/history/${userId}`, { withCredentials: true });
-				setMatchs(response.data);
-			} catch (error) {
-				console.error("Erreur lors de la récupération de l'historique des matchs :", error);
+		if (userId) {
+			const getHistory = async () => {
+				try {
+					const response = await axios.get(`http://localhost:4000/game/history/${userId}`, {withCredentials: true});
+					setMatchs(response.data);
+				} catch (error) {
+					console.error("Erreur lors de la récupération de l'historique des matchs :", error);
+				}
 			}
+			getHistory();
 		}
-		getHistory();
 	}, [userId]);
 
 	return (

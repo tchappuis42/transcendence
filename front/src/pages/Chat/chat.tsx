@@ -55,6 +55,7 @@ const Chat = () => {
 				setDM_Chann(true)
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
+				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
 			});
@@ -127,7 +128,7 @@ const Chat = () => {
 		setUserInChannel(withoutMe);
 	}
 
-	function takeChan(channelSet: string) {
+	function takeChan(channelSet: string, chanStatus: string) {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (socket) {

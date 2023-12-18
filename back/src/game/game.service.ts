@@ -300,6 +300,8 @@ export class GameService {
 				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
 				timeStart: new Date().getTime()
 			}
+			await this.userservice.StatueGameOn(user.id, server)
+			await this.userservice.StatueGameOn(userId, server)
 			this.rooms.push(element);
 			client.join(element.name);
 			invit.socket.join(element.name);

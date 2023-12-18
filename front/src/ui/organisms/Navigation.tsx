@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSocket } from "./SocketContext";
 
@@ -20,19 +20,18 @@ const NavigationItem = ({ option }: { option: Option }) => {
 const Navigation = ({ options }: Props) => {
 	const location = useLocation();
 
-    const [currentPage, setCurrentPage] = useState<string>(location.pathname);
-    const [previousPage, setPreviousPage] = useState<string>("");
+	const [currentPage, setCurrentPage] = useState<string>(location.pathname);
+	const [previousPage, setPreviousPage] = useState<string>("");
 	const socket = useSocket();
 
-    React.useEffect(() => {
-        setPreviousPage(currentPage);
-        setCurrentPage(location.pathname);
-		
-    }, [location]);
+	useEffect(() => {
+		setPreviousPage(currentPage);
+		setCurrentPage(location.pathname);
+	}, [location, currentPage, previousPage]);
 
 	if (previousPage === '/chat' && currentPage !== '/chat')
 		socket?.emit("leaveChat");
-	
+
 	return (
 		<div className="header">
 			{

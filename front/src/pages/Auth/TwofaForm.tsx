@@ -5,9 +5,10 @@ import { Button } from "@material-tailwind/react";
 
 interface TwoFaFormProps {
 	settingPage: (newPage: string) => void;
+	onSubmit?: () => void;
 }
 
-const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage }) => {
+const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage, onSubmit }) => {
 
 	const { authenticate } = useAuth();
 	const [token, setToken] = useState("");
@@ -20,6 +21,7 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage }) => {
 		};
 		axios.post("http://localhost:4000/authentication/twoFa", requestData, { withCredentials: true }).then((response) => {
 			authenticate();
+			onSubmit?.()
 		})
 			.catch((error) => {
 				setErrorMessage("Wrong code");

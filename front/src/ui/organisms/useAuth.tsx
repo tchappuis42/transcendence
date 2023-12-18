@@ -21,7 +21,7 @@ export function useAuth() {
 			break;
 		default:
 			status = AuthStatus.Authenticated;
-			break;
+			break;	
 	}
 
 	const authenticate = useCallback(async () => {

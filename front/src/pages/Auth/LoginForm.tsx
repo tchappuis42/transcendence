@@ -33,7 +33,6 @@ const LoginForm: React.FC<FormProps> = ({
 			}
 		} catch (error) {
 			setErrorMessage("Problem logging")
-			// setAccount(null);
 		}
 
 	};

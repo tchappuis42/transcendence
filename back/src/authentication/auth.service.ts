@@ -123,6 +123,8 @@ export class AuthService {
 
 			if (user != null )
 			{
+				console.log(user.id);
+				console.log(user.identifiant);
 				const payload = { sub: user.id, identifiant: user.identifiant };
 				return {
 					access_token: await this.jwtService.signAsync(payload),

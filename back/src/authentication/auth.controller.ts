@@ -41,7 +41,7 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
-
+		console.log(userInfo.access_token);
 		return { message: "succces" }; // msg succes
 	}
 
@@ -78,6 +78,7 @@ export class AuthController {
 
 
 		const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
+		console.log(userInfo.access_token);
 
 		if (userInfo.user.twoFa) {
 			res.cookie('2fa_token', userInfo.access_token, {
@@ -93,6 +94,7 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
+
 		return { message: "succces" };
 		} catch (error) {
 		// Handle any errors here

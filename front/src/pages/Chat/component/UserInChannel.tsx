@@ -2,7 +2,6 @@ import { Account } from '../../../ui/types';
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FriendCardChat from './FriendsCardChat';
-import GameInvit from './GameInvit';
 import UserInChannelCard from './UserInChannelCard';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 
@@ -25,7 +24,6 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 
 	const InvitGame = (userId: number) => {
 		const find = gameInvit.find(invit => invit === userId)
-		console.log("ououla", find, gameInvit)
 		if (find)
 			return false
 		return true

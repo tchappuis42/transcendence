@@ -20,7 +20,7 @@ const UserInChannelCard = ({ userInChannel }: userInChannel) => {
 	}
 
 	return (
-		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
 				<img alt="image de profil" className="rounded-md h-full"
 					src={userInChannel.avatar} />

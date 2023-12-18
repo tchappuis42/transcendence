@@ -281,6 +281,15 @@ export class GameService {
 
 	async joinGame(client: Socket, userId: number, server: Server) {
 		const user = client.data.user as UserDto;
+
+		if (this.waitingGame) {
+			if (client.data.user.id === this.waitingGame.data.user.id)
+				return false
+		}
+		const clientStatue = await this.userservice.userStatue(client.data.user.id)
+		if (clientStatue === ConnctionState.InGame)
+			return false
+
 		// console.log("lolol", this.gameInvit)
 		// console.log("id1 = ", userId)
 		// console.log("id2 = ", user.id)

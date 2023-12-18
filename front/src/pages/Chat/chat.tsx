@@ -8,7 +8,6 @@ import DirectMessage from "./component/DirectMessage"
 import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
-import GameInvit from "./component/GameInvit";
 import { useAccount } from "../../ui/organisms/useAccount";
 
 const Chat = () => {
@@ -160,7 +159,7 @@ const Chat = () => {
 			</div>
 			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
-				<GameInvit userInChannel={userInChannel} />
+				<div className="h-[10%]"></div>
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>

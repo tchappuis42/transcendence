@@ -51,9 +51,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			fetchFriends();
 			const fetchUserBlocked = async () => {
 				const response = await axios.get(`http://localhost:4000/user/getUserBlockedId/${user?.id}`, { withCredentials: true });
-				console.log("response block: ", response.data);
 				if (response.data) {
-
 					if (response.data)
 						setUserBlock("unblock");
 				}
@@ -92,10 +90,8 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const handleBlockedRequest = () => {
 		if (isUserBlock === "block") {
 			const block = async () => {
-				console.log("hello");
 				try {
 					const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
-					console.log("block: ", response.data);
 					setUserBlock("unblock");
 				} catch {
 					console.error("error while blocking user request");
@@ -107,7 +103,6 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			const deblock = async () => {
 				try {
 					const response = await axios.get(`http://localhost:4000/user/unblock/${user?.id}`, {withCredentials:true})
-					console.log("unblock: ", response.data);
 					setUserBlock("block")
 				} catch {
 					console.error("error while unblocking friends request");

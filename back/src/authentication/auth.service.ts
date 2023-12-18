@@ -100,37 +100,46 @@ export class AuthService {
 		}
 	  }
 
-	  async postLoginApi(body: LoginDto, ) {
-		const { password, identifiant } = body
-		const user = await this.usersRepository.findOne({ where: { identifiant: identifiant } })
-		if (!user)
-			throw new NotFoundException("user not found")
-		const match = await bcrypt.compare(password, user.password)
-		if (!match)
-			throw new UnauthorizedException("Ivalide password")
+	//   async postLoginApi(body: LoginDto, ) {
+	// 	const { password, identifiant } = body
+	// 	const user = await this.usersRepository.findOne({ where: { identifiant: identifiant } })
+	// 	if (!user)
+	// 		throw new NotFoundException("user not found")
+	// 	const match = await bcrypt.compare(password, user.password)
+	// 	if (!match)
+	// 		throw new UnauthorizedException("Ivalide password")
 
-		//return la cle jwt au login (besoin pour )
-		const payload = { sub: user.id, identifiant: user.identifiant };
-		return {
-			access_token: await this.jwtService.signAsync(payload),
-			user: user
-		}
-	}
+	// 	//return la cle jwt au login (besoin pour )
+	// 	const payload = { sub: user.id, identifiant: user.identifiant };
+	// 	return {
+	// 		access_token: await this.jwtService.signAsync(payload),
+	// 		user: user
+	// 	}
+	// }
 
 
 	async loginOrCreate(loginname: string, infos: any = {}) {
             const user = await this.usersRepository.findOne({ where: { identifiant: loginname } })
 
-			if (user != null ) 
-				return user;
+			if (user != null )
+			{
+				const payload = { sub: user.id, identifiant: user.identifiant };
+				return {
+					access_token: await this.jwtService.signAsync(payload),
+					user: user
+				}
+			}
 			else {
 				let avatar = infos.image.link;
 				let password = undefined;
 	
 				const user = await this.usersRepository.create({identifiant: loginname, username: loginname, password: password, avatar: avatar});
 				const user2 = await this.usersRepository.save(user);
-				console.log("spec");
-				return user2;
+				const payload = { sub: user2.id, identifiant: user2.identifiant };
+				return {
+					access_token: await this.jwtService.signAsync(payload),
+					user: user2
+				}	
 			}
 			
           }

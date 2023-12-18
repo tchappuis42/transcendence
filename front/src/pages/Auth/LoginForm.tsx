@@ -32,7 +32,7 @@ const LoginForm: React.FC<FormProps> = ({
 				settingPage("twofa")
 			}
 		} catch (error) {
-			setErrorMessage("Username or Password invalid")
+			setErrorMessage("Problem logging")
 			// setAccount(null);
 		}
 

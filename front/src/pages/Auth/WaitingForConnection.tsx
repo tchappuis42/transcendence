@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../ui/organisms/useAuth';
 
-const WaitingForConnection = () => {
+interface Props {
+  settingPage: (newPage: string) => void;
+}
+
+
+const WaitingForConnection: React.FC<Props> = ({settingPage}) => {
   const [code] = useSearchParams();
   const codeParam = code.get('code');
   const [pageMessage, setPageMessage] = useState("Loading...");
-  const navigate = useNavigate();
-
+  const { authenticate } = useAuth();
+ 
   useEffect(() => {
     const sendDataToBackend = async () => {
       try {
@@ -18,14 +24,16 @@ const WaitingForConnection = () => {
 
           if (response.status <= 400) {
             setPageMessage("Data sent successfully!");
-            // Redirect to a different route after successful API interaction
+            if (response.data.message) {
+              authenticate();
+            } else {
+              settingPage("twofa")
+            }
             }
           } else {
             setPageMessage("Error: Unexpected response from the server");
-          }
-        } else {
-          setPageMessage("Problem logging in to the API (empty code)");
-        }
+          
+      }
       } catch (error) {
         // Handle errors gracefully
         setPageMessage("Error contacting the server. Please try again later.");
@@ -34,7 +42,7 @@ const WaitingForConnection = () => {
     };
 
     sendDataToBackend();
-  }, [codeParam, navigate]);
+  }, [codeParam]);
 
   return (
     <div>
@@ -47,4 +55,10 @@ const WaitingForConnection = () => {
   );
 };
 
+
 export default WaitingForConnection;
+
+
+// authenticate();
+// } else {
+//   settingPage("twofa")

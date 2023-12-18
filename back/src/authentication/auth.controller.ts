@@ -61,7 +61,7 @@ export class AuthController {
 	}
 
 	@Post("/api")
-	async handleApiEndpoint(@Body() body: { code: string }) {
+	async handleApiEndpoint(@Body() body: { code: string }, @Res({ passthrough: true }) res: Response): Promise<any> {
 	const { code } = body;
 
 	if (code) {
@@ -77,10 +77,7 @@ export class AuthController {
 		console.log(profileData.login);
 
 
-		const user = await this.authService.loginOrCreate(profileData.login, profileData);
-
-		const userInfo = 
-
+		const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
 
 		if (userInfo.user.twoFa) {
 			res.cookie('2fa_token', userInfo.access_token, {
@@ -96,10 +93,7 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
-
 		return { message: "succces" };
-
-		return {Message: 'goood'}
 		} catch (error) {
 		// Handle any errors here
 		console.error(error);
@@ -111,6 +105,10 @@ export class AuthController {
 		throw new BadRequestException('Missing or empty code parameter');
 	}
 	}
+
+	// @Post("/url")
+	// async handleApiEndpoint(@Body() body: { code: string })
+
 
 
   

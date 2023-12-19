@@ -6,7 +6,6 @@ npm i -g npm@latest
 npm install -g @nestjs/cli
 npm run start:dev
 
-s
 # demarrer nest-js en dev
 nest start --watch
 

@@ -8,9 +8,11 @@ import DirectMessage from "./component/DirectMessage"
 import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
+import { PopUp } from "./component/stylePopUP";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
+	const [showAuthWindow, setShowAuthWindow] = useState(false);
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [currentChannel, setCurrentChannel] = useState("");

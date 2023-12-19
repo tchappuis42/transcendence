@@ -54,6 +54,7 @@ const Chat = () => {
 				setDM_Chann(true)
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
+				alert(name)
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
@@ -157,7 +158,7 @@ const Chat = () => {
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
-			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
+			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
 				<div className="h-[10%]"></div>
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">

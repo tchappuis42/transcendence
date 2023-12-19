@@ -34,6 +34,8 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 	useEffect(() => {
 		if (socket) {
 			socket.on("game", (data) => {
+
+				console.log("data rep = ", data)
 				if (typeof data === 'number') {
 					if (data === 1)
 						setsearch("recherche de match")

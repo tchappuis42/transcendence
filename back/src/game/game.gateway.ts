@@ -26,15 +26,17 @@ export class GameGateway {
 	async matchmaking(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;
 		const game = await this.gameService.matchmaking(user, client, this.server);
-		if (typeof game === 'object')
+		if (typeof game === 'object') {
+			console.log("alalalalalalalalala")
 			this.server.to(game.roomName).emit('game', game)
+		}
 		if (typeof game === 'number')
 			this.server.to(client.id).emit('game', game)
 	}
 
 	@SubscribeMessage('clean')
-	clean(@ConnectedSocket() client: Socket) {
-		this.gameService.clean(client);
+	async clean(@ConnectedSocket() client: Socket) {
+		await this.gameService.clean(client, this.server);
 	}
 
 	@SubscribeMessage('gamelife')
@@ -63,20 +65,23 @@ export class GameGateway {
 
 	@SubscribeMessage('GameInvit')
 	async GameInvit(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
+		console.log("data = ", data)
 		const invit = await this.gameService.GameInvit(client, data);
 		if (typeof invit === 'number')
 			client.emit('GameInvit', invit)
 		else
-			client.to(data.toString()).emit('GameInvit', invit);
+			this.server.to(data.toString()).emit('GameInvit', invit);
 	}
 
 	@SubscribeMessage('JoinGame')
 	async JoinGame(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
+		console.log("info =", client.data.user.id, data)
 		const game = await this.gameService.joinGame(client, data, this.server)
 		if (typeof game === 'boolean')
 			client.emit('JoinGame', game);
-		else
+		else {
 			this.server.to(game.roomName).emit('JoinGame', game.success);
+		}
 	}
 
 }

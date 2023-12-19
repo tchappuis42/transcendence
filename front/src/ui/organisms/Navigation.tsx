@@ -29,8 +29,9 @@ const Navigation = ({ options }: Props) => {
 		setCurrentPage(location.pathname);
 	}, [location, currentPage, previousPage]);
 
-	if (previousPage === '/chat' && currentPage !== '/chat')
+	if (previousPage === '/chat' && currentPage !== '/chat') {
 		socket?.emit("leaveChat");
+	}
 
 	return (
 		<div className="header">

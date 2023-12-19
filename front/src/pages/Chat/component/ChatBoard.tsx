@@ -10,11 +10,11 @@ interface Props {
 	messages: Message[]
 	pass: string;
 	DM_Chann: boolean;
+	data: string;
+	setData: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann }) => {
-
-	const [data, setData] = useState("");
+const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
 	const [Timer, setTimer] = useState(0);
 	const { account } = useAccount();
@@ -52,13 +52,16 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann }
 		setTimer(0);
 	}
 
-	const getUserName = (name: string) => {  //todo
-		const users = name.split("_");
-		if (users[0] !== account.username)
-			return users[0];
-		if (users[1] !== account.username)
-			return users[1];
-		return ("")
+	const getUserName = (name: string) => {
+		if (!DM_Chann) {
+			const users = name.split("_");
+			if (users[0] !== account.username)
+				return users[0];
+			if (users[1] !== account.username)
+				return users[1];
+			return ("")
+		}
+		return name
 	}
 
 	useEffect(() => {

@@ -62,8 +62,7 @@ export class ChatGateway {
 		if ((await this.DMChannelService.getDMChannelMeForText(data)) == 0) {
 			const channel = await this.textChannelService.getChannelMe(data);
 			const muet = channel.muted.find((muted) => muted.userId == user.id)
-			if (channel.users.find((user1) => user1.id == user.id)) 
-			{
+			if (channel.users.find((user1) => user1.id == user.id)) {
 				if (!muet) {
 					const msg = user.username + " " + "est entrain d'écrire";
 					for (let i = 0; channel.users[i]; i++) {
@@ -72,7 +71,7 @@ export class ChatGateway {
 							if (Socket) {
 								Socket.socket.forEach(socketId => {
 									this.server.sockets.sockets.forEach(socket => {
-										if (socket.id === socketId) 
+										if (socket.id === socketId)
 											socket.emit('isTyping', msg);
 									})
 								})
@@ -261,6 +260,7 @@ export class ChatGateway {
 
 	@SubscribeMessage('leaveChat')
 	async leaveChat(@ConnectedSocket() client: Socket) {
+		//console.log("salut", client.data.user.username)
 		const user = client.data.user as UserDto;
 		const channels = await this.textChannelService.getChannelsForUser(user.id);
 		const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
@@ -444,17 +444,17 @@ export class ChatGateway {
 			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
 			const Socket = await this.userService.getSocketUser(userban.id);
-						if (Socket) {
-							Socket.socket.forEach(socketId => {
-								this.server.sockets.sockets.forEach(socket => {
-									if (socket.id === socketId) {
-										socket.emit('banUser', channel.name);
-									}
-								})
-							})
+			if (Socket) {
+				Socket.socket.forEach(socketId => {
+					this.server.sockets.sockets.forEach(socket => {
+						if (socket.id === socketId) {
+							socket.emit('banUser', channel.name);
 						}
+					})
+				})
+			}
 		}
-	}	
+	}
 
 	/*	@SubscribeMessage('bannedUser')
 		async bannedUser(@MessageBody() chanName: string, @ConnectedSocket()client: Socket) {

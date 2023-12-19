@@ -107,7 +107,8 @@ export class GameService {
 	}
 
 	//debug
-	clean(client: Socket) {
+	async clean(client: Socket, server: Server) {
+		this.waitingGame = null;
 		const room = this.findRoom(client)
 		if (room) {
 			room.socket1.leave(room.name)
@@ -115,11 +116,18 @@ export class GameService {
 			clearInterval(room.intervalId);
 			this.rooms = this.rooms.filter((r) => r.name !== room.name)
 		}
+		const socket = await server.in("test").allSockets();
+		console.log("AVANT", socket)
+		client.leave("test")
+		const socketI = await server.in("test").allSockets();
+		console.log("APRES", socketI)
+
 	}
 
 	//suprime la room
 	async cleanRoom(room: roomName, server: Server) {
 		if (room) {
+			console.log("clean room = ", room.socket1.data.user.id, room.socket2.data.user.id)
 			room.socket1.leave(room.name)
 			room.socket2.leave(room.name)
 			clearInterval(room.intervalId);
@@ -170,13 +178,14 @@ export class GameService {
 
 	//a la fin clean la room et sauv le score
 	async life(server: Server, client: Socket) {
+		console.log("salut")
 		const room = this.findRoom(client);
 		if (room) {
 
 			const timeNow = new Date().getTime()
 
 			//met la game en ready apres 1minute
-			if (timeNow - room.timeStart > 60000 && room.pong.ready === false) {
+			if (timeNow - room.timeStart > 3000 && room.pong.ready === false) { //60000
 				if (room.pong.player1.ready === true || room.pong.player2.ready === true) {
 					room.pong.getPlayer1().playerReady();
 					room.pong.getPlayer2().playerReady();
@@ -225,7 +234,6 @@ export class GameService {
 
 	//recupere l'historique des games d'un client
 	async getGameByUser(userId: number) {
-		console.log("userid = ", userId)
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ idOne: user.id }, { idTwo: user.id }] })
 		const matchs = games.map(match => {
@@ -312,8 +320,13 @@ export class GameService {
 			await this.userservice.StatueGameOn(user.id, server)
 			await this.userservice.StatueGameOn(userId, server)
 			this.rooms.push(element);
+			const socket = await server.in(element.name).allSockets();
+			console.log("AVANT", socket)
 			client.join(element.name);
 			invit.socket.join(element.name);
+			const socketI = await server.in(element.name).allSockets();
+			console.log("APRES", socketI, element.name)
+			console.log("element =", element)
 			return {
 				success: true,
 				roomName: element.name,

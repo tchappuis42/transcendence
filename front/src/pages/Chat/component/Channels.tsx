@@ -12,20 +12,24 @@ import ChangePassword from './ChangePassword';
 import ChannelStatus from './ChannelStatus';
 import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
+import { SimpleRegistrationForm } from './stylePopUP';
 
 interface Props {
-	takeChan: (channelSet: string, chanStatue: string) => void;
+	takeChan: (channelSet: string, chanStatue: string, password?: string) => void;
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	userInChannel: Account[];
+	promptOpen: boolean;
 }
 
-const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel }) => {
+const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel, promptOpen }) => {
 	const [all_channels, setChannels] = useState<Channel[]>([]);
+	const [selectedMessage, setSelectedMessage] = useState<Channel | undefined>(undefined);
 	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
+
 
 	useEffect(() => {
 		setOwner("0")
@@ -41,7 +45,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					if (socket)
 						socket.emit("checkPass", chanName, password);
 				}*/
-				console.log(owner)
+				console.log("owner: ", owner)
 			});
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
@@ -51,9 +55,9 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			})
 			socket.on("refreshChannelStatus", (data: Channel[]) => {
 				setChannels(data);
-				console.log(data)
+				console.log("data: ",data)
 				const status = data.find((chan) => { if (chan.name === currentChannel) { return chan.statue } })
-				console.log(status)
+				console.log("status: ",status)
 				if (status?.statue === 'Private')
 					setChannelStatus(false);
 				else
@@ -83,8 +87,18 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		};
 	}, [socket, currentChannel]);
 
+
+	const closeForm = () => {
+		setSelectedMessage(undefined);
+	   };
+	   
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
+			<div style={{marginLeft: "40%", marginTop: "5%"}} className="absolute flex items-center justify-center" >
+				{ selectedMessage && selectedMessage.statue !== "Public" && promptOpen === true &&
+					<SimpleRegistrationForm name={selectedMessage.name} callback={(pwd: string) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); closeForm()}} />
+				}
+			</div>
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1> channels </h1>
 			</div>
@@ -98,8 +112,8 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 						<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
-						>
-							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name, msg.statue)}>
+							>
+							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => {msg.statue !== "Public" ? setSelectedMessage(msg) : takeChan(msg.name, msg.statue)}}>
 								<h1 className='text-xl w-1/3'>{msg.name}</h1>
 								<h1 className='text-xl w-1/3'>:</h1>
 								<h1 className='text-xl  w-1/3'>{msg.statue}</h1>

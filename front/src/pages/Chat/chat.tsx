@@ -8,7 +8,7 @@ import DirectMessage from "./component/DirectMessage"
 import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
-import { PopUp } from "./component/stylePopUP";
+import { SimpleRegistrationForm } from "./component/stylePopUP";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -19,6 +19,7 @@ const Chat = () => {
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
+	const [showWindow, setShowWindow] = useState(true);
 
 	useEffect(() => {
 		if (socket) {
@@ -122,11 +123,14 @@ const Chat = () => {
 		};
 	}, [socket, data, currentChannel]);
 
-	function takeChan(channelSet: string, chanStatue: string) {
+	function takeChan(channelSet: string, chanStatue: string, password?: string) {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
-			const password = prompt("what is the PassWord?");//todo enlever le prompt;
+			// if (currentChannel !== "create a channel!")
+			// 	setShowWindow(false)
+			console.log("socket: \n", socket);
+			// const password = SimpleRegistrationForm();//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password);
 		}
@@ -158,7 +162,7 @@ const Chat = () => {
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
-					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} promptOpen={showWindow}/>
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />

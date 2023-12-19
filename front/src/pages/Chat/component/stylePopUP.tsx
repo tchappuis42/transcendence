@@ -1,63 +1,58 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useSocket } from '../../../ui/organisms/SocketContext';
-import ChanPassword from '../interface/chanPassword';
-import FriendsChat from "./FriendsChat";
-import { Account } from "../../../ui/types";
-import UserInChannel from "./UserInChannel";
-import Channels from "./Channels";
-import DirectMessage from "./DirectMessage"
-import CreateChannel from "./CreateChannel";
-import ChatBoard from "./ChatBoard";
-import Message from "../interface/messageDto";
 
-export const PopUp = (param: { currentChannel: string }) => {
-	const socket = useSocket();
-	const [validData, setValidData] = useState(false);
-    const [userInChannel, setUserInChannel] = useState<Account[]>([]);
-	const [showAuthWindow, setShowAuthWindow] = useState(false);
-	const [data, setData] = useState("");
-	const [messages, setMessages] = useState<Message[]>([]);
-	const [currentChannel, setCurrentChannel] = useState("");
-	const [pass, setPass] = useState(""); // a voir chmager le nom
-	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
+import {
+	Card,
+	CardHeader,
+	CardBody,
+	CardFooter,
+	Typography,
+	Input,
+	Checkbox,
+	Button,
+  } from "@material-tailwind/react";
+  import { useEffect, useState } from 'react';
+     
+  interface Props {
+	callback(pwd: string) : void;
+	name: string
+  }
 
+  export function SimpleRegistrationForm({callback, name} : Props) {
+	const [password, setPassword] = useState("");
+	const [showmodal, setShowModal] = useState(true);
 
-    function takeChan(channelSet: string, chanStatue: string) {
-		setCurrentChannel(channelSet)
-		console.log("chann = , current =", channelSet, currentChannel)
-		if (chanStatue !== "Public") {
-			const password = prompt("what is the PassWord?");//todo enlever le prompt;
-			if (socket)
-				socket.emit("checkPass", channelSet, password);
-		}
-		setTimeout(() => {}, 1000);
-		if (pass === "ok" || chanStatue === "Public") {	
-			if (socket) {
-				socket.emit("getChannelMeOne", channelSet, currentChannel);
-				setPass("ok")
-				setData("");
-			}
-		}
+	const handlemodal = () => {
+		setShowModal(true);
 	}
-
+	
+	const closeModal = () => {
+		setShowModal(false);
+	}
 	return (
-		<div className='h-1/5 flex justify-between'>
-			<h1 className='w-2/5 items-center flex'>changer de mot de passe</h1>
-			<input className='w-20 lg:w-60 text-black m-1'
-				type="password"
-				name="oldPassword"
-				placeholder='ancien mot de passe'
-			/>
-			<input className='w-20 lg:w-60 text-black m-1'
-				type="password"
-				name="password"
-				placeholder='nouveau mot de passe'
-			/>
-			<div className='w-10 lg:w-14 flex item-center'>
-				{/* {validData &&
-					<button onClick={changePass}>valider</button>
-				} */}
-			</div>
+		<div className={`overlay ${!showmodal?`overlay-none`:``}`}>
+			<Card className="m-5 w-[400px] bg-green-200 flex justify-center">
+				<Typography variant="lead" color="blue-gray" className="m-2 flex justify-center">
+					{name}
+				</Typography>
+				<CardBody className="p-5 flex flex-col gap-4">
+					<Input
+						type="password"
+						size="md"
+						placeholder="	password"
+						// placeholder="********"
+						className="!border-t-blue-gray-200 focus:!border-t-gray-900 rounded"
+						labelProps={{
+							className: "before:content-none after:content-none",
+						}}
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+				</CardBody>
+				<CardFooter className="flex item-center justify-center p-5 h-20">
+					<Button onClick={() => {callback(password); closeModal()}} variant="filled" fullWidth className="h-full w-[200px]">
+						Sign In
+					</Button>
+				</CardFooter>
+			</Card>
 		</div>
 	);
-};
+  }

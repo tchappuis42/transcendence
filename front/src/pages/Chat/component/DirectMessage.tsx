@@ -3,7 +3,7 @@ import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { useAccount } from '../../../ui/organisms/useAccount';
 import Channel from '../interface/channelDto';
-import { PopUp } from "./stylePopUP";
+import { SimpleRegistrationForm } from "./stylePopUP";
 
 
 interface Props {
@@ -64,8 +64,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>
-							{/* <div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}> */}
-							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => <PopUp currentChannel={currentChannel} />}>
+							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
 								<h1 className='text-xl w-1/3'>{getUserName(msg.name)}</h1>
 								<h1 className='text-xl  w-1/3'>{msg.statue}</h1>
 							</div>

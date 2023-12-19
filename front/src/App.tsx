@@ -6,7 +6,7 @@ import { Profil } from './pages/Profil/Profil';
 import { TopBar } from "./pages/topBar/topBar";
 import Settings from './pages/Settings/Settings';
 import Testfriends from './pages/Friend/testfriends';
-
+import WaitingForConnection from './pages/Auth/WaitingForConnection';
 
 const App = () => {
   return (
@@ -19,6 +19,7 @@ const App = () => {
           <Route path='profil' element={<Profil />} />
           <Route path='settings' element={<Settings />} />
         </Route >
+        <Route path='waiting' element={<WaitingForConnection />} />
       </Routes >
     </BrowserRouter >
   );

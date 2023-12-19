@@ -2,18 +2,18 @@ import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SetStateAction, SyntheticEvent, useEffect, useState } from "react";
 
 interface Props {
 	currentChannel: string;
 	messages: Message[]
 	pass: string;
 	DM_Chann: boolean;
+	data: string;
+	setData: React.Dispatch<SetStateAction<string>>;
 }
 
-const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann }) => {
-
-	const [data, setData] = useState("");
+const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
 	const [Timer, setTimer] = useState(0);
 

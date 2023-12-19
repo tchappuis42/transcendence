@@ -58,11 +58,15 @@ const Chat = () => {
 			socket.on("setUserInChannel", (user) => {
 				setUserInChannel(user);
 			})
-			socket.on("checkPass", (name, datta, user) => {
+			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
 				//setPass(datta);
 				if (datta === "ok") {
-					socket.emit("message", "", name, '1');
+				//	socket.emit("message", "", name, '1');
+					socket.emit("getChannelMeOne", name, curChan);
+					setPass("ok")
+					setData("");
+				//	socket.emit("message", "", name, '1');
 				}
 				else {
 					setUserInChannel([])
@@ -126,10 +130,10 @@ const Chat = () => {
 		if (chanStatue !== "Public") {
 			const password = prompt("what is the PassWord?");//todo enlever le prompt;
 			if (socket)
-				socket.emit("checkPass", channelSet, password);
+				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
 		setTimeout(() => {}, 1000);
-		if (pass === "ok" || chanStatue === "Public") {	
+		if (chanStatue === "Public") {	
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok")
@@ -162,7 +166,7 @@ const Chat = () => {
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
-			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
+			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData}/>
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<FriendsChat currentChannel={currentChannel} />

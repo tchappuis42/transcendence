@@ -33,9 +33,9 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setOwner(owner);
 				setChannelStatus(status)
-				if (status) {
-					socket.emit("message", " ", chanName, '1');
-				}
+			//	if (status) {
+				socket.emit("message", " ", chanName, '1');
+			//	}
 				/*else { //todo
 					const password = prompt("what is the PassWord?");
 					if (socket)

@@ -1,5 +1,6 @@
-import React, { SyntheticEvent } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useSocket } from "./SocketContext";
 
 type Props = {
 	options: Option[];
@@ -17,6 +18,22 @@ const NavigationItem = ({ option }: { option: Option }) => {
 }
 
 const Navigation = ({ options }: Props) => {
+	const location = useLocation();
+
+
+	const [currentPage, setCurrentPage] = useState<string>(location.pathname);
+	const [previousPage, setPreviousPage] = useState<string>("");
+	const socket = useSocket();
+
+	useEffect(() => {
+		setPreviousPage(currentPage);
+		setCurrentPage(location.pathname);
+	}, [location, currentPage, previousPage]);
+
+	if (previousPage === '/chat' && currentPage !== '/chat') {
+		socket?.emit("leaveChat");
+	}
+
 	return (
 		<div className="header">
 			{
@@ -25,5 +42,4 @@ const Navigation = ({ options }: Props) => {
 		</div>
 	);
 };
-
 export default Navigation;

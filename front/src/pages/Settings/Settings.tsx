@@ -1,10 +1,11 @@
 import { Button, Switch } from "@material-tailwind/react";
 import { useAccount } from "../../ui/organisms/useAccount";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
 import ChangeProfilPic from "./changeProfilPic";
+import { useSocket } from "../../ui/organisms/SocketContext";
 
 interface changeObj {
     value: string;
@@ -23,7 +24,22 @@ const Settings = () => {
     const [secret, setSecret] = useState<string | undefined>("")
     const [newAvatar, setNewAvatar] = useState<string>(account.avatar);
     const [noError, setNoError] = useState<boolean>(false)
+    const socket = useSocket();
 
+    useEffect(() => {
+        if (socket) {
+            socket.on("game", (data) => {
+                if (typeof data === 'object') {
+                    navigate("/pong")
+                }
+            });
+        }
+        return () => {
+            if (socket) {
+                socket.off("game");
+            }
+        };
+    }, [socket]);
 
     const handleChangeUsername = (event: any) => {
         setNewusername(event.target.value)
@@ -55,7 +71,7 @@ const Settings = () => {
 
     const handleValidation = async () => {
         let promises: Promise<boolean>[] = [];
-    
+
         if (newAvatar !== account.avatar) {
             const imageObj = {
                 value: newAvatar,
@@ -63,7 +79,7 @@ const Settings = () => {
             };
             promises.push(changeSettings(imageObj));
         }
-    
+
         if (newUsername !== account.username && newUsername.length) {
             const userNameObj = {
                 value: newUsername,
@@ -71,22 +87,22 @@ const Settings = () => {
             };
             promises.push(changeSettings(userNameObj));
         }
-    
+
         if (account.twoFa !== twoFaStatus) {
             const status = {
                 value: twoFaStatus,
                 secret: secret
             };
-            
+
             await axios.post("http://localhost:4000/user/twoFaFalse", status, { withCredentials: true });
             account.twoFa = twoFaStatus;
         }
-    
+
         try {
             const results = await Promise.allSettled(promises);
-    
+
             const allSucceeded = results.every(result => result.status === 'fulfilled' && result.value);
-    
+
             if (allSucceeded) {
                 account.username = newUsername;
                 account.avatar = newAvatar;
@@ -111,7 +127,7 @@ const Settings = () => {
                         {error && <h2 className="text-red-500">{error}</h2>}
                     </div>
                     {/* ChangeProfilPic */}
-                    <ChangeProfilPic setNewAvatar={setNewAvatar}/>
+                    <ChangeProfilPic setNewAvatar={setNewAvatar} />
                     <TwoFa setTwoFaStatus={setTwoFaStatus} setSecret={setSecret} />
                     <div className="w-full flex justify-center items-center p-8">
                         <Button className="w-32 h-8 rounded p-2 text-white" variant="outlined" onClick={handleValidation}>

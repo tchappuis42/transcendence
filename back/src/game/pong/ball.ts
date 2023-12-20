@@ -7,6 +7,7 @@ export class Ball {
 	dx: number
 	dy: number
 	speed: number
+	color: string
 
 	constructor(height: number, width: number) {
 		this.speed = 4
@@ -17,6 +18,7 @@ export class Ball {
 		this.resetting = false
 		this.dx = this.speed
 		this.dy = -this.speed
+		this.color = ""
 	}
 
 	life() {

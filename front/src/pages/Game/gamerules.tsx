@@ -4,11 +4,13 @@ import { useSocket } from "../../ui/organisms/SocketContext";
 const GameRules = () => {
 	const socket = useSocket();
 	const [rules, setRules] = useState(true)
+
 	const Rules = () => {
 		setRules(false)
 		if (socket)
 			socket.emit("action", "ready")
 	};
+
 
 	return <div>
 		{rules &&

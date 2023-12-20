@@ -20,15 +20,18 @@ const UserInChannelCard = ({ userInChannel }: userInChannel) => {
 	}
 
 	return (
-		<div className="h-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-			<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
-				<img alt="image de profil" className="rounded-md h-full"
+		// <div className="h-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+		<div className="h-full bg-white/50 grid grid-cols-6 gap-4 rounded-md m-2.5 px-5 cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+			<div className="h-full w-full overflow-hidden flex col-span-1 items-center content-center cursor-pointer">
+				<img alt="image de profil" className="h-full w-[60px] object-cover"
 					src={userInChannel.avatar} />
 			</div>
-			<div className="h-full w-2/5 flex justify-center items-center">
+			<div className="h-full w-full flex col-span-3 justify-center items-center text-white">
 				<h2>{userInChannel.username.slice(0, 8)}</h2>
 			</div>
-			<button className="w-1/5 border" onClick={invitGame}>game invit</button>
+			<button className="w-[100px] border m-2 rounded col-span-2 bg-transparent hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300 hover:no-underline hover:text-white text-white" onClick={invitGame}>
+				game invit
+			</button>
 		</div>
 	);
 };

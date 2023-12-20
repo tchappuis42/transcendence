@@ -178,7 +178,7 @@ export class GameService {
 			const timeNow = new Date().getTime()
 
 			//met la game en ready apres 1minute
-			if (timeNow - room.timeStart > 3000 && room.pong.ready === false) { //60000
+			if (timeNow - room.timeStart > 60000 && room.pong.ready === false) {
 				if (room.pong.player1.ready === true || room.pong.player2.ready === true) {
 					room.pong.getPlayer1().playerReady();
 					room.pong.getPlayer2().playerReady();

@@ -1,10 +1,11 @@
 import { Button, Switch } from "@material-tailwind/react";
 import { useAccount } from "../../ui/organisms/useAccount";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
 import ChangeProfilPic from "./changeProfilPic";
+import { useSocket } from "../../ui/organisms/SocketContext";
 
 interface changeObj {
     value: string;
@@ -23,7 +24,22 @@ const Settings = () => {
     const [secret, setSecret] = useState<string | undefined>("")
     const [newAvatar, setNewAvatar] = useState<string>(account.avatar);
     const [noError, setNoError] = useState<boolean>(false)
+    const socket = useSocket();
 
+    useEffect(() => {
+        if (socket) {
+            socket.on("game", (data) => {
+                if (typeof data === 'object') {
+                    navigate("/pong")
+                }
+            });
+        }
+        return () => {
+            if (socket) {
+                socket.off("game");
+            }
+        };
+    }, [socket]);
 
     const handleChangeUsername = (event: any) => {
         setNewusername(event.target.value)

@@ -237,7 +237,7 @@ export class UserService {
 		await this.usersRepository.save(user);
 		return { success: true, message: "User blocked" };
 	}
-	
+
 	async getUserBlocked(id: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		if (user.blockedId.length)
@@ -252,7 +252,11 @@ export class UserService {
 		}
 		return 0;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 4a63103f475a5d28d46ec3810754785c4ff2404b
 	async getUserBlockedId(id: number, blockedId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		const searchID = user.blockedId.find(id => id === blockedId);

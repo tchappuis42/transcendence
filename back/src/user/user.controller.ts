@@ -145,7 +145,7 @@ export class UserController {
 		return await this.userService.getUserBlockedId(user.id, blockedId);
 	}
 
-	// @UseGuards(JwtAuthGuard)///////
+	@UseGuards(JwtAuthGuard)
 	@Get("/apiPic")
 	async apiPic(): Promise<any> {
 		console.log("hello");

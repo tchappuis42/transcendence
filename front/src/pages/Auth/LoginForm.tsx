@@ -39,7 +39,6 @@ const LoginForm: React.FC<FormProps> = ({
             const response = await axios.get("http://localhost:4000/authentication/url");
             if (response.data.statusCode === 302) {
                 window.location.href = response.data.url;
-				console.log(response.data.url);
             } else {
                 console.error('Unexpected response', response.data);
             }

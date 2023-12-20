@@ -52,7 +52,7 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
     if (stringToSearch) {
     const handleSearch = async () => {
       try {
-        const prerep = await axios.get("http://localhost:4000/user/apiPic");
+        const prerep = await axios.get("http://localhost:4000/user/apiPic", { withCredentials: true});
         const apiKey = prerep.data.apiKey;
         console.log(apiKey);
         const response = await axios.get(

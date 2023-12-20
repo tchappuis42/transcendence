@@ -57,7 +57,6 @@ const Chat = () => {
 				setDM_Chann(true)
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
-				alert(name)
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
@@ -70,6 +69,7 @@ const Chat = () => {
 				//setPass(datta);
 				if (datta === "ok") {
 				//	socket.emit("message", "", name, '1');
+					console.log("masi looooooooooooool")
 					socket.emit("getChannelMeOne", name, curChan);
 					setPass("ok")
 					setData("");
@@ -142,9 +142,11 @@ const Chat = () => {
 	}
 
 	function takeChan(channelSet: string, chanStatue: string) {
+		console.log("set data a 0 pd")
 		setCurrentChannel(channelSet)
-		console.log("chann = , current =", channelSet, currentChannel)
+		//console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
+			console.log("fdp")
 			const password = prompt("what is the PassWord?");//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);

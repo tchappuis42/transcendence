@@ -32,6 +32,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				console.log("fuck mathis")
 				setOwner(owner);
 				setChannelStatus(status)
 			//	if (status) {

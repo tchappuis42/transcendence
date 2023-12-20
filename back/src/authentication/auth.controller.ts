@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -108,8 +108,35 @@ export class AuthController {
 	}
 	}
 
-	// @Post("/url")
-	// async handleApiEndpoint(@Body() body: { code: string })
+	
+	@Get("/url")
+	async getUrlApi(): Promise<any> {
+		var authorize_url = process.env.API_AUTHORIZE;
+		var redirect_url = process.env.API_REDIRECT_URL;
+		var client_uid = process.env.API_UID;
+
+		const url = `${authorize_url}?client_id=${client_uid}&redirect_uri=${redirect_url}&response_type=code`;
+		return { statusCode: HttpStatus.FOUND, url};
+	}
+
+	// https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ca44c5bc0f1cbf57468c23fe07cadeb1237c04b5b23a0f88ccacf31ba217a6b6&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fwaiting&response_type=code
+	// https://api.intra.42.fr/oauth/authorize?client_uid=u-s4t2ud-ca44c5bc0f1cbf57468c23fe07cadeb1237c04b5b23a0f88ccacf31ba217a6b6&rect_uri=http://localhost:3000/waiting&response_type=code
+
+	// @Get('apisignin')
+    // @AllowPublic()`
+    // @Redirect()
+    // async apiRedirect(): Promise<any> {
+
+    //     var authorize_url = process.env.API_AUTHORIZE;
+    //     var redirect_url = process.env.API_REDIRECT_URL;
+    //     var randomstring = require('randomstring');
+
+    //     var state: string = randomstring.generate(15);
+    //     this.authService.addState(state);
+
+    //     const url = `${authorize_url}?client_id=${process.env.API_UID}&redirect_uri=${redirect_url}&scope=public&response_type=code&state=${state}`;
+    //     return { statusCode: HttpStatus.FOUND, url };
+    // }////
 
 
 
@@ -118,6 +145,6 @@ export class AuthController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
 	async postLogout(@Res({ passthrough: true }) res: Response) {
-		res.clearCookie('access_token');
+		res.clearCookie('access_token');//
 	}
 }

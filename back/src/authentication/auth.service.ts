@@ -68,7 +68,7 @@ export class AuthService {
 		data.append('client_id', process.env.API_UID);
 		data.append('client_secret', process.env.API_SECRET);
 		data.append('code', code);
-		data.append('redirect_uri', process.env.API_REDIRECT_URL);
+		data.append('redirect_uri', process.env.API_REDIRECT_URL2);
 	
 		console.log(data);
 

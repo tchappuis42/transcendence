@@ -45,6 +45,7 @@ export class TextChannelService {
   async createChannel(
     namechannel: string,
     userId: number,
+    passWorld: string,
   ): Promise<TextChannel> {
     const admin = await this.userService.validateUser(userId);
     
@@ -64,12 +65,15 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
 
+      const cryptPassword = await bcrypt.hash(passWorld, 10);
+
     const currentChannel = this.textChannelRepository.create({
       name: namechannel,
       owner: admin,
       users: [admin],
       adminId: [admin],
       status: true,
+      password: cryptPassword,
     });
 
     try {
@@ -333,7 +337,7 @@ export class TextChannelService {
     }*/
   }
 
-  async setPassword(
+  /*async setPassword(
     channel: TextChannel,
     pass: string,
   ): Promise<number> {
@@ -357,7 +361,7 @@ export class TextChannelService {
      // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
     return 0;
-  }
+  }*/
 
   async checkPassWord(
     channel: TextChannel,
@@ -377,10 +381,15 @@ export class TextChannelService {
     oldPass: string,
     newPass: string,
   ): Promise<number> {
+    if (newPass.length > 16) {
+      throw new HttpException('New password too long', HttpStatus.FORBIDDEN);
+    }
+
     if ((await bcrypt.compare(oldPass, channel.password)) === true) {
       if (!newPass){
         return 0;
       }
+      
       try {
         const password = await bcrypt.hash(newPass, 10);
         await this.textChannelRepository.update(channel.id, { password });
@@ -396,6 +405,7 @@ export class TextChannelService {
     channel: TextChannel,
     admin: UserDto,
     userMute: UserDto,
+    Time: number,
   ) {
     if (channel.owner == userMute){
       throw new HttpException(
@@ -419,7 +429,9 @@ export class TextChannelService {
     if (channel.muted.find((user1) => user1.id == userMute.id))
       throw new HttpException('User is already muted', HttpStatus.FORBIDDEN);
     
-    const time = new Date(Date.now() + temporary);
+    const temp = Time * 60 * 1000;
+    
+    const time = new Date(Date.now() + temp);
     const muted = this.mutedUserRepository.create({
         endOfMute: time,
         userId: userMute.id,
@@ -451,6 +463,7 @@ export class TextChannelService {
     channel: TextChannel,
     admin: UserDto,
     userBan: UserDto,
+    Time: number,
   ) {
     if (channel.owner == userBan){
       throw new HttpException(
@@ -458,6 +471,12 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
     }
+    let isTime: number;
+    if (Time >= 1) {
+      isTime = Time;
+    }
+    else
+      isTime = 52596000;
 
     if (userBan.id == channel.owner.id)
       throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
@@ -473,8 +492,10 @@ export class TextChannelService {
 
     if (channel.banned.find((user1) => user1.id == userBan.id))
       throw new HttpException('User is already banned', HttpStatus.FORBIDDEN);
+
+    const temp = isTime * 60 * 1000;
     
-    const time = new Date(Date.now() + temporary);
+    const time = new Date(Date.now() + temp);
     const banned = this.bannedUserRepository.create({
         endOfBan: time,
         userId: userBan.id,

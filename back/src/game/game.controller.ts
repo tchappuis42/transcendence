@@ -9,8 +9,8 @@ export class GameController {
 	constructor(private readonly gameService: GameService) { }
 
 	@Get('history/:id')
-	async getGameByUser(@Param() params: any) {
-		const games = await this.gameService.getGameByUser(params.id);
+	async getGameByUser(@Param('id') id: number) {
+		const games = await this.gameService.getGameByUser(id);
 		return games;
 	}
 }

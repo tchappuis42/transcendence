@@ -9,14 +9,27 @@ import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "./Tools";
 import AddFriendCard from "./CardContent/AddFriendCard";
 import FriendsToAdd from "../Friend/component/AddFriend";
+import { useSocket } from "../../ui/organisms/SocketContext";
 
 const HomePage = () => {
 
     const navigate = useNavigate();
+    const socket = useSocket();
 
-    const handleNav = () => {
-        navigate("/pong")
-    }
+    useEffect(() => {
+        if (socket) {
+            socket.on("game", (data) => {
+                if (typeof data === 'object') {
+                    navigate("/pong")
+                }
+            });
+        }
+        return () => {
+            if (socket) {
+                socket.off("game");
+            }
+        };
+    }, [socket]);
 
     return (
         <div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >

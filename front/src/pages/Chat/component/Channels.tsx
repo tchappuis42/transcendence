@@ -96,7 +96,12 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		<div className="bg-black/50 h-full w-full rounded-md" >
 			<div style={{marginLeft: "40%", marginTop: "5%"}} className="absolute flex items-center justify-center" >
 				{ selectedMessage && selectedMessage.statue !== "Public" && promptOpen === true &&
-					<SimpleRegistrationForm name={selectedMessage.name} callback={(pwd: string) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); closeForm()}} />
+					 createPortal(
+						<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+							<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
+						</div>,
+						document.body
+					)
 				}
 			</div>
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>

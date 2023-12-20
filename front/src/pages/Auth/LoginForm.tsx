@@ -30,8 +30,7 @@ const LoginForm: React.FC<FormProps> = ({
 				settingPage("twofa")
 			}
 		} catch (error) {
-			setErrorMessage("Username or Password invalid")
-			// setAccount(null);
+			setErrorMessage("Problem logging")
 		}
 
 	};
@@ -71,6 +70,9 @@ const LoginForm: React.FC<FormProps> = ({
 						Login
 					</button>
 				</div>
+				<button onClick={() => window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ca44c5bc0f1cbf57468c23fe07cadeb1237c04b5b23a0f88ccacf31ba217a6b6&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fwaiting&response_type=code"} type="button" className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
+				Api Login
+				</button>
 				<div className="w-full h-1/6 flex flex-col mt-3 justify-center items-center" >
 					<div className=' text-start flex mt-3 text-white'>
 						Don't have an account?

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -41,7 +41,7 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
-
+		console.log(userInfo.access_token);
 		return { message: "succces" }; // msg succes
 	}
 
@@ -59,6 +59,61 @@ export class AuthController {
 		res.clearCookie('2fa_token');
 		return { message: user.twoFaSecret }; // msg succes
 	}
+
+	@Post("/api")
+	async handleApiEndpoint(@Body() body: { code: string }, @Res({ passthrough: true }) res: Response): Promise<any> {
+	const { code } = body;
+
+	if (code) {
+		try {
+			//chope le token en appelant l api avec le code et l'env
+		const token = await this.authService.getToken(code);
+		console.log(token);
+
+			//app call l'api pour avoir tout les infos de l'api
+		const profileData = await this.authService.getUserInfo(token.access_token);
+
+		// console.log(Object.keys(profileData));	
+		console.log(profileData.login);
+
+
+		const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
+		console.log(userInfo.access_token);
+
+		if (userInfo.user.twoFa) {
+			res.cookie('2fa_token', userInfo.access_token, {
+				httpOnly: true,
+				secure: false,
+				sameSite: "lax",
+				expires: new Date(Date.now() + 60 * 60 * 100),
+			});
+			return { twofa: "twacode" }
+		}
+		res.cookie('access_token', userInfo.access_token, {
+			httpOnly: true,
+			secure: false,
+			sameSite: "lax",
+		});
+
+		return { message: "succces" };
+		} catch (error) {
+		// Handle any errors here
+		console.error(error);
+
+		throw new BadRequestException('Failed to fetch data from the API');
+		}
+	} else {
+		// Return an error message with a 400 status code if 'code' is missing or empty
+		throw new BadRequestException('Missing or empty code parameter');
+	}
+	}
+
+	// @Post("/url")
+	// async handleApiEndpoint(@Body() body: { code: string })
+
+
+
+  
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")

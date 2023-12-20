@@ -14,7 +14,7 @@ const Home = () => {
 	}, []);
 
 	if (status === AuthStatus.Unknown) {
-		return <div></div>
+		return <div></div> 
 	}
 
 	if (status === AuthStatus.Guest) {

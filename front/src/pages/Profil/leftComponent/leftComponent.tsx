@@ -31,6 +31,7 @@ interface LeftComponentProps {
 export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	const { account } = useAccount();
 	const [isFriend, setIsFriend] = useState<string>("");
+	const [isUserBlock, setUserBlock] = useState<string>("");
 
 	useEffect(() => {
 		if (user?.id && user?.id !== account.id) {
@@ -48,6 +49,16 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 
 			};
 			fetchFriends();
+			const fetchUserBlocked = async () => {
+				const response = await axios.get(`http://localhost:4000/user/getUserBlockedId/${user?.id}`, { withCredentials: true });
+				if (response.data) {
+					if (response.data)
+						setUserBlock("unblock");
+				}
+				else
+					setUserBlock("block");
+			};
+			fetchUserBlocked();
 		}
 	}, [user?.id]);
 
@@ -76,6 +87,30 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			removeFriend();
 		}	
 	}
+	const handleBlockedRequest = () => {
+		if (isUserBlock === "block") {
+			const block = async () => {
+				try {
+					const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
+					setUserBlock("unblock");
+				} catch {
+					console.error("error while blocking user request");
+				}
+			}
+			block();
+		}
+		else {
+			const deblock = async () => {
+				try {
+					const response = await axios.get(`http://localhost:4000/user/unblock/${user?.id}`, {withCredentials:true})
+					setUserBlock("block")
+				} catch {
+					console.error("error while unblocking friends request");
+				}
+			}
+			deblock();
+		}
+	}
 
 	return (
 		<div>
@@ -97,9 +132,12 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			</div>
 			{user?.id !== account.id &&
 				<div className="w-full flex justify-center items-center p-5">
-					<Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleFriendsRequest() }} variant="outlined">
+					<Button className="w-32 h-8 rounded p-2 text-white mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
 						{isFriend}
 					</Button>
+                    <Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleBlockedRequest() }} variant="outlined">
+						{isUserBlock}
+                    </Button>
 				</div>
 			}
 		</div>

@@ -260,7 +260,7 @@ export class ChatGateway {
 
 	@SubscribeMessage('leaveChat')
 	async leaveChat(@ConnectedSocket() client: Socket) {
-		//console.log("salut", client.data.user.username)
+		//	console.log("salut", client.data.user.username)
 		const user = client.data.user as UserDto;
 		const channels = await this.textChannelService.getChannelsForUser(user.id);
 		const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
@@ -269,6 +269,7 @@ export class ChatGateway {
 				await this.textChannelService.removeUserFromChannel(channels[i], user.id);
 				const channel = await this.textChannelService.getChannelMe(channels[i].name);
 				const userAllOut = channel.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+				//console.log("liste = ", userAllOut)
 				client.leave(channel.name);
 				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
 			}

@@ -9,6 +9,8 @@ import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
 import { useAccount } from "../../ui/organisms/useAccount";
+import InvitGameMsg from "./component/InvitGameMsg";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -19,6 +21,7 @@ const Chat = () => {
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const socket = useSocket();
 	const { account } = useAccount();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (socket) {
@@ -106,6 +109,11 @@ const Chat = () => {
 					setMessages([]);
 				}
 			});
+			socket.on("game", (data) => {
+				if (typeof data === 'object') {
+					navigate("/pong")
+				}
+			});
 		}
 		return () => {
 			if (socket) {
@@ -119,6 +127,7 @@ const Chat = () => {
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
 				socket.off("createDMChannel");
+				socket.off("game");
 			}
 		};
 	}, [socket, data, currentChannel]);
@@ -160,7 +169,7 @@ const Chat = () => {
 			</div>
 			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
-				<div className="h-[10%]"></div>
+				<InvitGameMsg />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>

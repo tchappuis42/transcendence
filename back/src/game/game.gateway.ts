@@ -36,7 +36,7 @@ export class GameGateway {
 
 	@SubscribeMessage('clean')
 	async clean(@ConnectedSocket() client: Socket) {
-		await this.gameService.clean(client, this.server);
+		await this.gameService.clean(client);
 	}
 
 	@SubscribeMessage('gamelife')
@@ -77,11 +77,10 @@ export class GameGateway {
 	async JoinGame(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
 		console.log("info =", client.data.user.id, data)
 		const game = await this.gameService.joinGame(client, data, this.server)
-		if (typeof game === 'boolean')
-			client.emit('JoinGame', game);
-		else {
+		if (game.success)
 			this.server.to(game.roomName).emit('JoinGame', game.success);
+		else {
+			client.emit('JoinGame', game.id);
 		}
 	}
-
 }

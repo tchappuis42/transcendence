@@ -67,7 +67,7 @@ export class GameService {
 
 			//creer une nouvelle room de jeu
 			let element: roomName = {
-				name: user.username,
+				name: user.username + "gameroom",
 				socket1: client,
 				socket2: this.waitingGame,
 				pong: new Pong(),
@@ -107,7 +107,7 @@ export class GameService {
 	}
 
 	//debug
-	async clean(client: Socket, server: Server) {
+	async clean(client: Socket) {
 		this.waitingGame = null;
 		const room = this.findRoom(client)
 		if (room) {
@@ -116,12 +116,6 @@ export class GameService {
 			clearInterval(room.intervalId);
 			this.rooms = this.rooms.filter((r) => r.name !== room.name)
 		}
-		const socket = await server.in("test").allSockets();
-		console.log("AVANT", socket)
-		client.leave("test")
-		const socketI = await server.in("test").allSockets();
-		console.log("APRES", socketI)
-
 	}
 
 	//suprime la room
@@ -178,7 +172,6 @@ export class GameService {
 
 	//a la fin clean la room et sauv le score
 	async life(server: Server, client: Socket) {
-		console.log("salut")
 		const room = this.findRoom(client);
 		if (room) {
 
@@ -292,25 +285,31 @@ export class GameService {
 
 		if (this.waitingGame) {
 			if (client.data.user.id === this.waitingGame.data.user.id)
-				return false
+				return {
+					success: false,
+					id: userId
+				}
 		}
-		const clientStatue = await this.userservice.userStatue(client.data.user.id)
-		if (clientStatue === ConnctionState.InGame)
-			return false
 
-		// console.log("lolol", this.gameInvit)
-		// console.log("id1 = ", userId)
-		// console.log("id2 = ", user.id)
+		const clientStatue = await this.userservice.userStatue(client.data.user.id)
+		if (clientStatue === ConnctionState.InGame) {
+			return {
+				success: false,
+				id: userId
+			}
+		}
+
 		if (this.gameInvit.length > 0) {
 			const invit = this.gameInvit.find(game => game.id1 === userId && game.id2 === user.id)
 			if (!invit)
-				return false
-			console.log("creer un game")
-
+				return {
+					success: false,
+					id: userId
+				}
 			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id);
 			this.gameInvit = this.gameInvit.filter(game => game.id1 !== userId);
 			let element: roomName = {
-				name: user.username,
+				name: user.username + "gameroom",
 				socket1: client,
 				socket2: invit.socket,
 				pong: new Pong(),
@@ -326,12 +325,14 @@ export class GameService {
 			invit.socket.join(element.name);
 			const socketI = await server.in(element.name).allSockets();
 			console.log("APRES", socketI, element.name)
-			console.log("element =", element)
 			return {
 				success: true,
 				roomName: element.name,
 			}
 		}
-		return false
+		return {
+			success: false,
+			id: userId
+		}
 	}
 }

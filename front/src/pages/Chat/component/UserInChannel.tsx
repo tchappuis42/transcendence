@@ -1,7 +1,6 @@
 import { Account } from '../../../ui/types';
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FriendCardChat from './FriendsCardChat';
 import UserInChannelCard from './UserInChannelCard';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 
@@ -14,6 +13,7 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 	const socket = useSocket();
 	const navigate = useNavigate();
 	const [gameInvit, setGameInvit] = useState<number[]>([]);
+
 
 	const JoinGame = (e: SyntheticEvent, userid: number) => {
 		e.preventDefault();
@@ -32,17 +32,15 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 	useEffect(() => {
 		if (socket) {
 			socket.on("GameInvit", (data) => {
-				console.log(data)
-				if (typeof data === 'number')
-					alert(data);
-				else
+				if (typeof data !== 'number')
 					setGameInvit((prevInvit) => [...prevInvit, data.id])
 			});
 			socket.on("JoinGame", (data) => {
-				if (data)
+				if (typeof data === 'boolean')
 					navigate("/pong")
-				else
-					alert("erreur de partie")
+				else {
+					setGameInvit((prevInvit) => prevInvit.filter(id => id !== data))
+				}
 			});
 		}
 		return () => {
@@ -65,17 +63,17 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 			) : (
 				<div className="h-full m-2.5 bg-black/10 rounded-md	box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{userInChannel?.map((userIn: Account) => (
-						<div>
+						<div className='h-1/6'>
 							{InvitGame(userIn.id) ? (<UserInChannelCard key={userIn.id} userInChannel={userIn} />) : (
-								<div className="h-1/5 bg-blue-500/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer">
+								<div className="h-full bg-blue-500/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer">
 									<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
 										<img alt="image de profil" className="rounded-md h-full"
 											src={userIn.avatar} />
 									</div>
-									<div className="h-full w-2/5 flex justify-center items-center">
+									<div className="h-full w-2/5 flex justify-center items-center text-white">
 										<h2>{userIn.username.slice(0, 8)}</h2>
 									</div>
-									<button className="w-1/5 border" onClick={(e) => JoinGame(e, userIn.id)}>rejoindre la partie</button>
+									<button className="w-1/5 border text-white" onClick={(e) => JoinGame(e, userIn.id)}>rejoindre la partie</button>
 								</div>)
 							}
 						</div>
@@ -87,7 +85,3 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 };
 
 export default UserInChannel;
-//
-
-//socket.on un tableau des demande de game
-// fonction qui check si dans le tableau des demande de game et retourn un bool

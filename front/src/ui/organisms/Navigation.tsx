@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useSocket } from "./SocketContext";
 
 type Props = {
@@ -19,6 +19,7 @@ const NavigationItem = ({ option }: { option: Option }) => {
 
 const Navigation = ({ options }: Props) => {
 	const location = useLocation();
+
 
 	const [currentPage, setCurrentPage] = useState<string>(location.pathname);
 	const [previousPage, setPreviousPage] = useState<string>("");

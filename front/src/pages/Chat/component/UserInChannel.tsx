@@ -50,7 +50,7 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 			}
 		};
 	}, [socket]);
-	// h-full bg-blue-500/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer
+
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md " >
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
@@ -73,7 +73,14 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 									<div className="h-full w-full flex col-span-3 justify-center items-center text-white">
 										<h2>{userIn.username.slice(0, 8)}</h2>
 									</div>
-									<button className="w-full border m-2 rounded col-span-2 bg-transparent hover:bg-blue-500/40 active:bg-blue-500/30 focus:outline-none focus:ring focus:ring-blue-500/30 hover:no-underline hover:text-white text-white" onClick={(e) => JoinGame(e, userIn.id)}>rejoindre la partie</button>
+									<button className="
+										w-full border m-2 rounded col-span-2 bg-transparent 
+										hover:bg-blue-500/40 hover:no-underline hover:text-white
+										focus:outline-none focus:ring focus:ring-blue-500/30
+										active:bg-blue-500/30 text-white"
+									onClick={(e) => JoinGame(e, userIn.id)}>
+										rejoindre la partie
+									</button>
 								</div>)
 							}
 						</div>

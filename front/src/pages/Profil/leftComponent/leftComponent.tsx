@@ -118,8 +118,8 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 				<div className="info-profile-component gray-border"
 					style={{ gridTemplateRows: "2fr 1fr" }}>
 					<div className="information-user-component">
-						< div className="rounded h-full col-span-1 gray-border">
-							<AvatarContainer src={user?.avatar} navigation={false}/>
+						<div id={"profil"} className="rounded h-full col-span-1 gray-border object-cover">
+							<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
 						</div>
 						<div className="text-information-component">
 							<MyName id={user?.id} username={user?.username} index={0} />

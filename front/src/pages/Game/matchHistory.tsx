@@ -33,7 +33,7 @@ const MatchHistory: React.FC<{ userId: number | undefined }> = ({ userId }) => {
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md">
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>Match history</h1>
 			</div>
 

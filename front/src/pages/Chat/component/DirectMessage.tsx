@@ -56,7 +56,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 					<h1 className='text-white opacity-60'>No Dm</h1>
 				</div>
 			) : (
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
+				<div className="h-[90%] overflow-y-auto overflow-x-hidden bg-blue-200">
 					{all_DMChannels.map((msg, id) => (
 						<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
 							onMouseEnter={handleMouseEnter}

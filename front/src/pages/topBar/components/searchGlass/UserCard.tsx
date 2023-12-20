@@ -30,8 +30,8 @@ interface UserCardProps {
         
 
     return(
-        <div className="messageContainer"  style={{background: "rgba(0,0,0,0.8)", borderWidth:1, boxShadow:"0 4px 8px rgba(255, 255, 255, 0.6)"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("profil", user.id)}}>
-           <AvatarContainer src={user.avatar} navigation={true} id={user.id} square={5}/>
+        <div id={"userCard"} className="messageContainer"  style={{background: "rgba(0,0,0,0.8)", borderWidth:1, boxShadow:"0 4px 8px rgba(255, 255, 255, 0.6)"}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {handleNav("profil", user.id)}}>
+            <AvatarContainer src={user.avatar} navigation={true} id={user.id} square={5} id_div="userCard"/>
             <div className="messageText">
             {user.username.length <= 13 ? (
                 <h2 className="text-white flex justify-center items-center">{user.username}</h2>

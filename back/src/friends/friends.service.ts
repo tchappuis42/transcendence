@@ -25,6 +25,7 @@ export class FriendsService {
 			return "impossible d'ajouter un user bloqué"
 
 		const friendUser = await this.userservice.validateUser(friend);
+		const blockMe = friendUser.blockedId.find(id => id == user.id);
 		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
 		if (check)
 			return "demande d'ami déjà envoyé"
@@ -34,7 +35,7 @@ export class FriendsService {
 		friends.second_id = friendUser.id;
 		friends.second_User = friendUser; //
 		await this.friendsRepository.save(friends);
-		if (friendUser.status !== ConnctionState.Offline)
+		if (friendUser.status !== ConnctionState.Offline && !blockMe)
 			await this.sendFriendMessage(friends.second_id, friends.first_User, "friendRequest")
 		return "demande d'ami envoyé"
 	}

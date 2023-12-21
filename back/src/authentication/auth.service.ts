@@ -37,7 +37,6 @@ export class AuthService {
 		if (!match)
 			throw new UnauthorizedException("Ivalide password")
 
-		//return la cle jwt au login (besoin pour )
 		const payload = { sub: user.id, identifiant: user.identifiant };
 		return {
 			access_token: await this.jwtService.signAsync(payload),
@@ -68,10 +67,8 @@ export class AuthService {
 		data.append('client_id', process.env.API_UID);
 		data.append('client_secret', process.env.API_SECRET);
 		data.append('code', code);
-		data.append('redirect_uri', process.env.API_REDIRECT_URL);
+		data.append('redirect_uri', process.env.API_REDIRECT_URL2);
 	
-		console.log(data);
-
 		try {
 		  const response = await axios.post(url, data);
 	
@@ -92,7 +89,6 @@ export class AuthService {
 			  Authorization: `Bearer ${token}`,
 			},
 		  });
-	
 		  return response.data;
 		} catch (error) {
 		  // Handle any errors here
@@ -100,31 +96,11 @@ export class AuthService {
 		}
 	  }
 
-	//   async postLoginApi(body: LoginDto, ) {
-	// 	const { password, identifiant } = body
-	// 	const user = await this.usersRepository.findOne({ where: { identifiant: identifiant } })
-	// 	if (!user)
-	// 		throw new NotFoundException("user not found")
-	// 	const match = await bcrypt.compare(password, user.password)
-	// 	if (!match)
-	// 		throw new UnauthorizedException("Ivalide password")
-
-	// 	//return la cle jwt au login (besoin pour )
-	// 	const payload = { sub: user.id, identifiant: user.identifiant };
-	// 	return {
-	// 		access_token: await this.jwtService.signAsync(payload),
-	// 		user: user
-	// 	}
-	// }
-
-
 	async loginOrCreate(loginname: string, infos: any = {}) {
             const user = await this.usersRepository.findOne({ where: { identifiant: loginname } })
 
 			if (user != null )
 			{
-				console.log(user.id);
-				console.log(user.identifiant);
 				const payload = { sub: user.id, identifiant: user.identifiant };
 				return {
 					access_token: await this.jwtService.signAsync(payload),
@@ -143,14 +119,5 @@ export class AuthService {
 					user: user2
 				}	
 			}
-			
           }
-
-	  	// 	//return la cle jwt au login (besoin pour )
-		// const payload = { sub: user.id, identifiant: user.identifiant };
-		// return {
-		// 	access_token: await this.jwtService.signAsync(payload),
-		// 	user: user
-		// }
-}
-
+		}

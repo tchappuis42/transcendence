@@ -201,23 +201,10 @@ export class ChatGateway {
 			const Majchannel = await this.textChannelService.getChannelMe(name[0]);
 			const baned = Majchannel.banned.find((banned) => banned.userId == user.id);
 			if (baned) {
-				const channel1 = await this.textChannelService.getChannelMe(name[1]);
-				await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
-			}
-		}
-		for (let i = 0; channel.banned[i]; i++) {
-			if (channel.banned[i].userId == user.id) {
-				if (channel.banned[i].endOfBan <= new Date(Date.now()))
-					await this.textChannelService.unBanUser(channel, user, i);
-			}
-		}
-		const Majchannel = await this.textChannelService.getChannelMe(name[0]);
-		const baned = Majchannel.banned.find((banned) => banned.userId == user.id);
-		if (baned) {
-			const channel1 = await this.textChannelService.getChannelMe(name[1]);
-			if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0)
-				await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
-			client.leave(name[1]);
+					const channel1 = await this.textChannelService.getChannelMe(name[1]);
+					if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0)
+						await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
+					client.leave(name[1]);
 		}
 		else {
 			client.join(name[0]);
@@ -249,13 +236,9 @@ export class ChatGateway {
 					this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
 				}
 			}
-<<<<<<< HEAD
-		} catch { }
-=======
 			this.server.to(channel.name).emit('setUserInChannel', userAll);
 		}
-		//} catch { }
->>>>>>> 282ea17b01af427cc98d20ba8c2c6194de423bdf
+	} catch { }
 	}
 
 	@SubscribeMessage('checkLogRoom')

@@ -160,4 +160,31 @@ export class DMChannelService {
         else
           await this.dmChannelRepository.update(channel.id, {block2: status} )
   }
+
+  async findDMBlock(
+    channel: DMChannel,
+    user: UserDto,
+    blocked: number[],
+  ) {
+    if (channel.user1[0].id === user.id) {
+      if (blocked) {
+        if (blocked.find((users) => users == channel.user2[0].id))
+          await this.DMBlock(channel, user, true);
+        else
+          await this.DMBlock(channel, user, false);
+      }
+      else if (channel.block1 === true)
+        await this.DMBlock(channel, user, false);
+    }
+    else {
+      if (blocked) {
+        if (blocked.find((users) => users == channel.user1[0].id))
+          await this.DMBlock(channel, user, true);
+        else
+          await this.DMBlock(channel, user, false);
+      }
+      else if (channel.block2 === true)
+        await this.DMBlock(channel, user, false);
+    }
+  }
 }

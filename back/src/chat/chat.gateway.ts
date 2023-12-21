@@ -183,8 +183,7 @@ export class ChatGateway {
 
 	@SubscribeMessage('getChannelMeOne')
 	async getChannelMeOne(client: Socket, name: string): Promise<void> {
-		//try {
-			console.log("hello")
+		try {
 			const channel = await this.textChannelService.getChannelMe(name[0]);
 			const user = client.data.user as UserDto;
 			if (name[1] != "create a channel!") {
@@ -240,7 +239,7 @@ export class ChatGateway {
 				}
 				this.server.to(channel.name).emit('setUserInChannel', userAll);
 			}
-		//} catch { }
+		} catch { }
 	}
 
 	@SubscribeMessage('checkLogRoom')
@@ -255,7 +254,6 @@ export class ChatGateway {
 			for (let i = 0; DMChannel[i]; i++) {
 				client.leave(DMChannel[i].name);
 			}
-
 		} catch { }
 	}
 

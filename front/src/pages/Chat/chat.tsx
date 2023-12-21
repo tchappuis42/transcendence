@@ -19,6 +19,8 @@ const Chat = () => {
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
+	const [channelStatus, setChannelStatus] = useState(false);
+	const [Owner, setOwner] = useState("0");
 	const socket = useSocket();
 	const { account } = useAccount();
 	const navigate = useNavigate();
@@ -53,8 +55,12 @@ const Chat = () => {
 			setCurrentChannel("create a channel!")
 		}
 		if (socket) {
-			socket.on("getChannelMeOne", (Id, lol, datta, owner) => {
-				setDM_Chann(true)
+			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				setDM_Chann(true);
+				setOwner(owner);
+				setChannelStatus(status)
+			//	if (status) {
+				socket.emit("message", " ", chanName, '1');
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
 				setCurrentChannel(name)
@@ -69,7 +75,6 @@ const Chat = () => {
 				//setPass(datta);
 				if (datta === "ok") {
 				//	socket.emit("message", "", name, '1');
-					console.log("masi looooooooooooool")
 					socket.emit("getChannelMeOne", name, curChan);
 					setPass("ok")
 					setData("");
@@ -142,16 +147,13 @@ const Chat = () => {
 	}
 
 	function takeChan(channelSet: string, chanStatue: string) {
-		console.log("set data a 0 pd")
 		setCurrentChannel(channelSet)
 		//console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
-			console.log("fdp")
 			const password = prompt("what is the PassWord?");//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
-		setTimeout(() => {}, 1000);
 		if (chanStatue === "Public") {	
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
@@ -179,7 +181,7 @@ const Chat = () => {
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md">
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
-					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />

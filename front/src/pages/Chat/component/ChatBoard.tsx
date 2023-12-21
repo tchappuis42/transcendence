@@ -3,7 +3,7 @@ import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SetStateAction, SyntheticEvent, useEffect, useState } from "react";
 
 interface Props {
 	currentChannel: string;

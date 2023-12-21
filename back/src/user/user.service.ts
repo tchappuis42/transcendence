@@ -252,7 +252,7 @@ export class UserService {
 		}
 		return 0;
 	}
-
+	
 	async getUserBlockedId(id: number, blockedId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		const searchID = user.blockedId.find(id => id === blockedId);

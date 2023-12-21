@@ -19,6 +19,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 	mapChange
 }) => {
 	const socket = useSocket();
+	const [bonus, setBonus] = useState(false);
 	const [search, setsearch] = useState("trouver un match")
 	const [error, setError] = useState("");
 
@@ -27,10 +28,13 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 
 		setError("");
 		if (socket) {
-			socket.emit("matchmaking");
+			socket.emit("matchmaking", bonus);
 		}
 	};
 
+	const handleCheckBoxChange = () => {
+		setBonus((prev) => !prev);
+	}
 	useEffect(() => {
 		if (socket) {
 			socket.on("game", (data) => {
@@ -67,6 +71,11 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 				<button onClick={matchmaking} className="border h-10 border-black px-2 rounded-md">
 					{search}
 				</button>
+				<div className=" w-2/6 min-w-[200px] flex justify-around border-2 border-black p-2 rounded border-dashed ">
+					<input type={"checkbox"} checked={bonus} className="w-6 rounded-full" onChange={handleCheckBoxChange}>
+					</input>
+					<h1 className=" ">Activate Bonus Mode</h1>
+				</div>
 				<h1 className="mt-3 text-red-600">{error}</h1>
 			</div>
 			<div className="px-10 sm:px-14 h-2/5 bg-white/50 m-2.5 rounded-xl py-2.5 flex flex-col justify-center">

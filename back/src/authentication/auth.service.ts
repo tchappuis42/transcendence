@@ -89,7 +89,6 @@ export class AuthService {
 			  Authorization: `Bearer ${token}`,
 			},
 		  });
-	
 		  return response.data;
 		} catch (error) {
 		  // Handle any errors here
@@ -120,6 +119,5 @@ export class AuthService {
 					user: user2
 				}	
 			}
-			
           }
 		}

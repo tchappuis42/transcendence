@@ -148,9 +148,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/apiPic")
 	async apiPic(): Promise<any> {
-		console.log("hello");
 		var apiKey = process.env.PIC_UID;
-		console.log(apiKey);
 		return {apiKey};
 	}
 }

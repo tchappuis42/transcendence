@@ -55,10 +55,8 @@ export class FriendsService {
 				return { friend_user: friend.first_User, friend_status: 1 }
 			}
 		});
-		console.log(friends)
-		const filterblock = friends.filter(friend => !user.blockedId.includes(friend.friend_user.id))
-		console.log(filterblock)
-		return filterblock;
+		const filteredFriends = friends.filter(friend => !user.blockedId.some(id => friend.friend_user.id == id));
+		return filteredFriends;
 	}
 
 	getdata(relationship: Friends, user: User) {

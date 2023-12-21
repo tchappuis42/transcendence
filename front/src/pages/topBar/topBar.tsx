@@ -21,7 +21,7 @@ const navigationOptionsPong = [
 export const TopBar = () => {
 	const myRef = useRef<HTMLDivElement | null>(null);
 	return (
-		<div className="sticky top-0 bg-gray-50 flex flex-row justify-start">
+		<div className="sticky top-0 bg-gray-50 flex flex-row justify-start z-50">
 			<div ref={myRef} className="top-bar">
 				<div className="px-4 font-bold rounded">
 					<Navigation options={navigationHome} />

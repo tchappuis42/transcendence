@@ -2,6 +2,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
+import * as dotenv from "dotenv"
 
 @Injectable()
 export class tempJwtStrategy extends PassportStrategy(Strategy, 'temp-jwt') {
@@ -13,7 +14,7 @@ export class tempJwtStrategy extends PassportStrategy(Strategy, 'temp-jwt') {
 				},
 			]),
 			ignoreExpiration: false,
-			secretOrKey: 'test',
+			secretOrKey: process.env.JWT_SECRET,
 		});
 	}
 

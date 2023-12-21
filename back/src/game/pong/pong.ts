@@ -1,6 +1,11 @@
 import { Ball } from "./ball"
+import { Bonus } from "./bonus"
 import { Paddle } from "./paddle"
 
+type Coor = {
+	x : number;
+	y : number;
+}
 export class Pong {
 	player1: Paddle
 	player2: Paddle
@@ -9,14 +14,21 @@ export class Pong {
 	height: number
 	width: number
 	ready: boolean
+	isBonus:boolean
+	bonus : Bonus
+	intervalId: NodeJS.Timeout | null = null
 
-	constructor() {
+	constructor(bonusActivate : boolean) {
 		this.height = 585
 		this.width = 750
 		this.player1 = new Paddle(45, (this.height / 2) - 40)
 		this.player2 = new Paddle(this.width - 45, (this.height / 2) - 40)
 		this.ball = new Ball(this.height, this.width)
 		this.ready = false
+		this.isBonus = false
+		this.bonus = new Bonus()
+		if (bonusActivate)
+			this.intervalId = setInterval(() => this.bonusHandler(), 3000);
 	}
 
 	pongLife() {
@@ -29,7 +41,31 @@ export class Pong {
 				this.player2.life();
 				this.ball.life();
 				this.collide();
+				this.launchBonus();
 				this.score();
+			}
+		}
+	}
+
+	bonusHandler() {
+		const randomIndex = Math.floor(Math.random() * 10);
+		const randomCoor : Coor = generateRandomCoor(this.height, this.width);
+		if (randomIndex && !this.isBonus) {
+			const newBonus = new Bonus(randomIndex, {paddle1 : this.player1, paddle2: this.player2, ball : this.ball}, {x : randomCoor.x, y: randomCoor.y});
+			this.bonus = newBonus;
+			newBonus.bonusInit();
+			// newBonus.launchBonus()
+		}
+	}
+
+	launchBonus() {
+		if (this.ball.x >= this.bonus.coor.x && this.ball.x <= this.bonus.coor.x + 100)
+		{	
+			if (this.ball.y >= this.bonus.coor.y && this.ball.y <= this.bonus.coor.y + 100 && !this.bonus.isLaunched)
+			{
+					this.bonus.isLaunched = true;
+					this.bonus.launchBonus();
+					this.bonus.color="transparent";
 			}
 		}
 	}
@@ -103,7 +139,6 @@ export class Pong {
 		}
 	}
 
-
 	//debug
 	q() {
 		this.ball.reset()
@@ -115,11 +150,55 @@ export class Pong {
 		const data = {
 			playOne: this.player1.getY(),
 			playTwo: this.player2.getY(),
+			paddleOneHeight : this.player1.height,
+			paddleOneWidth : this.player1.width,
+			paddleTwoHeight : this.player2.height,
+			paddleTwoWidth : this.player2.width,
+			paddleColorOne : this.player1.color,
+			paddleColorTwo : this.player2.color,
+
 			ballX: this.ball.getX(),
 			ballY: this.ball.getY(),
+			ballColor: this.ball.color,
 			score1: this.player1.score,
 			score2: this.player2.score,
+			bonusX: this.bonus.coor.x,
+			bonusY: this.bonus.coor.y,
+			bonusColor: this.bonus.color
 		}
 		return data;
 	}
+}
+
+const generateRandomCoor = (height: number, width: number) => {
+		
+	const randomNumberX = Math.random();
+	const randomNumberY = Math.random();
+
+	if (randomNumberX === 0)
+		randomNumberX + 0.1;
+	if (randomNumberY === 0)
+		randomNumberY + 0.1;
+
+	const coor : Coor = {
+		x : Math.floor(width * randomNumberX),
+		y : Math.floor(height * randomNumberY),
+	}
+	if (coor.y > 400)
+	{
+		console.log("y trop grand : ", coor.y)
+		coor.y = 400;
+	}
+	if (coor.x < 100)
+	{
+		console.log("x trop petit : ", coor.x)
+		coor.x = 100;
+	}
+	if (coor.x > 600)
+	{
+		console.log("x trop grand : ", coor.y)
+		coor.x = 600;
+	}
+	return coor
+
 }

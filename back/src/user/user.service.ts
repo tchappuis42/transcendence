@@ -52,7 +52,6 @@ export class UserService {
 
 	async generateTfaSecret(id: number, username: string) {
 		const secret = authenticator.generateSecret();
-		console.log("secret :", secret);
 		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
 		// await this.setTfaSecret(secret, id);
 		const secretTfaObj = {

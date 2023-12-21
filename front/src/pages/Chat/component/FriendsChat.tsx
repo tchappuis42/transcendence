@@ -48,11 +48,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	}, [socket, users, sortByStatus]);
 
 	return (
-<<<<<<< HEAD
 		<div className="bg-gray-200 h-full w-full rounded-md" >
-=======
-		<div className="bg-black/50 h-full w-full rounded-md" >
->>>>>>> 05b7554... modifier css
 			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>Users ({users?.length})</h1>
 			</div>

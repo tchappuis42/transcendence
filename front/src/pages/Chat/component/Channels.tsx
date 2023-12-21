@@ -26,11 +26,13 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 	const socket = useSocket();
 	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
+	const [successPassword, setSuccessPass] = useState("");
 
 	useEffect(() => {
 		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				console.log("fuck mathis")
 				setOwner(owner);
 				setChannelStatus(status)
 			//	if (status) {
@@ -41,7 +43,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					if (socket)
 						socket.emit("checkPass", chanName, password);
 				}*/
-				console.log(owner)
 			});
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
@@ -51,9 +52,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			})
 			socket.on("refreshChannelStatus", (data: Channel[]) => {
 				setChannels(data);
-				console.log(data)
 				const status = data.find((chan) => { if (chan.name === currentChannel) { return chan.statue } })
-				console.log(status)
 				if (status?.statue === 'Private')
 					setChannelStatus(false);
 				else
@@ -70,9 +69,19 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 				setMessages([]);
 				setSettings(false);
 			});
+			socket.on("changePass", (passInfo) => {
+				setTimeout(() => {
+					setSuccessPass("")
+				}, 5000);
+				if (passInfo === "1")
+					setSuccessPass("mot de passe mis à jour")
+				else
+					setSuccessPass("erreur dans le changement du mot de passe")
+			});
 		}
 		return () => {
 			if (socket) {
+				socket.off("changePass");
 				socket.off("getAllChannels");
 				socket.off("refreshChannel");
 				socket.off("refreshChannelStatus");
@@ -82,6 +91,12 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			}
 		};
 	}, [socket, currentChannel]);
+
+	const colorStyle = () => {
+		if (successPassword === "mot de passe mis à jour")
+			return { color: "green" }
+		return { color: "red" }
+	}
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
@@ -114,9 +129,10 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			}
 			{settings &&
 				createPortal(
-					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50"> {/*possible de mettre ca dans un composant*/}
-						<div className="w-[450px] lg:w-[900px] h-1/2 rounded-lg p-8 bg-gray-900 text-white">
-							<div className="h-1/5 w-full flex flex-row-reverse justify-between">
+					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-40"> {/*possible de mettre ca dans un composant*/}
+						<div className="w-[450px] lg:w-[900px] h-[460px] rounded-lg p-6 bg-gray-900 text-white">
+							<h1 style={colorStyle()} className='h-[5%] flex items-center justify-center'>{successPassword}</h1>
+							<div className="h-[15%] w-full flex flex-row-reverse justify-between">
 								<button onClick={() => setSettings(false)} className="h-10">
 									<h1 className="text-red-500 font-bold">X</h1>
 								</button>

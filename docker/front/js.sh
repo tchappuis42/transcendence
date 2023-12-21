@@ -3,7 +3,8 @@ npm install
 npm start
 
 # cmd pour prod front
-#npm i -g serve
+# apt install xsel
+# npm i -g serve
 
-#npm run build
-#serve -s build
+# npm run build
+# serve -s build

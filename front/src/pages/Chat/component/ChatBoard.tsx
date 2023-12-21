@@ -1,4 +1,5 @@
 import { useSocket } from '../../../ui/organisms/SocketContext';
+import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
@@ -10,12 +11,13 @@ interface Props {
 	pass: string;
 	DM_Chann: boolean;
 	data: string;
-	setData: React.Dispatch<SetStateAction<string>>;
+	setData: React.Dispatch<React.SetStateAction<string>>
 }
 
 const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
 	const [Timer, setTimer] = useState(0);
+	const { account } = useAccount();
 
 	const socket = useSocket();
 
@@ -50,6 +52,18 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 		setTimer(0);
 	}
 
+	const getUserName = (name: string) => {
+		if (!DM_Chann) {
+			const users = name.split("_");
+			if (users[0] !== account.username)
+				return users[0];
+			if (users[1] !== account.username)
+				return users[1];
+			return ("")
+		}
+		return name
+	}
+
 	useEffect(() => {
 		if (socket) {
 			socket.on("isTyping", (msg) => {
@@ -69,7 +83,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 	return (
 		<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
 			<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
-				<h1 className="text-white text-3xl font-semibold">{currentChannel.split("_")[0]}</h1>
+				<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
 			<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
 				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow-white">

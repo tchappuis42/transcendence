@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import "../../css/index.css"
 import "./styleProfilPage/mainCSS.css"
@@ -20,6 +20,7 @@ import { LeftComponent } from "./leftComponent/leftComponent";
 import FriendsToAdd from '../Friend/component/AddFriend';
 import Ranking from '../Game/Ranking';
 import MatchHistory from '../Game/matchHistory';
+import { useSocket } from '../../ui/organisms/SocketContext';
 
 interface User {
 	username: string;
@@ -36,6 +37,8 @@ export const Profil = () => {
 	const [user, setUser] = useState<User>()
 	const location = useLocation();
 	const { id } = location.state ? location.state : account.id;
+	const socket = useSocket();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		console.log("id = ", id)
@@ -57,6 +60,20 @@ export const Profil = () => {
 			setUser(account);
 	}, [id])
 
+	useEffect(() => {
+		if (socket) {
+			socket.on("game", (data) => {
+				if (typeof data === 'object') {
+					navigate("/pong")
+				}
+			});
+		}
+		return () => {
+			if (socket) {
+				socket.off("game");
+			}
+		};
+	}, [socket]);
 
 	return (
 		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >

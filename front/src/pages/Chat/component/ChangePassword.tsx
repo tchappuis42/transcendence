@@ -24,21 +24,6 @@ const ChangePassword: React.FC<{ currentChannel: string }> = (currentChannel) =>
 		setData({ oldPassword: "", password: "" })
 	}
 
-	useEffect(() => { //todo
-		if (socket) {
-			socket.on("changePass", (passInfo) => {
-				if (passInfo === "1")
-					alert("PassWord change successfully!")
-				else
-					alert("failure to change PassWord!")
-			})
-		}
-		return () => {
-			if (socket)
-				socket.off("changePass");
-		};
-	}, [socket]);
-
 	useEffect(() => {
 		var password = data.password;
 		var oldPassword = data.oldPassword;

@@ -237,7 +237,7 @@ export class UserService {
 		await this.usersRepository.save(user);
 		return { success: true, message: "User blocked" };
 	}
-	
+
 	async getUserBlocked(id: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		if (user.blockedId.length)

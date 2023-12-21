@@ -59,7 +59,7 @@ const Friends = () => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	 box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 bg-black/10 rounded-md	 box-border justify-center items-center overflow-y-auto overflow-x-hidden max-h-[80%]">
 					{friends?.map((friend: Account) => (
 						<FriendCard key={friend.id} friend={friend} />
 					))}

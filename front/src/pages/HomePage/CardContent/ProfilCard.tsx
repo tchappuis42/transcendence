@@ -9,6 +9,7 @@ import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/component/Friends";
 import AvatarContainer from "./avatarContainer";
+import { useAuth } from "../../../ui/organisms/useAuth";
 
 interface Friend {
     id: number;
@@ -22,6 +23,7 @@ const ProfilCard = () => {
     const { account } = useAccount();
     const navigate = useNavigate();
     const [friends, setFriends] = useState<Friend[]>();
+    const { authenticate } = useAuth();
 
     const sortByStatus = (friends: Friend[]): Friend[] => {
         const sortedFriends = friends.sort((a, b) => a.status - b.status);
@@ -36,8 +38,11 @@ const ProfilCard = () => {
                 const sortedFriends = sortByStatus(response.data);
                 setFriends(sortedFriends);
             }
-            catch {
+            catch (error: any) {
                 console.error("error while fetching friend request");
+                console.log("error = ", error)
+                if (error.response.request.status === 401)
+                    authenticate();
             }
 
         }
@@ -55,7 +60,7 @@ const ProfilCard = () => {
     return (
         <div className="h-full w-full">
             <div className="h-1/3 flex justify-around items-center mx-2 mt-1">
-                <AvatarContainer src={account.avatar} id={account.id} navigation={true}/>
+                <AvatarContainer src={account.avatar} id={account.id} navigation={true} />
                 <div className="h-full w-4/5">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-3xl">
                         {account.username}

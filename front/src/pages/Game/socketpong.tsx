@@ -113,7 +113,8 @@ const SocketPong = () => {
 				{!page &&
 					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
 						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow-white">
-							<div className="bg-black/50 h-full w-full rounded-md">
+							<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} />
+							{/*<div className="bg-black/50 h-full w-full rounded-md">
 								<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 									<h1>Matchmaking</h1>
 								</div>
@@ -149,7 +150,7 @@ const SocketPong = () => {
 										</select>
 									</div>
 								</div>
-							</div>
+							</div>*/}
 						</div>
 						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-md md:w-[39%] md:h-96 xl:w-[468px] shadow-md shadow-white">
 							<Ranking />
@@ -172,7 +173,7 @@ const SocketPong = () => {
 						</div>
 					</div>
 				}
-				<button onClick={clean}>clean</button>
+				{/* <button onClick={clean}>clean</button> */}
 			</div >
 		</div>
 	);

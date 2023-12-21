@@ -495,6 +495,13 @@ export class ChatGateway {
 			else
 				channel = await this.DMChannelService.createDMChannel(user2, user);
 
+			const blocked = await this.userService.getUserBlocked(user.id);
+
+			if (blocked) {
+				if (blocked.find((users) => users == user2.id))
+					await this.DMChannelService.DMBlock(channel, user, true);
+			}
+
 			const all_channels = await this.DMChannelService.getDMChannelsForUser(
 				user.id,
 			);
@@ -510,6 +517,13 @@ export class ChatGateway {
 	async refreshDMChannel(@ConnectedSocket() client: Socket) {
 		try {
 			const user = client.data.user as UserDto;
+			const all_channels1 = await this.DMChannelService.getDMChannelsForUser(
+				user.id,
+			);
+			const blocked = await this.userService.getUserBlocked(user.id);
+			for (let i = 0; all_channels1[i]; i++) {
+				await this.DMChannelService.findDMBlock(all_channels1[i], user, blocked)
+			}
 			const all_channels = await this.DMChannelService.getDMChannelsForUser(
 				user.id,
 			);
@@ -538,6 +552,9 @@ export class ChatGateway {
 			}
 			client.leave(name[1]);
 			client.join(name[0]);
+			const channel1 = await this.DMChannelService.getDMChannelMe(name[0]);
+			const blocked = await this.userService.getUserBlocked(user.id);
+			await this.DMChannelService.findDMBlock(channel1, user, blocked)
 			const channel = await this.DMChannelService.getDMChannelMe(name[0]);
 			const userAll = channel.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			if (channel.user1[0].id === user.id)
@@ -617,7 +634,7 @@ export class ChatGateway {
 		} catch { }
 	}
 
-	@SubscribeMessage('DMBlock')
+/*	@SubscribeMessage('DMBlock')
 	async DMBlock(@MessageBody() name: string, @MessageBody() status: boolean, @ConnectedSocket() client: Socket) {
 		try {
 			const user = client.data.user as UserDto;
@@ -637,5 +654,5 @@ export class ChatGateway {
 			});
 			client.emit('refreshDMChannel', all)
 		} catch { }
-	}
+	}*/
 }

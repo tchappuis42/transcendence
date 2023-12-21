@@ -30,10 +30,11 @@ const UserInChannelCard = ({ userInChannel }: userInChannel) => {
 			<div className="name-card col-span-2">
 				<h2>{userInChannel.username.slice(0, 8)}</h2>
 			</div>
-			{/* className="col-span-1 h-full w-full flex justify-center items-center"> */}
-			<button className="bouton1-card min-w-[80px]" onClick={invitGame}>
-				game invit
-			</button>
+			<div className="col-span-2 flex items-center justify-center">
+				<button className="bouton1-card " onClick={invitGame}>
+					game invit
+				</button>
+			</div>
 		</div>
 	);
 };

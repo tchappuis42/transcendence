@@ -65,18 +65,20 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 					{userInChannel?.map((userIn: Account) => (
 						<div className='h-[90%]'>
 							{InvitGame(userIn.id) ? (<UserInChannelCard key={userIn.id} userInChannel={userIn} />) : (
-								<div className="h-full bg-blue-500/50 grid grid-cols-6 gap-4 rounded-md m-2.5 px-5 cursor-pointer">
-									<div className="h-full w-full overflow-hidden flex col-span-1 items-center content-center cursor-pointer">
-										<img alt="image de profil" className="h-full w-[60px] object-cover"
+								<div className="main-card bg-blue-100">
+									<div className="avatar-card w-full">
+										<img alt="image de profil" className="h-full w-full object-cover"
 											src={userIn.avatar} />
 									</div>
-									<div className="h-full w-full flex col-span-3 justify-center items-center text-white">
+									<div className="name-card w-full">
 										<h2>{userIn.username.slice(0, 8)}</h2>
 									</div>
-									<button className="bouton-join-game-card"
-									onClick={(e) => JoinGame(e, userIn.id)}>
-										rejoindre la partie
-									</button>
+									<div className="col-span-2 flex items-center justify-center">
+										<button className="bouton-join-game-card border-slay-200 text-black/60"
+										onClick={(e) => JoinGame(e, userIn.id)}>
+											join game
+										</button>
+									</div>
 								</div>)
 							}
 						</div>

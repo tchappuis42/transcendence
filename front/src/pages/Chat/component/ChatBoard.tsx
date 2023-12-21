@@ -81,35 +81,39 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 	}, [socket, currentChannel]);
 
 	return (
-		<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
-			<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
-				<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
+		<div className="h-full">  {/*div du centre en bleu*/}
+			<div className="h-[10%] flex justify-center items-center">
+				<h1 className="text-black/40 text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
-			<div className="w-full h-[90%] shadow-md shadow-mdborder-2 border-white rounded-md">
-				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow">
+			<div className="h-[90%] grid grid-rows-5">
+				<div className="w-full h-full row-span-4 bg-white/60 border overflow-y-scroll ">
 					{messages.map((msg, index) => (
 						<MessageChatCard msg={msg} index={index} />
 					))}
 				</div>
-				<div className="w-full h-1/6 flex justify-center items-center bg-black/60 rounded-md">
-					<form onSubmit={sendMessage} className="flex w-2/3 h-full justify-center items-center">
-						<label htmlFor="text" className="grid grid-cols-6 grid-rows-2 w-full gap-4">
-							<textarea
-								className="col-span-4 h-12 p-2 pt-2.5 resize-none rounded-md"
-								name="data"
-								onChange={(e) => setData(e.target.value)}
-								placeholder="Type your message..."
-								value={data}
-								style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
-								onInput={Typing}
-							/>
-							<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 h-12 shadow-md shadow-md rounded hover:bg-black/40 border hover:no-underline"
-								onMouseEnter={handleMouseEnter}
-								onMouseLeave={handleMouseLeave}
-								onClick={sendOk}>
-								<h1 className="text-white hover:text-white">Send</h1>
-							</button>
-							<h1 className="span-rows-1 col-span-1 h-12 text-white rounded">{userTyping}</h1>
+				<div className="w-full h-full row-span-1 bg-gray-100/60 border">
+					<form onSubmit={sendMessage} className="h-full">
+						<label htmlFor="text" className="w-full h-full grid grid-rows-2">
+							<div className='w-full grid grid-cols-5 gap-5 flex items-end px-5'>
+								<textarea
+									className="col-span-4 chat-bubble-component"
+									name="data"
+									onChange={(e) => setData(e.target.value)}
+									placeholder="Type your message..."
+									value={data}
+									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
+									onInput={Typing}
+								/>
+								<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 chat-button"
+									onMouseEnter={handleMouseEnter}
+									onMouseLeave={handleMouseLeave}
+									onClick={sendOk}>
+									<h1 className="text-black/60 hover:text-white">Send</h1>
+								</button>
+							</div>
+							<div className='w-full grid grid-cols-1 gap-5 px-5'>
+								<h1 className="chat-bubble-component border-transparent item-start text-black">{userTyping}</h1>
+							</div>
 						</label>
 					</form>
 				</div>

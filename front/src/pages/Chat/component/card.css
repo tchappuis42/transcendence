@@ -3,9 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+    .card-channel {
+        @apply h-1/6 m-2.5 
+        flex justify-around items-center cursor-pointer
+        bg-white rounded-md shadow-lg box-border
+    }
     .main-card {
         @apply grid grid-rows-1 grid-cols-5 
-        h-1/5 m-2.5 cursor-pointer
+        h-1/5 m-2.5 cursor-pointer border
         bg-white rounded-md shadow-lg box-border
     }
     .avatar-card {
@@ -16,25 +21,14 @@
     }
     .name-card {
         @apply
-        h-full w-full 
+        h-full w-full col-span-2
         flex justify-center items-center 
         text-black/60
     }
     .bouton1-card {
-        @apply col-span-2
-        border
-        m-2 rounded 
-        bg-transparent 
-        hover:bg-gray-200 active:bg-gray-400 
-        focus:outline-none focus:ring focus:ring-gray-300 
-        hover:no-underline hover:text-black 
-        text-black/60
-    }
-    .bouton2-card {
-        @apply col-span-2
-        border
-        m-2 rounded 
-        bg-transparent 
+        @apply 
+        rounded w-[80%] h-[80%]
+        bg-transparent border
         hover:bg-gray-200 active:bg-gray-400 
         focus:outline-none focus:ring focus:ring-gray-300 
         hover:no-underline hover:text-black 
@@ -44,7 +38,7 @@
 
 @layer components {
     .m-card {
-        @apply h-full w-full 
+        @apply h-full w-full
         bg-gray-200 
         border rounded-lg
     }
@@ -54,26 +48,29 @@
         rounded-t-md shadow-lg bg-white/90
     }
     .body-card {
-        @apply h-full max-h-[90%] m-2.5
+        @apply h-full max-h-[90%] m-1
         justify-center items-center 
-        rounded-md
+        rounded-md gap-5
         box-border justify-center items-center 
         overflow-y-auto 
     }
     .bouton-join-game-card {
-        @apply w-full border m-2 rounded col-span-2 bg-transparent 
+        @apply rounded w-[80%] h-[80%] bg-transparent border border-black
         hover:bg-blue-500/40 hover:no-underline hover:text-white
-        focus:outline-none focus:ring focus:ring-blue-500/30
+        focus:outline-none focus:ring focus:border-black/60 focus:ring-blue-500/30
         active:bg-blue-500/30 text-white
     }
-    .bouton2-card {
-        @apply col-span-2
-        border
-        m-2 rounded 
-        bg-transparent 
-        hover:bg-gray-200 active:bg-gray-400 
-        focus:outline-none focus:ring focus:ring-gray-300 
-        hover:no-underline hover:text-black 
-        text-black/60
+    .chat-button {
+        @apply h-12 border border-black/30 rounded shadow-md hover:bg-black/20 hover:no-underline
+    }
+    .chat-bubble-component {
+        @apply h-12 p-2 pt-2.5 resize-none rounded-md border border-black/30
+    }
+    .chat-side-bar-component {
+        @apply min-h-[1000px] col-span-2 grid bg-gray-100/60 p-6 gap-5
+    }
+    .popup-settings-card {
+        @apply w-full h-full fixed top-0 left-0 
+        flex justify-center items-center bg-black/60 bg-opacity-80 z-40
     }
 }

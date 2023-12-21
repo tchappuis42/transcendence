@@ -3,6 +3,7 @@ import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { createPortal } from "react-dom";
 import ChanInfo from '../interface/chanInfo';
+import "./card.css"
 
 const CreateChannel: React.FC<{ currentChannel: string }> = (currentChannel) => {
 
@@ -41,11 +42,11 @@ const CreateChannel: React.FC<{ currentChannel: string }> = (currentChannel) => 
 
 
 	return (
-		<div className="flex justify-center items-center h-[10%]">
-			<button onClick={() => setCreatChan(true)} className="w-2/3 h-2/3 shadow-md shadow-mdbg-black/60 rounded hover:bg-white"
+		<div className="w-full h-full flex justify-center item-center pt-5">
+			<button onClick={() => setCreatChan(true)} className="chat-button w-[80%] h-[60%]"
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}>
-				<h1 className="text-white hover:text-black text-xl lg:text-2xl">Create Channel</h1>
+				<h1 className="text-black/40 hover:text-white text-xl lg:text-2xl">Create Channel</h1>
 			</button>
 			{createchan &&
 				createPortal(

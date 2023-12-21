@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .main-page {
+        @apply w-full
+        h-screen pb-[200px] 
+        py-10 px-5
+    }
+    .avatar-card {
+        @apply col-span-1 
+        w-full h-full 
+        object-cover
+        flex justify-center items-center
+    }
+}

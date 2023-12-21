@@ -11,6 +11,7 @@ import Message from "./interface/messageDto";
 import { useAccount } from "../../ui/organisms/useAccount";
 import InvitGameMsg from "./component/InvitGameMsg";
 import { useNavigate } from "react-router-dom";
+import "./chat.css"
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -173,25 +174,26 @@ const Chat = () => {
 	function setteurPass(passe: SetStateAction<string>) {
 		setPass(passe);
 	}
-
 	return (
-		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
-			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md">
+		<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 3xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
+			<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 				<CreateChannel currentChannel={currentChannel} />
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-mdrounded-md ">
+				<div className="row-span-4">
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
 				</div>
-				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
+				<div className="row-span-3">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
-			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
-			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
+			<div className="col-span-4 min-h-[800px] bg-gray-100/60">
+				<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
+			</div>
+			<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>				
 				<InvitGameMsg />
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
+				<div className="row-span-4">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>
-				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
+				<div className="row-span-3">
 					<FriendsChat currentChannel={currentChannel} />
 				</div>
 			</div>

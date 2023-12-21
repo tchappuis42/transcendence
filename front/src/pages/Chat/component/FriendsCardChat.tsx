@@ -28,7 +28,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 	}
 	// h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer
 	return (
-		<div className="main-card border b-slay-200"
+		<div className="main-card b-slay-200"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
@@ -61,7 +61,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 					</div>
 				) : (
 					<div
-						className="h-5 w-10 rounded-md flex justify-center items-center border-1"
+						className="h-5 w-10 rounded-md flex bg-red-200 justify-center items-center border-1"
 						style={{
 							background: getStatusColor(friend.status),
 						}}

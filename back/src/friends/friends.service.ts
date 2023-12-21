@@ -20,7 +20,12 @@ export class FriendsService {
 		@InjectRepository(Friends) private friendsRepository: Repository<Friends>, private readonly userservice: UserService) { }
 
 	async addFriend(user: User, friend: number) {
+		const blocked = user.blockedId.find(id => id == friend) // 2 = pourquoi je coompar 2 number
+		if (blocked)
+			return "impossible d'ajouter un user bloqué"
+
 		const friendUser = await this.userservice.validateUser(friend);
+		const blockMe = friendUser.blockedId.find(id => id == user.id);
 		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
 		if (check)
 			return "demande d'ami déjà envoyé"
@@ -28,9 +33,9 @@ export class FriendsService {
 		friends.first_id = user.id;
 		friends.first_User = user;
 		friends.second_id = friendUser.id;
-		friends.second_User = friendUser;
+		friends.second_User = friendUser; //
 		await this.friendsRepository.save(friends);
-		if (friendUser.status !== ConnctionState.Offline)
+		if (friendUser.status !== ConnctionState.Offline && !blockMe)
 			await this.sendFriendMessage(friends.second_id, friends.first_User, "friendRequest")
 		return "demande d'ami envoyé"
 	}
@@ -51,7 +56,8 @@ export class FriendsService {
 				return { friend_user: friend.first_User, friend_status: 1 }
 			}
 		});
-		return friends;
+		const filteredFriends = friends.filter(friend => !user.blockedId.some(id => friend.friend_user.id == id));
+		return filteredFriends;
 	}
 
 	getdata(relationship: Friends, user: User) {

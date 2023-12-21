@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
 import ChangeProfilPic from "./changeProfilPic";
 import { useSocket } from "../../ui/organisms/SocketContext";
+import { useAuth } from "../../ui/organisms/useAuth";
 
 interface changeObj {
     value: string;
@@ -16,6 +17,7 @@ interface changeObj {
 const Settings = () => {
 
     const { account } = useAccount();
+    const { authenticate } = useAuth();
     const [selectedImage, setSelectedImage] = useState<string>(account.avatar);
     const [newUsername, setNewusername] = useState<string>(account.username);
     const [error, setError] = useState<string>();
@@ -65,6 +67,8 @@ const Settings = () => {
                 setError("Username already taken");
             if (error.response.request.status === 400)
                 setError(error.response.data.message)
+            if (error.response.request.status === 401)
+                authenticate();
             return false
         }
     }

@@ -48,7 +48,6 @@ export class AuthController {
 	@UseGuards(TempJwtAuthGuard)
 	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
 		const user = req.user as User;
-
 		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
@@ -61,46 +60,43 @@ export class AuthController {
 
 	@Post("/api")
 	async handleApiEndpoint(@Body() body: { code: string }, @Res({ passthrough: true }) res: Response): Promise<any> {
-	const { code } = body;
+		const { code } = body;
 
-	if (code) {
-		try {
-			//chope le token en appelant l api avec le code et l'env
-		const token = await this.authService.getToken(code);
-		
-			//app call l'api pour avoir tout les infos de l'api(json)
-		const profileData = await this.authService.getUserInfo(token.access_token);
+		if (code) {
+			try {
+				//chope le token en appelant l api avec le code et l'env
+				const token = await this.authService.getToken(code);
 
-		const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
+				//app call l'api pour avoir tout les infos de l'api(json)
+				const profileData = await this.authService.getUserInfo(token.access_token);
 
-		if (userInfo.user.twoFa) {
-			res.cookie('2fa_token', userInfo.access_token, {
-				httpOnly: true,
-				secure: false,
-				sameSite: "lax",
-				expires: new Date(Date.now() + 60 * 60 * 100),
-			});
-			return { twofa: "twacode" }
+				const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
+
+				if (userInfo.user.twoFa) {
+					res.cookie('2fa_token', userInfo.access_token, {
+						httpOnly: true,
+						secure: false,
+						sameSite: "lax",
+						expires: new Date(Date.now() + 60 * 60 * 100),
+					});
+					return { twofa: "twacode" }
+				}
+				res.cookie('access_token', userInfo.access_token, {
+					httpOnly: true,
+					secure: false,
+					sameSite: "lax",
+				});
+
+				return { message: "succces" };
+			} catch (error) {
+				// Handle any errors here
+				console.error(error);
+
+				throw new BadRequestException('Failed to fetch data from the API');
+			}
 		}
-		res.cookie('access_token', userInfo.access_token, {
-			httpOnly: true,
-			secure: false,
-			sameSite: "lax",
-		});
-
-		return { message: "succces" };
-		} catch (error) {
-		// Handle any errors here
-		console.error(error);
-
-		throw new BadRequestException('Failed to fetch data from the API');
-		}
-	} else {
-		// Return an error message with a 400 status code if 'code' is missing or empty
-		throw new BadRequestException('Missing or empty code parameter');
 	}
-	}
-	
+
 	@Get("/url")
 	async getUrlApi(): Promise<any> {
 		var authorize_url = process.env.API_AUTHORIZE;
@@ -108,7 +104,7 @@ export class AuthController {
 		var client_uid = process.env.API_UID;
 
 		const url = `${authorize_url}?client_id=${client_uid}&redirect_uri=${redirect_url}&response_type=code`;
-		return { statusCode: HttpStatus.FOUND, url};
+		return { statusCode: HttpStatus.FOUND, url };
 	}
 
 	@UseGuards(JwtAuthGuard)

@@ -100,7 +100,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1> channels </h1>
 			</div>
 			{!all_channels ? (

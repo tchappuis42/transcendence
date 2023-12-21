@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseGuards, BadRequestException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -41,7 +41,6 @@ export class AuthController {
 			secure: false,
 			sameSite: "lax",
 		});
-		console.log(userInfo.access_token);
 		return { message: "succces" }; // msg succes
 	}
 
@@ -49,7 +48,7 @@ export class AuthController {
 	@UseGuards(TempJwtAuthGuard)
 	async postTwoFa(@Req() req: Request, @Res({ passthrough: true }) res: Response, @Body('token') token: string) {
 		const user = req.user as User;
-		console.log("ici")
+
 		const access_token = await this.authService.postTwoFa(user, token);
 		res.cookie('access_token', access_token, {
 			httpOnly: true,
@@ -68,17 +67,11 @@ export class AuthController {
 		try {
 			//chope le token en appelant l api avec le code et l'env
 		const token = await this.authService.getToken(code);
-		console.log(token);
-
-			//app call l'api pour avoir tout les infos de l'api
+		
+			//app call l'api pour avoir tout les infos de l'api(json)
 		const profileData = await this.authService.getUserInfo(token.access_token);
 
-		// console.log(Object.keys(profileData));	
-		console.log(profileData.login);
-
-
 		const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
-		console.log(userInfo.access_token);
 
 		if (userInfo.user.twoFa) {
 			res.cookie('2fa_token', userInfo.access_token, {
@@ -107,17 +100,20 @@ export class AuthController {
 		throw new BadRequestException('Missing or empty code parameter');
 	}
 	}
+	
+	@Get("/url")
+	async getUrlApi(): Promise<any> {
+		var authorize_url = process.env.API_AUTHORIZE;
+		var redirect_url = process.env.API_REDIRECT_URL;
+		var client_uid = process.env.API_UID;
 
-	// @Post("/url")
-	// async handleApiEndpoint(@Body() body: { code: string })
-
-
-
-  
+		const url = `${authorize_url}?client_id=${client_uid}&redirect_uri=${redirect_url}&response_type=code`;
+		return { statusCode: HttpStatus.FOUND, url};
+	}
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
 	async postLogout(@Res({ passthrough: true }) res: Response) {
-		res.clearCookie('access_token');
+		res.clearCookie('access_token');//
 	}
 }

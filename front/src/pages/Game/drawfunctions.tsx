@@ -1,5 +1,11 @@
 import { Ball, Paddle } from "./gameInterface";
 
+type Bonus = {
+	x : number;
+	y : number;
+	color : string
+}
+
 export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, color: string) {
 	const grid = 15
 	context.fillStyle = color;
@@ -13,8 +19,17 @@ export function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasEle
 }
 
 export function drawBall(context: CanvasRenderingContext2D, ball: Ball, color: string) {
-	context.fillStyle = color
+
+	context.fillStyle = ball.color ? ball.color : color;
 	context.fillRect(ball.x, ball.y, ball.width, ball.height);
+}
+
+export function drawBonus(context: CanvasRenderingContext2D, bonus : Bonus | null) {
+	if(bonus)
+	{
+		context.fillStyle = bonus.color;
+		context.fillRect(bonus.x, bonus.y, 100, 100);
+	}
 }
 
 export function drawGame(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle) {
@@ -25,10 +40,11 @@ export function drawGame(context: CanvasRenderingContext2D, leftPaddle: Paddle, 
 }
 
 export function drawPaddle(context: CanvasRenderingContext2D, leftPaddle: Paddle, rightPaddle: Paddle, color: string) {
-	context.fillStyle = color
-	context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-	context.fillStyle = color
-	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
+
+	context.fillStyle = leftPaddle.color ? leftPaddle.color : color
+	context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.paddleWidth + 14, leftPaddle.paddleHeight);
+	context.fillStyle = rightPaddle.color ? rightPaddle.color : color
+	context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.paddleWidth + 14, rightPaddle.paddleHeight);
 	context.font = "30px Arial"
 	context.fillText(leftPaddle.score.toString(), 100, 70);
 	context.fillText(rightPaddle.score.toString(), 650, 70);

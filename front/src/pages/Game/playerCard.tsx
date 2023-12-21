@@ -21,7 +21,7 @@ const PlayerCard: React.FC<cardProps> = ({ idOne, idTwo }) => {
 	useEffect(() => {
 		const getInfoPlayerOne = async () => {
 			try {
-				const response = await axios.get(`http://localhost:4000/user/byId/${idOne}`);
+				const response = await axios.get(`/api/user/byId/${idOne}`);
 				setPlayerOne(response.data);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des info player 1 :", error);
@@ -29,7 +29,7 @@ const PlayerCard: React.FC<cardProps> = ({ idOne, idTwo }) => {
 		}
 		const getInfoPlayerTwo = async () => {
 			try {
-				const response = await axios.get(`http://localhost:4000/user/byId/${idTwo}`);
+				const response = await axios.get(`/api/user/byId/${idTwo}`);
 				setPlayerTwo(response.data);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des info player 2 :", error);

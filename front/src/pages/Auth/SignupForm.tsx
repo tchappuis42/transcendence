@@ -14,7 +14,7 @@ const SignupForm: React.FC<FormProps> = ({
 	const [qrCode, setQrCode] = useState("");
 	const signupSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		axios.post("http://localhost:4000/authentication/signup", data).then((response) => {
+		axios.post("/api/authentication/signup", data).then((response) => {
 			if (response.data.message) {
 				alert("user create")
 				settingPage("login")

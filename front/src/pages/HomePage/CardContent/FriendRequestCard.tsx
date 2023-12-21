@@ -30,7 +30,7 @@ const FriendRequestCard = ({ friend }: { friend: friend }) => {
 			id: friendId,
 			accept: accept
 		}
-		await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
+		await axios.post("/api/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
 		}).catch((error) => {
 			console.error("error while adding friend : ", error)
 		})

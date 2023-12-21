@@ -29,7 +29,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
         if (!QRCodeBol) {
             const fetchQrCode = async () => {
                 try {
-                    const response = await axios.get("http://localhost:4000/user/TwoFa", { withCredentials: true })
+                    const response = await axios.get("/api/user/TwoFa", { withCredentials: true })
                     setTwoFa(response.data)
                 }
                 catch {
@@ -41,7 +41,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
         if (QRCodeBol) {
             console.log("on set two fa a false");
             // const setTwoFaFalse = async () => {
-            //     await axios.post("http://localhost:4000/user/twoFaFalse", {withCredentials:true})
+            //     await axios.post("/api/user/twoFaFalse", {withCredentials:true})
             // }
             // setTwoFaFalse();
             setTwoFaStatus(false);
@@ -55,7 +55,7 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
         }
         const postTwoValidation = async () => {
             try {
-                await axios.post("http://localhost:4000/user/twoFaKey", validationObj, { withCredentials: true })
+                await axios.post("/api/user/twoFaKey", validationObj, { withCredentials: true })
                 setError("Success")
                 setCodeValidated(true);
                 setTwoFaStatus(true);

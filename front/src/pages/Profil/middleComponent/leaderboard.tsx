@@ -36,7 +36,7 @@ interface gameHistory {
 		if (user?.id) {
 			const getHistory = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/game/history/${user?.id}`);
+					const response = await axios.get(`/api/game/history/${user?.id}`);
 					setHistory(response.data)
 				} catch (error) {
 					console.error("Erreur lors de la récupération des scores :", error);

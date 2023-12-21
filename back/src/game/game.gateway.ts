@@ -6,9 +6,9 @@ import { GameService } from "./game.service";
 import { sockets } from "src/user/dtos/socketsDto";
 
 @WebSocketGateway({
-	cors: {
-		origin: ['http://localhost:3000']
-	}
+	// cors: {
+	// 	origin: ['http://c1r15s5']
+	// }
 })
 export class GameGateway {
 	constructor(private readonly userService: UserService, private readonly gameService: GameService) { }

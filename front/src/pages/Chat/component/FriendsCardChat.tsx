@@ -25,16 +25,16 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 			socket.emit("createDMChannel", friend.id, set_channel);
 		}
 	}
-
+	// h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer
 	return (
-		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border grid grid-rows-1 grid-cols-5 cursor-pointer"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
-			<div className=" h-full flex  justify-center items-center w-1/3">
-				<AvatarContainer src={friend.avatar} square={10} navigation={false} />
+			<div id={"chat"} className="col-span-1 w-full h-full flex  justify-center items-center object-cover">
+				<AvatarContainer src={friend.avatar} square={10} navigation={false} id_div={"chat"}/>
 			</div>
-			<div className="h-full w-1/3  flex justify-center items-center" onClick={() => handleNav(friend.id)} >
+			<div className="col-span-3 h-full w-full flex justify-center items-center" onClick={() => handleNav(friend.id)}>
 				{friend.username.length >= 15 ? (
 					<h2>{friend.username.slice(0, 15)}...</h2>
 				) : (
@@ -43,7 +43,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 
 				}
 			</div>
-			<div className=" h-full w-1/3 flex justify-center items-center">
+			<div className="col-span-1 h-full w-full flex justify-center items-center">
 				{set_channel.length ? (
 					<div
 						className="h-5 w-10 rounded-md flex justify-center items-center cursor-pointer border-1"

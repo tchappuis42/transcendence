@@ -13,7 +13,7 @@ const RankingCard = () => {
     useEffect(() => {
         const getRanking = async () => {
             try {
-                const ranking = await axios.get(`http://localhost:4000/user/ranking?userId=${account.username}`);
+                const ranking = await axios.get(`/api/user/ranking?userId=${account.username}`);
                 const rankNbr = ranking.data.findIndex((user: any) => user.username === account.username)
                 const userPts = ranking.data[rankNbr].score
                 setUserPts(userPts);
@@ -26,12 +26,12 @@ const RankingCard = () => {
     }, [])
 
     return (
-        <div className="h-4/5 m-2.5 rounded-md bg-black/10 ">
-            <div className="h-1/2 w-full flex justify-center items-center text-white text-7xl">
+        <div className="h-4/5 rounded-md">
+            <div className="h-1/2 w-full flex justify-center items-center text-white text-4xl md:text-5xl">
                 <h1>{rankNbr}</h1>
             </div>
             <div className="ligneHor"></div>
-            <div className="h-1/2 w-full flex justify-center items-center text-white text-5xl">
+            <div className="h-1/2 w-full flex justify-center items-center text-white text-4xl md:text-5xl">
                 <h1>{userPts} pts</h1>
             </div>
         </div>

@@ -13,7 +13,7 @@ export const useGetUser = () => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				const response = await axios.get("/api/user/users", { withCredentials: true });
 				setUsers(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);

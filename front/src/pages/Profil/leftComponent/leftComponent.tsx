@@ -36,7 +36,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	useEffect(() => {
 		if (user?.id && user?.id !== account.id) {
 			const fetchFriends = async () => {
-				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${user?.id}`, { withCredentials: true });
+				const response = await axios.get(`/api/friends/getFriendParId/${user?.id}`, { withCredentials: true });
 				if (response.data) {
 
 					if (response.data?.friend_status === 0)
@@ -50,7 +50,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 			};
 			fetchFriends();
 			const fetchUserBlocked = async () => {
-				const response = await axios.get(`http://localhost:4000/user/getUserBlockedId/${user?.id}`, { withCredentials: true });
+				const response = await axios.get(`/api/user/getUserBlockedId/${user?.id}`, { withCredentials: true });
 				if (response.data) {
 					if (response.data)
 						setUserBlock("unblock");
@@ -78,7 +78,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 					accept : true
 				}
 				try {
-					const response = await axios.post("http://localhost:4000/friends/removeFriend", friendObj, {withCredentials:true})
+					const response = await axios.post("/api/friends/removeFriend", friendObj, {withCredentials:true})
 					setIsFriend("Add")
 				} catch {
 					console.error("error while deleting friends request");
@@ -91,7 +91,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 		if (isUserBlock === "block") {
 			const block = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/user/block/${user?.id}`, { withCredentials: true });
+					const response = await axios.get(`/api/user/block/${user?.id}`, { withCredentials: true });
 					setUserBlock("unblock");
 				} catch {
 					console.error("error while blocking user request");
@@ -102,7 +102,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 		else {
 			const deblock = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/user/unblock/${user?.id}`, {withCredentials:true})
+					const response = await axios.get(`/api/user/unblock/${user?.id}`, {withCredentials:true})
 					setUserBlock("block")
 				} catch {
 					console.error("error while unblocking friends request");
@@ -118,8 +118,8 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 				<div className="info-profile-component gray-border"
 					style={{ gridTemplateRows: "2fr 1fr" }}>
 					<div className="information-user-component">
-						< div className="rounded h-full col-span-1 gray-border">
-							<AvatarContainer src={user?.avatar} navigation={false}/>
+						<div id={"profil"} className="rounded h-full col-span-1 gray-border object-cover">
+							<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
 						</div>
 						<div className="text-information-component">
 							<MyName id={user?.id} username={user?.username} index={0} />

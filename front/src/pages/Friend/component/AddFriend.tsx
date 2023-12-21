@@ -40,7 +40,7 @@ const FriendsToAdd = () => {
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md">
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>Friends Request ({friends?.length})</h1>
 			</div>
 

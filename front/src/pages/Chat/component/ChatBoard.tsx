@@ -91,12 +91,13 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 						<MessageChatCard msg={msg} index={index} />
 					))}
 				</div>
-				<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
-					<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
-						<label htmlFor="text" className="flex flex-col w-4/5">
-							<h1 className="text-white">{userTyping}</h1>
+				<div className="w-full h-1/6 flex justify-center items-center bg-black/60 rounded-md">
+					<form onSubmit={sendMessage} className="flex w-2/3 h-full justify-center items-center">
+						<label htmlFor="text" className="grid grid-cols-6 grid-rows-1 w-full gap-4">
+							{/* <h1 className="text-white">{userTyping}</h1> */}
+							<h1 className="h-12 text-white col-span-1 border rounded">{userTyping}</h1>
 							<textarea
-								className="h-12 pl-2 resize-none rounded-md"
+								className="col-span-4 h-12 p-2 pt-2.5 resize-none rounded-md"
 								name="data"
 								onChange={(e) => setData(e.target.value)}
 								placeholder="Type your message..."
@@ -104,7 +105,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 								style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
 								onInput={Typing}
 							/>
-							<button type="submit" disabled={pass === 'ko' ? true : false} className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
+							<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 h-12 shadow-md shadow-white rounded hover:bg-white border"
 								onMouseEnter={handleMouseEnter}
 								onMouseLeave={handleMouseLeave}
 								onClick={sendOk}>

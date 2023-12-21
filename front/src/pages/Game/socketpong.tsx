@@ -109,7 +109,7 @@ const SocketPong = () => {
 	//color et change serach
 	return (
 		<div className="flex justify-center">
-			<div className="flex w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
+			<div className="flex h-screen pb-[200px] overflow-auto bg-green-200 w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
 				{!page &&
 					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
 						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow-white">
@@ -172,7 +172,7 @@ const SocketPong = () => {
 						</div>
 					</div>
 				}
-				<button onClick={clean}>clean</button>
+				{/* <button onClick={clean}>clean</button> */}
 			</div >
 		</div>
 	);

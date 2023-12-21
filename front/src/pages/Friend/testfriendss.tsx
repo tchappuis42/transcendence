@@ -26,7 +26,7 @@ const Friendss = () => {
 		useEffect(() => {
 			const getUsers = async () => {
 				try {
-					const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
+					const response = await axios.get("/api/friends/friends", { withCredentials: true });
 					setFriends(response.data)
 				} catch (error) {
 					console.error("Erreur lors de la récupération des users :", error);
@@ -67,7 +67,7 @@ const Friendss = () => {
 				id: userId,
 				accept: accept
 			}
-			await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
+			await axios.post("/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
 				alert(response.data)
 				if (accept === true)
 					setFriends((prevUser) => prevUser.map(user => user.id === data.id ? { ...user, friend_status: 0 } : user))
@@ -84,7 +84,7 @@ const Friendss = () => {
 			const data = {
 				id: userId,
 			}
-			await axios.post("http://localhost:4000/friends/removeFriend", data, { withCredentials: true }).then((response) => {
+			await axios.post("/api/friends/removeFriend", data, { withCredentials: true }).then((response) => {
 				alert(response.data)
 				const del = friends.filter(e => e.id !== userId)
 				setFriends(del)

@@ -17,7 +17,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				const response = await axios.get("/api/user/users", { withCredentials: true });
 				const sortedUsers = response.data.sort((a: Account, b: Account) => b.status - a.status);
 
 				setUsers(sortedUsers);
@@ -49,7 +49,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>Users ({users?.length})</h1>
 			</div>
 
@@ -59,7 +59,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 				</div>
 			) : (
 
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
+				<div className="h-[90%] overflow-y-auto overflow-x-hidden bg-green-300">
 					{users?.map((user: Account) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />
 					))}

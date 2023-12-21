@@ -33,7 +33,7 @@ export const MatchHistory = () => {
 	useEffect(() => {
 		const getHistory = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/game/history", { withCredentials: true });
+				const response = await axios.get("/api/game/history", { withCredentials: true });
 				setMatchs(response.data);
 			} catch (error) {
 				console.error("Erreur lors de la récupération de l'historique des matchs :", error);

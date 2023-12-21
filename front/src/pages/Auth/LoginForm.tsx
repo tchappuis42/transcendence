@@ -15,28 +15,27 @@ const LoginForm: React.FC<FormProps> = ({
     const [errorMessage, setErrorMessage] = useState<string>();
     const { authenticate } = useAuth();
 
-    const loginSubmit = async (e: SyntheticEvent) => {
-        setErrorMessage("")
-        e.preventDefault();
-        try {
-            const obj = {
-                identifiant: data.identifiant,
-                password: data.password
-            }
-            const response = await axios.post("http://localhost:4000/authentication/login", obj, { withCredentials: true });
-            if (response.data.message) {
-                authenticate();
-            } else {
-                settingPage("twofa")
-            }
-        } catch (error) {
-            setErrorMessage("Problem logging")
-        }
-    };
+	const loginSubmit = async (e: SyntheticEvent) => {
+		setErrorMessage("")
+		e.preventDefault();
+		try {
+			const obj = {
+				identifiant: data.identifiant,
+				password: data.password
+			}
+			const response = await axios.post("/api/authentication/login", obj, { withCredentials: true });
+			if (response.data.message) {
+				authenticate();
+			} else {
+				settingPage("twofa")
+			}
+		} catch (error) {
+			setErrorMessage("Problem logging")
+		}
 
     const handleApiLoginClick = async () => {
         try {
-            const response = await axios.get("http://localhost:4000/authentication/url");
+            const response = await axios.get("/api/authentication/url");
             if (response.data.statusCode === 302) {
                 window.location.href = response.data.url;
             } else {
@@ -97,4 +96,5 @@ const LoginForm: React.FC<FormProps> = ({
 		</div>
 	);
 };
+
 export default LoginForm;

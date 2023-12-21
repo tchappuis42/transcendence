@@ -59,7 +59,6 @@ const WaitingForConnection = () => {
           <>
             <h1 className='text'>Connecting to API</h1>
             <div className='divtest'>
-              Code is: {codeParam}
             </div>
             <div className="mt-3 h-6 text-center text-sm">{pageMessage}</div>
           </>

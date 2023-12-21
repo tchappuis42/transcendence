@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Game } from './game.entity';
 import { Repository } from 'typeorm';
 import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
-import { sockets } from 'src/user/dtos/socketsDto';
+import { clearInterval } from 'timers';
 
 interface roomName {
 	name: string;
@@ -39,11 +39,12 @@ export class GameService {
 		@InjectRepository(Game) private gameRepository: Repository<Game>, private readonly userservice: UserService) { }
 
 	waitingGame: Socket;
+	bonus: boolean;
 	rooms: roomName[] = []; //tableau de room
 	gameInvit: GameInvit[] = []; //tableau des invitations de game
 
 	//check si y'a un joueur en matchmaking ---> oui creer la game, non mettre le joueur en matchmaking, et si la socket et la meme sortie de la recheche de game
-	async matchmaking(user: UserDto, client: Socket, server: Server): Promise<number | CreatGameDTO> {
+	async matchmaking(user: UserDto, client: Socket, server: Server, bonus: boolean): Promise<number | CreatGameDTO> {
 		//check si le joueur et deja en game
 		const clientStatue = await this.userservice.userStatue(client.data.user.id)
 		if (clientStatue === ConnctionState.InGame)
@@ -55,6 +56,7 @@ export class GameService {
 			//sort le client du matchmaking
 			if (this.waitingGame === client) {
 				this.waitingGame = null;
+				this.bonus = null;
 				return gameState.finDeRecherche
 			}
 
@@ -66,11 +68,12 @@ export class GameService {
 			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id)
 
 			//creer une nouvelle room de jeu
+			const bonusActivate = this.bonus && bonus ? true : false;
 			let element: roomName = {
 				name: user.username + "gameroom",
 				socket1: client,
 				socket2: this.waitingGame,
-				pong: new Pong(),
+				pong: new Pong(bonusActivate),
 				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
 				timeStart: new Date().getTime()
 			}
@@ -87,12 +90,14 @@ export class GameService {
 				idTwo: element.socket2.data.user.id
 			}
 			this.waitingGame = null;
+			this.bonus = null;
 			return data;
 		}
 		// met le client en matchmaking
 		else {
 			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id)
 			this.waitingGame = client;
+			this.bonus = bonus;
 			return gameState.enRecherchedePartie;
 		}
 	}
@@ -133,8 +138,10 @@ export class GameService {
 
 	//sort du matchmaking
 	cleanMM(client: Socket) {
-		if (client === this.waitingGame)
+		if (client === this.waitingGame) {
 			this.waitingGame = null;
+			this.bonus = null;
+		}
 	}
 
 
@@ -204,6 +211,7 @@ export class GameService {
 				newGame.scoreTwo = room.pong.player2.score;
 				newGame.userOne = room.socket1.data.user;
 				newGame.userTwo = room.socket2.data.user;
+				clearInterval(room.pong.intervalId);
 
 				//envois aux clients le score
 				if (room.pong.player1.score === 10) {

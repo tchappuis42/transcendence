@@ -1,9 +1,10 @@
 export interface Paddle {
 	x: number;
 	y: number;
-	width: number;
-	height: number;
+	color : string;
 	score: number;
+	paddleHeight : number;
+	paddleWidth : number;
 }
 
 export interface Game {
@@ -19,4 +20,5 @@ export interface Ball {
 	y: number,
 	width: number,
 	height: number,
+	color : string | null,
 }

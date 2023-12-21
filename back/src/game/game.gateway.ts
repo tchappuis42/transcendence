@@ -23,13 +23,11 @@ export class GameGateway {
 	}
 
 	@SubscribeMessage('matchmaking')
-	async matchmaking(@ConnectedSocket() client: Socket) {
+	async matchmaking(@ConnectedSocket() client: Socket, @MessageBody() bonusActivate: boolean) {
 		const user = client.data.user as UserDto;
-		const game = await this.gameService.matchmaking(user, client, this.server);
-		if (typeof game === 'object') {
-			console.log("alalalalalalalalala")
+		const game = await this.gameService.matchmaking(user, client, this.server, bonusActivate);
+		if (typeof game === 'object')
 			this.server.to(game.roomName).emit('game', game)
-		}
 		if (typeof game === 'number')
 			this.server.to(client.id).emit('game', game)
 	}

@@ -52,7 +52,6 @@ export class UserService {
 
 	async generateTfaSecret(id: number, username: string) {
 		const secret = authenticator.generateSecret();
-		console.log("secret :", secret);
 		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
 		// await this.setTfaSecret(secret, id);
 		const secretTfaObj = {
@@ -252,7 +251,7 @@ export class UserService {
 		}
 		return 0;
 	}
-
+	
 	async getUserBlockedId(id: number, blockedId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		const searchID = user.blockedId.find(id => id === blockedId);

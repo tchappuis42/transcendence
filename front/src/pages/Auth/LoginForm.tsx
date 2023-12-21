@@ -2,24 +2,24 @@ import React, { SyntheticEvent, useCallback, useState } from "react";
 import { useAuth } from '../../ui/organisms/useAuth';
 import FormProps from './interface/FormDto';
 import axios from "axios";
+import { Account } from "../../ui/types";
 
 const LoginForm: React.FC<FormProps> = ({
-	data,
-	handleChange,
-	settingPage,
-	showPassword,
-	togglePassword
+    data,
+    handleChange,
+    settingPage,
+    showPassword,
+    togglePassword
 }) => {
 
-	const [errorMessage, setErrorMessage] = useState<string>();
-	const { authenticate } = useAuth();
+    const [errorMessage, setErrorMessage] = useState<string>();
+    const { authenticate } = useAuth();
 
 	const loginSubmit = async (e: SyntheticEvent) => {
 		setErrorMessage("")
 		e.preventDefault();
 		try {
-			const obj =
-			{
+			const obj = {
 				identifiant: data.identifiant,
 				password: data.password
 			}
@@ -33,7 +33,18 @@ const LoginForm: React.FC<FormProps> = ({
 			setErrorMessage("Problem logging")
 		}
 
-	};
+    const handleApiLoginClick = async () => {
+        try {
+            const response = await axios.get("/api/authentication/url");
+            if (response.data.statusCode === 302) {
+                window.location.href = response.data.url;
+            } else {
+                console.error('Unexpected response', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching URL', error);
+        }
+    };
 
 	return (
 		<div className="flex items-center justify-center h-screen w-full">
@@ -70,9 +81,9 @@ const LoginForm: React.FC<FormProps> = ({
 						Login
 					</button>
 				</div>
-				<button onClick={() => window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a610e8f72117140ec378e6359557c09710f8540eec06737a31bc70eab54b5cef&redirect_uri=http%3A%2F%2Fc1r15s5%2Fwaiting&response_type=code"} type="button" className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
-				Api Login
-				</button>
+				<button onClick={handleApiLoginClick} type="button" className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
+                Api Login
+           		</button>
 				<div className="w-full h-1/6 flex flex-col mt-3 justify-center items-center" >
 					<div className=' text-start flex mt-3 text-white'>
 						Don't have an account?
@@ -85,4 +96,5 @@ const LoginForm: React.FC<FormProps> = ({
 		</div>
 	);
 };
+
 export default LoginForm;

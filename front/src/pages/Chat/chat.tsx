@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 import FriendsChat from "./component/FriendsChat";
 import { Account } from "../../ui/types";
@@ -57,7 +57,6 @@ const Chat = () => {
 				setDM_Chann(true)
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
-				alert(name)
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
@@ -65,17 +64,22 @@ const Chat = () => {
 			socket.on("setUserInChannel", (user) => {
 				setUser(user);
 			})
-			socket.on("checkPass", (name, datta, user) => {
-				setPass(datta);
+			socket.on("checkPass", (name, datta, curChan) => {
+				setteurPass(datta);
+				//setPass(datta);
 				if (datta === "ok") {
-					socket.emit("message", "", name, '1');
+				//	socket.emit("message", "", name, '1');
+					console.log("masi looooooooooooool")
+					socket.emit("getChannelMeOne", name, curChan);
+					setPass("ok")
+					setData("");
+				//	socket.emit("message", "", name, '1');
 				}
 				else {
 					setUserInChannel([])
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
-				setUser(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -137,13 +141,23 @@ const Chat = () => {
 		setUserInChannel(withoutMe);
 	}
 
-	function takeChan(channelSet: string, chanStatus: string) {
+	function takeChan(channelSet: string, chanStatue: string) {
+		console.log("set data a 0 pd")
 		setCurrentChannel(channelSet)
-		console.log("chann = , current =", channelSet, currentChannel)
-		if (socket) {
-			socket.emit("getChannelMeOne", channelSet, currentChannel);
-			setPass("ok")
-			setData("");
+		//console.log("chann = , current =", channelSet, currentChannel)
+		if (chanStatue !== "Public") {
+			console.log("fdp")
+			const password = prompt("what is the PassWord?");//todo enlever le prompt;
+			if (socket)
+				socket.emit("checkPass", channelSet, password, currentChannel);
+		}
+		setTimeout(() => {}, 1000);
+		if (chanStatue === "Public") {	
+			if (socket) {
+				socket.emit("getChannelMeOne", channelSet, currentChannel);
+				setPass("ok")
+				setData("");
+			}
 		}
 	}
 
@@ -154,6 +168,10 @@ const Chat = () => {
 			setPass("ok")
 			setData("");
 		}
+	}
+
+	function setteurPass(passe: SetStateAction<string>) {
+		setPass(passe);
 	}
 
 	return (

@@ -14,7 +14,7 @@ import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
 
 interface Props {
-	takeChan: (channelSet: string, chanStatus: string) => void;
+	takeChan: (channelSet: string, chanStatue: string) => void;
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	userInChannel: Account[];
@@ -32,16 +32,17 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				console.log("fuck mathis")
 				setOwner(owner);
 				setChannelStatus(status)
-				if (status) {
-					socket.emit("message", " ", chanName, '1');
-				}
-				else { //todo
+			//	if (status) {
+				socket.emit("message", " ", chanName, '1');
+			//	}
+				/*else { //todo
 					const password = prompt("what is the PassWord?");
 					if (socket)
 						socket.emit("checkPass", chanName, password);
-				}
+				}*/
 			});
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
@@ -59,7 +60,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 
 			});
 			socket.on("createchannel", (data, channel) => {
-				takeChan(channel, "public");
+				takeChan(channel, "Public");
 				setChannels(data);
 				setMessages([]);
 			});

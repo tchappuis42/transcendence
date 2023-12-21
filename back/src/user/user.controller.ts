@@ -144,4 +144,11 @@ export class UserController {
 		const user = req.user as UserDto;
 		return await this.userService.getUserBlockedId(user.id, blockedId);
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/apiPic")
+	async apiPic(): Promise<any> {
+		var apiKey = process.env.PIC_UID;
+		return {apiKey};
+	}
 }

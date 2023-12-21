@@ -8,6 +8,7 @@ export class Paddle {
 	speed: number;
 	score: number;
 	ready: boolean;
+	color : string;
 
 	constructor(x: number, y: number) {
 		this.x = x
@@ -18,13 +19,14 @@ export class Paddle {
 		this.speed = 7
 		this.score = 0
 		this.ready = false
+		this.color = ""
 	}
 
 	life() {
 		this.y = this.y + this.dy
 	}
 
-	incrementScore() {
+	public incrementScore() {
 		this.score += 1;
 	}
 
@@ -61,7 +63,6 @@ export class Paddle {
 	playerReady() {
 		this.ready = true;
 	}
-
 
 	//debug
 	reset() {

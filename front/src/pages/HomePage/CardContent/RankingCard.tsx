@@ -13,7 +13,7 @@ const RankingCard = () => {
     useEffect(() => {
         const getRanking = async () => {
             try {
-                const ranking = await axios.get(`http://localhost:4000/user/ranking?userId=${account.username}`);
+                const ranking = await axios.get(`/api/user/ranking?userId=${account.username}`);
                 const rankNbr = ranking.data.findIndex((user: any) => user.username === account.username)
                 const userPts = ranking.data[rankNbr].score
                 setUserPts(userPts);

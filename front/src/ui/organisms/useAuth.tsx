@@ -26,7 +26,7 @@ export function useAuth() {
 
 	const authenticate = useCallback(async () => {
 		try {
-			const response = await axios.get<Account>("http://localhost:4000/user/me", { withCredentials: true });
+			const response = await axios.get<Account>("/api/user/me", { withCredentials: true });
 			setAccount(response.data);
 		} catch (error) {
 			setAccount(null);
@@ -35,7 +35,7 @@ export function useAuth() {
 
 	const login = useCallback(async (username: string, password: string) => {
 		try {
-			const response = await axios.post("http://localhost:4000/authentication/login", { username, password }, { withCredentials: true });
+			const response = await axios.post("/api/authentication/login", { username, password }, { withCredentials: true });
 
 			if (response.data.message) {
 				authenticate();
@@ -51,7 +51,7 @@ export function useAuth() {
 	}, []);
 
 	const logout = useCallback(async () => {
-		await axios.get("http://localhost:4000/authentication/logout", { withCredentials: true });
+		await axios.get("/api/authentication/logout", { withCredentials: true });
 		setAccount(null);
 	}, []);
 

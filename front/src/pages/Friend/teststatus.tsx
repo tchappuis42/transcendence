@@ -12,7 +12,7 @@ export const addFrind = async (userId: number | undefined) => {
 	const data = {
 		id: userId,
 	}
-	await axios.post("http://localhost:4000/friends/addFriend", data, { withCredentials: true }).then((response) => {
+	await axios.post("/api/friends/addFriend", data, { withCredentials: true }).then((response) => {
 	}).catch((error) => {
 		console.error("error while adding friend :", error);
 	})
@@ -47,7 +47,7 @@ const Status = () => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				const response = await axios.get("/api/user/users", { withCredentials: true });
 				setUsers(response.data)
 			} catch (error) {
 				console.error("Erreur lors de la récupération des users :", error);
@@ -75,7 +75,7 @@ const Status = () => {
 		const data = {
 			id: userId,
 		}
-		await axios.post("http://localhost:4000/friends/addFriend", data, { withCredentials: true }).then((response) => {
+		await axios.post("/api/friends/addFriend", data, { withCredentials: true }).then((response) => {
 			alert(response.data)
 		}).catch((error) => {
 			alert(error)

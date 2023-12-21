@@ -16,7 +16,7 @@ const WaitingForConnection = () => {
     const sendDataToBackend = async () => {
       try {
         if (codeParam) {
-          const response = await axios.post("http://localhost:4000/authentication/api",
+          const response = await axios.post("/api/authentication/api",
             { code: codeParam },
             { withCredentials: true },
           );

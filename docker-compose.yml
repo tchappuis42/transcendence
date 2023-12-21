@@ -33,12 +33,15 @@ services:
     
     front:
         tty: true
-        build: docker/front
+        build: 
+         dockerfile: docker/front/dockerfile
+         context: .
         ports:
             - '3000:3000'
+            - '80:80'
         container_name: front
-        volumes:
-            - "./front:/usr/src/app"
+        # volumes:
+        #     - "./front:/usr/src/app"
         networks:
             - transcendence
         working_dir: /usr/src/app

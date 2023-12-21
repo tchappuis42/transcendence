@@ -24,7 +24,7 @@ const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard
             id: friendId,
             accept: accept
         }
-        await axios.post("http://localhost:4000/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
+        await axios.post("/api/friends/acceptFriend", data, { withCredentials: true }).then((response) => {
             removeCard(friendId)
         }).catch((error) => {
             console.error("error while handling friend request :", error)

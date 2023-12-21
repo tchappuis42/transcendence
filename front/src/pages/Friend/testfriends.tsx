@@ -14,7 +14,7 @@ const Testfriends = () => {
 
 		const getFriends = async () => {
 			try {
-				const response = await axios.get(`http://localhost:4000/friends/getFriendParId/${userId}`, { withCredentials: true });
+				const response = await axios.get(`/api/friends/getFriendParId/${userId}`, { withCredentials: true });
 				if (response.data.friend_status === 0)
 					setFriend("supprimer")
 				else if (response.data.friend_status === 1)

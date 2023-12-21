@@ -32,7 +32,7 @@ const ProfilCard = () => {
     useEffect(() => {
         const getFriendRequest = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/friends/friends", { withCredentials: true });
+                const response = await axios.get("/api/friends/friends", { withCredentials: true });
                 const sortedFriends = sortByStatus(response.data);
                 setFriends(sortedFriends);
             }

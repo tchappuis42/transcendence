@@ -45,7 +45,7 @@ export const Profil = () => {
 		if (String(id) !== String(account.id)) {
 			const getUsersByID = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/user/byId/${id}`)
+					const response = await axios.get(`/api/user/byId/${id}`)
 					setUser(response.data)
 				}
 				catch (error) {

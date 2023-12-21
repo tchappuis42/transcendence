@@ -56,7 +56,7 @@ const Settings = () => {
 
     const changeSettings = async (changeObj: changeObj) => {
         try {
-            const respons = await axios.post("http://localhost:4000/user/settings", changeObj, { withCredentials: true });
+            const respons = await axios.post("/api/user/settings", changeObj, { withCredentials: true });
             return true
         }
         catch (error: any) {
@@ -94,7 +94,7 @@ const Settings = () => {
                 secret: secret
             };
 
-            await axios.post("http://localhost:4000/user/twoFaFalse", status, { withCredentials: true });
+            await axios.post("/api/user/twoFaFalse", status, { withCredentials: true });
             account.twoFa = twoFaStatus;
         }
 

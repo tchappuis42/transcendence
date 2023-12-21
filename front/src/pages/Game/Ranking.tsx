@@ -17,7 +17,7 @@ const Ranking = () => {
 	useEffect(() => {
 		const getRank = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/ranking");
+				const response = await axios.get("/api/user/ranking");
 				setRank(response.data);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des scores :", error);

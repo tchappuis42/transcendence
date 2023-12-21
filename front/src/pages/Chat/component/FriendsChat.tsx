@@ -17,7 +17,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
+				const response = await axios.get("/api/user/users", { withCredentials: true });
 				const sortedUsers = response.data.sort((a: Account, b: Account) => b.status - a.status);
 
 				setUsers(sortedUsers);

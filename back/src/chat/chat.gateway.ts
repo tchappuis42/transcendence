@@ -13,15 +13,15 @@ import { DMChannel } from "./entity/dmChannel.entity";
 
 
 @WebSocketGateway({
-	cors: {
-		origin: ['http://localhost:3000']
-	}
+	// cors: {
+	// 	origin: ['http://c1r15s5']
+	// }
 })
 
 @WebSocketGateway({
-	cors: {
-		origin: ['http://localhost:3000']
-	}
+	// cors: {
+	// 	origin: ['http://c1r15s5']
+	// }
 })
 
 export class ChatGateway {

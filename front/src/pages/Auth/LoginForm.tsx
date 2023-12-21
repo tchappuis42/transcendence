@@ -23,7 +23,7 @@ const LoginForm: React.FC<FormProps> = ({
 				identifiant: data.identifiant,
 				password: data.password
 			}
-			const response = await axios.post("http://localhost:4000/authentication/login", obj, { withCredentials: true });
+			const response = await axios.post("/api/authentication/login", obj, { withCredentials: true });
 			if (response.data.message) {
 				authenticate();
 			} else {
@@ -70,7 +70,7 @@ const LoginForm: React.FC<FormProps> = ({
 						Login
 					</button>
 				</div>
-				<button onClick={() => window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ca44c5bc0f1cbf57468c23fe07cadeb1237c04b5b23a0f88ccacf31ba217a6b6&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fwaiting&response_type=code"} type="button" className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
+				<button onClick={() => window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a610e8f72117140ec378e6359557c09710f8540eec06737a31bc70eab54b5cef&redirect_uri=http%3A%2F%2Fc1r15s5%2Fwaiting&response_type=code"} type="button" className="border-2 w-1/3 mt-2 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
 				Api Login
 				</button>
 				<div className="w-full h-1/6 flex flex-col mt-3 justify-center items-center" >

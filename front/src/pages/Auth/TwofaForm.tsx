@@ -19,7 +19,7 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage, onSubmit }) => {
 		const requestData = {
 			token: token
 		};
-		axios.post("http://localhost:4000/authentication/twoFa", requestData, { withCredentials: true }).then((response) => {
+		axios.post("/api/authentication/twoFa", requestData, { withCredentials: true }).then((response) => {
 			authenticate();
 			onSubmit?.()
 		})

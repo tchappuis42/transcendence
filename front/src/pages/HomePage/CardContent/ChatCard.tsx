@@ -62,7 +62,7 @@ const ChatCard = () => {
                     <h1 className='text-white opacity-60'>No Dm</h1>
                 </div>
             ) : (
-                <div className="h-[90%] overflow-y-auto overflow-x-hidden bg-orange-200">
+                <div className="h-[90%] overflow-y-auto overflow-x-hidden">
                     {all_DMChannels.map((msg, id) => (
                         <div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
                             onMouseEnter={handleMouseEnter}

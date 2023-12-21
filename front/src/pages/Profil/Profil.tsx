@@ -76,7 +76,7 @@ export const Profil = () => {
 	}, [socket]);
 
 	return (
-		<div className="w-full h-screen pb-[100px] overflow-auto bg-green-200 py-10 px-5 sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
+		<div className="w-full h-screen pb-[100px] overflow-auto  py-10 px-5 sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
 			<div className="w-full h-full gap-4 min-h-[800px] min-w-[430px] lg:grid-cols-2 lg:grid-rows-2 p-2.5 grid grid-cols-1 grid-rows-4 gap-4 lg:grid-cols-2 lg:grid-rows-2 p-2.5">
 				<MenuCard>
 					<LeftComponent user={user} />

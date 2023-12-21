@@ -54,7 +54,7 @@ const ProfilCard = () => {
 
     return (
         <div className="h-full w-full grid grid-cols-1 grid-rows-3 m-5">
-            <div id={"profilCard"} className="row-span-1 grid grid-cols-4 grid-rows-1 w-full py-3 rounded object-cover">
+            <div id={"profilCard"} className="row-span-1 grid grid-cols-4 grid-rows-1 w-full py-3 gap-5 rounded object-cover">
                 <AvatarContainer src={account.avatar} id={account.id} navigation={true} id_div={"profilCard"}/>
                 <div className="col-span-3 h-full w-full">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-2xl border rounded">
@@ -67,7 +67,7 @@ const ProfilCard = () => {
                     <Friends />
                 </div>
                 <div className="w-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("pong", account.id) }}>
-                    <div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+                    <div className="bg-black/50 h-full w-full rounded-md shadow-md shadow">
                         <div className='h-[15%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
                             <h1>Ranking</h1>
                         </div>

@@ -109,10 +109,10 @@ const SocketPong = () => {
 	//color et change serach
 	return (
 		<div className="flex justify-center">
-			<div className="flex h-screen pb-[200px] overflow-auto bg-green-200 w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
+			<div className="flex h-screen pb-[200px] overflow-auto  w-full p-3 sm:py-10 sm:px-10 xl:w-[1280px]">
 				{!page &&
 					<div className="flex w-full flex-col justify-between align-between md:flex-wrap md:flex-row">
-						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow-white">
+						<div className="w-full h-96 rounded-md bg-black/50 md:w-3/5 md:h-96 xl:w-[720px] shadow-md shadow">
 							<div className="bg-black/50 h-full w-full rounded-md">
 								<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 									<h1>Matchmaking</h1>
@@ -151,13 +151,13 @@ const SocketPong = () => {
 								</div>
 							</div>
 						</div>
-						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-md md:w-[39%] md:h-96 xl:w-[468px] shadow-md shadow-white">
+						<div className="w-full h-80 mb-1 my-1 md:mt-0 bg-black/50 rounded-md md:w-[39%] md:h-96 xl:w-[468px] shadow-md shadow">
 							<Ranking />
 						</div>
 						<div className="w-full h-80 mb-1 mt-3 bg-black/50 rounded-3xl md:w-2/5 md:h-96 xl:w-[480px]">
 							<Friends />
 						</div>
-						<div className="w-full h-80 mb-1 bg-black/50 mt-3 rounded-md md:w-[59%] md:h-96 xl:w-[708px] shadow-md shadow-white">
+						<div className="w-full h-80 mb-1 bg-black/50 mt-3 rounded-md md:w-[59%] md:h-96 xl:w-[708px] shadow-md shadow">
 							<MatchHistory userId={account.id} />
 						</div>
 					</div>

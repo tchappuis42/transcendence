@@ -28,17 +28,19 @@ const Ranking = () => {
 
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md">
-			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
-				<h1>Ranking</h1>
+			<div className='grid grid-cols-3 h-[10%] font-bold flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
+				<h1 className="w-full flex justify-center">rank</h1>
+				<h1 className="w-full flex justify-center">name</h1>
+				<h1 className="w-full flex justify-center">points</h1>
 			</div>
 
-			<div className="h-full m-2.5 rounded-md	 box-border justify-center items-center max-h-[80%]">
-				<div className="h-[10%] bg-white flex w-full items-center text-center font-semibold rounded-md">
+			<div className="h-full m-2.5 rounded-md box-border justify-center items-center max-h-[80%]">
+				{/* <div className="h-[10%] bg-white flex w-full items-center text-center font-semibold rounded-t-md">
 					<h1 className="w-1/3">rank</h1>
 					<h1 className="w-1/3">name</h1>
 					<h1 className="w-1/3">points</h1>
-				</div>
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden bg-red-200">
+				</div> */}
+				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
 					{rank?.map((rank: Rank, id: number) => (
 						<RankCard key={id} rank={rank} id={id + 1}/>
 					))}

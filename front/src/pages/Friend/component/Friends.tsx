@@ -48,7 +48,7 @@ const Friends = () => {
 	}, [socket, friends, sortByStatus]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
+		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow">
 			<div className='h-[15%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>Friends ({friends?.length})</h1>
 			</div>

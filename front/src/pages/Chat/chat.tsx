@@ -178,20 +178,20 @@ const Chat = () => {
 		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
 			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md">
 				<CreateChannel currentChannel={currentChannel} />
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-mdrounded-md ">
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
 				</div>
-				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
 			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
 			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
 				<InvitGameMsg />
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
 					<UserInChannel userInChannel={userInChannel} />
 				</div>
-				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-mdrounded-md">
 					<FriendsChat currentChannel={currentChannel} />
 				</div>
 			</div>

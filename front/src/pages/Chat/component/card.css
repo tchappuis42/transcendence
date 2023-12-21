@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .main-card {
+        @apply grid grid-rows-1 grid-cols-5 
+        h-1/5 m-2.5 cursor-pointer
+        bg-white rounded-md shadow-lg box-border
+    }
+    .avatar-card {
+        @apply col-span-1 
+        w-full h-full 
+        object-cover
+        flex justify-center items-center
+    }
+    .name-card {
+        @apply
+        h-full w-full 
+        flex justify-center items-center 
+        text-black/60
+    }
+    .bouton1-card {
+        @apply col-span-2
+        border
+        m-2 rounded 
+        bg-transparent 
+        hover:bg-gray-200 active:bg-gray-400 
+        focus:outline-none focus:ring focus:ring-gray-300 
+        hover:no-underline hover:text-black 
+        text-black/60
+    }
+    .bouton2-card {
+        @apply col-span-2
+        border
+        m-2 rounded 
+        bg-transparent 
+        hover:bg-gray-200 active:bg-gray-400 
+        focus:outline-none focus:ring focus:ring-gray-300 
+        hover:no-underline hover:text-black 
+        text-black/60
+    }
+}

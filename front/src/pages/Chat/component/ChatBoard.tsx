@@ -85,17 +85,15 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 			<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
 				<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
-			<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
-				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow-white">
+			<div className="w-full h-[90%] shadow-md shadow-mdborder-2 border-white rounded-md">
+				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow">
 					{messages.map((msg, index) => (
 						<MessageChatCard msg={msg} index={index} />
 					))}
 				</div>
 				<div className="w-full h-1/6 flex justify-center items-center bg-black/60 rounded-md">
 					<form onSubmit={sendMessage} className="flex w-2/3 h-full justify-center items-center">
-						<label htmlFor="text" className="grid grid-cols-6 grid-rows-1 w-full gap-4">
-							{/* <h1 className="text-white">{userTyping}</h1> */}
-							<h1 className="h-12 text-white col-span-1 border rounded">{userTyping}</h1>
+						<label htmlFor="text" className="grid grid-cols-6 grid-rows-2 w-full gap-4">
 							<textarea
 								className="col-span-4 h-12 p-2 pt-2.5 resize-none rounded-md"
 								name="data"
@@ -105,12 +103,13 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 								style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
 								onInput={Typing}
 							/>
-							<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 h-12 shadow-md shadow-white rounded hover:bg-white border"
+							<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 h-12 shadow-md shadow-md rounded hover:bg-black/40 border hover:no-underline"
 								onMouseEnter={handleMouseEnter}
 								onMouseLeave={handleMouseLeave}
 								onClick={sendOk}>
-								<h1 className="text-white hover:text-black">Send</h1>
+								<h1 className="text-white hover:text-white">Send</h1>
 							</button>
+							<h1 className="span-rows-1 col-span-1 h-12 text-white rounded">{userTyping}</h1>
 						</label>
 					</form>
 				</div>

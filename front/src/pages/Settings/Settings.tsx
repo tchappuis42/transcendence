@@ -119,7 +119,7 @@ const Settings = () => {
     return (
         <div className="w-full py-10 px-2 xl:px-20">
             <div className="flex items-center justify-center h-screen">
-                <div className="w-3/5 min-w-[350px] max-w-[700px] h-4/5 min-h-[647px] bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
+                <div className="w-3/5 min-w-[350px] max-w-[700px] h-4/5 min-h-[647px] bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow">
                     {/* changeUsername */}
                     <div className="w-4/5 h-1/5  flex flex-col justify-center items-center">
                         <h1 className="text-white font-bold">Change your username</h1>

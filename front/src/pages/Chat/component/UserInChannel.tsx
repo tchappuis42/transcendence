@@ -52,8 +52,8 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 	}, [socket]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md " >
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+		<div className="bg-gray-200 border border-slate-300 h-full w-full rounded-lg " >
+			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
 				<h1>user in channel ({userInChannel?.length})</h1>
 			</div>
 			{!userInChannel ? (
@@ -61,9 +61,9 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 					<h1>No users</h1>
 				</div>
 			) : (
-				<div className="h-full m-2.5 bg-black/10 rounded-md	box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5 rounded-md	box-border justify-center items-center overflow-y-auto max-h-[80%]">
 					{userInChannel?.map((userIn: Account) => (
-						<div className='h-1/5'>
+						<div className='h-[90%] overflow-y-auto overflow-x-hidden'>
 							{InvitGame(userIn.id) ? (<UserInChannelCard key={userIn.id} userInChannel={userIn} />) : (
 								<div className="h-full bg-blue-500/50 grid grid-cols-6 gap-4 rounded-md m-2.5 px-5 cursor-pointer">
 									<div className="h-full w-full overflow-hidden flex col-span-1 items-center content-center cursor-pointer">

@@ -20,6 +20,10 @@ export class FriendsService {
 		@InjectRepository(Friends) private friendsRepository: Repository<Friends>, private readonly userservice: UserService) { }
 
 	async addFriend(user: User, friend: number) {
+		const blocked = user.blockedId.find(id => id == friend) // 2 = pourquoi je coompar 2 number
+		if (blocked)
+			return "impossible d'ajouter un user bloqué"
+
 		const friendUser = await this.userservice.validateUser(friend);
 		const check = await this.friendsRepository.findOne({ where: [{ first_id: user.id, second_id: friendUser.id }, { first_id: friendUser.id, second_id: user.id }] })
 		if (check)
@@ -28,7 +32,7 @@ export class FriendsService {
 		friends.first_id = user.id;
 		friends.first_User = user;
 		friends.second_id = friendUser.id;
-		friends.second_User = friendUser;
+		friends.second_User = friendUser; //
 		await this.friendsRepository.save(friends);
 		if (friendUser.status !== ConnctionState.Offline)
 			await this.sendFriendMessage(friends.second_id, friends.first_User, "friendRequest")
@@ -51,7 +55,10 @@ export class FriendsService {
 				return { friend_user: friend.first_User, friend_status: 1 }
 			}
 		});
-		return friends;
+		console.log(friends)
+		const filterblock = friends.filter(friend => !user.blockedId.includes(friend.friend_user.id))
+		console.log(filterblock)
+		return filterblock;
 	}
 
 	getdata(relationship: Friends, user: User) {

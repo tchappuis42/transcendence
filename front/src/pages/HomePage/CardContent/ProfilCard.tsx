@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "../../../ui/organisms/useAccount";
 import "./CardStyle.css";
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../Tools";
 import axios from "axios";
-import FriendCard from "./FriendCard";
-import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/component/Friends";
 import AvatarContainer from "./avatarContainer";

@@ -1,7 +1,6 @@
 import React from "react"
 import "./infoProfilComponent.css"
 import "../../styleProfilPage/toolsCss.css"
-import Wallpaper from "../../../image/wallpaper.jpg"
 import { MyName } from "./infoProfil/tools/personalInformations"
 import { LevelUser } from "./infoLevel/infoLevel"
 

@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../../ui/organisms/useAccount";
 import { handleMouseEnter, handleMouseLeave } from "../Tools";
 

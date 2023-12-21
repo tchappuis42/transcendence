@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./infoLevel.css"
 import {LevelBar} from "./tools/levelBar";
-import {useAccount} from "../../../../../ui/organisms/useAccount";
-import {useGetUser, UserStatus} from "../../../tools/userStatus";
 import {RankUsers} from "../../../tools/rank";
 
 interface User {

@@ -1,10 +1,7 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../interface/Tools";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import Friend from "../interface/friendDto";
 import { Account } from "../../../ui/types";
-import { fireEvent } from "@testing-library/react";
 import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
 
 const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard: (id: number) => void }) => {

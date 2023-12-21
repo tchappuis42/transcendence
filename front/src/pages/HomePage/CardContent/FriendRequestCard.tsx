@@ -1,7 +1,6 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../../ui/organisms/useAccount";
 import { handleMouseEnter, handleMouseLeave } from "../Tools";
-import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface friend {

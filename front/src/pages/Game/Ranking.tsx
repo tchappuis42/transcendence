@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAccount } from "../../ui/organisms/useAccount";
 import RankCard from "./RankCard";
 
 interface Rank {

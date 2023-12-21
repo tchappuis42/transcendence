@@ -1,5 +1,3 @@
-import React from "react";
-import Pong from "../../Game/Pong";
 
 const PongCard = () => {
 

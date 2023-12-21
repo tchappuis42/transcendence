@@ -1,4 +1,3 @@
-import * as React from "react"
 import "./topBar.css"
 import "./components/slanderousMenu.css"
 import { SlanderousMenu } from "./components/slanderousMenu"

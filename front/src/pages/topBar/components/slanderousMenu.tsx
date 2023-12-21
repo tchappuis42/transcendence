@@ -3,7 +3,6 @@ import "./slanderousMenu.css"
 import {useEffect, useState, useRef} from "react";
 import {DropDownMenuList} from "./searchGlass/dropDownMenuList";
 import {DropDownMenuListPictures} from "./profilPictures/dropDownMenuListPictures";
-import {BellNotificationComponent} from "./bell/bellComponent";
 
 type SlanderousMenuProps = {
 	myRef: React.RefObject<HTMLDivElement>;

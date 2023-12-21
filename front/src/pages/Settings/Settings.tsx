@@ -1,4 +1,4 @@
-import { Button, Switch } from "@material-tailwind/react";
+import { Button} from "@material-tailwind/react";
 import { useAccount } from "../../ui/organisms/useAccount";
 import { useEffect, useState } from "react";
 import axios from "axios";

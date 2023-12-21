@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stringify } from "querystring";
 import { useEffect, useState } from "react";
 
 interface cardProps {

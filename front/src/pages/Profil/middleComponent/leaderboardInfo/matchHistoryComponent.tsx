@@ -1,4 +1,3 @@
-import * as React from "react"
 import axios from "axios";
 import "../leaderboard.css"
 import "../../styleProfilPage/mainCSS.css"

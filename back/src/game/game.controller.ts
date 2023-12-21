@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { GameService } from './game.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request, Response } from 'express';
@@ -9,7 +9,7 @@ export class GameController {
 	constructor(private readonly gameService: GameService) { }
 
 	@Get('history/:id')
-	async getGameByUser(@Param('id') id: number) {
+	async getGameByUser(@Param('id', ParseIntPipe, ParseIntPipe) id: number) {
 		const games = await this.gameService.getGameByUser(id);
 		return games;
 	}

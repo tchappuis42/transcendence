@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
-import Friend from '../interface/friendDto';
 import { useFriends } from '../useFriends';
-import FriendCard from "./FriendCard";
 import { FriendStatus } from '../interface/friendStatus';
 import PendingFriendCard from './PendingFriendCard';
 import { Account } from '../../../ui/types';

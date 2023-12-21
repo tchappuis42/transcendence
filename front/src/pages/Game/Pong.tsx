@@ -3,7 +3,6 @@ import { useSocket } from '../../ui/organisms/SocketContext';
 import GameRules from './gamerules';
 import { Ball, Paddle } from './gameInterface';
 import { drawBall, drawBonus, drawMap, drawPaddle } from './drawfunctions';
-import GameScore from './gameScore';
 
 interface PongProps {
 	color: {

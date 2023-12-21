@@ -7,7 +7,6 @@ import { LoginDto } from './dtos/loginDto';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { UserService } from 'src/user/user.service';
 import { TempJwtAuthGuard } from './auth.guard';
-import { UserDto } from 'src/user/dtos/UserDto';
 import { User } from 'src/user/user.entity';
 
 @Controller('authentication')

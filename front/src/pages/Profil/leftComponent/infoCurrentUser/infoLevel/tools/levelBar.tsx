@@ -1,4 +1,3 @@
-import React, {forwardRef, useState} from "react";
 import "./levelBar.css"
 import "../../../../styleProfilPage/toolsCss.css"
 

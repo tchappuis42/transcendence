@@ -1,10 +1,7 @@
-import React, {useState, useEffect} from "react"
-import axios from "axios";
 import "../../../../styleProfilPage/toolsCss.css"
 import "../infoProfile.css"
 import {useAccount} from "../../../../../../ui/organisms/useAccount";
 import {UserStatus} from "../../../../tools/userStatus";
-import {useParams} from "react-router-dom";
 import {RankUsers} from "../../../../tools/rank";
 
 interface Rank {

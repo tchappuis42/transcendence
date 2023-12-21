@@ -1,4 +1,3 @@
-import * as React from "react"
 import "../leaderboard.css"
 import "../../styleProfilPage/mainCSS.css"
 import {useEffect, useState} from "react";

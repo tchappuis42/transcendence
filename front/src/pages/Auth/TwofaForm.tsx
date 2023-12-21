@@ -1,7 +1,6 @@
 import axios from "axios";
 import { SyntheticEvent, useState } from "react";
 import { useAuth } from "../../ui/organisms/useAuth";
-import { Button } from "@material-tailwind/react";
 
 interface TwoFaFormProps {
 	settingPage: (newPage: string) => void;

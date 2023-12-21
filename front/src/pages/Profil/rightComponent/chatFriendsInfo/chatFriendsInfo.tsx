@@ -1,7 +1,6 @@
-import * as React from "react"
 import "../chatSide.css"
 import "./chatFriendsInfo.css"
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { Badge, Button } from "@material-tailwind/react";
 import {useNavigate} from "react-router-dom";
 

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
-import Friend from '../interface/friendDto';
 import { useFriends } from '../useFriends';
 import { FriendStatus } from '../interface/friendStatus';
 import FriendRequestCard from './AddFriendCard';

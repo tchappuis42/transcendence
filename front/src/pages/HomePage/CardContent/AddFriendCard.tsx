@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import MessageCard from "./MessageCard";
+import { useEffect, useState } from "react";
 import FriendRequestCard from "./FriendRequestCard";
 import axios from "axios";
 

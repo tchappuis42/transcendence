@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Body, Post, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException, ParseIntPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from './user.guard';
 import { Request } from 'express';
@@ -106,7 +106,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get('block/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async blockById(@Req() req: Request, @Param('id') blockId: number) {
+	async blockById(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) blockId: number) {
 		console.log(blockId)
 		const user = req.user as User;
 		await this.friendService.removeFriend(user, blockId);
@@ -116,7 +116,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get('unblock/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async unblockById(@Req() req: Request, @Param('id') unblockId: number) {
+	async unblockById(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) unblockId: number) {
 		const user = req.user as UserDto;
 		return await this.userService.unblockbyId(user.id, unblockId);
 	}
@@ -140,7 +140,7 @@ export class UserController {
 	@UseGuards(JwtAuthGuard)
 	@Get('getUserBlockedId/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserBlockedId(@Req() req: Request, @Param('id') blockedId: number) {
+	async getUserBlockedId(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) blockedId: number) {
 		const user = req.user as UserDto;
 		return await this.userService.getUserBlockedId(user.id, blockedId);
 	}

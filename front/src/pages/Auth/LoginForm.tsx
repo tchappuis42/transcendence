@@ -1,8 +1,7 @@
-import React, { SyntheticEvent, useCallback, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { useAuth } from '../../ui/organisms/useAuth';
 import FormProps from './interface/FormDto';
 import axios from "axios";
-import { Account } from "../../ui/types";
 
 const LoginForm: React.FC<FormProps> = ({
     data,

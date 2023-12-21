@@ -1,9 +1,7 @@
-import * as React from "react";
 import "../slanderousMenu.css"
 import { useAuth } from "../../../../ui/organisms/useAuth";
 import { SyntheticEvent, useState } from "react";
 import { ClickOutside } from "../../tools/clickoutside"
-import Navigation from "../../../../ui/organisms/Navigation";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../../../ui/organisms/useAccount";
 

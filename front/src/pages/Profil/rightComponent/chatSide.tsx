@@ -3,7 +3,6 @@ import "./chatSide.css"
 import "../styleProfilPage/mainCSS.css"
 import "./chatFriendsInfo/chatFriendsInfo.css"
 import {ChatUserHistoric} from "./chatFriendsInfo/chatFriendsInfo";
-import {UserStatus} from "../tools/userStatus";
 import axios from "axios";
 
 interface Users {

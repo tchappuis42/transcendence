@@ -3,9 +3,7 @@ import Home from './pages/Home';
 import SocketPong from './pages/Game/socketpong';
 import Chat from './pages/Chat/chat';
 import { Profil } from './pages/Profil/Profil';
-import { TopBar } from "./pages/topBar/topBar";
 import Settings from './pages/Settings/Settings';
-import Testfriends from './pages/Friend/testfriends';
 import WaitingForConnection from './pages/Auth/WaitingForConnection';
 
 const App = () => {
@@ -13,7 +11,6 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} >
-          {/*<Route path='/' element={<TopBar />} >*/}
           <Route path='pong' element={<SocketPong />} />
           <Route path='chat' element={<Chat />} />
           <Route path='profil' element={<Profil />} />

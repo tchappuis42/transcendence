@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import MenuCard from "./MenuCard";
-import Pong from "../Game/Pong";
 import ProfilCard from "./CardContent/ProfilCard";
 import ChatCard from "./CardContent/ChatCard";
-import PongCard from "./CardContent/PongCard";
 import Ranking from "../Game/Ranking";
 import { useNavigate } from "react-router-dom";
-import { handleMouseEnter, handleMouseLeave } from "./Tools";
-import AddFriendCard from "./CardContent/AddFriendCard";
 import FriendsToAdd from "../Friend/component/AddFriend";
 import { useSocket } from "../../ui/organisms/SocketContext";
 

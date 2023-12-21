@@ -1,6 +1,5 @@
-import * as React from "react"
 import "./userGameWin.css"
-import {useRef, useState} from "react";
+import { useState} from "react";
 
 export const UserGameWin = () => {
 	const [progress, setProgress] = useState(0);

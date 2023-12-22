@@ -60,6 +60,7 @@ export class ChatGateway {
 		const user = client.data.user as UserDto;
 		if ((await this.DMChannelService.getDMChannelMeForText(data)) == 0) {
 			const channel = await this.textChannelService.getChannelMe(data);
+			const clientInRoom = await this.server.in(channel.name).allSockets();
 			const muet = channel.muted.find((muted) => muted.userId == user.id)
 			if (channel.users.find((user1) => user1.id == user.id)) {
 				if (!muet) {
@@ -70,8 +71,12 @@ export class ChatGateway {
 							if (Socket) {
 								Socket.socket.forEach(socketId => {
 									this.server.sockets.sockets.forEach(socket => {
-										if (socket.id === socketId)
-											socket.emit('isTyping', msg);
+										if (socket.id === socketId) {
+											for(var elem of clientInRoom) {
+												if (elem === socket.id)
+													socket.emit('isTyping', msg);
+											}
+										}
 									})
 								})
 							}
@@ -89,16 +94,21 @@ export class ChatGateway {
 			else
 				userId = channel.user1[0].id;
 			const clientInRoom = await this.server.in(channel.name).allSockets();
-			if (clientInRoom.size === 2) {
-				const Socket = await this.userService.getSocketUser(userId);
-				if (Socket) {
-					Socket.socket.forEach(socketId => {
-						this.server.sockets.sockets.forEach(socket => {
-							if (socket.id === socketId) {
-								socket.emit('isTyping', msg);
-							}
+			for (let i = 0; channel.users[i]; i++) {
+				if (channel.users[i].id !== user.id) {
+					const Socket = await this.userService.getSocketUser(channel.users[i].id);
+					if (Socket) {
+						Socket.socket.forEach(socketId => {
+							this.server.sockets.sockets.forEach(socket => {
+								if (socket.id === socketId) {
+									for(var elem of clientInRoom) {
+										if (elem === socket.id)
+											socket.emit('isTyping', msg);
+									}
+								}
+							})
 						})
-					})
+					}
 				}
 			}
 		}
@@ -109,6 +119,7 @@ export class ChatGateway {
 		try {
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelMe(data[1]);
+			const clientInRoom = await this.server.in(channel.name).allSockets();
 			const baned = channel.banned.find((banned) => banned.userId == user.id);
 			if (!baned) {
 				if (data[2] == '0') {
@@ -141,7 +152,10 @@ export class ChatGateway {
 											}
 											else
 												string_ret = data[0];
-											socket.emit('message', string_ret, user.username, user.id);
+											for(var elem of clientInRoom) {
+												if (elem === socket.id)
+													socket.emit('message', string_ret, user.username, user.id);
+											}
 										}
 									})
 								})
@@ -573,13 +587,36 @@ export class ChatGateway {
 				userId = channel.user2[0].id;
 			else
 				userId = channel.user1[0].id;
-			//console.log(userId)
-			//const blocked = await this.userService.getUserBlocked(userId, user.id);//, userId]; //userId celui qui recoit le message, user celui qui envoie donc a verifier si il est blocker
-			//const blo = [blocked, userId]
-			//console.log("blocked", blocked)
+			const clientInRoom = await this.server.in(channel.name).allSockets()
 			if (data[2] === '0') {
-
 				await this.DMChannelService.addMsgForDMChannel(data[0], data[1], user.id);
+						for (let i = 0; channel.users[i]; i++) {
+							const blocked = await this.userService.getUserBlocked(channel.users[i].id)
+							let string_ret: string;
+							const Socket = await this.userService.getSocketUser(channel.users[i].id);
+							if (Socket) {
+								Socket.socket.forEach(socketId => {
+									this.server.sockets.sockets.forEach(socket => {
+										if (socket.id === socketId) {
+											if (blocked) {
+												if (blocked.find((users) => users == user.id)) {
+													string_ret = ("you blocked " + user.username);
+												}
+												else
+													string_ret = data[0];
+											}
+											else
+												string_ret = data[0];
+											for(var elem of clientInRoom) {
+												if (elem === socket.id)
+													socket.emit('message', string_ret, user.username, user.id);
+											}
+										}
+									})
+								})
+							}
+						}
+				/*await this.DMChannelService.addMsgForDMChannel(data[0], data[1], user.id);
 				let string_ret: string;
 				//	const clientInRoom = await this.server.in(channel.name).allSockets()
 				//	if (clientInRoom.size === 1)
@@ -599,14 +636,17 @@ export class ChatGateway {
 					string_ret = ("you blocked " + user.username);
 					//	client.emit('message', data[0], user.username, user.id);
 					const clientInRoom = await this.server.in(channel.name).allSockets();
-					if (clientInRoom.size === 2) {
+					if (clientInRoom.size !== 1) {
 						client.emit('message', data[0], user.username, user.id);
 						const Socket = await this.userService.getSocketUser(userId);
 						if (Socket) {
 							Socket.socket.forEach(socketId => {
 								this.server.sockets.sockets.forEach(socket => {
 									if (socket.id === socketId) {
-										socket.emit('message', string_ret, user.username, user.id);
+										for(var elem of clientInRoom) {
+											if (elem === socket.id)
+												socket.emit('message', string_ret, user.username, user.id);
+										}
 									}
 								})
 							})
@@ -616,7 +656,7 @@ export class ChatGateway {
 						this.server.to(channel.name).emit('message', data[0], user.username, user.id);
 				}
 				else
-					this.server.to(channel.name).emit('message', data[0], user.username, user.id);
+					this.server.to(channel.name).emit('message', data[0], user.username, user.id);*/
 			}
 			else {
 				const blocked = await this.userService.getUserBlockedOn(user.id, userId);

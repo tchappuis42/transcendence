@@ -66,6 +66,7 @@ const Chat = () => {
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
+				socket.emit("DMmessage", " ", name, '1');
 			});
 			socket.on("setUserInChannel", (user) => {
 				setUser(user);

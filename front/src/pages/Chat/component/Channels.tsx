@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { createPortal } from "react-dom";
@@ -18,13 +18,17 @@ interface Props {
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	userInChannel: Account[];
+	channelStatus: boolean;
+	Owner: string;
+	setChannelStatus: React.Dispatch<SetStateAction<boolean>>;
+	setOwner: React.Dispatch<SetStateAction<string>>;
 }
 
-const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel }) => {
+const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
 	const [all_channels, setChannels] = useState<Channel[]>([]);
-	const [channelStatus, setChannelStatus] = useState(false);
+//	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
-	const [Owner, setOwner] = useState("0");
+//	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
 	const [successPassword, setSuccessPass] = useState("");
 
@@ -32,7 +36,6 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		setOwner("0")
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
-				console.log("fuck mathis")
 				setOwner(owner);
 				setChannelStatus(status)
 			//	if (status) {

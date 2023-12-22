@@ -9,6 +9,7 @@ import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/component/Friends";
 import AvatarContainer from "./avatarContainer";
+import { useAuth } from "../../../ui/organisms/useAuth";
 
 interface Friend {
     id: number;
@@ -22,6 +23,7 @@ const ProfilCard = () => {
     const { account } = useAccount();
     const navigate = useNavigate();
     const [friends, setFriends] = useState<Friend[]>();
+    const { authenticate } = useAuth();
 
     const sortByStatus = (friends: Friend[]): Friend[] => {
         const sortedFriends = friends.sort((a, b) => a.status - b.status);
@@ -36,8 +38,11 @@ const ProfilCard = () => {
                 const sortedFriends = sortByStatus(response.data);
                 setFriends(sortedFriends);
             }
-            catch {
+            catch (error: any) {
                 console.error("error while fetching friend request");
+                console.log("error = ", error)
+                if (error.response.request.status === 401)
+                    authenticate();
             }
 
         }

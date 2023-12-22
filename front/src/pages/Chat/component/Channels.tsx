@@ -92,13 +92,14 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		setSelectedMessage(undefined);
 	   };
 	   
+	   
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
 			<div style={{marginLeft: "40%", marginTop: "5%"}} className="absolute flex items-center justify-center" >
-				{ selectedMessage && selectedMessage.statue !== "Public" && promptOpen === true &&
+				{ selectedMessage && selectedMessage.statue !== "Public" &&
 					 createPortal(
 						<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
-							<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
+							<SimpleRegistrationForm currentChannel={currentChannel} name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
 						</div>,
 						document.body
 					)

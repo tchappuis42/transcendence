@@ -1,4 +1,8 @@
 
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import { useSocket } from '../../../ui/organisms/SocketContext';
+import ChanPassword from '../interface/chanPassword';
+
 import {
 	Card,
 	CardHeader,
@@ -9,27 +13,27 @@ import {
 	Checkbox,
 	Button,
   } from "@material-tailwind/react";
-  import { useEffect, useState } from 'react';
-     
+  
   interface Props {
 	callback(pwd: string) : void;
 	name: string,
 	closeForm() : void;
+	currentChannel: string;
   }
 
-  export function SimpleRegistrationForm({callback, name, closeForm} : Props) {
+  export function SimpleRegistrationForm({callback, name, closeForm, currentChannel} : Props) {
 	const [password, setPassword] = useState("");
-	const [showmodal, setShowModal] = useState(true);
+	const socket = useSocket();
 
-	const handlemodal = () => {
-		setShowModal(true);
-	}
-	
-	const closeModal = () => {
-		setShowModal(false);
-	}
+	// const changePass = (e: SyntheticEvent) => {
+	// 	e.preventDefault();
+	// 	if (socket) {
+	// 		socket.emit("changePass", currentChannel.currentChannel, data.oldPassword, data.password);
+	// 	}
+	// }
+	console.log("password: ", callback(password) );
 	return (
-		<div className={`overlay ${!showmodal?`overlay-none`:``}`}>
+		<div className={``}>
 			<Card className="m-5 w-[400px] flex justify-center bg-opacity-80 rounded-lg p-8 bg-gray-900 z-50">
 				<h1 color="blue-gray" className="m-2 flex justify-center text-white font-bold">
 					{name}

@@ -8,7 +8,9 @@ import DirectMessage from "./component/DirectMessage"
 import CreateChannel from "./component/CreateChannel";
 import ChatBoard from "./component/ChatBoard";
 import Message from "./interface/messageDto";
-import { SimpleRegistrationForm } from "./component/stylePopUP";
+import { useAccount } from "../../ui/organisms/useAccount";
+import InvitGameMsg from "./component/InvitGameMsg";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
@@ -18,8 +20,11 @@ const Chat = () => {
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
+	const [channelStatus, setChannelStatus] = useState(false);
+	const [Owner, setOwner] = useState("0");
 	const socket = useSocket();
-	const [showWindow, setShowWindow] = useState(true);
+	const { account } = useAccount();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (socket) {
@@ -51,28 +56,36 @@ const Chat = () => {
 			setCurrentChannel("create a channel!")
 		}
 		if (socket) {
-			socket.on("getChannelMeOne", (Id, lol, datta, owner) => {
-				setDM_Chann(true)
+			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
+				setDM_Chann(true);
+				setOwner(owner);
+				setChannelStatus(status)
+			//	if (status) {
+				socket.emit("message", " ", chanName, '1');
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
+				setCurrentChannel(name)
 				setDM_Chann(false)
-				setUserInChannel(user);
+				setUser(user);
 			});
 			socket.on("setUserInChannel", (user) => {
-				setUserInChannel(user);
+				setUser(user);
 			})
-			socket.on("checkPass", (name, datta, user) => {
+			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
 				//setPass(datta);
 				if (datta === "ok") {
-					socket.emit("message", "", name, '1');
+				//	socket.emit("message", "", name, '1');
+					socket.emit("getChannelMeOne", name, curChan);
+					setPass("ok")
+					setData("");
+				//	socket.emit("message", "", name, '1');
 				}
 				else {
 					setUserInChannel([])
 					setCurrentChannel("create a channel!")
 				}
 				setMessages([]);
-			//	setUserInChannel(user);
 			});
 			socket.on("trans", (data) => {
 				socket.emit("refreshDMChannel")
@@ -106,6 +119,11 @@ const Chat = () => {
 					setMessages([]);
 				}
 			});
+			socket.on("game", (data) => {
+				if (typeof data === 'object') {
+					navigate("/pong")
+				}
+			});
 		}
 		return () => {
 			if (socket) {
@@ -119,23 +137,28 @@ const Chat = () => {
 				socket.off("getDMChannelMe");
 				socket.off("setUserInChannel");
 				socket.off("createDMChannel");
+				socket.off("game");
 			}
 		};
 	}, [socket, data, currentChannel]);
 
-	function takeChan(channelSet: string, chanStatue: string, password?: string) {
+	const setUser = (user: Account[]) => {
+		const withoutMe = user.filter(user => user.id !== account.id)
+		setUserInChannel(withoutMe);
+	}
+
+	function takeChan(channelSet: string, chanStatue: string) {
 		setCurrentChannel(channelSet)
-		console.log("chann = , current =", channelSet, currentChannel)
+		//console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
 			// if (currentChannel !== "create a channel!")
 			// 	setShowWindow(false)
 			console.log("socket: \n", socket);
 			// const password = SimpleRegistrationForm();//todo enlever le prompt;
 			if (socket)
-				socket.emit("checkPass", channelSet, password);
+				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
-		setTimeout(() => {}, 1000);
-		if (pass === "ok" || chanStatue === "Public") {	
+		if (chanStatue === "Public") {	
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok")
@@ -159,22 +182,23 @@ const Chat = () => {
 
 	return (
 		<div className="w-full flex justify-center items-center h-[900px] p-10"> {/*div prinsipale*/}
-			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md"> {/*div de gauche en rouge*/}
+			<div className="hidden md:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-l-md">
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
-					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} promptOpen={showWindow}/>
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
 				</div>
 			</div>
-			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} />
-			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md pt-20">  {/*div de droite en vert*/}
-				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
-					<FriendsChat currentChannel={currentChannel} />
-				</div>
+			<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
+			<div className="hidden xl:flex h-full w-2/5 xl:w-[30%] flex flex-col justify-between p-5 bg-black/80 rounded-r-md">
+				<InvitGameMsg />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<UserInChannel userInChannel={userInChannel} />
+				</div>
+				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
+					<FriendsChat currentChannel={currentChannel} />
 				</div>
 			</div>
 		</div>

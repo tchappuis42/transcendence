@@ -4,6 +4,7 @@ import { useFriends } from '../../Friend/useFriends';
 import axios from 'axios';
 import FriendCardChat from './FriendsCardChat';
 import { Account } from '../../../ui/types';
+import { useAuth } from '../../../ui/organisms/useAuth';
 
 interface channel {
 	currentChannel: string;
@@ -13,6 +14,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	const [users, setUsers] = useState<Account[]>([]);
 	const { sortByStatus } = useFriends();
 	const socket = useSocket();
+	const { authenticate } = useAuth();
 
 	useEffect(() => {
 		const getUsers = async () => {
@@ -21,8 +23,10 @@ const FriendsChat = ({ currentChannel }: channel) => {
 				const sortedUsers = response.data.sort((a: Account, b: Account) => b.status - a.status);
 
 				setUsers(sortedUsers);
-			} catch (error) {
+			} catch (error: any) {
 				console.error("Erreur lors de la récupération des users :", error);
+				if (error.response.request.status === 401)
+					authenticate();
 			}
 		}
 		getUsers();

@@ -14,6 +14,11 @@ import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
 import { SimpleRegistrationForm } from './stylePopUP';
 
+const closeForm = () => {
+	setSelectedMessage(undefined);
+};
+const [selectedMessage, setSelectedMessage] = useState<Channel | undefined>(undefined);
+
 interface Props {
 	takeChan: (channelSet: string, chanStatue: string, password?: string) => void;
 	currentChannel: string;

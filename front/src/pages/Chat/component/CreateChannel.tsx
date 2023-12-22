@@ -49,7 +49,7 @@ const CreateChannel: React.FC<{ currentChannel: string }> = (currentChannel) => 
 			</button>
 			{createchan &&
 				createPortal(
-					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-40">
 						<div className="w-96 h-96 rounded-lg px-8 pb-8 pt-6 bg-gray-900 text-white">
 							<div className="h-1/5 w-full flex flex-col">
 								<button onClick={resetData} className="h-10 flex items-start justify-end">

@@ -52,7 +52,6 @@ export class UserService {
 
 	async generateTfaSecret(id: number, username: string) {
 		const secret = authenticator.generateSecret();
-		console.log("secret :", secret);
 		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
 		// await this.setTfaSecret(secret, id);
 		const secretTfaObj = {
@@ -237,7 +236,7 @@ export class UserService {
 		await this.usersRepository.save(user);
 		return { success: true, message: "User blocked" };
 	}
-	
+
 	async getUserBlocked(id: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		if (user.blockedId.length)
@@ -253,12 +252,20 @@ export class UserService {
 		return 0;
 	}
 
+	async getUserBlockedId(id: number, blockedId: number) {
+		const user = await this.usersRepository.findOne({ where: { id: id } });
+		const searchID = user.blockedId.find(id => id === blockedId);
+		if (searchID)
+			return true;
+		return false;
+	}
+
 	//debug
 	async clearsocket(userId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		user.socket = [];
 		await this.usersRepository.save(user);
-		console.log("clear", user.socket)
+
 	}
 
 	getsocketInArray(userId: number) {
@@ -296,9 +303,7 @@ export class UserService {
 	}
 
 	async twoFaFalse(twoFaStatus: validateTwoFa, userId: number) {
-		console.log("twofa status = ", twoFaStatus)
 		const response = await this.usersRepository.update(userId, { twoFa: twoFaStatus.value, twoFaSecret: twoFaStatus.secret })
-		console.log("back response : ", response)
 	}
 }
 

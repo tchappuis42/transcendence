@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSocket } from '../../ui/organisms/SocketContext';
 import GameRules from './gamerules';
 import { Ball, Paddle } from './gameInterface';
-import { drawBall, drawMap, drawPaddle } from './drawfunctions';
+import { drawBall, drawBonus, drawMap, drawPaddle } from './drawfunctions';
 import GameScore from './gameScore';
 
 interface PongProps {
@@ -12,6 +12,12 @@ interface PongProps {
 		map: string
 	};
 	rules: boolean;
+}
+
+type Bonus = {
+	x : number;
+	y : number;
+	color : string
 }
 
 const PongTest: React.FC<PongProps> = ({ color, rules }) => {
@@ -28,21 +34,26 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		y: 0,
 		width: 15,
 		height: 15,
+		color : "",
 	})
+
+	const [Bonus, setBonus] = useState<Bonus | null>(null);
 
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		x: (grid * 2),
 		y: height / 2 - paddleHeight / 2,
-		width: 15,
-		height: paddleHeight,
+		paddleHeight : paddleHeight,
+		paddleWidth : 15,
+		color: "",
 		score: 0,
 	});
 
 	const [rightPaddle, setrightpaddle] = useState<Paddle>({
 		x: 750 - (grid * 3),
 		y: 585 / 2 - paddleHeight / 2,
-		width: 15,
-		height: paddleHeight,
+		paddleHeight : paddleHeight,
+		paddleWidth : 15,
+		color: "",
 		score: 0,
 	});
 
@@ -86,13 +97,26 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 					...prevState,
 					y: data.playTwo,
 					score: data.score2,
+					paddleHeight : data.paddleTwoHeight,
+					paddleWidth : data.paddleTwoWidth,
+					color : data.paddleColorTwo
 				}));
 				setleftpaddle((prevState) => ({
 					...prevState,
 					y: data.playOne,
 					score: data.score1,
+					paddleHeight : data.paddleOneHeight,
+					paddleWidth : data.paddleOneWidth,
+					color : data.paddleColorOne
 				}));
-				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX }));
+				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX, color: data.ballColor }));
+				console.log("data.color : ", data.ballColor);
+				setBonus((prev) => ({
+					...prev,
+					x: data.bonusX,
+					y: data.bonusY,
+					color: data.bonusColor,
+				}))
 			});
 		}
 		return () => {
@@ -133,6 +157,8 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		drawMap(context, canvas, color.map);
 		drawPaddle(context, leftPaddle, rightPaddle, color.paddle);
 		drawBall(context, ball, color.ball);
+		drawBonus(context, Bonus);
+
 	}, [ball]);
 
 	return (

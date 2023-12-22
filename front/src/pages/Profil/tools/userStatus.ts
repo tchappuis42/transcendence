@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
+import { useAuth } from '../../../ui/organisms/useAuth';
 interface user {
 	id: number
 	username: string
@@ -9,19 +10,23 @@ interface user {
 
 export const useGetUser = () => {
 	const [users, setUsers] = useState<user[]>([]);
+	const { authenticate } = useAuth();
 
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
 				const response = await axios.get("http://localhost:4000/user/users", { withCredentials: true });
 				setUsers(response.data)
-			} catch (error) {
+			} catch (error: any) {
 				console.error("Erreur lors de la récupération des users :", error);
+				console.log("error = ", error)
+				if (error.response.request.status === 401)
+					authenticate();
 			}
 		}
 		getUsers();
 	}, []);
-	return ({users, setUsers});
+	return ({ users, setUsers });
 }
 
 const useUserSorted = (users: user[]) => {
@@ -31,12 +36,12 @@ const useUserSorted = (users: user[]) => {
 		setSorted(sortUser)
 	}, [sorted, users]);
 
-	return ({sorted});
+	return ({ sorted });
 }
 
 const useSocketUser = (setUsers: { (value: React.SetStateAction<user[]>): void; (arg0: (prevUser: any) => any): void; }) => {
 	const socket = useSocket();
-		useEffect(() => { //socket
+	useEffect(() => { //socket
 		if (socket) {
 			socket.on("status", (data) => {
 				setUsers((prevUser) => prevUser.map(user => user.username === data.username ? { ...user, status: data.status } : user))
@@ -48,7 +53,7 @@ const useSocketUser = (setUsers: { (value: React.SetStateAction<user[]>): void; 
 			}
 		};
 	}, [setUsers, socket]);
-	return ({socket});
+	return ({ socket });
 }
 
 function getStatusColor(status: number) {
@@ -69,5 +74,5 @@ export const UserStatus = () => {
 	const { sorted } = useUserSorted(users);
 	const { socket } = useSocketUser(setUsers);
 
-	return ({sorted});
+	return ({ sorted });
 };

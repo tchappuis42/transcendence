@@ -29,6 +29,17 @@ const MatchHistory: React.FC<{ userId: number | undefined }> = ({ userId }) => {
 			}
 			getHistory();
 		}
+		if (userId) {
+			const getHistory = async () => {
+				try {
+					const response = await axios.get(`http://localhost:4000/game/history/${userId}`, {withCredentials: true});
+					setMatchs(response.data);
+				} catch (error) {
+					console.error("Erreur lors de la récupération de l'historique des matchs :", error);
+				}
+			}
+			getHistory();
+		}
 	}, [userId]);
 
 	return (
@@ -43,7 +54,7 @@ const MatchHistory: React.FC<{ userId: number | undefined }> = ({ userId }) => {
 				</div>
 			) : (
 
-				<div className="h-full m-2.5  rounded-md bg-black/10 box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="h-full m-2.5  rounded-md bg-black/10 box-border justify-center items-center overflow-y-auto max-h-[80%] overflow-x-hidden">
 					{matchs?.map((match: Match, id: number) => (
 						<MatchHistoryCard key={id} match={match} userId={userId} />
 					))}

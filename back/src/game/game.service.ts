@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Game } from './game.entity';
 import { Repository } from 'typeorm';
 import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
+import { clearInterval } from 'timers';
 
 interface roomName {
 	name: string;
@@ -17,6 +18,12 @@ interface roomName {
 	pong: Pong;
 	intervalId?: NodeJS.Timer;
 	timeStart: number
+}
+
+interface GameInvit {
+	socket: Socket;
+	id1: number;
+	id2: number;
 }
 
 enum gameState {
@@ -32,10 +39,12 @@ export class GameService {
 		@InjectRepository(Game) private gameRepository: Repository<Game>, private readonly userservice: UserService) { }
 
 	waitingGame: Socket;
+	bonus: boolean;
 	rooms: roomName[] = []; //tableau de room
+	gameInvit: GameInvit[] = []; //tableau des invitations de game
 
 	//check si y'a un joueur en matchmaking ---> oui creer la game, non mettre le joueur en matchmaking, et si la socket et la meme sortie de la recheche de game
-	async matchmaking(user: UserDto, client: Socket, server: Server): Promise<number | CreatGameDTO> {
+	async matchmaking(user: UserDto, client: Socket, server: Server, bonus: boolean): Promise<number | CreatGameDTO> {
 		//check si le joueur et deja en game
 		const clientStatue = await this.userservice.userStatue(client.data.user.id)
 		if (clientStatue === ConnctionState.InGame)
@@ -47,6 +56,7 @@ export class GameService {
 			//sort le client du matchmaking
 			if (this.waitingGame === client) {
 				this.waitingGame = null;
+				this.bonus = null;
 				return gameState.finDeRecherche
 			}
 
@@ -54,19 +64,22 @@ export class GameService {
 			if (client.data.user.id === this.waitingGame.data.user.id)
 				return gameState.dejaEnRecherche
 
+			//suprimer toute les invit de game
+			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id)
+
 			//creer une nouvelle room de jeu
+			const bonusActivate = this.bonus && bonus ? true : false;
 			let element: roomName = {
-				name: user.username,
+				name: user.username + "gameroom",
 				socket1: client,
 				socket2: this.waitingGame,
-				pong: new Pong(),
+				pong: new Pong(bonusActivate),
 				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
 				timeStart: new Date().getTime()
 			}
 			this.rooms.push(element);
 			client.join(element.name);
 			this.waitingGame.join(element.name);
-			this.life(server, client);
 			//change le statue des joueur en ingame
 			await this.userservice.StatueGameOn(client.data.user.id, server)
 			await this.userservice.StatueGameOn(this.waitingGame.data.user.id, server)
@@ -77,11 +90,14 @@ export class GameService {
 				idTwo: element.socket2.data.user.id
 			}
 			this.waitingGame = null;
+			this.bonus = null;
 			return data;
 		}
 		// met le client en matchmaking
 		else {
+			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id)
 			this.waitingGame = client;
+			this.bonus = bonus;
 			return gameState.enRecherchedePartie;
 		}
 	}
@@ -96,7 +112,8 @@ export class GameService {
 	}
 
 	//debug
-	clean(client: Socket) {
+	async clean(client: Socket) {
+		this.waitingGame = null;
 		const room = this.findRoom(client)
 		if (room) {
 			room.socket1.leave(room.name)
@@ -120,8 +137,10 @@ export class GameService {
 
 	//sort du matchmaking
 	cleanMM(client: Socket) {
-		if (client === this.waitingGame)
+		if (client === this.waitingGame) {
 			this.waitingGame = null;
+			this.bonus = null;
+		}
 	}
 
 
@@ -191,6 +210,7 @@ export class GameService {
 				newGame.scoreTwo = room.pong.player2.score;
 				newGame.userOne = room.socket1.data.user;
 				newGame.userTwo = room.socket2.data.user;
+				clearInterval(room.pong.intervalId);
 
 				//envois aux clients le score
 				if (room.pong.player1.score === 10) {
@@ -214,7 +234,6 @@ export class GameService {
 
 	//recupere l'historique des games d'un client
 	async getGameByUser(userId: number) {
-		console.log("userid = ", userId)
 		const user = await this.userservice.validateUser(userId)
 		const games = await this.gameRepository.find({ where: [{ idOne: user.id }, { idTwo: user.id }] })
 		const matchs = games.map(match => {
@@ -241,6 +260,82 @@ export class GameService {
 				readyTwo: inGame.pong.getPlayer2().ready
 			}
 			return data
+		}
+	}
+
+	async GameInvit(client: Socket, userId: number) {
+		if (this.waitingGame) {
+			if (client.data.user.id === this.waitingGame.data.user.id)
+				return gameState.dejaEnRecherche
+		}
+		const clientStatue = await this.userservice.userStatue(client.data.user.id)
+		if (clientStatue === ConnctionState.InGame)
+			return gameState.dejaEnGame
+
+		else { //si pas en game creer une invit de jeu
+			const user = client.data.user as UserDto;
+			let gameInvit: GameInvit = {
+				socket: client,
+				id1: user.id,
+				id2: userId
+			}
+			this.gameInvit.push(gameInvit);
+			return {
+				id: user.id,
+				message: "game invit"
+			}
+		}
+	}
+
+	async joinGame(client: Socket, userId: number, server: Server) {
+		const user = client.data.user as UserDto;
+
+		if (this.waitingGame) {
+			if (client.data.user.id === this.waitingGame.data.user.id)
+				return {
+					success: false,
+					id: userId
+				}
+		}
+
+		const clientStatue = await this.userservice.userStatue(client.data.user.id)
+		if (clientStatue === ConnctionState.InGame) {
+			return {
+				success: false,
+				id: userId
+			}
+		}
+
+		if (this.gameInvit.length > 0) {
+			const invit = this.gameInvit.find(game => game.id1 === userId && game.id2 === user.id)
+			if (!invit)
+				return {
+					success: false,
+					id: userId
+				}
+			this.gameInvit = this.gameInvit.filter(game => game.id1 !== user.id);
+			this.gameInvit = this.gameInvit.filter(game => game.id1 !== userId);
+			let element: roomName = {
+				name: user.username + "gameroom",
+				socket1: client,
+				socket2: invit.socket,
+				pong: new Pong(false),
+				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
+				timeStart: new Date().getTime()
+			}
+			await this.userservice.StatueGameOn(user.id, server)
+			await this.userservice.StatueGameOn(userId, server)
+			this.rooms.push(element);
+			client.join(element.name);
+			invit.socket.join(element.name);
+			return {
+				success: true,
+				roomName: element.name,
+			}
+		}
+		return {
+			success: false,
+			id: userId
 		}
 	}
 }

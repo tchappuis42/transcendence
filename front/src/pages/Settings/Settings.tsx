@@ -1,10 +1,12 @@
 import { Button, Switch } from "@material-tailwind/react";
 import { useAccount } from "../../ui/organisms/useAccount";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
 import ChangeProfilPic from "./changeProfilPic";
+import { useSocket } from "../../ui/organisms/SocketContext";
+import { useAuth } from "../../ui/organisms/useAuth";
 
 interface changeObj {
     value: string;
@@ -15,6 +17,7 @@ interface changeObj {
 const Settings = () => {
 
     const { account } = useAccount();
+    const { authenticate } = useAuth();
     const [selectedImage, setSelectedImage] = useState<string>(account.avatar);
     const [newUsername, setNewusername] = useState<string>(account.username);
     const [error, setError] = useState<string>();
@@ -23,7 +26,22 @@ const Settings = () => {
     const [secret, setSecret] = useState<string | undefined>("")
     const [newAvatar, setNewAvatar] = useState<string>(account.avatar);
     const [noError, setNoError] = useState<boolean>(false)
+    const socket = useSocket();
 
+    useEffect(() => {
+        if (socket) {
+            socket.on("game", (data) => {
+                if (typeof data === 'object') {
+                    navigate("/pong")
+                }
+            });
+        }
+        return () => {
+            if (socket) {
+                socket.off("game");
+            }
+        };
+    }, [socket]);
 
     const handleChangeUsername = (event: any) => {
         setNewusername(event.target.value)
@@ -49,6 +67,8 @@ const Settings = () => {
                 setError("Username already taken");
             if (error.response.request.status === 400)
                 setError(error.response.data.message)
+            if (error.response.request.status === 401)
+                authenticate();
             return false
         }
     }

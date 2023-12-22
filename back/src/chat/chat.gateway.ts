@@ -34,7 +34,6 @@ export class ChatGateway {
 
 	/*	@SubscribeMessage('message')
 		handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-			console.log("oui js suis la")
 			this.server.emit('message', data, client.id)
 		}*/
 	async handleDisconnect(client: Socket) {
@@ -62,8 +61,7 @@ export class ChatGateway {
 		if ((await this.DMChannelService.getDMChannelMeForText(data)) == 0) {
 			const channel = await this.textChannelService.getChannelMe(data);
 			const muet = channel.muted.find((muted) => muted.userId == user.id)
-			if (channel.users.find((user1) => user1.id == user.id)) 
-			{
+			if (channel.users.find((user1) => user1.id == user.id)) {
 				if (!muet) {
 					const msg = user.username + " " + "est entrain d'écrire";
 					for (let i = 0; channel.users[i]; i++) {
@@ -72,7 +70,7 @@ export class ChatGateway {
 							if (Socket) {
 								Socket.socket.forEach(socketId => {
 									this.server.sockets.sockets.forEach(socket => {
-										if (socket.id === socketId) 
+										if (socket.id === socketId)
 											socket.emit('isTyping', msg);
 									})
 								})
@@ -203,44 +201,44 @@ export class ChatGateway {
 			const Majchannel = await this.textChannelService.getChannelMe(name[0]);
 			const baned = Majchannel.banned.find((banned) => banned.userId == user.id);
 			if (baned) {
-				const channel1 = await this.textChannelService.getChannelMe(name[1]);
-				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0)
-					await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
-				client.leave(name[1]);
-			}
-			else {
-				client.join(name[0]);
-				await this.textChannelService.addUserToChannel(channel, user.id)//, channel.owner.id);
-				let pass: string;
-				let userStatus: string;
-				const channel1 = await this.textChannelService.getChannelMe(name[0]);
-				const userAll = channel1.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
-				if (channel.password === null)
-					pass = '0';
-				else
-					pass = '1'
-				if ((channel.adminId.find((user1) => user1.id == user.id)) && (user.id != channel.owner.id))
-					userStatus = '2';
-				else if (channel.owner.id == user.id)
-					userStatus = '1';
-				else
-					userStatus = '0';
-				client.emit('getChannelMeOne', channel.id, channel.name, channel.status, userStatus, pass, userAll);
-				if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
-					if (name[1] != "create a channel!") {
-						const channelOut = await this.textChannelService.getChannelMe(name[1]);
-						const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
-						this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
-					}
-					else {
-						const channelOut = await this.textChannelService.getChannelMe(name[0]);
-						const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
-						this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
-					}
+					const channel1 = await this.textChannelService.getChannelMe(name[1]);
+					if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0)
+						await this.textChannelService.removeUserFromChannel(channel1, user.id)//, channel.owner.id)
+					client.leave(name[1]);
+		}
+		else {
+			client.join(name[0]);
+			await this.textChannelService.addUserToChannel(channel, user.id)//, channel.owner.id);
+			let pass: string;
+			let userStatus: string;
+			const channel1 = await this.textChannelService.getChannelMe(name[0]);
+			const userAll = channel1.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+			if (channel.password === null)
+				pass = '0';
+			else
+				pass = '1'
+			if ((channel.adminId.find((user1) => user1.id == user.id)) && (user.id != channel.owner.id))
+				userStatus = '2';
+			else if (channel.owner.id == user.id)
+				userStatus = '1';
+			else
+				userStatus = '0';
+			client.emit('getChannelMeOne', channel.id, channel.name, channel.status, userStatus, pass, userAll);
+			if ((await this.DMChannelService.getDMChannelMeForText(name[1])) == 0) {
+				if (name[1] != "create a channel!") {
+					const channelOut = await this.textChannelService.getChannelMe(name[1]);
+					const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+					this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
 				}
-				this.server.to(channel.name).emit('setUserInChannel', userAll);
+				else {
+					const channelOut = await this.textChannelService.getChannelMe(name[0]);
+					const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+					this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
+				}
 			}
-		} catch { }
+			this.server.to(channel.name).emit('setUserInChannel', userAll);
+		}
+	} catch { }
 	}
 
 	@SubscribeMessage('checkLogRoom')
@@ -255,12 +253,12 @@ export class ChatGateway {
 			for (let i = 0; DMChannel[i]; i++) {
 				client.leave(DMChannel[i].name);
 			}
-
 		} catch { }
 	}
 
 	@SubscribeMessage('leaveChat')
 	async leaveChat(@ConnectedSocket() client: Socket) {
+		//	console.log("salut", client.data.user.username)
 		const user = client.data.user as UserDto;
 		const channels = await this.textChannelService.getChannelsForUser(user.id);
 		const DMChannel = await this.DMChannelService.getDMChannelsForUser(user.id)
@@ -269,6 +267,7 @@ export class ChatGateway {
 				await this.textChannelService.removeUserFromChannel(channels[i], user.id);
 				const channel = await this.textChannelService.getChannelMe(channels[i].name);
 				const userAllOut = channel.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+				//console.log("liste = ", userAllOut)
 				client.leave(channel.name);
 				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
 			}
@@ -384,6 +383,9 @@ export class ChatGateway {
 		try {
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
+			let oldChannel: TextChannel;
+			if (args[2] !== "create a channel!")
+				oldChannel = await this.textChannelService.getChannelByName(args[2]);
 			let passStatue: string;
 			if (channel.status === false) {
 				passStatue = await this.textChannelService.checkPassWord(channel, args[1]);
@@ -391,14 +393,22 @@ export class ChatGateway {
 			else
 				passStatue = "ok";
 			if (passStatue === "ko") {
-				client.leave(channel.name);
-				await this.textChannelService.removeUserFromChannel(channel, user.id)
+				client.leave(oldChannel.name);
+				await this.textChannelService.removeUserFromChannel(oldChannel, user.id)
 			}
 			const channelOut = await this.textChannelService.getChannelMe(args[0]);
 			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
-			client.emit("checkPass", channel.name, passStatue);//, userAllOut);
-			if (passStatue === "ko")
+			let oldChannelOut: TextChannel
+			let userAllOut2: { id: number; username: string; avatar: string; }[]
+			if (args[2] !== "create a channel!") {
+				oldChannelOut = await this.textChannelService.getChannelMe(args[2]);
+				userAllOut2 = oldChannelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+			}
+			client.emit("checkPass", channel.name, passStatue, args[2]);//, userAllOut);
+			if (passStatue === "ko") {
+				this.server.to(oldChannel.name).emit('setUserInChannel', userAllOut2);
 				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+			}
 		} catch { }
 	}
 
@@ -445,17 +455,17 @@ export class ChatGateway {
 			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			this.server.to(channelOut.name).emit('setUserInChannel', userAllOut);
 			const Socket = await this.userService.getSocketUser(userban.id);
-						if (Socket) {
-							Socket.socket.forEach(socketId => {
-								this.server.sockets.sockets.forEach(socket => {
-									if (socket.id === socketId) {
-										socket.emit('banUser', channel.name);
-									}
-								})
-							})
+			if (Socket) {
+				Socket.socket.forEach(socketId => {
+					this.server.sockets.sockets.forEach(socket => {
+						if (socket.id === socketId) {
+							socket.emit('banUser', channel.name);
 						}
+					})
+				})
+			}
 		}
-	}	
+	}
 
 	/*	@SubscribeMessage('bannedUser')
 		async bannedUser(@MessageBody() chanName: string, @ConnectedSocket()client: Socket) {
@@ -484,6 +494,13 @@ export class ChatGateway {
 			else
 				channel = await this.DMChannelService.createDMChannel(user2, user);
 
+			const blocked = await this.userService.getUserBlocked(user.id);
+
+			if (blocked) {
+				if (blocked.find((users) => users == user2.id))
+					await this.DMChannelService.DMBlock(channel, user, true);
+			}
+
 			const all_channels = await this.DMChannelService.getDMChannelsForUser(
 				user.id,
 			);
@@ -499,6 +516,13 @@ export class ChatGateway {
 	async refreshDMChannel(@ConnectedSocket() client: Socket) {
 		try {
 			const user = client.data.user as UserDto;
+			const all_channels1 = await this.DMChannelService.getDMChannelsForUser(
+				user.id,
+			);
+			const blocked = await this.userService.getUserBlocked(user.id);
+			for (let i = 0; all_channels1[i]; i++) {
+				await this.DMChannelService.findDMBlock(all_channels1[i], user, blocked)
+			}
 			const all_channels = await this.DMChannelService.getDMChannelsForUser(
 				user.id,
 			);
@@ -527,6 +551,9 @@ export class ChatGateway {
 			}
 			client.leave(name[1]);
 			client.join(name[0]);
+			const channel1 = await this.DMChannelService.getDMChannelMe(name[0]);
+			const blocked = await this.userService.getUserBlocked(user.id);
+			await this.DMChannelService.findDMBlock(channel1, user, blocked)
 			const channel = await this.DMChannelService.getDMChannelMe(name[0]);
 			const userAll = channel.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			if (channel.user1[0].id === user.id)
@@ -606,7 +633,7 @@ export class ChatGateway {
 		} catch { }
 	}
 
-	@SubscribeMessage('DMBlock')
+/*	@SubscribeMessage('DMBlock')
 	async DMBlock(@MessageBody() name: string, @MessageBody() status: boolean, @ConnectedSocket() client: Socket) {
 		try {
 			const user = client.data.user as UserDto;
@@ -626,5 +653,5 @@ export class ChatGateway {
 			});
 			client.emit('refreshDMChannel', all)
 		} catch { }
-	}
+	}*/
 }

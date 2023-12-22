@@ -64,12 +64,12 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 	}, [socket]);
 
 	return (
-			<div className="w-full h-full min-h-[450px] col-span-2 rounded-md shadow bg-green-200">
+			<div className="w-full h-full min-h-[300px] col-span-2 rounded-md shadow bg-green-200">
 				<div className="m-card">
 						<div className='header-card'>
 							<h1>Matchmaking</h1>
 						</div>
-						<div className="grid grid-rows-2 px-14 py-4 items-center justify-left bg-white/50 m-2.5 rounded gap-5">
+						<div className="grid grid-rows-2 px-14 py-4 md:py-8 lg:py-10 items-center justify-left bg-white/50 m-2.5 rounded gap-3 md:gap-5">
 							<button onClick={matchmaking} className="min-w-[150px] max-w-[200px] border h-10 border-black px-2 rounded">
 								{search}
 							</button>
@@ -82,7 +82,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 								)}
 							</div>
 						</div>
-						<div className="px-10 sm:px-14 bg-white/50 m-2.5 rounded py-10 grid grid-rows-3 gap-5">
+						<div className="px-10 sm:px-14 bg-white/50 m-2.5 rounded py-5 sm:py-8 md:py-12 grid grid-rows-3 gap-3 md:gap-6">
 							<div className="flex justify-between gap-5 min-h-[40px]">
 								<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la raquette :</h1>
 								<select name="paddleColor" className="w-25 hover:bg-black border border-black/60 rounded" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>

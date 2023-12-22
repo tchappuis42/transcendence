@@ -112,47 +112,7 @@ const SocketPong = () => {
 		<div className="h-full lg:h-screen lg:pb-[200px] sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80">
 			{!page &&
 				<div className="main-component grid grid-rows-2 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4" style={{gridTemplate: "repeat(6, minmax(0, 1fr))"}}>
-					<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} />
-					{/* <div className="w-full h-full min-h-[300px] col-span-2 rounded-md shadow bg-green-200">
-						<div className="m-card h-full">	
-							<div className='header-card'>
-								<h1>Matchmaking</h1>
-							</div>
-							
-							<div className="grid grid-cols-4 px-14 items-center justify-left h-1/5 bg-white/50 m-2.5 rounded">
-								<button onClick={matchmaking} className="min-w-[150px] border h-10 border-black px-2 rounded">
-									{search}
-								</button>
-								<h1 className="mt-3 text-red-600">{error}</h1>
-							</div>
-							<div className="px-10 sm:px-14 h-3/5 bg-white/50 m-2.5 rounded py-14 grid grid-rows-3 gap-5">
-								<div className="flex justify-between gap-5">
-									<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la raquette :</h1>
-									<select name="paddleColor" className="w-25 hover:bg-black border border-black/60 rounded" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
-										<option value="white" className="bg-white text-white">white</option>
-										<option value="red" className="bg-white text-white">red</option>
-										<option value="green" className="bg-white text-white">green</option>
-									</select>
-								</div>
-								<div className="flex justify-between gap-5">
-									<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la balle :</h1>
-									<select name="paddleColor" className="w-25 border border-black/60 rounded" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
-										<option value="white" className="bg-white text-white">white</option>
-										<option value="red" className="bg-white text-white">red</option>
-										<option value="green" className="bg-white text-white">green</option>
-									</select>
-								</div>
-								<div className="flex justify-between gap-5">
-									<h1 className="w-full flex px-3 items-center border border-black/60 rounded" > couleur du terrain :</h1>
-									<select name="paddleColor" className="w-25 border border-black/60 rounded" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
-										<option value="black" className="bg-white text-white">black</option>
-										<option value="gold" className="bg-white text-white">gold</option>
-										<option value="silver" className="bg-white text-white">silver</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div> */}
+					<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} />    
 					<div className="min-h-[300px] row-span-1 col-span-2">
 						<Ranking />
 					</div>

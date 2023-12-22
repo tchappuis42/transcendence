@@ -113,8 +113,8 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	}
 
 	return (
-		<div className="m-card">
-			<div className="left-component-main text-xs">
+		<div className="m-card grid grid-rows-3">
+			<div className="left-component-main text-xs row-span-2 flex justify-center items-start">
 				<div className="info-profile-component gray-border"
 					style={{ gridTemplateRows: "2fr 1fr" }}>
 					<div className="information-user-component">
@@ -131,7 +131,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 				</div>
 			</div>
 			{user?.id !== account.id &&
-				<div className="w-full flex justify-center items-center p-5">
+				<div className="w-full p-5 row-span-1 flex justify-center items-start">
 					<Button className="w-32 h-8 rounded p-2 text-white mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
 						{isFriend}
 					</Button>

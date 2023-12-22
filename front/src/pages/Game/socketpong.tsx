@@ -113,9 +113,9 @@ const SocketPong = () => {
 			{!page &&
 				<div className="main-component grid grid-rows-2 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4" style={{gridTemplate: "repeat(6, minmax(0, 1fr))"}}>
 					<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} />
-					{/* <div className="w-full h-full min-h-[300px] col-span-2 rounded-md shadow bg-green-200"> */}
-						{/* <div className="m-card h-full"> */}	
-							{/* <div className='header-card'>
+					{/* <div className="w-full h-full min-h-[300px] col-span-2 rounded-md shadow bg-green-200">
+						<div className="m-card h-full">	
+							<div className='header-card'>
 								<h1>Matchmaking</h1>
 							</div>
 							
@@ -150,9 +150,9 @@ const SocketPong = () => {
 										<option value="silver" className="bg-white text-white">silver</option>
 									</select>
 								</div>
-							</div> */}
-						{/* </div> */}
-					{/* </div> */}
+							</div>
+						</div>
+					</div> */}
 					<div className="min-h-[300px] row-span-1 col-span-2">
 						<Ranking />
 					</div>

@@ -12,7 +12,7 @@ interface messageProps {
 
 const MessageChatCard = ({ msg, index}: messageProps) => {
 	const { account } = useAccount();
-
+	console.log(msg.uId);
 	return (
 		msg.uId === account.id ? (
 			<div className="w-full flex justify-end mt-2 px-4">

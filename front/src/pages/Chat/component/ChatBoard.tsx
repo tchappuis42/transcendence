@@ -115,7 +115,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 					))}
 				<div className='px-3 py-5'>
 					{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
-				</div>
+      			</div>
 				{/* {userTyping ? (
 					<div className=' grid grid-cols-1 gap-5 px-5'>
 						<h1 className="chat-bubble-component border-transparent item-start text-black">{userTyping}</h1>

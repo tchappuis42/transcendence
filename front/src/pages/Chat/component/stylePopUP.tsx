@@ -18,20 +18,11 @@ import {
 	callback(pwd: string) : void;
 	name: string,
 	closeForm() : void;
-	currentChannel: string;
   }
 
-  export function SimpleRegistrationForm({callback, name, closeForm, currentChannel} : Props) {
+  export function SimpleRegistrationForm({callback, name, closeForm} : Props) {
 	const [password, setPassword] = useState("");
-	const socket = useSocket();
 
-	// const changePass = (e: SyntheticEvent) => {
-	// 	e.preventDefault();
-	// 	if (socket) {
-	// 		socket.emit("changePass", currentChannel.currentChannel, data.oldPassword, data.password);
-	// 	}
-	// }
-	console.log("password: ", callback(password) );
 	return (
 		<div className={``}>
 			<Card className="m-5 w-[400px] flex justify-center bg-opacity-80 rounded-lg p-8 bg-gray-900 z-50">

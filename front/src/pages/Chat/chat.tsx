@@ -25,6 +25,7 @@ const Chat = () => {
 	const socket = useSocket();
 	const { account } = useAccount();
 	const navigate = useNavigate();
+	const [successPassword, setSuccessPass] = useState("");
 
 	useEffect(() => {
 		if (socket) {
@@ -124,6 +125,15 @@ const Chat = () => {
 					navigate("/pong")
 				}
 			});
+			socket.on("changePass", (passInfo) => {
+				setTimeout(() => {
+					setSuccessPass("")
+				}, 5000);
+				if (passInfo === "1")
+					setSuccessPass("mot de passe mis à jour")
+				else
+					setSuccessPass("erreur dans le changement du mot de passe")
+			});
 		}
 		return () => {
 			if (socket) {
@@ -147,14 +157,12 @@ const Chat = () => {
 		setUserInChannel(withoutMe);
 	}
 
-	function takeChan(channelSet: string, chanStatue: string) {
+	function takeChan(channelSet: string, chanStatue: string, password?: string) {
 		setCurrentChannel(channelSet)
-		//console.log("chann = , current =", channelSet, currentChannel)
+		console.log("password: ", password);
+		console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
-			// if (currentChannel !== "create a channel!")
-			// 	setShowWindow(false)
 			console.log("socket: \n", socket);
-			// const password = SimpleRegistrationForm();//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
@@ -174,6 +182,12 @@ const Chat = () => {
 			setPass("ok")
 			setData("");
 		}
+	}
+
+	const colorStyle = () => {
+		if (successPassword === "mot de passe mis à jour")
+			return { color: "green" }
+		return { color: "red" }
 	}
 
 	function setteurPass(passe: SetStateAction<string>) {

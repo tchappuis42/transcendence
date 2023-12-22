@@ -1,13 +1,9 @@
-import { Logger } from "@nestjs/common";
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { UserDto } from "src/user/dtos/UserDto";
 import { UserService } from "src/user/user.service";
 import { TextChannelService } from './services/textChannel.service';
 import { TextChannel } from "./entity/textChannel";
-import { channel } from "diagnostics_channel";
-import { Msg } from "./entity/Msg.entity";
-import { MutedUser } from "./entity/muet.entity";
 import { DMChannelService } from "./services/DMChannel.service";
 import { DMChannel } from "./entity/dmChannel.entity";
 

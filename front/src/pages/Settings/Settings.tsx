@@ -18,7 +18,7 @@ const Settings = () => {
 
     const { account } = useAccount();
     const { authenticate } = useAuth();
-    const [selectedImage, setSelectedImage] = useState<string>(account.avatar);
+    // const [selectedImage, setSelectedImage] = useState<string>(account.avatar);
     const [newUsername, setNewusername] = useState<string>(account.username);
     const [error, setError] = useState<string>();
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Settings = () => {
                 socket.off("game");
             }
         };
-    }, [socket]);
+    }, [socket, navigate]);
 
     const handleChangeUsername = (event: any) => {
         setNewusername(event.target.value)

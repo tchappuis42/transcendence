@@ -21,11 +21,11 @@ const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 		})
 	}
 
-	function background(id: number) {
-		if (id % 2)
-			return 'rgba(169, 169, 169, 0.5)';
-		return 'rgba(169, 169, 169, 0.3)'
-	}
+	// function background(id: number) {
+	// 	if (id % 2)
+	// 		return 'rgba(169, 169, 169, 0.5)';
+	// 	return 'rgba(169, 169, 169, 0.3)'
+	// }
 
 	return (
 		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"

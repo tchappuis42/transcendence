@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../../css/index.css"
 import "./styleProfilPage/mainCSS.css"
@@ -7,16 +7,12 @@ import "./styleProfilPage/toolsCss.css"
 // import {Leaderboard} from "./middleComponent/leaderboard"
 // import {ChatSide} from "./rightComponent/chatSide"
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MenuCard from "../HomePage/MenuCard";
-import ProfilCard from "../HomePage/CardContent/ProfilCard";
-
-import ChatCard from "../HomePage/CardContent/ChatCard";
 
 import { useAccount } from "../../ui/organisms/useAccount";
 import FriendsChat from "../Chat/component/FriendsChat";
 import { LeftComponent } from "./leftComponent/leftComponent";
-import FriendsToAdd from '../Friend/component/AddFriend';
 import Ranking from '../Game/Ranking';
 import MatchHistory from '../Game/matchHistory';
 import { useSocket } from '../../ui/organisms/SocketContext';

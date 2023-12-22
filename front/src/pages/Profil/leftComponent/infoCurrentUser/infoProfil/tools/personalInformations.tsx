@@ -10,15 +10,15 @@ interface Rank {
 	index: number
 }
 
-interface Id {
-	username: string;
-	index: number;
-}
+// interface Id {
+// 	username: string;
+// 	index: number;
+// }
 
 export const MyName = ({id, username, index}: Rank) => {
-	const { account } = useAccount()
-	const { sorted } = UserStatus();
-	const {userRank, myRank, myIndex} = RankUsers();
+	// const { account } = useAccount()
+	// const { sorted } = UserStatus();
+	// const {userRank, myRank, myIndex} = RankUsers();
 	// const cUser = id === account.id ? account.username : sorted.find(u => u.id === id)?.username;
 	// const scores = id === account.id ? myRank?.score : userRank.find(u => u.username === cUser);
 

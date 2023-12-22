@@ -56,18 +56,18 @@ const useSocketUser = (setUsers: { (value: React.SetStateAction<user[]>): void; 
 	return ({ socket });
 }
 
-function getStatusColor(status: number) {
-	switch (status) {
-		case 0:
-			return 'red'; // Hors ligne
-		case 1:
-			return 'green'; // En ligne
-		case 2:
-			return 'orange'; // En jeu (ou tout autre statut)
-		default:
-			return 'blue'; // Par défaut (au cas où)
-	}
-}
+// function getStatusColor(status: number) {
+// 	switch (status) {
+// 		case 0:
+// 			return 'red'; // Hors ligne
+// 		case 1:
+// 			return 'green'; // En ligne
+// 		case 2:
+// 			return 'orange'; // En jeu (ou tout autre statut)
+// 		default:
+// 			return 'blue'; // Par défaut (au cas où)
+// 	}
+// }
 
 export const UserStatus = () => {
 	const { users, setUsers } = useGetUser();

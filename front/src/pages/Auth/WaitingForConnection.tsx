@@ -67,5 +67,4 @@ const WaitingForConnection = () => {
   );
 };
 
-
 export default WaitingForConnection;

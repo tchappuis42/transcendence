@@ -74,3 +74,48 @@
         flex justify-center items-center bg-black/60 bg-opacity-80 z-40
     }
 }
+
+.typing {
+    width: 5.5em;
+    height: 3em;
+    position: relative;
+    padding: 20px;
+    margin-left: 5px;
+    background: #4d4c4c;
+    border-radius: 8px;
+  }
+  
+  .typing__dot {
+    float: left;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background: #f0f0f1;
+    border-radius: 50%;
+    opacity: 0;
+    animation: loadingFade 1s infinite;
+  }
+  
+  .typing__dot:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  .typing__dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .typing__dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes loadingFade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0;
+    }
+  }

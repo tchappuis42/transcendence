@@ -4,6 +4,7 @@ import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
 import { SetStateAction, SyntheticEvent, useEffect, useState } from "react";
+import "./card.css"
 
 interface Props {
 	currentChannel: string;
@@ -13,6 +14,21 @@ interface Props {
 	data: string;
 	setData: React.Dispatch<React.SetStateAction<string>>
 }
+
+interface PropsTyping {
+	userTyping: string;
+}
+
+const TypingBubble = ({ userTyping }: PropsTyping) => {
+	return (
+	<div className="typing">
+		<div className="typing__dot"></div>
+		<div className="typing__dot"></div>
+		<div className="typing__dot"></div>
+	  </div>
+
+	);
+   };
 
 const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
@@ -80,6 +96,13 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 		};
 	}, [socket, currentChannel]);
 
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+		 e.preventDefault();
+		 sendMessage(e);
+		}
+	};
+
 	return (
 		<div className="h-full">  {/*div du centre en bleu*/}
 			<div className="h-[10%] flex justify-center items-center">
@@ -88,8 +111,16 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 			<div className="h-[90%] grid grid-rows-5">
 				<div className="w-full h-full row-span-4 bg-white/60 border overflow-y-scroll ">
 					{messages.map((msg, index) => (
-						<MessageChatCard msg={msg} index={index} />
+						<MessageChatCard msg={msg} index={index}/>
 					))}
+				<div className='px-3 py-5'>
+					{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
+				</div>
+				{/* {userTyping ? (
+					<div className=' grid grid-cols-1 gap-5 px-5'>
+						<h1 className="chat-bubble-component border-transparent item-start text-black">{userTyping}</h1>
+					</div>                  
+				) : null} */}
 				</div>
 				<div className="w-full h-full row-span-1 bg-gray-100/60 border">
 					<form onSubmit={sendMessage} className="h-full">
@@ -99,6 +130,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 									className="col-span-4 chat-bubble-component"
 									name="data"
 									onChange={(e) => setData(e.target.value)}
+									onKeyPress={handleKeyPress}
 									placeholder="Type your message..."
 									value={data}
 									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
@@ -110,9 +142,6 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 									onClick={sendOk}>
 									<h1 className="text-black/60 hover:text-white">Send</h1>
 								</button>
-							</div>
-							<div className='w-full grid grid-cols-1 gap-5 px-5'>
-								<h1 className="chat-bubble-component border-transparent item-start text-black">{userTyping}</h1>
 							</div>
 						</label>
 					</form>

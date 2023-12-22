@@ -174,8 +174,10 @@ const Chat = () => {
 	function setteurPass(passe: SetStateAction<string>) {
 		setPass(passe);
 	}
+	console.log("current channel: ", currentChannel);
 	return (
-		<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 3xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
+		currentChannel !== "create a channel!" ? (
+		<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
 			<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="row-span-4">
@@ -198,6 +200,28 @@ const Chat = () => {
 				</div>
 			</div>
 		</div>
+		) : (
+			<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-96 sm:grid-cols-2 xl:grid-cols-8 gap-10"> {/*div prinsipale*/}
+			<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
+				<CreateChannel currentChannel={currentChannel} />
+				<div className="row-span-4">
+					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} />
+				</div>
+				<div className="row-span-3">
+					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
+				</div>
+			</div>
+			<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>				
+				<InvitGameMsg />
+				<div className="row-span-4">
+					<UserInChannel userInChannel={userInChannel} />
+				</div>
+				<div className="row-span-3">
+					<FriendsChat currentChannel={currentChannel} />
+				</div>
+			</div>
+		</div>
+		)
 	);
 
 };

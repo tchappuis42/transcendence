@@ -117,13 +117,13 @@ const SocketPong = () => {
 							<div className='header-card'>
 								<h1>Matchmaking</h1>
 							</div>
-							<div className="grid grid-cols-4 px-14 items-center justify-left h-2/5 bg-white/50 m-2.5 rounded">
+							<div className="grid grid-cols-4 px-14 items-center justify-left h-1/5 bg-white/50 m-2.5 rounded">
 								<button onClick={matchmaking} className="min-w-[150px] border h-10 border-black px-2 rounded">
 									{search}
 								</button>
 								<h1 className="mt-3 text-red-600">{error}</h1>
 							</div>
-							<div className="px-10 sm:px-14 h-2/5 bg-white/50 m-2.5 rounded py-2.5 grid grid-rows-3 gap-5">
+							<div className="px-10 sm:px-14 h-3/5 bg-white/50 m-2.5 rounded py-14 grid grid-rows-3 gap-5">
 								<div className="flex justify-between gap-5">
 									<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la raquette :</h1>
 									<select name="paddleColor" className="w-25 hover:bg-black border border-black/60 rounded" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>

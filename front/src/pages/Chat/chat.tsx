@@ -149,7 +149,7 @@ const Chat = () => {
 	function takeChan(channelSet: string, chanStatue: string) {
 		setCurrentChannel(channelSet)
 		//console.log("chann = , current =", channelSet, currentChannel)
-		if (chanStatue !== "Public" && channelSet != currentChannel) {
+		if (chanStatue !== "Public" && channelSet !== currentChannel) {
 			const password = prompt("what is the PassWord?");//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);

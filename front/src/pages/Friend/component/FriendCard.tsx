@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { handleMouseEnter, handleMouseLeave } from "../interface/Tools";
-import Friend from "../interface/friendDto";
 import { useFriends } from "../useFriends";
 import { Account } from "../../../ui/types";
 import AvatarContainer from "../../HomePage/CardContent/avatarContainer";

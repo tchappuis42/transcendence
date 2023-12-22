@@ -38,8 +38,8 @@ const Ranking = () => {
 					<h1 className="w-1/3">points</h1>
 				</div>
 				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
-					{rank?.map((rank: Rank, id: number) => (
-						<RankCard key={id} rank={rank} id={id + 1} />
+					{rank?.map((rank: Rank, key: number) => (
+						<RankCard key={key} rank={rank} id={key + 1} />
 					))}
 				</div>
 			</div>

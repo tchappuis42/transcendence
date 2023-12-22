@@ -64,7 +64,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 			) : (
 
 				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
-					{users?.map((user: Account) => (
+					{users?.map((user: Account, id : number) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />
 					))}
 				</div>

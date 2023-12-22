@@ -52,7 +52,7 @@ export const MatchHistory = () => {
 		<div style={{}} >
 			{matchs.length === 0 && // si y-a pas de match
 				<h1 className="text-center font-bold">pas de match</h1>}
-			{matchs.map(match => <div className="text-center text-xl">{match}</div>)}
+			{matchs.map((match, index) => <div key={index} className="text-center text-xl">{match}</div>)}
 		</div>
 	);
 }

@@ -48,14 +48,14 @@ const Friends = () => {
 	}, [socket, friends, sortByStatus]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow">
-			<div className='h-[15%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
+		<div className="m-card">
+			<div className='header-card'>
 				<h1>Friends ({friends?.length})</h1>
 			</div>
 
 			{!friends.length ? (
 				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
-					<h1 className='text-white/80'>No friends</h1>
+					<h1 className='text-black/60'>No friends</h1>
 				</div>
 			) : (
 

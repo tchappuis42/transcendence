@@ -43,7 +43,7 @@ const CreateChannel: React.FC<{ currentChannel: string }> = (currentChannel) => 
 
 	return (
 		<div className="w-full h-full flex justify-center item-center pt-5">
-			<button onClick={() => setCreatChan(true)} className="chat-button w-[80%] h-[60%]"
+			<button onClick={() => setCreatChan(true)} className="chat-button w-[80%] h-[60%] max-w-[200px]"
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}>
 				<h1 className="text-black/40 hover:text-white text-xl lg:text-2xl">Create Channel</h1>

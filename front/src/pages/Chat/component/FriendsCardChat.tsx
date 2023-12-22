@@ -44,7 +44,7 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 
 				}
 			</div>
-			<div className="col-span-1 h-full w-full flex justify-center items-center">
+			<div className="col-span-1 h-full w-full flex justify-center items-center p-2">
 				{set_channel.length ? (
 					<div
 						className="h-8 w-10 rounded flex justify-center items-center cursor-pointer border-1"

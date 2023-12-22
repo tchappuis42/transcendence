@@ -23,7 +23,7 @@ const UserInChannelCard = ({ userInChannel }: userInChannel) => {
 
 	return (
 		// <div className="h-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-		<div className="main-card border b-slay-200" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+		<div className="main-card border b-slay-200 h-1/6" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 			<div id={"chat"} className="avatar-card">
 				<AvatarContainer src={userInChannel.avatar} square={10} navigation={false} id_div={"chat"}/>
 			</div>

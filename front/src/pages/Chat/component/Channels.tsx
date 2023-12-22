@@ -127,21 +127,21 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					</div>
 				)}		
 				{Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
-					<button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60 bg-black/10'>setting</button>
+					<button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
 				</div>
 				}
 				{settings &&
 					createPortal(
 						<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-40"> {/*possible de mettre ca dans un composant*/}
 							<div className="w-[450px] lg:w-[900px] h-[460px] rounded-lg p-6 bg-gray-900 text-white">
-								<h1 style={colorStyle()} className='h-[5%] flex items-center justify-center'>{successPassword}</h1>
-								<div className="h-[15%] w-full flex flex-row-reverse justify-between">
+								<h1 style={colorStyle()} className='flex items-center justify-center'>{successPassword}</h1>
+								<div className="h-[10%] w-full flex flex-row-reverse justify-between">
 									<button onClick={() => setSettings(false)} className="h-10">
 										<h1 className="text-red-500 font-bold">X</h1>
 									</button>
 									<h1 className='text-xl flex font-semibold lg:text-4xl items-center'>Paramètres du channel : {currentChannel}</h1>
 								</div>
-								{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl'>
+								{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl p-4'>
 									<ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />
 									<ChangePassword currentChannel={currentChannel} />
 									<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />

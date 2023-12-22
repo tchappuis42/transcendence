@@ -108,24 +108,24 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 			<div className="h-[10%] flex justify-center items-center">
 				<h1 className="text-black/40 text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
-			<div className="h-[90%] grid grid-rows-5">
-				<div className="w-full h-full row-span-4 bg-white/60 border overflow-y-scroll ">
-					{messages.map((msg, index) => (
-						<MessageChatCard msg={msg} index={index}/>
-					))}
-				<div className='px-3 py-5'>
-					{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
-      			</div>
-				{/* {userTyping ? (
-					<div className=' grid grid-cols-1 gap-5 px-5'>
-						<h1 className="chat-bubble-component border-transparent item-start text-black">{userTyping}</h1>
-					</div>                  
-				) : null} */}
+			<div className="h-[90%] grid"
+				style={{gridTemplateRows: "repeat(7, minmax(0, 1fr))"}}>
+				<div className='"w-full h-full row-span-6 p-2 border bg-blue-200'>
+					<div className="w-full h-full bg-blue-200 hover:snap-y snap-mandatory overflow-y-auto">
+						<div className="">
+							{messages.map((msg, index) => (
+								<MessageChatCard msg={msg} index={index}/>
+							))}
+						<div className='px-3 py-5'>
+							{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
+						</div>
+					</div>
+					</div>
 				</div>
 				<div className="w-full h-full row-span-1 bg-gray-100/60 border">
 					<form onSubmit={sendMessage} className="h-full">
-						<label htmlFor="text" className="w-full h-full grid grid-rows-2">
-							<div className='w-full grid grid-cols-5 gap-5 flex items-end px-5'>
+						<label htmlFor="text" className="w-full h-full grid grid-rows-1">
+							<div className='w-full grid grid-cols-5 gap-5 flex items-center px-5'>
 								<textarea
 									className="col-span-4 chat-bubble-component"
 									name="data"

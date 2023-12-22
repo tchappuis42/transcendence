@@ -33,7 +33,7 @@ const HomePage = () => {
     }, [socket]);
     return (
         <div className="main-page sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
-            <div className="w-full h-full grid grid-cols-1 grid-rows-4 gap-4 min-h-[800px] min-w-[430px] lg:grid-cols-2 lg:grid-rows-2 p-2.5">
+            <div className="main-component">
                 <MenuCard>
                     <ProfilCard></ProfilCard>
                 </MenuCard>

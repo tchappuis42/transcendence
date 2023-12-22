@@ -32,7 +32,7 @@ const MessageChatCard = ({ msg, index}: messageProps) => {
 			</div>
 		) : (
 			<div className="w-full flex justify-start mt-2 px-4">
-				<div className="flex p-3 h-full mw-2/3 rounded-md  bg-black/70 shadow-md shadow-mdwordBreak flex-col gap-1"
+				<div className="flex p-3 h-full mw-2/3 rounded-md bg-black/70 shadow-md shadow-mdwordBreak flex-col gap-1"
 					key={index}
 					style={{ maxWidth: "80%" }}
 					onMouseEnter={handleMouseEnter}

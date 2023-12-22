@@ -28,10 +28,9 @@
     .bouton1-card {
         @apply 
         rounded w-[80%] h-[80%]
-        bg-transparent border
-        hover:bg-gray-200 active:bg-gray-400 
+        border border-black/60 active:bg-gray-400 
         focus:outline-none focus:ring focus:ring-gray-300 
-        hover:no-underline hover:text-black 
+        hover:no-underline hover:text-black hover:bg-gray-200
         text-black/60
     }
 }
@@ -39,20 +38,21 @@
 @layer components {
     .m-card {
         @apply h-full w-full
-        bg-gray-200 
+        bg-gray-200/80
         border rounded-lg
     }
     .header-card {
         @apply h-[10%] 
         flex justify-center items-center 
         rounded-t-md shadow-lg bg-white/90
+        font-bold
     }
     .body-card {
         @apply h-full max-h-[90%] m-1
         justify-center items-center 
         rounded-md gap-5
         box-border justify-center items-center 
-        overflow-y-auto 
+        overflow-y-auto
     }
     .bouton-join-game-card {
         @apply rounded w-[80%] h-[80%] bg-transparent border border-black

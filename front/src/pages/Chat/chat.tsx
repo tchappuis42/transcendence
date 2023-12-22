@@ -153,12 +153,14 @@ const Chat = () => {
 			const password = prompt("what is the PassWord?");//todo enlever le prompt;
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
+				setMessages([]);
 		}
 		if (chanStatue === "Public") {	
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok")
 				setData("");
+				setMessages([]);
 			}
 		}
 	}
@@ -169,6 +171,7 @@ const Chat = () => {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
 			setData("");
+			setMessages([]);
 		}
 	}
 

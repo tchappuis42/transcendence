@@ -4,7 +4,7 @@
 
 @layer components {
     .card-channel {
-        @apply h-1/6 m-2.5 
+        @apply h-1/6 m-2.5
         flex justify-around items-center cursor-pointer
         bg-white rounded-md shadow-lg box-border
     }

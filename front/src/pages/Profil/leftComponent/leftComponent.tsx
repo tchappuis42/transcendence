@@ -113,7 +113,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	}
 
 	return (
-		<div className="m-card grid grid-rows-3">
+		<div className="m-card grid grid-rows-3 bg-red-600">
 			<div className="left-component-main text-xs row-span-2 flex justify-center items-start">
 				<div className="info-profile-component gray-border"
 					style={{ gridTemplateRows: "2fr 1fr" }}>

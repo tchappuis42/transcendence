@@ -32,7 +32,7 @@ const HomePage = () => {
         };
     }, [socket]);
     return (
-        <div className="main-page sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
+        <div className="lg:main-page sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
             <div className="main-component">
                 <MenuCard>
                     <ProfilCard></ProfilCard>

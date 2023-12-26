@@ -21,18 +21,6 @@ const SocketPong = () => {
 		ball: "white",
 		map: "black"
 	})
-	const [search, setsearch] = useState("trouver un match")
-	const [error, setError] = useState("");
-
-	const matchmaking = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		setError("");
-		if (socket) {
-			socket.emit("matchmaking");
-		}
-	};
-
 
 	useEffect(() => {
 		socket?.emit("info")
@@ -41,35 +29,17 @@ const SocketPong = () => {
 
 	useEffect(() => {
 		if (socket) {
-			socket.on("game", (data) => {
-				if (typeof data === 'object') {
-					setplayer1(data.idOne);
-					setplayer2(data.idTwo);
-					setRules(true)
-					SetPage(true);
-				}
-				if (typeof data === 'number') {
-					if (data === 1)
-						setsearch("recherche de match")
-					else if (data === 2)
-						setsearch("trouver un match")
-					else
-						setError("vous etes deja en rechecher de partie")
-				}
-			});
 			socket.on("info", (data) => {
 				if (typeof data === 'object' && data !== null) {
 					console.log("data = ", data);
 					setplayer1(data.idOne);
 					setplayer2(data.idTwo);
-					SetPage(true);
+					setPage(true);
 					if (data.readyOne === false && data.idOne === account.id)
 						setRules(true)
 					if (data.readyTwo === false && data.idTwo === account.id)
 						setRules(true)
 				}
-				if (typeof data === 'number')
-					setsearch("recherche de match")
 			});
 		}
 		return () => {
@@ -111,8 +81,8 @@ const SocketPong = () => {
 	return (
 		<div className="h-full lg:h-screen lg:pb-[200px] sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80">
 			{!page &&
-				<div className="main-component grid grid-rows-2 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4" style={{gridTemplate: "repeat(6, minmax(0, 1fr))"}}>
-					<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} />    
+				<div className="main-component grid grid-rows-2 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4" style={{ gridTemplate: "repeat(6, minmax(0, 1fr))" }}>
+					<Matchmaking color={color} paddleChange={paddleChange} ballChange={ballChange} mapChange={mapChange} setPage={setPage} setplayer1={setplayer1} setplayer2={setplayer2} setRules={setRules} />
 					<div className="min-h-[300px] row-span-1 col-span-2">
 						<Ranking />
 					</div>
@@ -130,7 +100,7 @@ const SocketPong = () => {
 					<div className="relative flex flex-col items-center justify-center w-full h-full pt-12">
 						<PlayerCard idOne={player1} idTwo={player2} />
 						<PongTest color={color} rules={rules} />
-						<GameScore SetPage={SetPage} />
+						<GameScore SetPage={setPage} />
 					</div>
 				</div>
 			}

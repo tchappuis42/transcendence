@@ -52,18 +52,18 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	}, [socket, users, sortByStatus]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md" >
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+		<div className="m-card">
+			<div className='header-card'>
 				<h1>Users ({users?.length})</h1>
 			</div>
 
 			{!users ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
+				<div className="body-card">
 					<h1>No users</h1>
 				</div>
 			) : (
 
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden">
+				<div className="body-card">
 					{users?.map((user: Account) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />
 					))}

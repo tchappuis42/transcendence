@@ -2,6 +2,8 @@ import { SyntheticEvent } from "react";
 import { useSocket } from "../../../ui/organisms/SocketContext";
 import { Account } from "../../../ui/types";
 import { handleMouseEnter, handleMouseLeave } from "../../HomePage/Tools";
+import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
+import "./card.css"
 
 interface userInChannel {
 	userInChannel: Account;
@@ -20,15 +22,19 @@ const UserInChannelCard = ({ userInChannel }: userInChannel) => {
 	}
 
 	return (
-		<div className="h-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-			<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
-				<img alt="image de profil" className="rounded-md h-full"
-					src={userInChannel.avatar} />
+		// <div className="h-full bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+		<div className="main-card border b-slay-200 h-1/6" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+			<div id={"chat"} className="avatar-card">
+				<AvatarContainer src={userInChannel.avatar} square={10} navigation={false} id_div={"chat"}/>
 			</div>
-			<div className="h-full w-2/5 flex justify-center items-center">
+			<div className="name-card col-span-2">
 				<h2>{userInChannel.username.slice(0, 8)}</h2>
 			</div>
-			<button className="w-1/5 border" onClick={invitGame}>game invit</button>
+			<div className="col-span-2 flex items-center justify-center">
+				<button className="bouton1-card " onClick={invitGame}>
+					game invit
+				</button>
+			</div>
 		</div>
 	);
 };

@@ -5,7 +5,6 @@
 @layer components {
     .left-component-main {
         @apply col-span-1
-        min-w-[350px] max-w-[600px]
         flex flex-col flex-grow
         justify-start items-start
         p-[10px] gap-5
@@ -20,7 +19,7 @@
 
 		text-xs text-gray-900 uppercase
         bg-black bg-opacity-60
-            /*bg-gray-50 dark:border-black*/
+        /*bg-gray-50 dark:border-black*/
 		shadow-md sm:rounded-lg
     }
     .user-stat-component {

@@ -22,6 +22,7 @@ const Chat = () => {
 	const [channelStatus, setChannelStatus] = useState(false);
 	const [Owner, setOwner] = useState("0");
 	const socket = useSocket();
+	const [isCorrect, setIsCorrect] = useState(false);
 	const { account } = useAccount();
 	const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ const Chat = () => {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setDM_Chann(true);
 				setOwner(owner);
-				setChannelStatus(status)
+				setChannelStatus(status);
 			//	if (status) {
 				socket.emit("message", " ", chanName, '1');
 			});
@@ -72,9 +73,11 @@ const Chat = () => {
 			})
 			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
+
 				//setPass(datta);
 				if (datta === "ok") {
-				//	socket.emit("message", "", name, '1');
+					setIsCorrect(true)
+					//	socket.emit("message", "", name, '1');
 					socket.emit("getChannelMeOne", name, curChan);
 					setPass("ok")
 					setData("");
@@ -92,18 +95,6 @@ const Chat = () => {
 			socket.on("createDMChannel", () => {
 				setMessages([]);
 			});
-			/*socket.on("deleteChannel", (data) => {
-				setChannels(data);
-				if (data.length !== 0){
-					setCurrentChannel(data[0].name)
-					socket.emit("message", data, data[0].name, '1');
-				//	setCurrentChannel(data[((data.length) - 1)].name);
-				}
-				else {
-					setCurrentChannel("create a channel!")
-					setMessages([]);
-				}
-			});*/
 			socket.on("deleteChannelForAllUser", (data) => {
 				setCurrentChannel("create a channel!");
 				setMessages([]);
@@ -145,19 +136,23 @@ const Chat = () => {
 		const withoutMe = user.filter(user => user.id !== account.id)
 		setUserInChannel(withoutMe);
 	}
-
+	// && channelSet !== currentChannel
 	function takeChan(channelSet: string, chanStatue: string) {
-		setCurrentChannel(channelSet)
-		//console.log("chann = , current =", channelSet, currentChannel)
-		if (chanStatue !== "Public" && channelSet !== currentChannel) {
-			const password = prompt("what is the PassWord?");//todo enlever le prompt;
+		console.log("data: ", data)
+		// setCurrentChannel(channelSet)
+		console.log("chann = ", channelSet, "current channel: ", currentChannel)
+		if (chanStatue !== "Public") {
+			if (pass !== "ko")
+				setCurrentChannel(channelSet)
+			const password = prompt("what is the PassWord?");	//todo enlever le prompt;
+			console.log("password: ", password);
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
 		if (chanStatue === "Public") {	
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
-				setPass("ok")
+				setPass("ok");
 				setData("");
 			}
 		}

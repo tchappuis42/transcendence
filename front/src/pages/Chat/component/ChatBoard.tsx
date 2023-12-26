@@ -82,9 +82,14 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 
 	return (
 		<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
+		
 			<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
-				<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
-			</div>
+				{pass === 'ok' ? (
+					<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
+				) : (
+					<h1 className="text-white text-3xl font-semibold">create channel !</h1>
+				)}
+				</div>
 			<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
 				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow-white">
 					{messages.map((msg, index) => (
@@ -114,6 +119,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 					</form>
 				</div>
 			</div>
+	
 		</div>
 	);
 };

@@ -111,15 +111,8 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 	
 	console.log("success pass: ", successPassword);
 	return (
+	<>	
 		<div className="m-card" >
-			{ selectedMessage && selectedMessage.statue !== "Public" &&
-				createPortal(
-					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
-						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
-					</div>,
-					document.body
-				)
-			}
 			<div className='header-card'>
 				<h1> channels </h1>
 			</div>
@@ -128,6 +121,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					<div className='body-card'>
 						<h1 className='text-black/60 opacity-60'>No Channel</h1>
 					</div>
+					
 				) : (
 					<div className="body-card">
 						<div className='h-[95%]'>
@@ -145,7 +139,15 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 							))}
 						</div>
 					</div>
-				)}		
+				)}
+				{ selectedMessage && selectedMessage.statue === "Public" &&
+					createPortal(
+						<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+							<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
+						</div>,
+						document.body
+					)
+				}
 				{Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
 					<button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
 				</div>
@@ -178,6 +180,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					)}
 				</div>
 		</div>
+		</>
 	);
 };
 

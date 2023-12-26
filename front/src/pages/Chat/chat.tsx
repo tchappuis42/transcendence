@@ -163,6 +163,7 @@ const Chat = () => {
 		console.log("password: ", password);
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
+			// const password = prompt("what is the PassWord?");
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}

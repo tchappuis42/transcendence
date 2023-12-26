@@ -33,8 +33,8 @@ const FriendRequestCard = ({ friend, removeCard }: { friend: Account, removeCard
 
     return (
         <div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <div className="h-full w-1/5 flex items-center content-center" onClick={() => { handleNav("profil", friend.id) }}>
-               <AvatarContainer src={friend.avatar} navigation={true} id={friend.id} square={10}/>
+            <div id={"addFriendCard"} className="h-full w-1/5 flex items-center content-center" onClick={() => { handleNav("profil", friend.id) }}>
+               <AvatarContainer src={friend.avatar} navigation={true} id={friend.id} square={10} id_div="addFriendCard"/>
             </div>
             <div className="h-full sm:w-1/5 w-2/5 flex justify-center items-center" onClick={() => { handleNav("profil", friend.id) }}>
                 <h2>{friend.username}</h2>

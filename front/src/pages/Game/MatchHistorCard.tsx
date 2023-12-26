@@ -25,8 +25,8 @@ const MatchHistoryCard: React.FC<{ match: Match, userId: number | undefined}> = 
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 			>
-			<div className=" w-2/6 flex justify-between p-3 items-center h-full ">
-				<AvatarContainer src={match.avatarOne} navigation={false} square={10} />
+			<div id={"pongHistory"}className="w-2/6 flex justify-between p-3 items-center h-full object-cover">
+				<AvatarContainer src={match.avatarOne} navigation={false} square={10} id_div={"pongHistory"}/>
 				<div className="w-full h-full flex justify-start pl-2 item-center ">
 					{match.userOne.length <= 15 ? (
 						<h1 className="text-white flex justify-center items-center">{match.userOne}</h1>
@@ -41,7 +41,7 @@ const MatchHistoryCard: React.FC<{ match: Match, userId: number | undefined}> = 
 				<h1 className="text-white">-</h1>
 				<h1 className="text-white text-xl">{match.scoreTwo}</h1>
 			</div>
-			<div className=" w-2/6 flex justify-between p-2 items-center h-full ">
+			<div id={"history"} className=" w-2/6 flex justify-between p-2 items-center h-full ">
 				<div className="w-full h-full flex justify-end pr-3 item-center ">
 					{match.userTwo.length <= 15 ? (
 						<h1 className="text-white flex justify-center items-center">{match.userTwo}</h1>
@@ -49,7 +49,7 @@ const MatchHistoryCard: React.FC<{ match: Match, userId: number | undefined}> = 
 						<h1 className="text-white flex justify-center items-center">{match.userTwo.slice(0,15)}.</h1>
 					)}
 				</div>
-				<AvatarContainer src={match.avatarTwo} navigation={false} square={10} />
+				<AvatarContainer src={match.avatarTwo} navigation={false} square={10} id_div="history"/>
 			</div>
 		</div>
 	);

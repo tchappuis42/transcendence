@@ -48,18 +48,18 @@ const Friends = () => {
 	}, [socket, friends, sortByStatus]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+		<div className="m-card">
+			<div className='header-card'>
 				<h1>Friends ({friends?.length})</h1>
 			</div>
 
 			{!friends.length ? (
 				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
-					<h1 className='text-white/80'>No friends</h1>
+					<h1 className='text-black/60'>No friends</h1>
 				</div>
 			) : (
 
-				<div className="h-full m-2.5 bg-black/10 rounded-md	 box-border justify-center items-center overflow-y-auto overflow-x-hidden max-h-[80%]">
+				<div className="h-full m-2.5 rounded-md box-border justify-center items-center overflow-y-auto overflow-x-hidden max-h-[80%]">
 					{friends?.map((friend: Account) => (
 						<FriendCard key={friend.id} friend={friend} />
 					))}

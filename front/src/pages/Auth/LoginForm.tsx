@@ -49,7 +49,7 @@ const LoginForm: React.FC<FormProps> = ({
 
 	return (
 		<div className="flex items-center justify-center h-screen w-full">
-			<form onSubmit={loginSubmit} className="w-[450px] h-[550px] bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow-white">
+			<form onSubmit={loginSubmit} className="w-[450px] h-[550px] bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow">
 				<div className="w-full h-1/6  mt-3 flex justify-center items-center" >
 					<h1 className="text-7xl text-white" >Login</h1>
 				</div>

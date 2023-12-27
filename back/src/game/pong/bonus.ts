@@ -50,11 +50,6 @@ export class Bonus {
                 color : "blue",
             },
             {
-                bonusFunc : speedUpBall,
-                modifier : this.ball,
-                color:"red",
-            },
-            {
                 bonusFunc : SmallPaddle,
                 modifier : [this.paddle1, this.paddle2],
                 color:"green",
@@ -70,11 +65,6 @@ export class Bonus {
                 color : "blue",
             },
             {
-                bonusFunc : speedUpBall,
-                modifier : this.ball,
-                color:"red",
-            },
-            {
                 bonusFunc : SmallPaddle,
                 modifier : [this.paddle1, this.paddle2],
                 color:"green",
@@ -83,7 +73,12 @@ export class Bonus {
                 bonusFunc : invisibleBall,
                 modifier : this.ball,
                 color:"yellow",
-            }
+            },
+            {
+                bonusFunc : invisiblePaddle,
+                modifier : [this.paddle1, this.paddle2],
+                color:"purple",
+            },
         ]
     }
 
@@ -99,7 +94,6 @@ export class Bonus {
         if (this.functions[this.index]) {
             const funcToCall = this.functions[this.index].bonusFunc;
             const modifier = this.functions[this.index].modifier;
-            console.log("WE LAUNCH THE ASSOCIATED BONUS")
             funcToCall(modifier);
         } else {
             console.error(`Function at index ${this.index} does not exist.`);

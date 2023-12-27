@@ -137,19 +137,19 @@ const Chat = () => {
 		setUserInChannel(withoutMe);
 	}
 	// && channelSet !== currentChannel
-	function takeChan(channelSet: string, chanStatue: string) {
+	function takeChan(channelSet: string, chanStatue: string, password?: string) {
 		console.log("data: ", data)
-		// setCurrentChannel(channelSet)
+		setCurrentChannel(channelSet)
 		console.log("chann = ", channelSet, "current channel: ", currentChannel)
 		if (chanStatue !== "Public") {
-			if (pass !== "ko")
-				setCurrentChannel(channelSet)
-			const password = prompt("what is the PassWord?");	//todo enlever le prompt;
-			console.log("password: ", password);
+			setCurrentChannel(channelSet);
+			// const password = prompt("what is the PassWord?");	//todo enlever le prompt;
+			// console.log("password: ", password);
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
 		if (chanStatue === "Public") {	
+			setCurrentChannel(channelSet);
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok");
@@ -177,6 +177,7 @@ const Chat = () => {
 				<CreateChannel currentChannel={currentChannel} />
 				<div className="w-full h-[45%] bg-black/60 shadow-md flex-start shadow-white rounded-md ">
 					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+					{/* <Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} /> */}
 				</div>
 				<div className="w-full h-[40%] bg-black/60 shadow-md flex-start shadow-white rounded-md">
 					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />

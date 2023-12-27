@@ -12,9 +12,11 @@ import ChangePassword from './ChangePassword';
 import ChannelStatus from './ChannelStatus';
 import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
+import { SimpleRegistrationForm } from "./PopUp"
 
 interface Props {
-	takeChan: (channelSet: string, chanStatue: string) => void;
+	takeChan: (channelSet: string, chanStatue: string, password?: string) => void;
+	// takeChan: (channelSet: string, chanStatue: string) => void;
 	currentChannel: string;
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 	userInChannel: Account[];
@@ -31,6 +33,8 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 //	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
 	const [successPassword, setSuccessPass] = useState("");
+
+	const [selectedMessage, setSelectedMessage] = useState<Channel | undefined>(undefined);
 
 	useEffect(() => {
 		setOwner("0")
@@ -101,8 +105,21 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 		return { color: "red" }
 	}
 
+	const closeForm = () => {
+	    setSelectedMessage(undefined);
+	};
+
+	// onClick={() => takeChan(msg.name, msg.statue)}
 	return (
 		<div className="bg-black/50 h-full w-full rounded-md" >
+			{ selectedMessage && selectedMessage.statue !== "Public" &&
+				createPortal(
+					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd);    }} />
+					</div>,
+					document.body
+				)
+			}
 			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
 				<h1> channels </h1>
 			</div>
@@ -117,7 +134,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>
-							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name, msg.statue)}>
+							<div className="h-full w-full  flex flex-row justify-between px-5 items-center" onClick={() => {msg.statue !== "Public" ? setSelectedMessage(msg) : takeChan(msg.name, msg.statue)}}>
 								<h1 className='text-xl w-1/3'>{msg.name}</h1>
 								<h1 className='text-xl w-1/3'>:</h1>
 								<h1 className='text-xl  w-1/3'>{msg.statue}</h1>
@@ -158,6 +175,81 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 				)}
 		</div>
 	);
+
+	// const closeForm = () => {
+    //     setSelectedMessage(undefined);
+    // };
+
+	// return (
+    //     <div className="m-card" >
+    //         { selectedMessage && selectedMessage.statue !== "Public" &&
+    //             createPortal(
+    //                 <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+    //                     <SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd);    }} />
+    //                 </div>,
+    //                 document.body
+    //             )
+    //         }
+    //         <div className='header-card'>
+    //             <h1> channels </h1>
+    //         </div>
+    //         <div className='body-card'>
+    //             {!all_channels ? (
+    //                 <div className='body-card'>
+    //                     <h1 className='text-black/60 opacity-60'>No Channel</h1>
+    //                 </div>
+    //             ) : (
+    //                 <div className="body-card">
+    //                     <div className='h-[95%]'>
+    //                         {all_channels.map((msg, id) => (
+    //                             <div key={msg.id} className="card-channel"
+    //                                  onMouseEnter={handleMouseEnter}
+    //                                  onMouseLeave={handleMouseLeave}
+    //                             >
+    //                                 <div className="grid grid-cols-6 w-full h-full" onClick={() => {msg.statue !== "Public" ? setSelectedMessage(msg) : takeChan(msg.name, msg.statue)}}>
+    //                                     <h1 className='name-card'>{msg.name}</h1>
+    //                                     <h1 className='name-card'>:</h1>
+    //                                     <h1 className='name-card'>{msg.statue}</h1>
+    //                                 </div>
+    //                             </div>
+    //                         ))}
+    //                     </div>
+    //                 </div>
+    //             )}
+    //             {Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
+    //                 <button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
+    //             </div>
+    //             }
+    //             {settings &&
+    //                 createPortal(
+    //                     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-40"> {/*possible de mettre ca dans un composant*/}
+    //                         <div className="w-[450px] lg:w-[900px] h-[460px] rounded-lg p-6 bg-gray-900 text-white">
+    //                             <h1 style={colorStyle()} className='flex items-center justify-center'>{successPassword}</h1>
+    //                             <div className="h-[10%] w-full flex flex-row-reverse justify-between">
+    //                                 <button onClick={() => setSettings(false)} className="h-10">
+    //                                     <h1 className="text-red-500 font-bold">X</h1>
+    //                                 </button>
+    //                                 <h1 className='text-xl flex font-semibold lg:text-4xl items-center'>Paramètres du channel : {currentChannel}</h1>
+    //                             </div>
+    //                             {Owner === '1' && <div className='h-3/5 text-sm lg:text-xl p-4'>
+    //                                 <ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />
+    //                                 <ChangePassword currentChannel={currentChannel} />
+    //                                 <AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+    //                                 <RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+    //                                 <DeleteChannel currentChannel={currentChannel} setSettings={setSettings} />
+    //                             </div>}
+    //                             <div className='h-1/5 text-sm lg:text-xl'>
+    //                                 <MuteUser currentChannel={currentChannel} userInChannel={userInChannel} />
+    //                                 <BanUser currentChannel={currentChannel} userInChannel={userInChannel} />
+    //                             </div>
+    //                         </div>
+    //                     </div>,
+    //                     document.body
+    //                 )}
+    //         </div>
+    //     </div>
+    // );
+
 };
 
 export default Channels;

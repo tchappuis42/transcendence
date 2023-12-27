@@ -61,7 +61,7 @@ const Chat = () => {
 	}, [socket]);
 
 	useEffect(() => {
-		setShowAuthWindow("");
+		// setShowAuthWindow("");
 		if (!currentChannel) {
 			setCurrentChannel("create a channel!")
 		}
@@ -70,7 +70,6 @@ const Chat = () => {
 				setDM_Chann(true);
 				setOwner(owner);
 				setChannelStatus(status)
-				console.log(DM_Chann, Owner, channelStatus)
 				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
 			});
@@ -172,9 +171,10 @@ const Chat = () => {
 
     function takeChan(channelSet: string, chanStatue: string, password?: string) {
         console.log("data: ", data)
-        setCurrentChannel(channelSet)
+        // setCurrentChannel(channelSet)
         console.log("chann = ", channelSet, "current channel: ", currentChannel)
         if (chanStatue !== "Public") {
+			console.log("password: ", password);
             setCurrentChannel(channelSet);
             // const password = prompt("what is the PassWord?");    //todo enlever le prompt;
             // console.log("password: ", password);
@@ -220,7 +220,7 @@ const Chat = () => {
 				<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 					<CreateChannel currentChannel={currentChannel} />
 					<div className="row-span-4">
-						<Channels channel={channelName} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+						<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
 					</div>
 					<div className="row-span-3">
 						<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
@@ -239,6 +239,11 @@ const Chat = () => {
 					</div>
 				</div>
 			</div>
+
+		)
+};
+export default Chat;
+
 		// ) : (
 		// 	<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-96 sm:grid-cols-2 xl:grid-cols-8 gap-10"> {/*div prinsipale*/}
 		// 		<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
@@ -260,8 +265,3 @@ const Chat = () => {
 		// 			</div>
 		// 		</div>
 		// 	</div>
-		)
-	// );
-
-};
-export default Chat;

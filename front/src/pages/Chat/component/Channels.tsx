@@ -13,7 +13,7 @@ import ChannelStatus from './ChannelStatus';
 import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
 import { SimpleRegistrationForm } from './stylePopUP';
-import {channel} from "diagnostics_channel";
+
 
 interface Props {
 	takeChan: (channelSet: string, chanStatue: string, password?: string) => void;
@@ -24,17 +24,15 @@ interface Props {
 	Owner: string;
 	setChannelStatus: React.Dispatch<SetStateAction<boolean>>;
 	setOwner: React.Dispatch<SetStateAction<string>>;
-	channel: string;
 }
 
-const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
+const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
 	const [all_channels, setChannels] = useState<Channel[]>([]);
 //	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
 //	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
 	const [successPassword, setSuccessPass] = useState("");
-	const [channelName, setChannelName] = useState("");
 	const [selectedMessage, setSelectedMessage] = useState<Channel | undefined>(undefined);
 
 	useEffect(() => {
@@ -109,7 +107,7 @@ const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessa
 	// && (selectedMessage.name !== currentChannel)
 	return (
 		<div className="m-card" >
-			{ selectedMessage && selectedMessage.statue !== "Public" &&
+			{ selectedMessage && selectedMessage.statue !== "Public" && (selectedMessage.name !== currentChannel) &&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
 						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
@@ -144,7 +142,7 @@ const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessa
 					</div>
 				)}
 				{Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
-                    <button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
+                    <h1 onClick={() => setSettings(true)} className='flex justify-center bouton1-card w-full border-black/60'>setting</h1>
                 </div>
 				}
 				{settings &&

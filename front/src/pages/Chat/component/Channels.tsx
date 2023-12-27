@@ -13,6 +13,7 @@ import ChannelStatus from './ChannelStatus';
 import Message from '../interface/messageDto';
 import Channel from '../interface/channelDto';
 import { SimpleRegistrationForm } from './stylePopUP';
+import {channel} from "diagnostics_channel";
 
 interface Props {
 	takeChan: (channelSet: string, chanStatue: string, password?: string) => void;
@@ -23,10 +24,10 @@ interface Props {
 	Owner: string;
 	setChannelStatus: React.Dispatch<SetStateAction<boolean>>;
 	setOwner: React.Dispatch<SetStateAction<string>>;
+	password: string;
 }
 
-
-const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
+const Channels: React.FC<Props> = ({ takeChan, password, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
 	const [all_channels, setChannels] = useState<Channel[]>([]);
 //	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
@@ -41,9 +42,9 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setOwner(owner);
 				setChannelStatus(status)
-			//	if (status) {
+				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
-			//	}
+				//	}
 				/*else { //todo
 					const password = prompt("what is the PassWord?");
 					if (socket)
@@ -106,13 +107,19 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 
 	const closeForm = () => {
 		setSelectedMessage(undefined);
-	   };
-	   
-	
-	console.log("success pass: ", successPassword);
+	};
+
+	// console.log();
 	return (
-	<>	
 		<div className="m-card" >
+			{ selectedMessage && selectedMessage.statue !== "Public" && selectedMessage.name !== currentChannel &&
+				createPortal(
+					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
+						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
+					</div>,
+					document.body
+				)
+			}
 			<div className='header-card'>
 				<h1> channels </h1>
 			</div>
@@ -121,16 +128,15 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 					<div className='body-card'>
 						<h1 className='text-black/60 opacity-60'>No Channel</h1>
 					</div>
-					
 				) : (
 					<div className="body-card">
 						<div className='h-[95%]'>
 							{all_channels.map((msg, id) => (
 								<div className="card-channel"
-									onMouseEnter={handleMouseEnter}
-									onMouseLeave={handleMouseLeave}
+									 onMouseEnter={handleMouseEnter}
+									 onMouseLeave={handleMouseLeave}
 								>
-									<div className="grid grid-cols-6 w-full h-full" onClick={() => takeChan(msg.name, msg.statue)}>
+									<div className="grid grid-cols-6 w-full h-full" onClick={() => {msg.statue !== "Public" ? setSelectedMessage(msg) : takeChan(msg.name, msg.statue)}}>
 										<h1 className='name-card'>{msg.name}</h1>
 										<h1 className='name-card'>:</h1>
 										<h1 className='name-card'>{msg.statue}</h1>
@@ -140,17 +146,9 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 						</div>
 					</div>
 				)}
-				{ selectedMessage && selectedMessage.statue === "Public" &&
-					createPortal(
-						<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
-							<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
-						</div>,
-						document.body
-					)
-				}
 				{Owner !== "0" && <div className='h-[1/5] w-full flex justify-center'>
-					<button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
-				</div>
+                    <button onClick={() => setSettings(true)} className='bouton1-card w-full border-black/60'>setting</button>
+                </div>
 				}
 				{settings &&
 					createPortal(
@@ -164,12 +162,12 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 									<h1 className='text-xl flex font-semibold lg:text-4xl items-center'>Paramètres du channel : {currentChannel}</h1>
 								</div>
 								{Owner === '1' && <div className='h-3/5 text-sm lg:text-xl p-4'>
-									<ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />
-									<ChangePassword currentChannel={currentChannel} />
-									<AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
-									<RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
-									<DeleteChannel currentChannel={currentChannel} setSettings={setSettings} />
-								</div>}
+                                    <ChannelStatus currentChannel={currentChannel} channelStatus={channelStatus} />
+                                    <ChangePassword currentChannel={currentChannel} />
+                                    <AddAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+                                    <RemoveAdmin currentChannel={currentChannel} userInChannel={userInChannel} />
+                                    <DeleteChannel currentChannel={currentChannel} setSettings={setSettings} />
+                                </div>}
 								<div className='h-1/5 text-sm lg:text-xl'>
 									<MuteUser currentChannel={currentChannel} userInChannel={userInChannel} />
 									<BanUser currentChannel={currentChannel} userInChannel={userInChannel} />
@@ -178,9 +176,8 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 						</div>,
 						document.body
 					)}
-				</div>
+			</div>
 		</div>
-		</>
 	);
 };
 

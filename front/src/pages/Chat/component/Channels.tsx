@@ -103,14 +103,15 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 	};
 
 	// console.log("name: ", selectedMessage?.name, currentChannel, selectedMessage?.statue);
-	// console.log("channel name: ", channel, currentChannel);
+	console.log("channel name: ", currentChannel);
 	// && (selectedMessage.name !== currentChannel)
 	return (
 		<div className="m-card" >
-			{ selectedMessage && selectedMessage.statue !== "Public" && (selectedMessage.name !== currentChannel) &&
+			{ selectedMessage && selectedMessage.statue !== "Public" && ((selectedMessage.name !== currentChannel))&&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
 						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
+						<p> {selectedMessage.name} </p>
 					</div>,
 					document.body
 				)

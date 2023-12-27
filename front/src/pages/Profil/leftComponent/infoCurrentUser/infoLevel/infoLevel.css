@@ -7,14 +7,11 @@
         @apply h-full
         grid grid-cols-4
         rounded
-        /* bg-yellow-400 */
     }
     .level-current-component {
         @apply col-span-1 h-full
         flex justify-start items-center
-        /* bg-orange-600 */
-
-        font-bold
+        font-bold 
     }
     .level-buttons-component {
         @apply row-span-1

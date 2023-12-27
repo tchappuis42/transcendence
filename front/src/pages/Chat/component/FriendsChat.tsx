@@ -62,7 +62,6 @@ const FriendsChat = ({ currentChannel }: channel) => {
 					<h1>No users</h1>
 				</div>
 			) : (
-
 				<div className="body-card">
 					{users?.map((user: Account) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />

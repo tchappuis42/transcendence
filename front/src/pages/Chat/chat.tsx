@@ -170,26 +170,26 @@ const Chat = () => {
 		setUserInChannel(withoutMe);
 	}
 
-	function takeChan(channelSet: string, chanStatue: string, password?: string) {
-		setCurrentChannel(channelSet)
-		console.log("chann = , current =", channelSet, currentChannel)
-		if (chanStatue !== "Public") {
-			// setCheckPassStatus("en cours");
-			// console.log("socket: ", socket);
-			// const password = prompt("what is the PassWord?");//todo enlever le prompt
-			if (socket) {
-				socket.emit("checkPass", channelSet, password, currentChannel);
-			}
-				
-		}
-		if (chanStatue === "Public") {
-			if (socket) {
-				socket.emit("getChannelMeOne", channelSet, currentChannel);
-				setPass("ok")
-				setData("");
-			}
-		}
-	}
+    function takeChan(channelSet: string, chanStatue: string, password?: string) {
+        console.log("data: ", data)
+        setCurrentChannel(channelSet)
+        console.log("chann = ", channelSet, "current channel: ", currentChannel)
+        if (chanStatue !== "Public") {
+            setCurrentChannel(channelSet);
+            // const password = prompt("what is the PassWord?");    //todo enlever le prompt;
+            // console.log("password: ", password);
+            if (socket)
+                socket.emit("checkPass", channelSet, password, currentChannel);
+        }
+        if (chanStatue === "Public") {  
+            setCurrentChannel(channelSet);
+            if (socket) {
+                socket.emit("getChannelMeOne", channelSet, currentChannel);
+                setPass("ok");
+                setData("");
+            }
+        }
+    }
 
 	function takeDMChan(channelSet: string) {
 		setCurrentChannel(channelSet)

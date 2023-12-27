@@ -24,20 +24,22 @@ interface Props {
 	Owner: string;
 	setChannelStatus: React.Dispatch<SetStateAction<boolean>>;
 	setOwner: React.Dispatch<SetStateAction<string>>;
-	password: string;
+	channel: string;
 }
 
-const Channels: React.FC<Props> = ({ takeChan, password, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
+const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessages, userInChannel, channelStatus, Owner, setChannelStatus, setOwner }) => {
 	const [all_channels, setChannels] = useState<Channel[]>([]);
 //	const [channelStatus, setChannelStatus] = useState(false);
 	const socket = useSocket();
 //	const [Owner, setOwner] = useState("0");
 	const [settings, setSettings] = useState(false);
 	const [successPassword, setSuccessPass] = useState("");
+	const [channelName, setChannelName] = useState("");
 	const [selectedMessage, setSelectedMessage] = useState<Channel | undefined>(undefined);
 
 	useEffect(() => {
 		setOwner("0")
+		setChannelStatus(false);
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setOwner(owner);
@@ -109,10 +111,12 @@ const Channels: React.FC<Props> = ({ takeChan, password, currentChannel, setMess
 		setSelectedMessage(undefined);
 	};
 
-	// console.log();
+	// console.log("name: ", selectedMessage?.name, currentChannel, selectedMessage?.statue);
+
+	// console.log("channel name: ", channel, currentChannel);
 	return (
 		<div className="m-card" >
-			{ selectedMessage && selectedMessage.statue !== "Public" && selectedMessage.name !== currentChannel &&
+			{ selectedMessage && selectedMessage.statue !== "Public" && (selectedMessage.name !== currentChannel) &&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
 						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />

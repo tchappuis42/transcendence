@@ -19,13 +19,14 @@ import channels from "./component/Channels";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
-	const [showAuthWindow, setShowAuthWindow] = useState(false);
+	const [showAuthWindow, setShowAuthWindow] = useState("");
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const [channelStatus, setChannelStatus] = useState(false);
+	const [channelName, setChannelName] = useState("");
 	const [Owner, setOwner] = useState("0");
 	const socket = useSocket();
 	const { account } = useAccount();
@@ -56,8 +57,11 @@ const Chat = () => {
 		};
 
 	}, [socket]);
-
+	// true 1 false
+	// true 1 true
+	// true 0 false
 	useEffect(() => {
+		setShowAuthWindow("");
 		if (!currentChannel) {
 			setCurrentChannel("create a channel!")
 		}
@@ -66,6 +70,7 @@ const Chat = () => {
 				setDM_Chann(true);
 				setOwner(owner);
 				setChannelStatus(status)
+				console.log(DM_Chann, Owner, channelStatus)
 				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
 			});
@@ -80,6 +85,8 @@ const Chat = () => {
 			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
 				//setPass(datta);
+				console.log("datta: ", datta);
+				setShowAuthWindow(datta);
 				if (datta === "ok") {
 					//	socket.emit("message", "", name, '1');
 					socket.emit("getChannelMeOne", name, curChan);
@@ -139,6 +146,7 @@ const Chat = () => {
 				else
 					setSuccessPass("erreur dans le changement du mot de passe")
 			});
+			console.log("out: ", DM_Chann, Owner, channelStatus)
 		}
 		return () => {
 			if (socket) {
@@ -165,7 +173,7 @@ const Chat = () => {
 	function takeChan(channelSet: string, chanStatue: string, password?: string) {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
-		if (chanStatue !== "Public" && currentChannel !== channelSet) {
+		if (chanStatue !== "Public") {
 			// const password = prompt("what is the PassWord?");//todo enlever le prompt
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
@@ -198,14 +206,15 @@ const Chat = () => {
 		setPass(passe);
 	}
 
-	console.log("password: ", pass);
+	console.log("showAuthWindow: ", showAuthWindow, "channelstatus: ",channelStatus);
+	// (!channelStatus && (showAuthWindow !== "ko" && showAuthWindow)) || (channelStatus && currentChannel !== "create a channel!") || (!channelStatus && !showAuthWindow && currentChannel !== "create a channel!")
 	return (
-		 currentChannel !== "create a channel!" ? (
+		currentChannel !== "create a channel!" && ((!channelStatus && Owner) || channelStatus) ? (
 			<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
 				<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 					<CreateChannel currentChannel={currentChannel} />
 					<div className="row-span-4">
-						<Channels password={pass} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+						<Channels channel={channelName} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
 					</div>
 					<div className="row-span-3">
 						<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
@@ -229,7 +238,7 @@ const Chat = () => {
 				<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 					<CreateChannel currentChannel={currentChannel} />
 					<div className="row-span-4">
-						<Channels password={pass} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+						<Channels channel={channelName} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
 					</div>
 					<div className="row-span-3">
 						<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />

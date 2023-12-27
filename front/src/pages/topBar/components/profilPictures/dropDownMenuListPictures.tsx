@@ -46,15 +46,15 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 			</span>
 			{open && (
 				<div className={`menu-slanderous black-border-fine`}>
-					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-						<li className="menu-slanderous-list" onClick={() => handleNav("/profil", account.id)}>
-								profil
+					<div role="menu" aria-orientation="vertical" aria-labelledby="options-menu" className="p-3">
+						<li className="cursor-pointer flex border-b border-gray-300 h-10 items-center" onClick={() => handleNav("/profil", account.id)}>
+								Profil
 						</li>
-						<li className="menu-slanderous-list" onClick={() => handleNav("/settings", account.id)}>
+						<li className="cursor-pointer flex border-b border-gray-300 h-10 items-center" onClick={() => handleNav("/settings", account.id)}>
 								Paramètres
 						</li>
-						<li className="menu-slanderous-list">
-							<button onClick={LogoutSubmit}>logout</button>
+						<li className="cursor-pointer flex border-b border-gray-300 h-10 items-center" onClick={LogoutSubmit}>
+							Logout
 						</li>
 					</div>
 				</div>

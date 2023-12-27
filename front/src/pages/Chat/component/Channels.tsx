@@ -37,12 +37,17 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 
 	useEffect(() => {
 		setOwner("0")
-		setChannelStatus(false);
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setOwner(owner);
-				setChannelStatus(status)
-				socket.emit("message", " ", chanName, '1');
+				if (status)
+						socket.emit("message", " ", chanName, '1');
+					else { //todo
+						// const password = prompt("what is the PassWord?");
+						if (socket)
+							socket.emit("checkPass", chanName, password);
+					}	
+					//socket.emit("message", " ", chanName, '1');
 			});
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
@@ -99,7 +104,7 @@ const Channels: React.FC<Props> = ({ takeChan, currentChannel, setMessages, user
 	}
 
 	const closeForm = () => {
-		setSelectedMessage(undefined);
+		// setSelectedMessage(undefined);
 	};
 
 	// console.log("name: ", selectedMessage?.name, currentChannel, selectedMessage?.statue);

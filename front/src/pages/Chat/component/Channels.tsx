@@ -44,14 +44,7 @@ const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessa
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
 				setOwner(owner);
 				setChannelStatus(status)
-				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
-				//	}
-				/*else { //todo
-					const password = prompt("what is the PassWord?");
-					if (socket)
-						socket.emit("checkPass", chanName, password);
-				}*/
 			});
 			socket.on("getAllChannels", (data) => {
 				setChannels(data)
@@ -112,11 +105,11 @@ const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessa
 	};
 
 	// console.log("name: ", selectedMessage?.name, currentChannel, selectedMessage?.statue);
-
 	// console.log("channel name: ", channel, currentChannel);
+	// && (selectedMessage.name !== currentChannel)
 	return (
 		<div className="m-card" >
-			{ selectedMessage && selectedMessage.statue !== "Public" && (selectedMessage.name !== currentChannel) &&
+			{ selectedMessage && selectedMessage.statue !== "Public" &&
 				createPortal(
 					<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-50">
 						<SimpleRegistrationForm name={selectedMessage.name} closeForm={closeForm} callback={(pwd: string, ) => {takeChan(selectedMessage.name, selectedMessage.statue, pwd); 	}} />
@@ -136,7 +129,7 @@ const Channels: React.FC<Props> = ({ takeChan, channel, currentChannel, setMessa
 					<div className="body-card">
 						<div className='h-[95%]'>
 							{all_channels.map((msg, id) => (
-								<div className="card-channel"
+								<div key={msg.id} className="card-channel"
 									 onMouseEnter={handleMouseEnter}
 									 onMouseLeave={handleMouseLeave}
 								>

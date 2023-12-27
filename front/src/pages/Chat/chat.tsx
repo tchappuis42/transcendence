@@ -32,7 +32,9 @@ const Chat = () => {
 	const { account } = useAccount();
 	const navigate = useNavigate();
 	const [successPassword, setSuccessPass] = useState("");
+	const [checkPassStatus, setCheckPassStatus] = useState("");
 
+	console.log("----------------- debut ------------------ ");
 	useEffect(() => {
 		if (socket) {
 			socket.emit("getAllChannels")
@@ -57,9 +59,7 @@ const Chat = () => {
 		};
 
 	}, [socket]);
-	// true 1 false
-	// true 1 true
-	// true 0 false
+
 	useEffect(() => {
 		setShowAuthWindow("");
 		if (!currentChannel) {
@@ -82,15 +82,15 @@ const Chat = () => {
 			socket.on("setUserInChannel", (user) => {
 				setUser(user);
 			})
+
 			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
 				//setPass(datta);
-				console.log("datta: ", datta);
 				setShowAuthWindow(datta);
 				if (datta === "ok") {
 					//	socket.emit("message", "", name, '1');
 					socket.emit("getChannelMeOne", name, curChan);
-					setPass("ok")
+					setPass("ok");
 					setData("");
 					//	socket.emit("message", "", name, '1');
 				}
@@ -174,9 +174,13 @@ const Chat = () => {
 		setCurrentChannel(channelSet)
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
+			// setCheckPassStatus("en cours");
+			// console.log("socket: ", socket);
 			// const password = prompt("what is the PassWord?");//todo enlever le prompt
-			if (socket)
+			if (socket) {
 				socket.emit("checkPass", channelSet, password, currentChannel);
+			}
+				
 		}
 		if (chanStatue === "Public") {
 			if (socket) {
@@ -206,10 +210,12 @@ const Chat = () => {
 		setPass(passe);
 	}
 
-	console.log("showAuthWindow: ", showAuthWindow, "channelstatus: ",channelStatus);
+	// console.log("showAuthWindow: ", showAuthWindow, "channelstatus: ",channelStatus);
+	console.log("checkPassStatus: ", checkPassStatus);
 	// (!channelStatus && (showAuthWindow !== "ko" && showAuthWindow)) || (channelStatus && currentChannel !== "create a channel!") || (!channelStatus && !showAuthWindow && currentChannel !== "create a channel!")
+	// && ((!channelStatus && Owner) || channelStatus)
 	return (
-		currentChannel !== "create a channel!" && ((!channelStatus && Owner) || channelStatus) ? (
+		currentChannel !== "create a channel!"  ? (
 			<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
 				<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
 					<CreateChannel currentChannel={currentChannel} />

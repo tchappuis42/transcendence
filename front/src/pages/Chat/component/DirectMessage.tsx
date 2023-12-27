@@ -60,7 +60,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 			) : (
 				<div className="body-card">
 					{all_DMChannels.map((msg, id) => (
-						<div className="card-channel"
+						<div key={msg.id} className="card-channel"
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>

@@ -12,16 +12,21 @@ import { useAccount } from "../../ui/organisms/useAccount";
 import InvitGameMsg from "./component/InvitGameMsg";
 import { useNavigate } from "react-router-dom";
 import "./chat.css"
+import {createPortal} from "react-dom";
+import {SimpleRegistrationForm} from "./component/stylePopUP";
+import Channel from "./interface/channelDto";
+import channels from "./component/Channels";
 
 const Chat = () => {
 	const [userInChannel, setUserInChannel] = useState<Account[]>([]);
-	const [showAuthWindow, setShowAuthWindow] = useState(false);
+	const [showAuthWindow, setShowAuthWindow] = useState("");
 	const [data, setData] = useState("");
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [currentChannel, setCurrentChannel] = useState("");
 	const [pass, setPass] = useState(""); // a voir chmager le nom
 	const [DM_Chann, setDM_Chann] = useState(true); //changer les nom
 	const [channelStatus, setChannelStatus] = useState(false);
+	const [channelName, setChannelName] = useState("");
 	const [Owner, setOwner] = useState("0");
 	const socket = useSocket();
 	const { account } = useAccount();
@@ -52,8 +57,11 @@ const Chat = () => {
 		};
 
 	}, [socket]);
-
+	// true 1 false
+	// true 1 true
+	// true 0 false
 	useEffect(() => {
+		setShowAuthWindow("");
 		if (!currentChannel) {
 			setCurrentChannel("create a channel!")
 		}
@@ -62,7 +70,8 @@ const Chat = () => {
 				setDM_Chann(true);
 				setOwner(owner);
 				setChannelStatus(status)
-			//	if (status) {
+				console.log(DM_Chann, Owner, channelStatus)
+				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
 			});
 			socket.on("getDMChannelMe", (name, status, user) => {
@@ -76,12 +85,14 @@ const Chat = () => {
 			socket.on("checkPass", (name, datta, curChan) => {
 				setteurPass(datta);
 				//setPass(datta);
+				console.log("datta: ", datta);
+				setShowAuthWindow(datta);
 				if (datta === "ok") {
-				//	socket.emit("message", "", name, '1');
+					//	socket.emit("message", "", name, '1');
 					socket.emit("getChannelMeOne", name, curChan);
 					setPass("ok")
 					setData("");
-				//	socket.emit("message", "", name, '1');
+					//	socket.emit("message", "", name, '1');
 				}
 				else {
 					setUserInChannel([])
@@ -113,7 +124,7 @@ const Chat = () => {
 			});
 			socket.on("messages", (data) => {
 				setMessages(data)
-				console.log(socket)
+				// console.log(socket)
 			});
 			socket.on("banUser", (channelName) => {
 				if (socket) {
@@ -135,6 +146,7 @@ const Chat = () => {
 				else
 					setSuccessPass("erreur dans le changement du mot de passe")
 			});
+			console.log("out: ", DM_Chann, Owner, channelStatus)
 		}
 		return () => {
 			if (socket) {
@@ -160,14 +172,13 @@ const Chat = () => {
 
 	function takeChan(channelSet: string, chanStatue: string, password?: string) {
 		setCurrentChannel(channelSet)
-		console.log("password: ", password);
 		console.log("chann = , current =", channelSet, currentChannel)
 		if (chanStatue !== "Public") {
-			// const password = prompt("what is the PassWord?");
+			// const password = prompt("what is the PassWord?");//todo enlever le prompt
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
 		}
-		if (chanStatue === "Public") {	
+		if (chanStatue === "Public") {
 			if (socket) {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok")
@@ -194,53 +205,55 @@ const Chat = () => {
 	function setteurPass(passe: SetStateAction<string>) {
 		setPass(passe);
 	}
-	console.log("current channel: ", currentChannel);
+
+	console.log("showAuthWindow: ", showAuthWindow, "channelstatus: ",channelStatus);
+	// (!channelStatus && (showAuthWindow !== "ko" && showAuthWindow)) || (channelStatus && currentChannel !== "create a channel!") || (!channelStatus && !showAuthWindow && currentChannel !== "create a channel!")
 	return (
-		currentChannel !== "create a channel!" ? (
-		<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
-			<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
-				<CreateChannel currentChannel={currentChannel} />
-				<div className="row-span-4">
-				<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+		currentChannel !== "create a channel!" && ((!channelStatus && Owner) || channelStatus) ? (
+			<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-40 sm:grid-cols-2 xl:grid-cols-8"> {/*div prinsipale*/}
+				<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
+					<CreateChannel currentChannel={currentChannel} />
+					<div className="row-span-4">
+						<Channels channel={channelName} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+					</div>
+					<div className="row-span-3">
+						<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
+					</div>
 				</div>
-				<div className="row-span-3">
-					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
+				<div className="col-span-4 min-h-[800px] bg-gray-100/60">
+					<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
+				</div>
+				<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
+					<InvitGameMsg />
+					<div className="row-span-4">
+						<UserInChannel userInChannel={userInChannel} />
+					</div>
+					<div className="row-span-3">
+						<FriendsChat currentChannel={currentChannel} />
+					</div>
 				</div>
 			</div>
-			<div className="col-span-4 min-h-[800px] bg-gray-100/60">
-				<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
-			</div>
-			<div className="chat-side-bar-component min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>				
-				<InvitGameMsg />
-				<div className="row-span-4">
-					<UserInChannel userInChannel={userInChannel} />
-				</div>
-				<div className="row-span-3">
-					<FriendsChat currentChannel={currentChannel} />
-				</div>
-			</div>
-		</div>
 		) : (
 			<div className="grid grid-cols-2 grid-row-1 main-page sm:px-5 lg:px-20 xl:px-30 2xl:px-96 sm:grid-cols-2 xl:grid-cols-8 gap-10"> {/*div prinsipale*/}
-			<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
-				<CreateChannel currentChannel={currentChannel} />
-				<div className="row-span-4">
-					<Channels takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+				<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
+					<CreateChannel currentChannel={currentChannel} />
+					<div className="row-span-4">
+						<Channels channel={channelName} takeChan={takeChan} currentChannel={currentChannel} setMessages={setMessages} userInChannel={userInChannel} channelStatus={channelStatus} Owner={Owner} setChannelStatus={setChannelStatus} setOwner={setOwner} />
+					</div>
+					<div className="row-span-3">
+						<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
+					</div>
 				</div>
-				<div className="row-span-3">
-					<DirectMessage takeChan={takeDMChan} currentChannel={currentChannel} />
+				<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>
+					<InvitGameMsg />
+					<div className="row-span-4">
+						<UserInChannel userInChannel={userInChannel} />
+					</div>
+					<div className="row-span-3">
+						<FriendsChat currentChannel={currentChannel} />
+					</div>
 				</div>
 			</div>
-			<div className="chat-side-bar-component col-span-4 min-w-[300px]" style={{gridTemplateRows: "repeat(8, minmax(0, 1fr))"}}>				
-				<InvitGameMsg />
-				<div className="row-span-4">
-					<UserInChannel userInChannel={userInChannel} />
-				</div>
-				<div className="row-span-3">
-					<FriendsChat currentChannel={currentChannel} />
-				</div>
-			</div>
-		</div>
 		)
 	);
 

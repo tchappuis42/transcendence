@@ -26,7 +26,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 				setDMCHannel(data);
 			});
 			socket.on("refreshDMChannel", (data) => {
-				console.log("dataa :", data)
+				// console.log("dataa :", data)
 				setDMCHannel(data);
 			});
 		}

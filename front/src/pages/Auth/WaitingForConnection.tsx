@@ -57,8 +57,8 @@ const WaitingForConnection = () => {
             }}
           /> :
           <>
-            <div className="animate-spin h-10 w-10 border-t-2 border-b-2 border-gray-900 rounded-full mb-4"></div>
-            <h1 className='text-lg font-semibold mb-2'>Connecting to API</h1>
+            <div className="animate-spin h-10 w-10 border-t-2 border-b-2 border-white rounded-full mb-4"></div>
+            <h1 className='text-lg font-semibold mb-2 text-white'>Connecting to API</h1>
           </>
       }
     </div>

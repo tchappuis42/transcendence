@@ -4,7 +4,14 @@ import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools
 import { useAccount } from '../../../ui/organisms/useAccount';
 import Channel from '../interface/channelDto';
 import { SimpleRegistrationForm } from "./stylePopUP";
+import { Account } from '../../../ui/types';
 
+interface DMChannel {
+	id: number;
+	name: string;
+	statue: string;
+	user: Account[];
+}
 
 interface Props {
 	takeChan(channelSet: string): void
@@ -13,15 +20,17 @@ interface Props {
 
 const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 	const socket = useSocket();
-	const [all_DMChannels, setDMCHannel] = useState<Channel[]>([]);
+	const [all_DMChannels, setDMCHannel] = useState<DMChannel[]>([]);
+	const [chanName, setChanName] = useState("");
 	const { account } = useAccount();
 
 	useEffect(() => {
 		if (socket) {
-			socket.on("getDMChannelMe", (name, status, user) => {
+			socket.on("getDMChannelMe", (name, status, user, chanN) => {
 				socket.emit("DMmessage", " ", name, '1');
+				setChanName(chanN);
 			});
-			socket.on("createDMChannel", (data, channel) => {
+			socket.on("createDMChannel", (data, channel, name) => {
 				takeChan(channel);
 				setDMCHannel(data);
 			});
@@ -38,13 +47,9 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 		};
 	}, [socket, currentChannel]);
 
-	const getUserName = (name: string) => {  //todo
-		const users = name.split("_");
-		if (users[0] !== account.username)
-			return users[0];
-		if (users[1] !== account.username)
-			return users[1];
-		return ("")
+	const getUserName = (users: Account[]) => {  //todo
+		const userName = users.find(user => user.id !== account.id)
+		return (userName?.username)
 	}
 
 	return (
@@ -64,7 +69,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 							onMouseLeave={handleMouseLeave}
 						>
 							<div className="h-full w-full flex flex-row justify-between px-5 items-center" onClick={() => takeChan(msg.name)}>
-								<h1 className='name-card'>{getUserName(msg.name)}</h1>
+								<h1 className='name-card'>{getUserName(msg.user)}</h1>
 								<h1 className='name-card'>{msg.statue}</h1>
 							</div>
 						</div>

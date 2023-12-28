@@ -33,6 +33,7 @@ const Chat = () => {
 	const navigate = useNavigate();
 	const [successPassword, setSuccessPass] = useState("");
 	const [checkPassStatus, setCheckPassStatus] = useState("");
+	const [DMChanName, setDMChanName] = useState("");
 
 	useEffect(() => {
 		if (socket) {
@@ -72,10 +73,11 @@ const Chat = () => {
 				//	if (status) {
 				socket.emit("message", " ", chanName, '1');
 			});
-			socket.on("getDMChannelMe", (name, status, user) => {
+			socket.on("getDMChannelMe", (name, status, user, chanN) => {
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
+				setDMChanName(chanN)
 				socket.emit("DMmessage", " ", name, '1');
 			});
 			socket.on("setUserInChannel", (user) => {
@@ -174,7 +176,7 @@ const Chat = () => {
 			setCurrentChannel(channelSet);
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
-				setMessages([]);
+			setMessages([]);
 		}
 		if (chanStatue === "Public") {
 			setCurrentChannel(channelSet);
@@ -219,7 +221,7 @@ const Chat = () => {
 				</div>
 			</div>
 			<div className="col-span-4 min-h-[800px] bg-gray-100/60">
-				<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} />
+				<ChatBoard currentChannel={currentChannel} messages={messages} pass={pass} DM_Chann={DM_Chann} data={data} setData={setData} DMChanName={DMChanName} />
 			</div>
 			<div className="chat-side-bar-component min-w-[300px]" style={{ gridTemplateRows: "repeat(8, minmax(0, 1fr))" }}>
 				<InvitGameMsg />

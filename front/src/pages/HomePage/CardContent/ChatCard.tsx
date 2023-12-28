@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { useAccount } from '../../../ui/organisms/useAccount';
-import Channel from '../../Chat/interface/channelDto';
 import { useNavigate } from 'react-router-dom';
+import { Account } from '../../../ui/types';
 
+interface DMChannel {
+    id: number;
+    name: string;
+    statue: string;
+    user: Account[];
+}
 
 const ChatCard = () => {
     const socket = useSocket();
-    const [all_DMChannels, setDMCHannel] = useState<Channel[]>([]);
+    const [all_DMChannels, setDMCHannel] = useState<DMChannel[]>([]);
     const { account } = useAccount();
     const navigate = useNavigate();
 
@@ -35,13 +41,9 @@ const ChatCard = () => {
         };
     }, [socket]);
 
-    const getUserName = (name: string) => {  //todo
-        const users = name.split("_");
-        if (users[0] !== account.username)
-            return users[0];
-        if (users[1] !== account.username)
-            return users[1];
-        return ("")
+    const getUserName = (users: Account[]) => {  //todo
+        const userName = users.find(user => user.id !== account.id)
+        return (userName?.username)
     }
 
     function takeChan(channelSet: string) {
@@ -68,7 +70,7 @@ const ChatCard = () => {
                             onMouseLeave={handleMouseLeave}
                         >
                             <div className="h-full w-full grid grid-cols-2 px-5 items-center" onClick={() => takeChan(msg.name)}>
-                                <h1 className='text-xl flex justify-center w-full'>{getUserName(msg.name)}</h1>
+                                <h1 className='text-xl flex justify-center w-full'>{getUserName(msg.user)}</h1>
                                 <h1 className='text-xl flex justify-center'>{msg.statue}</h1>
                             </div>
                         </div>

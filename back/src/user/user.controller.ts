@@ -107,7 +107,6 @@ export class UserController {
 	@Get('block/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async blockById(@Req() req: Request, @Param('id') blockId: number) {
-		console.log(blockId)
 		const user = req.user as User;
 		await this.friendService.removeFriend(user, blockId);
 		return await this.userService.blockbyId(user.id, blockId);
@@ -149,6 +148,6 @@ export class UserController {
 	@Get("/apiPic")
 	async apiPic(): Promise<any> {
 		var apiKey = process.env.PIC_UID;
-		return {apiKey};
+		return { apiKey };
 	}
 }

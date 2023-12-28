@@ -12,7 +12,8 @@ interface Props {
 	pass: string;
 	DM_Chann: boolean;
 	data: string;
-	setData: React.Dispatch<React.SetStateAction<string>>
+	setData: React.Dispatch<React.SetStateAction<string>>;
+	DMChanName: string;
 }
 
 interface PropsTyping {
@@ -30,7 +31,7 @@ const TypingBubble = ({ userTyping }: PropsTyping) => {
 	);
 };
 
-const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
+const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData, DMChanName }) => {
 	const [userTyping, setUserTyping] = useState("");
 	const [Timer, setTimer] = useState(0);
 	const { account } = useAccount();
@@ -70,12 +71,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 
 	const getUserName = (name: string) => {
 		if (!DM_Chann) {
-			const users = name.split("_");
-			if (users[0] !== account.username)
-				return users[0];
-			if (users[1] !== account.username)
-				return users[1];
-			return ("")
+			return (DMChanName)
 		}
 		return name
 	}

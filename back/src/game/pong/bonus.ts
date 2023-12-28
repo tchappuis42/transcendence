@@ -3,15 +3,15 @@ import { Ball } from "./ball";
 import { Paddle } from "./paddle";
 
 type functions = {
-    bonusFunc: (modifier : Paddle[] | Ball | undefined) => void;
-    color : string;
-    modifier? : Paddle[] | Ball | undefined;
+    bonusFunc: (modifier: Paddle[] | Ball | undefined) => void;
+    color: string;
+    modifier?: Paddle[] | Ball | undefined;
 }
 
-type   modifier  = {
-    paddle1 : Paddle, 
-    paddle2 : Paddle, 
-    ball : Ball
+type modifier = {
+    paddle1: Paddle,
+    paddle2: Paddle,
+    ball: Ball
 }
 
 type coor = {
@@ -20,22 +20,22 @@ type coor = {
 }
 
 export class Bonus {
-    private paddle1 : Paddle;
-    private paddle2 : Paddle;
-    private ball : Ball;
-    isLaunched : boolean;
-    index : number;
-    color:string;
+    private paddle1: Paddle;
+    private paddle2: Paddle;
+    private ball: Ball;
+    isLaunched: boolean;
+    index: number;
+    color: string;
     coor: {
         x: number;
         y: number;
     };
     functions: functions[];
 
-    constructor(id?: number, modifier? : modifier, coor? : coor) {
+    constructor(id?: number, modifier?: modifier, coor?: coor) {
         this.coor = {
-                x: coor?.x,
-                y: coor?.y,
+            x: coor?.x,
+            y: coor?.y,
         }
         this.paddle1 = modifier?.paddle1;
         this.paddle2 = modifier?.paddle2;
@@ -46,57 +46,58 @@ export class Bonus {
         this.functions = [
             {
                 bonusFunc: slowDownPaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color : "blue",
+                modifier: [this.paddle1, this.paddle2],
+                color: "blue",
             },
             {
-                bonusFunc : SmallPaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color:"green",
+                bonusFunc: SmallPaddle,
+                modifier: [this.paddle1, this.paddle2],
+                color: "green",
             },
             {
-                bonusFunc : invisiblePaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color:"purple",
+                bonusFunc: invisiblePaddle,
+                modifier: [this.paddle1, this.paddle2],
+                color: "purple",
             },
             {
                 bonusFunc: slowDownPaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color : "blue",
+                modifier: [this.paddle1, this.paddle2],
+                color: "blue",
             },
             {
-                bonusFunc : SmallPaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color:"green",
+                bonusFunc: SmallPaddle,
+                modifier: [this.paddle1, this.paddle2],
+                color: "green",
             },
             {
-                bonusFunc : invisibleBall,
-                modifier : this.ball,
-                color:"yellow",
+                bonusFunc: invisibleBall,
+                modifier: this.ball,
+                color: "yellow",
             },
             {
-                bonusFunc : invisiblePaddle,
-                modifier : [this.paddle1, this.paddle2],
-                color:"purple",
+                bonusFunc: invisiblePaddle,
+                modifier: [this.paddle1, this.paddle2],
+                color: "purple",
+            },
+            {
+                bonusFunc: invisibleBall,
+                modifier: this.ball,
+                color: "yellow",
             },
         ]
     }
 
-    bonusInit(){
+    bonusInit() {
         if (this.functions[this.index]) {
             this.color = this.functions[this.index].color;
-        } else {
-            console.error(`Function at index ${this.index} does not exist.`);
         }
     }
-    
-    launchBonus(){
+
+    launchBonus() {
         if (this.functions[this.index]) {
             const funcToCall = this.functions[this.index].bonusFunc;
             const modifier = this.functions[this.index].modifier;
             funcToCall(modifier);
-        } else {
-            console.error(`Function at index ${this.index} does not exist.`);
         }
     }
 };
@@ -128,12 +129,12 @@ const SmallPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.height = tmpSize[index];
         });
-    }, 15000);
+    }, 9000);
 };
 
 const invisiblePaddle = (paddles: Paddle[]) => {
-    const delays = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000];
-    
+    const delays = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
+
     delays.forEach((delay, index) => {
         setTimeout(() => {
             paddles[0].color = index % 2 === 0 ? "transparent" : "";
@@ -149,7 +150,7 @@ const invisiblePaddle = (paddles: Paddle[]) => {
 
 const invisibleBall = (ball: Ball) => {
     const delays = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
-    
+
     delays.forEach((delay, index) => {
         setTimeout(() => {
             ball.color = index % 2 === 0 ? "transparent" : "";

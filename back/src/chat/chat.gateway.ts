@@ -513,8 +513,11 @@ export class ChatGateway {
 				user.id,
 			);
 
-			const all = all_channels.map((chan) => { if (chan.block1 === false && chan.block2 === false) { return { id: chan.id, name: chan.name, statue: "Unblocked" } } else if ((chan.block1 || chan.block2) === true) { return { id: chan.id, name: chan.name, statue: "Blocked" } } });
-			client.emit('createDMChannel', all, channel.name);
+			const all = all_channels.map((chan) => { if (chan.block1 === false && chan.block2 === false) { return { id: chan.id, name: chan.name, statue: "Unblocked", user: chan.users } } else if ((chan.block1 || chan.block2) === true) { return { id: chan.id, name: chan.name, statue: "Blocked", user: chan.users } } });
+			if (user.id < user2.id)
+				client.emit('createDMChannel', all, channel.name, channel.user2[0].username);
+			else
+				client.emit('createDMChannel', all, channel.name, channel.user1[0].username);
 			client.join(channel.name);
 			this.server.emit('trans');
 		} catch { }
@@ -536,10 +539,10 @@ export class ChatGateway {
 			);
 			const all = all_channels.map((chan) => {
 				if (((chan.user1[0].id === user.id) && chan.block1 === false) || ((chan.user2[0].id === user.id) && chan.block2 === false)) {
-					return { id: chan.id, name: chan.name, statue: "Unblocked" }
+					return { id: chan.id, name: chan.name, statue: "Unblocked", user: chan.users }
 				}
 				else if (((chan.user1[0].id === user.id) && chan.block1 === true) || ((chan.user2[0].id === user.id) && chan.block2 === true)) {
-					return { id: chan.id, name: chan.name, statue: "Blocked" }
+					return { id: chan.id, name: chan.name, statue: "Blocked", user: chan.users }
 				}
 			});
 			client.emit('refreshDMChannel', all)
@@ -565,9 +568,9 @@ export class ChatGateway {
 			const channel = await this.DMChannelService.getDMChannelMe(name[0]);
 			const userAll = channel.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			if (channel.user1[0].id === user.id)
-				client.emit('getDMChannelMe', channel.name, channel.block1, userAll);
+				client.emit('getDMChannelMe', channel.name, channel.block1, userAll, channel.user2[0].username);
 			else
-				client.emit('getDMChannelMe', channel.name, channel.block2, userAll);
+				client.emit('getDMChannelMe', channel.name, channel.block2, userAll, channel.user1[0].username);
 		} catch { }
 	}
 

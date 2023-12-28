@@ -176,15 +176,13 @@ const generateRandomCoor = (height: number, width: number) => {
 		y: Math.floor(height * randomNumberY),
 	}
 	if (coor.y > 400) {
-		console.log("y trop grand : ", coor.y)
 		coor.y = 400;
 	}
 	if (coor.x < 100) {
-		console.log("x trop petit : ", coor.x)
 		coor.x = 100;
 	}
 	if (coor.x > 600) {
-		console.log("x trop grand : ", coor.y)
+
 		coor.x = 600;
 	}
 	return coor

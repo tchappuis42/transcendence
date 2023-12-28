@@ -4,10 +4,8 @@ import { LevelUser } from "./infoCurrentUser/infoLevel/infoLevel";
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { useAccount } from "../../../ui/organisms/useAccount";
-import { FriendStatus } from "../../Friend/interface/friendStatus";
-import { useFriends } from "../../Friend/useFriends";
 import axios from "axios";
-import { addFrind } from "../../Friend/teststatus";
+import { addFrind } from "../../Friend/status";
 import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
 
 interface Props {
@@ -72,18 +70,18 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 		if (isFriend === "Delete") {
 			const removeFriend = async () => {
 				const friendObj = {
-					id : user?.id,
-					accept : true
+					id: user?.id,
+					accept: true
 				}
 				try {
-					const response = await axios.post("/api/friends/removeFriend", friendObj, {withCredentials:true})
+					const response = await axios.post("/api/friends/removeFriend", friendObj, { withCredentials: true })
 					setIsFriend("Add")
 				} catch {
 					console.error("error while deleting friends request");
 				}
 			}
 			removeFriend();
-		}	
+		}
 	}
 	const handleBlockedRequest = () => {
 		if (isUserBlock === "block") {
@@ -100,7 +98,7 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 		else {
 			const deblock = async () => {
 				try {
-					const response = await axios.get(`/api/user/unblock/${user?.id}`, {withCredentials:true})
+					const response = await axios.get(`/api/user/unblock/${user?.id}`, { withCredentials: true })
 					setUserBlock("block")
 				} catch {
 					console.error("error while unblocking friends request");
@@ -114,10 +112,10 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 		<>
 			{user?.id === account.id ? (
 				<div className="m-card p-5">
-					<div className="h-full border- max-h-[300px]" style={{display: "grid", gridTemplateRows: "3fr 1fr"}}>
+					<div className="h-full border- max-h-[300px]" style={{ display: "grid", gridTemplateRows: "3fr 1fr" }}>
 						<div className="grid grid-cols-3 md:max-h-[250px]">
-							<div id={"profil"} style={{objectFit: "cover", overflow: "hidden"}}>
-								<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
+							<div id={"profil"} style={{ objectFit: "cover", overflow: "hidden" }}>
+								<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"} />
 							</div>
 							<div className="col-span-2">
 								<MyName id={user?.id} username={user?.username} index={0} />
@@ -128,35 +126,35 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 						</div>
 					</div>
 				</div>
-				) : (
-					<div className="m-card grid grid-rows-3 p-5">
-						<div className="row-span-2">
-							<div className="h-full max-h-[300px]" style={{display: "grid", gridTemplateRows: "3fr 1fr"}}>
-								<div className="grid grid-cols-3 md:max-h-[250px]">
-									<div id={"profil"} style={{objectFit: "cover", overflow: "hidden"}}>
-										<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
-									</div>
-									<div className="col-span-2">
-										<MyName id={user?.id} username={user?.username} index={0} />
-									</div>
+			) : (
+				<div className="m-card grid grid-rows-3 p-5">
+					<div className="row-span-2">
+						<div className="h-full max-h-[300px]" style={{ display: "grid", gridTemplateRows: "3fr 1fr" }}>
+							<div className="grid grid-cols-3 md:max-h-[250px]">
+								<div id={"profil"} style={{ objectFit: "cover", overflow: "hidden" }}>
+									<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"} />
 								</div>
-								<div className="max-h-[80px]">
-									<LevelUser user={user} />
+								<div className="col-span-2">
+									<MyName id={user?.id} username={user?.username} index={0} />
 								</div>
 							</div>
-							<div className="w-full p-5 row-span-1 flex justify-center items-start">
-								<Button className="w-32 h-8 rounded p-2 text-black/60 mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
-									{isFriend}
-								</Button>
-								<Button className="w-32 h-8 rounded p-2 text-black/60" onClick={() => { handleBlockedRequest() }} variant="outlined">
-									{isUserBlock}
-								</Button>
+							<div className="max-h-[80px]">
+								<LevelUser user={user} />
 							</div>
 						</div>
+						<div className="w-full p-5 row-span-1 flex justify-center items-start">
+							<Button className="w-32 h-8 rounded p-2 text-black/60 mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
+								{isFriend}
+							</Button>
+							<Button className="w-32 h-8 rounded p-2 text-black/60" onClick={() => { handleBlockedRequest() }} variant="outlined">
+								{isUserBlock}
+							</Button>
+						</div>
 					</div>
-				)
+				</div>
+			)
 			}
-			
+
 		</>
 	);
 }

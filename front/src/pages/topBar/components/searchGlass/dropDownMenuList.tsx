@@ -28,7 +28,7 @@ export const DropDownMenuList = ({ inputRef }: IsActivComponent) => {
 		if (fetchUser && input.length > 0) {
 			const fetchData = async () => {
 				try {
-					const response = await axios.get(`http://localhost:4000/user/getUsersByName/${input}`, { withCredentials: true });
+					const response = await axios.get(`/api/user/getUsersByName/${input}`, { withCredentials: true });
 					setUsers(response.data);
 				} catch (error) {
 					console.error("Error fetching user data:", error);

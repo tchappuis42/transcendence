@@ -40,7 +40,6 @@ const ProfilCard = () => {
             }
             catch (error: any) {
                 console.error("error while fetching friend request");
-                console.log("error = ", error)
                 if (error.response.request.status === 401)
                     authenticate();
             }
@@ -60,7 +59,7 @@ const ProfilCard = () => {
     return (
         <div className="h-full w-full grid grid-cols-1 grid-rows-3 p-3 bg-gray-200/60 rounded">
             <div id={"profilCard"} className="row-span-1 grid grid-cols-4 grid-rows-1 w-full pb-3 gap-5 rounded object-cover">
-                <AvatarContainer src={account.avatar} id={account.id} navigation={true} id_div={"profilCard"}/>
+                <AvatarContainer src={account.avatar} id={account.id} navigation={true} id_div={"profilCard"} />
                 <div className="col-span-3 h-full w-full">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-2xl border rounded">
                         {account.username}

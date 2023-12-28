@@ -31,7 +31,6 @@ const SocketPong = () => {
 		if (socket) {
 			socket.on("info", (data) => {
 				if (typeof data === 'object' && data !== null) {
-					console.log("data = ", data);
 					setplayer1(data.idOne);
 					setplayer2(data.idTwo);
 					setPage(true);

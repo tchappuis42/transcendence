@@ -81,20 +81,24 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 				<div className='header-card'>
 					<h1>Matchmaking</h1>
 				</div>
-				<div className="grid grid-rows-2 px-14 py-4 md:py-8 lg:py-10 items-center justify-left bg-white/50 m-2.5 rounded gap-3 md:gap-5">
-					<button onClick={matchmaking} className="min-w-[150px] max-w-[200px] border h-10 border-black px-2 rounded">
-						{search}
-					</button>
-					<div className="flex jusitfy-center items-center gap-5">
-						<input type={"checkbox"} checked={bonus} className="border h-10 border-black px-2 rounded" onChange={handleCheckBoxChange}></input>
-						{error ? (
-							<h1 className="mt-3 text-red-600">{error}</h1>
-						) : (
-							<h1 className=" ">Activate Bonus Mode</h1>
-						)}
+				<div className="grid sm:grid-rows-2 md:grid-rows-1 md:grid-cols-2 px-4 py-4 bg-white/50 m-2.5 rounded gap-3">
+					<div className="flex justify-center items-center">
+						<button onClick={matchmaking} className="min-w-[180px] max-w-[200px] border h-10 border-black px-2 rounded">
+							{search}
+						</button>
+					</div>
+					<div className="flex justify-center items-center">
+						<div className="flex jusitfy-center items-center items-center gap-3">
+							<input type={"checkbox"} checked={bonus} className="border h-10 border-black rounded" onChange={handleCheckBoxChange}></input>
+							{error ? (
+								<h1 className="text-red-600">{error}</h1>
+							) : (
+								<h1 className="lg:text-sm xl:text-base">Activate Bonus Mode</h1>
+							)}
+						</div>
 					</div>
 				</div>
-				<div className="px-10 sm:px-14 bg-white/50 m-2.5 rounded py-5 sm:py-8 md:py-12 grid grid-rows-3 gap-3 md:gap-6">
+				<div className="grid grid-rows-3 px-10 sm:px-14 bg-white/50 m-2.5 rounded py-5 sm:py-5 md:py-8 gap-3 md:gap-6">
 					<div className="flex justify-between gap-5 min-h-[40px]">
 						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la raquette :</h1>
 						<select name="paddleColor" className="w-25 hover:bg-black border border-black/60 rounded" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>

@@ -19,7 +19,6 @@ export const useGetUser = () => {
 				setUsers(response.data)
 			} catch (error: any) {
 				console.error("Erreur lors de la récupération des users :", error);
-				console.log("error = ", error)
 				if (error.response.request.status === 401)
 					authenticate();
 			}

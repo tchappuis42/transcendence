@@ -104,7 +104,6 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 					color: data.paddleColorOne
 				}));
 				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX, color: data.ballColor }));
-				console.log("data.color : ", data.ballColor);
 				setBonus((prev) => ({
 					...prev,
 					x: data.bonusX,

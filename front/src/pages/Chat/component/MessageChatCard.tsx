@@ -10,15 +10,14 @@ interface messageProps {
 	index: number
 }
 
-const MessageChatCard = ({ msg, index}: messageProps) => {
+const MessageChatCard = ({ msg, index }: messageProps) => {
 	const { account } = useAccount();
-	// console.log(msg.uId);
 	return (
 		msg.uId === account.id ? (
 			<div className="w-full flex justify-end mt-2 px-4">
-				<div className="bg-orange-200 flex p-3 h-full justify-end max-w-2/3 rounded-md shadow-md shadow"
+				<div className="bg-orange-200 flex p-3 h-full justify-end max-w-2/3 rounded-md shadow-md"
 					key={index}
-					style={{ maxWidth: "80%", wordBreak : "break-word"}}
+					style={{ maxWidth: "80%", wordBreak: "break-word" }}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
 				>
@@ -32,9 +31,9 @@ const MessageChatCard = ({ msg, index}: messageProps) => {
 			</div>
 		) : (
 			<div className="w-full flex justify-start mt-2 px-4">
-				<div className="flex p-3 h-full mw-2/3 rounded-md bg-black/70 shadow-md shadow-md flex-col gap-1"
+				<div className="flex p-3 h-full mw-2/3 rounded-md bg-black/70 shadow-md  flex-col gap-1"
 					key={index}
-					style={{ maxWidth: "80%", wordBreak : "break-word"}}
+					style={{ maxWidth: "80%", wordBreak: "break-word" }}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
 				>

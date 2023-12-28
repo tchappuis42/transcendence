@@ -47,13 +47,11 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
 
 
   const handleImageSearch = () => {
-    console.log("stringtotsearch :", stringToSearch)
     if (stringToSearch) {
       const handleSearch = async () => {
         try {
-          const prerep = await axios.get("/api/user/apiPic", { withCredentials: true });
+          const prerep = await axios.get("http://localhost:4000/user/apiPic", { withCredentials: true });
           const apiKey = prerep.data.apiKey;
-          console.log(apiKey);
           const response = await axios.get(
             `https://api.unsplash.com/search/photos?query=${stringToSearch}&client_id=${apiKey}`
           );

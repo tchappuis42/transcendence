@@ -320,19 +320,15 @@ export class GameService {
 				name: user.username + "gameroom",
 				socket1: client,
 				socket2: invit.socket,
-				pong: new Pong(),
+				pong: new Pong(false),
 				intervalId: setInterval(() => this.life(server, client), 1000 / 60),
 				timeStart: new Date().getTime()
 			}
 			await this.userservice.StatueGameOn(user.id, server)
 			await this.userservice.StatueGameOn(userId, server)
 			this.rooms.push(element);
-			const socket = await server.in(element.name).allSockets();
-			console.log("AVANT", socket)
 			client.join(element.name);
 			invit.socket.join(element.name);
-			const socketI = await server.in(element.name).allSockets();
-			console.log("APRES", socketI, element.name)
 			return {
 				success: true,
 				roomName: element.name,

@@ -3,6 +3,8 @@ import { useSocket } from '../../../ui/organisms/SocketContext';
 import { handleMouseEnter, handleMouseLeave } from '../../Friend/interface/Tools';
 import { useAccount } from '../../../ui/organisms/useAccount';
 import Channel from '../interface/channelDto';
+import { SimpleRegistrationForm } from "./stylePopUP";
+
 
 interface Props {
 	takeChan(channelSet: string): void
@@ -24,7 +26,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 				setDMCHannel(data);
 			});
 			socket.on("refreshDMChannel", (data) => {
-				console.log("dataa :", data)
+				// console.log("dataa :", data)
 				setDMCHannel(data);
 			});
 		}
@@ -58,7 +60,7 @@ const DirectMessage: React.FC<Props> = ({ takeChan, currentChannel }) => {
 			) : (
 				<div className="body-card">
 					{all_DMChannels.map((msg, id) => (
-						<div className="card-channel"
+						<div key={msg.id} className="card-channel"
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 						>

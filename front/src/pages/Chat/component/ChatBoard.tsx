@@ -69,6 +69,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 	}
 
 	const getUserName = (name: string) => {
+		console.log("name: 	", name);
 		if (!DM_Chann) {
 			const users = name.split("_");
 			if (users[0] !== account.username)
@@ -114,7 +115,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 					<div className="w-full h-full bg-white/50 rounded-md hover:snap-y snap-mandatory overflow-y-auto">
 						<div className="">
 							{messages.map((msg, index) => (
-								<MessageChatCard msg={msg} index={index}/>
+								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index}/>
 							))}
 						<div className='px-3 py-5'>
 							{userTyping ? <TypingBubble userTyping={userTyping}/> : null }

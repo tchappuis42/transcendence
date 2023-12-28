@@ -61,7 +61,10 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 					<h1>No users</h1>
 				</div>
 			) : (
-				<div className="body-card">
+				<div className="max-h-[90%] m-1
+				rounded-md gap-5
+				box-border justify-center items-center 
+				overflow-y-auto">
 					{userInChannel?.map((userIn: Account) => (
 						<div className='h-[90%]'>
 							{InvitGame(userIn.id) ? (<UserInChannelCard key={userIn.id} userInChannel={userIn} />) : (

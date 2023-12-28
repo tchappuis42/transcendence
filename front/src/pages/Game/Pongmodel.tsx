@@ -252,7 +252,6 @@ const Pong = () => {
 				y: height - grid * 2,
 			}));
 		}
-		console.log("dy = ", ball.dy)
 		//collision avec les pads
 		if (collides(ball, leftPaddle)) {
 			// move ball next to the paddle otherwise the collision will happen again
@@ -275,7 +274,6 @@ const Pong = () => {
 				}));
 			}
 		}
-		//console.log("ball.dx = ", ball.dx);
 		if (collides(ball, rightPaddle)) {
 			// 	ball.dx *= -1;
 			setBall((prevBall) => ({

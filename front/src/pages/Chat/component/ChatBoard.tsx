@@ -21,14 +21,14 @@ interface PropsTyping {
 
 const TypingBubble = ({ userTyping }: PropsTyping) => {
 	return (
-	<div className="typing">
-		<div className="typing__dot"></div>
-		<div className="typing__dot"></div>
-		<div className="typing__dot"></div>
-	  </div>
+		<div className="typing">
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+		</div>
 
 	);
-   };
+};
 
 const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
@@ -69,7 +69,6 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 	}
 
 	const getUserName = (name: string) => {
-		console.log("name: 	", name);
 		if (!DM_Chann) {
 			const users = name.split("_");
 			if (users[0] !== account.username)
@@ -99,8 +98,8 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 
 	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-		 e.preventDefault();
-		 sendMessage(e);
+			e.preventDefault();
+			sendMessage(e);
 		}
 	};
 
@@ -110,17 +109,17 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 				<h1 className="text-black/40 text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
 			<div className="h-[90%] grid"
-				style={{gridTemplateRows: "repeat(7, minmax(0, 1fr))"}}>
+				style={{ gridTemplateRows: "repeat(7, minmax(0, 1fr))" }}>
 				<div className='"w-full h-full row-span-6 p-2 border rounded-md'>
 					<div className="w-full h-full bg-white/50 rounded-md hover:snap-y snap-mandatory overflow-y-auto">
 						<div className="">
 							{messages.map((msg, index) => (
-								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index}/>
+								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index} />
 							))}
-						<div className='px-3 py-5'>
-							{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
+							<div className='px-3 py-5'>
+								{userTyping ? <TypingBubble userTyping={userTyping} /> : null}
+							</div>
 						</div>
-					</div>
 					</div>
 				</div>
 				<div className="w-full h-full row-span-1 bg-gray-100/60 border">

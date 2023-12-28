@@ -24,7 +24,6 @@ const ChatCard = () => {
                 socket.emit("DMmessage", " ", name, '1');
             });
             socket.on("refreshDMChannel", (data) => {
-                console.log("dataa :", data)
                 setDMCHannel(data);
             });
         }

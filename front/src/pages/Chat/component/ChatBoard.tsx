@@ -111,8 +111,8 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 			</div>
 			<div className="h-[90%] grid"
 				style={{gridTemplateRows: "repeat(7, minmax(0, 1fr))"}}>
-				<div className='"w-full h-full row-span-6 p-2 border bg-blue-200'>
-					<div className="w-full h-full bg-blue-200 hover:snap-y snap-mandatory overflow-y-auto">
+				<div className='"w-full h-full row-span-6 p-2 border rounded-md'>
+					<div className="w-full h-full bg-white/50 rounded-md hover:snap-y snap-mandatory overflow-y-auto">
 						<div className="">
 							{messages.map((msg, index) => (
 								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index}/>

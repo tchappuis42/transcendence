@@ -47,10 +47,10 @@ export const LevelUser : React.FC<LevelUserProps> = ({user}): JSX.Element => {
 	}
 
 	return (
-		<div className="level-user-component gray-border">
-			<div className="level-current-component text-white">
-				<div className="absolute ml-3">level {level}</div>
-				<div className="h-full text-white"
+		<div className="level-user-component gray-border ">
+			<div className="level-current-component text-black/60">
+				<div className="absolute ml-3 text-black/60">level {level}</div>
+				<div className="h-full text-black/60"
 					style={{width: `${level * 10}%`, backgroundColor: getColor()}}>
 				</div>
 			</div>

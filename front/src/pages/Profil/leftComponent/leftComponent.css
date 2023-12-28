@@ -4,7 +4,7 @@
 
 @layer components {
     .left-component-main {
-        @apply col-span-1
+        @apply col-span-1 max-h-[]
         flex flex-col flex-grow
         justify-start items-start
         p-[10px] gap-5
@@ -12,8 +12,6 @@
 
     .info-profile-component {
         @apply row-span-1
-        min-w-[350px] w-full
-        min-h-[250px]
         grid space-y-1
         p-4 rounded
 

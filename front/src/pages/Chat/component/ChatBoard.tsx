@@ -21,14 +21,14 @@ interface PropsTyping {
 
 const TypingBubble = ({ userTyping }: PropsTyping) => {
 	return (
-	<div className="typing">
-		<div className="typing__dot"></div>
-		<div className="typing__dot"></div>
-		<div className="typing__dot"></div>
-	  </div>
+		<div className="typing">
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+		</div>
 
 	);
-   };
+};
 
 const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
@@ -98,8 +98,8 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 
 	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-		 e.preventDefault();
-		 sendMessage(e);
+			e.preventDefault();
+			sendMessage(e);
 		}
 	};
 
@@ -114,12 +114,12 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 					<div className="w-full h-full bg-white/80 hover:snap-y rounded-t pt-2 snap-mandatory overflow-y-auto">
 						<div className="">
 							{messages.map((msg, index) => (
-								<MessageChatCard msg={msg} index={index}/>
+								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index} />
 							))}
-						<div className='px-3 py-5'>
-							{userTyping ? <TypingBubble userTyping={userTyping}/> : null }
+							<div className='px-3 py-5'>
+								{userTyping ? <TypingBubble userTyping={userTyping} /> : null}
+							</div>
 						</div>
-					</div>
 					</div>
 				</div>
 				<div className="w-full h-full row-span-1 bg-gray-100/60 border">

@@ -1,6 +1,6 @@
 export class Ball {
-	x: number //width / 2,
-	y: number //height / 2,
+	x: number
+	y: number
 	width: number
 	height: number
 	resetting: boolean

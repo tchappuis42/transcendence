@@ -3,7 +3,7 @@ import { useAccount } from '../../../ui/organisms/useAccount';
 import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
-import { SetStateAction, SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import "./card.css"
 
 interface Props {
@@ -109,7 +109,7 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 				<h1 className="text-black/40 text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
 			<div className="h-[90%] grid"
-				style={{gridTemplateRows: "repeat(7, minmax(0, 1fr))"}}>
+				style={{ gridTemplateRows: "repeat(7, minmax(0, 1fr))" }}>
 				<div className='"w-full h-full row-span-6 border rounded-t'>
 					<div className="w-full h-full bg-white/80 hover:snap-y rounded-t pt-2 snap-mandatory overflow-y-auto">
 						<div className="">

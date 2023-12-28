@@ -3,9 +3,7 @@ import {
   PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
-  OneToMany,
   TableInheritance,
-  JoinColumn,
 } from 'typeorm';
 import { Msg } from './Msg.entity';
 import { User } from 'src/user/user.entity';

@@ -128,7 +128,7 @@ const SmallPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.height = tmpSize[index];
         });
-    }, 10000);
+    }, 15000);
 };
 
 const invisiblePaddle = (paddles: Paddle[]) => {

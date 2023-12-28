@@ -58,7 +58,7 @@ const Login = () => {
 					</div>
 				</div>
 			)}
-			{/* {page === 'signup' && (
+			{page === 'signup' && (
 				<SignupForm
 					data={data}
 					handleChange={handleChange}
@@ -67,7 +67,7 @@ const Login = () => {
 					togglePassword={togglePassword}
 					toggletfa={toggletfa}
 				/>
-			)} */}
+			)}
 			{page === 'twofa' && (
 				<TwoFaForm
 					settingPage={() => setPage("login")}

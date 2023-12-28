@@ -21,10 +21,10 @@ export const LevelBar = ({progress}: Props) => {
 	
 	return (
 		<div className="level-bar-component black-border-separation-sl">
-			<div className="level-current-percentage">
+			<div className="level-current-percentage text-black/60">
 				{progress.toFixed(2)}%
 			</div>
-			<div className="h-full text-white"
+			<div className="h-full text-black/60"
 				 style={{width: `${progress}%`, backgroundColor: getColor()}}>
 			</div>
 		</div>

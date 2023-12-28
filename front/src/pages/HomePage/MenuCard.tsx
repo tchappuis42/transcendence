@@ -8,7 +8,7 @@ interface MenuCardProps {
 const MenuCard: React.FC<MenuCardProps> = ({ backgroundColor, children }) => {
 
     return (
-        <div className="bg-black/60 h-full w-full flex items-center justify-center rounded shadow-md shadow-white">
+        <div className="h-full w-full flex items-center justify-center rounded shadow">
             {children}
         </div>
     );

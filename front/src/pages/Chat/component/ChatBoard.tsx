@@ -4,6 +4,7 @@ import { handleMouseEnter, handleMouseLeave } from '../../HomePage/Tools';
 import Message from '../interface/messageDto';
 import MessageChatCard from './MessageChatCard';
 import { SyntheticEvent, useEffect, useState } from "react";
+import "./card.css"
 
 interface Props {
 	currentChannel: string;
@@ -13,6 +14,21 @@ interface Props {
 	data: string;
 	setData: React.Dispatch<React.SetStateAction<string>>
 }
+
+interface PropsTyping {
+	userTyping: string;
+}
+
+const TypingBubble = ({ userTyping }: PropsTyping) => {
+	return (
+		<div className="typing">
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+			<div className="typing__dot"></div>
+		</div>
+
+	);
+};
 
 const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, data, setData }) => {
 	const [userTyping, setUserTyping] = useState("");
@@ -80,36 +96,53 @@ const ChatBoard: React.FC<Props> = ({ currentChannel, messages, pass, DM_Chann, 
 		};
 	}, [socket, currentChannel]);
 
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			sendMessage(e);
+		}
+	};
+
 	return (
-		<div className="w-full h-full md:w-3/5 xl:[w-40%]">  {/*div du centre en bleu*/}
-			<div className="h-[10%] rounded-md md:rounded-none md:rounded-r-md xl:rounded-none w-full bg-black/80 flex justify-center items-center">
-				<h1 className="text-white text-3xl font-semibold">{getUserName(currentChannel)}</h1>
+		<div className="h-full">  {/*div du centre en bleu*/}
+			<div className="h-[10%] flex justify-center items-center">
+				<h1 className="text-black/40 text-3xl font-semibold">{getUserName(currentChannel)}</h1>
 			</div>
-			<div className="w-full h-[90%] shadow-md shadow-white border-2 border-white rounded-md">
-				<div className="w-full h-5/6 bg-black/60 overflow-y-auto p-5 shadow-md shadow-white">
-					{messages.map((msg, index) => (
-						<MessageChatCard msg={msg} index={index} />
-					))}
+			<div className="h-[90%] grid"
+				style={{ gridTemplateRows: "repeat(7, minmax(0, 1fr))" }}>
+				<div className='"w-full h-full row-span-6 border rounded-t'>
+					<div className="w-full h-full bg-white/80 hover:snap-y rounded-t pt-2 snap-mandatory overflow-y-auto">
+						<div className="">
+							{messages.map((msg, index) => (
+								<MessageChatCard key={JSON.stringify(msg)} msg={msg} index={index} />
+							))}
+							<div className='px-3 py-5'>
+								{userTyping ? <TypingBubble userTyping={userTyping} /> : null}
+							</div>
+						</div>
+					</div>
 				</div>
-				<div className="w-full h-1/6  flex justify-center items-center bg-black/60 rounded-md">
-					<form onSubmit={sendMessage} className=" flex w-2/3 h-full justify-center items-center">
-						<label htmlFor="text" className="flex flex-col w-4/5">
-							<h1 className="text-white">{userTyping}</h1>
-							<textarea
-								className="h-12 pl-2 resize-none rounded-md"
-								name="data"
-								onChange={(e) => setData(e.target.value)}
-								placeholder="Type your message..."
-								value={data}
-								style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
-								onInput={Typing}
-							/>
-							<button type="submit" disabled={pass === 'ko' ? true : false} className="shadow-md shadow-white  mt-4 rounded hover:bg-white"
-								onMouseEnter={handleMouseEnter}
-								onMouseLeave={handleMouseLeave}
-								onClick={sendOk}>
-								<h1 className="text-white hover:text-black">Send</h1>
-							</button>
+				<div className="w-full h-full row-span-1 bg-gray-100/60 border">
+					<form onSubmit={sendMessage} className="h-full">
+						<label htmlFor="text" className="w-full h-full grid grid-rows-1">
+							<div className='w-full grid grid-cols-5 gap-5 flex items-center px-5'>
+								<textarea
+									className="col-span-4 chat-bubble-component"
+									name="data"
+									onChange={(e) => setData(e.target.value)}
+									onKeyPress={handleKeyPress}
+									placeholder="Type your message..."
+									value={data}
+									style={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}
+									onInput={Typing}
+								/>
+								<button type="submit" disabled={pass === 'ko' ? true : false} className="col-span-1 chat-button"
+									onMouseEnter={handleMouseEnter}
+									onMouseLeave={handleMouseLeave}
+									onClick={sendOk}>
+									<h1 className="text-black/60 hover:text-white">Send</h1>
+								</button>
+							</div>
 						</label>
 					</form>
 				</div>

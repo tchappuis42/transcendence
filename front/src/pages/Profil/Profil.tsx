@@ -41,7 +41,6 @@ export const Profil = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log("id = ", id)
 		if (String(id) !== String(account.id)) {
 			const getUsersByID = async () => {
 				try {
@@ -53,7 +52,6 @@ export const Profil = () => {
 					return (null);
 				}
 			}
-			console.log("user ===", user)
 			getUsersByID()
 		}
 		else
@@ -76,8 +74,8 @@ export const Profil = () => {
 	}, [socket]);
 
 	return (
-		<div className="w-full h-[1500px] lg:h-[850px] py-10 px-2 xl:px-20" >
-			<div className="grid grid-cols-1 grid-rows-4 gap-4 lg:grid-cols-2 lg:grid-rows-2 w-full h-full p-2.5">
+		<div className="lg:main-page sm:px-10 md:px-20 lg:px-30 xl:px-40 2xl:px-80" >
+			<div className="main-component">
 				<MenuCard>
 					<LeftComponent user={user} />
 				</MenuCard>

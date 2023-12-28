@@ -1,7 +1,5 @@
 import "./leftComponent.css"
-import { InfoProfilComponent } from "./infoCurrentUser/InfoProfilComponent"
-import { GameStats } from "./infoCurrentUserStats/componentInfoGame";
-import { MyName } from "./infoCurrentUser/infoProfil/tools/personalInformations";
+import { MyName } from "./infoCurrentUser/infoProfil/personalInformations";
 import { LevelUser } from "./infoCurrentUser/infoLevel/infoLevel";
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
@@ -113,34 +111,53 @@ export const LeftComponent: React.FC<LeftComponentProps> = ({ user }) => {
 	}
 
 	return (
-		<div>
-			<div className="left-component-main text-xs">
-				<div className="info-profile-component gray-border"
-					style={{ gridTemplateRows: "2fr 1fr" }}>
-					<div className="information-user-component">
-						< div className="rounded h-full col-span-1 gray-border">
-							<AvatarContainer src={user?.avatar} navigation={false}/>
+		<>
+			{user?.id === account.id ? (
+				<div className="m-card p-5">
+					<div className="h-full border- max-h-[300px]" style={{display: "grid", gridTemplateRows: "3fr 1fr"}}>
+						<div className="grid grid-cols-3 md:max-h-[250px]">
+							<div id={"profil"} style={{objectFit: "cover", overflow: "hidden"}}>
+								<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
+							</div>
+							<div className="col-span-2">
+								<MyName id={user?.id} username={user?.username} index={0} />
+							</div>
 						</div>
-						<div className="text-information-component">
-							<MyName id={user?.id} username={user?.username} index={0} />
+						<div className="max-h-[80px] min-h-[80px]">
+							<LevelUser user={user} />
 						</div>
 					</div>
-					<div className="information-level-component">
-						<LevelUser user={user} />
+				</div>
+				) : (
+					<div className="m-card grid grid-rows-3 p-5">
+						<div className="row-span-2">
+							<div className="h-full max-h-[300px]" style={{display: "grid", gridTemplateRows: "3fr 1fr"}}>
+								<div className="grid grid-cols-3 md:max-h-[250px]">
+									<div id={"profil"} style={{objectFit: "cover", overflow: "hidden"}}>
+										<AvatarContainer src={user?.avatar} navigation={false} id_div={"profil"}/>
+									</div>
+									<div className="col-span-2">
+										<MyName id={user?.id} username={user?.username} index={0} />
+									</div>
+								</div>
+								<div className="max-h-[80px]">
+									<LevelUser user={user} />
+								</div>
+							</div>
+							<div className="w-full p-5 row-span-1 flex justify-center items-start">
+								<Button className="w-32 h-8 rounded p-2 text-black/60 mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
+									{isFriend}
+								</Button>
+								<Button className="w-32 h-8 rounded p-2 text-black/60" onClick={() => { handleBlockedRequest() }} variant="outlined">
+									{isUserBlock}
+								</Button>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			{user?.id !== account.id &&
-				<div className="w-full flex justify-center items-center p-5">
-					<Button className="w-32 h-8 rounded p-2 text-white mr-3" onClick={() => { handleFriendsRequest() }} variant="outlined">
-						{isFriend}
-					</Button>
-                    <Button className="w-32 h-8 rounded p-2 text-white" onClick={() => { handleBlockedRequest() }} variant="outlined">
-						{isUserBlock}
-                    </Button>
-				</div>
+				)
 			}
-		</div>
+			
+		</>
 	);
 }
 

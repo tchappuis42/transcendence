@@ -50,11 +50,6 @@ export class Bonus {
                 color : "blue",
             },
             {
-                bonusFunc : speedUpBall,
-                modifier : this.ball,
-                color:"red",
-            },
-            {
                 bonusFunc : SmallPaddle,
                 modifier : [this.paddle1, this.paddle2],
                 color:"green",
@@ -70,11 +65,6 @@ export class Bonus {
                 color : "blue",
             },
             {
-                bonusFunc : speedUpBall,
-                modifier : this.ball,
-                color:"red",
-            },
-            {
                 bonusFunc : SmallPaddle,
                 modifier : [this.paddle1, this.paddle2],
                 color:"green",
@@ -83,7 +73,12 @@ export class Bonus {
                 bonusFunc : invisibleBall,
                 modifier : this.ball,
                 color:"yellow",
-            }
+            },
+            {
+                bonusFunc : invisiblePaddle,
+                modifier : [this.paddle1, this.paddle2],
+                color:"purple",
+            },
         ]
     }
 
@@ -99,7 +94,6 @@ export class Bonus {
         if (this.functions[this.index]) {
             const funcToCall = this.functions[this.index].bonusFunc;
             const modifier = this.functions[this.index].modifier;
-            console.log("WE LAUNCH THE ASSOCIATED BONUS")
             funcToCall(modifier);
         } else {
             console.error(`Function at index ${this.index} does not exist.`);
@@ -119,17 +113,7 @@ const slowDownPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.speed = tmpSpeeds[index];
         });
-    }, 5000);
-};
-
-const speedUpBall = (ball: Ball) => {
-
-    const tmpSpeed: number = ball.speed;
-    ball.speed = tmpSpeed * 1,5;
-
-    setTimeout(() => {
-        ball.speed = tmpSpeed;
-    }, 9000);
+    }, 10000);
 };
 
 const SmallPaddle = (paddles: Paddle[]) => {
@@ -144,7 +128,7 @@ const SmallPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.height = tmpSize[index];
         });
-    }, 6000);
+    }, 15000);
 };
 
 const invisiblePaddle = (paddles: Paddle[]) => {
@@ -159,12 +143,12 @@ const invisiblePaddle = (paddles: Paddle[]) => {
     delays.forEach(() => {
         setTimeout(() => {
             paddles[1].color = "";
-        }, 9000);
+        }, 12000);
     });
 };
 
 const invisibleBall = (ball: Ball) => {
-    const delays = [1000, 2000, 3000, 4000, 5000, 6000];
+    const delays = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
     
     delays.forEach((delay, index) => {
         setTimeout(() => {

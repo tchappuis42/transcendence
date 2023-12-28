@@ -5,6 +5,7 @@ import { useSocket } from "../../../ui/organisms/SocketContext";
 import { Account } from "../../../ui/types";
 import AvatarContainer from "../../HomePage/CardContent/avatarContainer";
 import { handleMouseEnter, handleMouseLeave } from "../../Friend/interface/Tools";
+import "./card.css"
 
 const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ friend, set_channel }) => {
 	const socket = useSocket();
@@ -25,16 +26,16 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 			socket.emit("createDMChannel", friend.id, set_channel);
 		}
 	}
-
+	// h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer
 	return (
-		<div className="h-1/6 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+		<div className="main-card b-slay-200"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
-			<div className=" h-full flex  justify-center items-center w-1/3">
-				<AvatarContainer src={friend.avatar} square={10} navigation={false} />
+			<div id={"chat"} className="avatar-card">
+				<AvatarContainer src={friend.avatar} square={10} navigation={false} id_div={"chat"}/>
 			</div>
-			<div className="h-full w-1/3  flex justify-center items-center" onClick={() => handleNav(friend.id)} >
+			<div className="name-card col-span-3" onClick={() => handleNav(friend.id)}>
 				{friend.username.length >= 15 ? (
 					<h2>{friend.username.slice(0, 15)}...</h2>
 				) : (
@@ -43,10 +44,10 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 
 				}
 			</div>
-			<div className=" h-full w-1/3 flex justify-center items-center">
+			<div className="col-span-1 h-full w-full flex justify-center items-center p-2">
 				{set_channel.length ? (
 					<div
-						className="h-5 w-10 rounded-md flex justify-center items-center cursor-pointer border-1"
+						className="h-8 w-10 rounded flex justify-center items-center cursor-pointer border-1"
 						style={{
 							borderWidth: 1,
 							borderColor: getStatusColor(friend.status),
@@ -56,11 +57,11 @@ const FriendCardChat: React.FC<{ friend: Account, set_channel: string }> = ({ fr
 						onMouseOut={(e) => { e.currentTarget.style.backgroundColor = ''; }}
 						onClick={createDMChannel}
 					>
-						<h3 className="text-white">DM</h3>
+						<h3 className="text-black">DM</h3>
 					</div>
 				) : (
 					<div
-						className="h-5 w-10 rounded-md flex justify-center items-center border-1"
+						className="h-5 w-10 rounded-md flex bg-red-200 justify-center items-center border-1"
 						style={{
 							background: getStatusColor(friend.status),
 						}}

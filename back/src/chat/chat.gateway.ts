@@ -390,6 +390,7 @@ export class ChatGateway {
 
 	@SubscribeMessage('checkPass')
 	async checkPass(@MessageBody() args: string, @ConnectedSocket() client: Socket) {
+		console.log("")
 		try {
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);

@@ -52,8 +52,8 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 	}, [socket]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md " >
-			<div className='h-[10%] flex justify-center items-center rounded-md shadow-lg bg-white/90'>
+		<div className="m-card border-slate-300">
+			<div className='header-card'>
 				<h1>user in channel ({userInChannel?.length})</h1>
 			</div>
 			{!userInChannel ? (
@@ -61,19 +61,27 @@ const UserInChannel = ({ userInChannel }: userInChannel) => {
 					<h1>No users</h1>
 				</div>
 			) : (
-				<div className="h-full m-2.5 bg-black/10 rounded-md	box-border justify-center items-center overflow-y-auto max-h-[80%]">
+				<div className="max-h-[90%] m-1
+				rounded-md gap-5
+				box-border justify-center items-center 
+				overflow-y-auto">
 					{userInChannel?.map((userIn: Account) => (
-						<div className='h-1/6'>
+						<div className='h-[90%]'>
 							{InvitGame(userIn.id) ? (<UserInChannelCard key={userIn.id} userInChannel={userIn} />) : (
-								<div className="h-full bg-blue-500/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer">
-									<div className="h-full w-1/5 flex items-center content-center cursor-pointer">
-										<img alt="image de profil" className="rounded-md h-full"
+								<div className="main-card bg-blue-100">
+									<div className="avatar-card w-full">
+										<img alt="image de profil" className="h-full w-full object-cover"
 											src={userIn.avatar} />
 									</div>
-									<div className="h-full w-2/5 flex justify-center items-center text-white">
+									<div className="name-card w-full">
 										<h2>{userIn.username.slice(0, 8)}</h2>
 									</div>
-									<button className="w-1/5 border text-white" onClick={(e) => JoinGame(e, userIn.id)}>rejoindre la partie</button>
+									<div className="col-span-2 flex items-center justify-center">
+										<button className="bouton-join-game-card border-slay-200 text-black/60"
+										onClick={(e) => JoinGame(e, userIn.id)}>
+											join game
+										</button>
+									</div>
 								</div>)
 							}
 						</div>

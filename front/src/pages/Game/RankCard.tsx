@@ -26,18 +26,18 @@ const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 			return 'rgba(169, 169, 169, 0.5)';
 		return 'rgba(169, 169, 169, 0.3)'
 	}
-
+	// h-1/5 bg-white/50 my-5 mx-3 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer
 	return (
-		<div className="h-1/5 bg-white/50 m-2.5 rounded-md shadow-lg box-border flex justify-around items-center cursor-pointer"
+		<div className="h-1/5 bg-white/50 my-5 mx-3 rounded-md shadow-lg box-border grid grid-cols-4 grid-rows-1 cursor-pointer"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 			onClick={() => handleNav(rank.id)}>
-			<div className="flex w-2/12 justify-center items-center">
+			<div className="col-span-1 flex justify-center items-center">
 				<h1>{id}</h1>
 			</div>
-			<div className="w-5/12 h-full flex flex-row items-center p-1 ">
-				<div className="flex flex-row w-1/4  justify-center items-center  mr-4">
-					<AvatarContainer src={rank.avatar} navigation={true} id={rank.id} square={10}/>
+			<div className="col-span-2 w-full h-full flex flex-row items-center">
+				<div id={"pong"} className="h-full flex flex-row w-1/4 justify-center items-center mr-4 object-cover">
+					<AvatarContainer src={rank.avatar} navigation={true} id={rank.id} square={10} id_div={"pong"}/>
 				</div>
 				<div className="flex flex-row w-2/4 justify-center items-center">
 					{rank.username.length <= 9 ? (
@@ -47,7 +47,7 @@ const RankCard: React.FC<{ rank: Rank, id: number }> = ({ rank, id }) => {
 					)}
 				</div>
 			</div>
-			<div className="w-3/12 flex justify-center items-center">
+			<div className="col-span-1 flex justify-center items-center">
 				<h1>{rank.score}</h1>
 			</div>
 		</div>

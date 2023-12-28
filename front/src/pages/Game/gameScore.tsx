@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 
 type props = {
-	SetPage: (bool: boolean) => void
+	SetPage: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const GameScore = ({ SetPage }: props) => {

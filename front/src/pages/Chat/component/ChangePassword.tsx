@@ -36,21 +36,21 @@ const ChangePassword: React.FC<{ currentChannel: string }> = (currentChannel) =>
 	}, [data]);
 
 	return (
-		<div className='h-1/5 flex justify-between'>
+		<div className='h-1/5 flex justify-between rounded'>
 			<h1 className='w-2/5 items-center flex'>changer de mot de passe</h1>
 			<input className='w-20 lg:w-60 text-black m-1'
 				type="password"
 				name="oldPassword"
 				value={data.oldPassword}
 				onChange={handleChange}
-				placeholder='ancien mot de passe'
+				placeholder='	ancien mot de passe '
 			/>
-			<input className='w-20 lg:w-60 text-black m-1'
+			<input className="w-20 lg:w-60 text-black m-1"
 				type="password"
 				name="password"
 				value={data.password}
 				onChange={handleChange}
-				placeholder='nouveau mot de passe'
+				placeholder='	nouveau mot de passe '
 			/>
 			<div className='w-10 lg:w-14 flex item-center'>
 				{validData &&

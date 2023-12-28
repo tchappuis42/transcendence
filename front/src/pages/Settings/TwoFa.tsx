@@ -3,6 +3,7 @@ import { useAccount } from "../../ui/organisms/useAccount"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { createPortal } from "react-dom";
+import { useAuth } from "../../ui/organisms/useAuth";
 
 
 interface TwoFa {
@@ -23,8 +24,10 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
     const [codeValidation, setCodeValidation] = useState<number>()
     const [error, setError] = useState<string>();
     const [codeValidated, setCodeValidated] = useState<boolean>(false);
+    const { authenticate } = useAuth();
 
     const handleCheckBoxChange = () => {
+
         setQrCodeBol(!QRCodeBol)
         if (!QRCodeBol) {
             const fetchQrCode = async () => {
@@ -32,8 +35,10 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
                     const response = await axios.get("/api/user/TwoFa", { withCredentials: true })
                     setTwoFa(response.data)
                 }
-                catch {
+                catch (error: any) {
                     console.error("pas de Qr code pour toi")
+                    if (error.response.request.status === 401)
+                        authenticate();
                 }
             }
             fetchQrCode();
@@ -61,8 +66,10 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
                 setTwoFaStatus(true);
                 setSecret(TwoFa?.code);
             }
-            catch (error) {
+            catch (error: any) {
                 setError("Wrong code")
+                if (error.response.request.status === 401)
+                    authenticate();
             }
         }
         postTwoValidation()

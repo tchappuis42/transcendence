@@ -45,7 +45,7 @@ const WaitingForConnection = () => {
   }, [codeParam]);
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center h-screen">
       {
         has2fa ?
           <TwoFaForm
@@ -57,10 +57,8 @@ const WaitingForConnection = () => {
             }}
           /> :
           <>
-            <h1 className='text'>Connecting to API</h1>
-            <div className='divtest'>
-            </div>
-            <div className="mt-3 h-6 text-center text-sm">{pageMessage}</div>
+            <div className="animate-spin h-10 w-10 border-t-2 border-b-2 border-white rounded-full mb-4"></div>
+            <h1 className='text-lg font-semibold mb-2 text-white'>Connecting to API</h1>
           </>
       }
     </div>

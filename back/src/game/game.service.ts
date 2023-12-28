@@ -126,7 +126,6 @@ export class GameService {
 	//suprime la room
 	async cleanRoom(room: roomName, server: Server) {
 		if (room) {
-			console.log("clean room = ", room.socket1.data.user.id, room.socket2.data.user.id)
 			room.socket1.leave(room.name)
 			room.socket2.leave(room.name)
 			clearInterval(room.intervalId);

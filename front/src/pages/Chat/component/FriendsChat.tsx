@@ -4,6 +4,7 @@ import { useFriends } from '../../Friend/useFriends';
 import axios from 'axios';
 import FriendCardChat from './FriendsCardChat';
 import { Account } from '../../../ui/types';
+import { useAuth } from '../../../ui/organisms/useAuth';
 
 interface channel {
 	currentChannel: string;
@@ -13,6 +14,7 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	const [users, setUsers] = useState<Account[]>([]);
 	const { sortByStatus } = useFriends();
 	const socket = useSocket();
+	const { authenticate } = useAuth();
 
 	useEffect(() => {
 		const getUsers = async () => {
@@ -21,8 +23,10 @@ const FriendsChat = ({ currentChannel }: channel) => {
 				const sortedUsers = response.data.sort((a: Account, b: Account) => b.status - a.status);
 
 				setUsers(sortedUsers);
-			} catch (error) {
+			} catch (error: any) {
 				console.error("Erreur lors de la récupération des users :", error);
+				if (error.response.request.status === 401)
+					authenticate();
 			}
 		}
 		getUsers();
@@ -48,18 +52,17 @@ const FriendsChat = ({ currentChannel }: channel) => {
 	}, [socket, users, sortByStatus]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md" >
-			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
+		<div className="m-card">
+			<div className='header-card'>
 				<h1>Users ({users?.length})</h1>
 			</div>
 
 			{!users ? (
-				<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70%" }}>
+				<div className="body-card">
 					<h1>No users</h1>
 				</div>
 			) : (
-
-				<div className="h-[90%] overflow-y-auto overflow-x-hidden bg-green-300">
+				<div className="body-card">
 					{users?.map((user: Account) => (
 						<FriendCardChat key={user.id} friend={user} set_channel={currentChannel} />
 					))}

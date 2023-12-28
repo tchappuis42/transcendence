@@ -3,7 +3,6 @@ import { Server, Socket } from "socket.io";
 import { UserDto } from "src/user/dtos/UserDto";
 import { UserService } from "src/user/user.service";
 import { GameService } from "./game.service";
-import { sockets } from "src/user/dtos/socketsDto";
 
 @WebSocketGateway({
 	// cors: {
@@ -63,7 +62,6 @@ export class GameGateway {
 
 	@SubscribeMessage('GameInvit')
 	async GameInvit(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
-		console.log("data = ", data)
 		const invit = await this.gameService.GameInvit(client, data);
 		if (typeof invit === 'number')
 			client.emit('GameInvit', invit)
@@ -73,7 +71,6 @@ export class GameGateway {
 
 	@SubscribeMessage('JoinGame')
 	async JoinGame(@ConnectedSocket() client: Socket, @MessageBody() data: number) {
-		console.log("info =", client.data.user.id, data)
 		const game = await this.gameService.joinGame(client, data, this.server)
 		if (game.success)
 			this.server.to(game.roomName).emit('JoinGame', game.success);

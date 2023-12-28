@@ -30,7 +30,7 @@ const TwoFaForm: React.FC<TwoFaFormProps> = ({ settingPage, onSubmit }) => {
 
 	return (
 		<div className="flex items-center justify-center h-screen w-full">
-			<form onSubmit={qrCodeSubmit} className="w-[450px] h-[550px] bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow-white">
+			<form onSubmit={qrCodeSubmit} className="w-[450px] h-[550px] bg-black/80 rounded-4xl shadow-md flex flex-col  items-center shadow">
 				<div className="w-full h-1/6 flex flex-row-reverse mr-20">
 					<button onClick={() => settingPage("login")} className="text-gray-500 hover:text-gray-800 rounded-full">
 						<h1 className="text-red-500/60 font-bold text-4xl">X</h1>

@@ -39,14 +39,14 @@ const FriendsToAdd = () => {
 	}, [socket]);
 
 	return (
-		<div className="bg-black/50 h-full w-full rounded-md">
-			<div className='h-[10%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
+		<div className="m-card bg-gray-200/60">
+			<div className='header-card'>
 				<h1>Friends Request ({friends?.length})</h1>
 			</div>
 
 			{!friends.length ? (
 				<div className="flex h-5/6 justify-center items-center">
-					<h1 className='text-white opacity-50'>No new friends request</h1>
+					<h1 className='text-black/90 opacity-50'>No new friends request</h1>
 				</div>
 			) : (
 				<div className="h-full m-2.5 bg-black/10 rounded-md box-border justify-center items-center overflow-y-auto max-h-[80%]">

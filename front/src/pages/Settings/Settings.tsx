@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import TwoFa from "./TwoFa";
 import ChangeProfilPic from "./changeProfilPic";
 import { useSocket } from "../../ui/organisms/SocketContext";
+import { useAuth } from "../../ui/organisms/useAuth";
 
 interface changeObj {
     value: string;
@@ -16,6 +17,7 @@ interface changeObj {
 const Settings = () => {
 
     const { account } = useAccount();
+    const { authenticate } = useAuth();
     const [selectedImage, setSelectedImage] = useState<string>(account.avatar);
     const [newUsername, setNewusername] = useState<string>(account.username);
     const [error, setError] = useState<string>();
@@ -65,6 +67,8 @@ const Settings = () => {
                 setError("Username already taken");
             if (error.response.request.status === 400)
                 setError(error.response.data.message)
+            if (error.response.request.status === 401)
+                authenticate();
             return false
         }
     }
@@ -119,7 +123,7 @@ const Settings = () => {
     return (
         <div className="w-full py-10 px-2 xl:px-20">
             <div className="flex items-center justify-center h-screen">
-                <div className="w-3/5 min-w-[350px] max-w-[700px] h-4/5 min-h-[647px] bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow-white">
+                <div className="w-3/5 min-w-[350px] max-w-[700px] h-4/5 min-h-[647px] bg-black/80 rounded-xl shadow-md flex flex-col justify-center items-center shadow">
                     {/* changeUsername */}
                     <div className="w-4/5 h-1/5  flex flex-col justify-center items-center">
                         <h1 className="text-white font-bold">Change your username</h1>

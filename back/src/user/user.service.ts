@@ -251,7 +251,7 @@ export class UserService {
 		}
 		return 0;
 	}
-	
+
 	async getUserBlockedId(id: number, blockedId: number) {
 		const user = await this.usersRepository.findOne({ where: { id: id } });
 		const searchID = user.blockedId.find(id => id === blockedId);
@@ -265,7 +265,7 @@ export class UserService {
 		const user = await this.usersRepository.findOne({ where: { id: userId } })
 		user.socket = [];
 		await this.usersRepository.save(user);
-		console.log("clear", user.socket)
+
 	}
 
 	getsocketInArray(userId: number) {
@@ -303,9 +303,7 @@ export class UserService {
 	}
 
 	async twoFaFalse(twoFaStatus: validateTwoFa, userId: number) {
-		console.log("twofa status = ", twoFaStatus)
 		const response = await this.usersRepository.update(userId, { twoFa: twoFaStatus.value, twoFaSecret: twoFaStatus.secret })
-		console.log("back response : ", response)
 	}
 }
 

@@ -8,6 +8,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        typing: 'typing 2s steps(11) forwards, blink 1s steps(11) infinite 2s',
+      },
+      keyframes: {
+        typing: {
+          from: { width: '0' },
+          to: { width: '6ch' },
+        },
+        blink: {
+          from: { 'border-right-color': 'transparent' },
+          to: { 'border-right-color': 'black' },
+        },
+      },
       borderRadius: {
         '4xl': '3rem',
       },

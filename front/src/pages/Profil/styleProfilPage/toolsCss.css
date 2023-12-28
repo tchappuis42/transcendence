@@ -3,15 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-    .red-border {
-        @apply border border-solid border-red-400
-    }
-    .blue-border {
-        @apply border border-solid border-blue-400
-    }
-    .green-border {
-        @apply border border-solid border-green-700
-    }
     .black-border-fine {
         @apply border-2 border-solid
         border-black
@@ -36,20 +27,5 @@
     .black-border-separation-sl {
         @apply border-l border-solid
         border-white
-    }
-    .black-border-separation-sr {
-        @apply border-r border-solid
-        border-black
-    }
-
-    .table-1x2 {
-        @apply grid grid-rows-2 h-full w-full
-    }
-    .table-3x1 {
-        @apply grid grid-cols-3 h-full w-full
-    }
-
-    .button-up-reset {
-        @apply flex flex-row justify-start px-4
     }
 }

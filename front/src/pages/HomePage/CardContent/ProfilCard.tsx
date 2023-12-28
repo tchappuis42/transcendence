@@ -9,6 +9,7 @@ import Ranking from "../../Game/Ranking";
 import RankingCard from "./RankingCard";
 import Friends from "../../Friend/component/Friends";
 import AvatarContainer from "./avatarContainer";
+import { useAuth } from "../../../ui/organisms/useAuth";
 
 interface Friend {
     id: number;
@@ -22,6 +23,7 @@ const ProfilCard = () => {
     const { account } = useAccount();
     const navigate = useNavigate();
     const [friends, setFriends] = useState<Friend[]>();
+    const { authenticate } = useAuth();
 
     const sortByStatus = (friends: Friend[]): Friend[] => {
         const sortedFriends = friends.sort((a, b) => a.status - b.status);
@@ -36,8 +38,11 @@ const ProfilCard = () => {
                 const sortedFriends = sortByStatus(response.data);
                 setFriends(sortedFriends);
             }
-            catch {
+            catch (error: any) {
                 console.error("error while fetching friend request");
+                console.log("error = ", error)
+                if (error.response.request.status === 401)
+                    authenticate();
             }
 
         }
@@ -53,8 +58,8 @@ const ProfilCard = () => {
     }
 
     return (
-        <div className="h-full w-full grid grid-cols-1 grid-rows-3 m-5">
-            <div id={"profilCard"} className="row-span-1 grid grid-cols-4 grid-rows-1 w-full py-3 rounded object-cover">
+        <div className="h-full w-full grid grid-cols-1 grid-rows-3 p-3 bg-gray-200/60 rounded">
+            <div id={"profilCard"} className="row-span-1 grid grid-cols-4 grid-rows-1 w-full pb-3 gap-5 rounded object-cover">
                 <AvatarContainer src={account.avatar} id={account.id} navigation={true} id_div={"profilCard"}/>
                 <div className="col-span-3 h-full w-full">
                     <h1 className="h-full w-full items-center justify-center flex text-white text-2xl border rounded">
@@ -67,8 +72,8 @@ const ProfilCard = () => {
                     <Friends />
                 </div>
                 <div className="w-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => { handleNav("pong", account.id) }}>
-                    <div className="bg-black/50 h-full w-full rounded-md shadow-md shadow-white">
-                        <div className='h-[15%] flex justify-center items-center rounded-t-md shadow-lg bg-white/90'>
+                    <div className="m-card">
+                        <div className='header-card'>
                             <h1>Ranking</h1>
                         </div>
                         <RankingCard></RankingCard>

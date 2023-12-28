@@ -62,7 +62,7 @@ export const SetColor = ({winner, player, currentUser}: Color): string => {
 	if (player === currentUser && player !== winner)
 		return("bg-blue-200");
 	else if (player === winner)
-		return("bg-green-200");
+		return("");
 	return("");
 }
 

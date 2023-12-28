@@ -50,16 +50,6 @@ const SocketPong = () => {
 		};
 	}, [socket]);
 
-	//debug
-	const clean = (e: SyntheticEvent) => {
-		e.preventDefault();
-
-		if (socket) {
-			socket.emit("clean");
-			setPage(false)
-		}
-	};
-
 	const SetPage = (bool: boolean) => {
 		setPage(bool);
 	}
@@ -104,7 +94,6 @@ const SocketPong = () => {
 					</div>
 				</div>
 			}
-			{/* <button onClick={clean}>clean</button> */}
 		</div >
 	);
 };

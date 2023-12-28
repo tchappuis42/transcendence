@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, JoinColumn, JoinTable, ManyToOne, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, ManyToMany } from 'typeorm';
 import { User } from 'src/user/user.entity';
 import { Channel } from './channel.entity';
 import { MutedUser } from './muet.entity';

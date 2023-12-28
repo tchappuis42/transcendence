@@ -76,6 +76,7 @@ const Chat = () => {
 				setCurrentChannel(name)
 				setDM_Chann(false)
 				setUser(user);
+				socket.emit("DMmessage", " ", name, '1');
 			});
 			socket.on("setUserInChannel", (user) => {
 				setUser(user);
@@ -173,6 +174,7 @@ const Chat = () => {
 			setCurrentChannel(channelSet);
 			if (socket)
 				socket.emit("checkPass", channelSet, password, currentChannel);
+				setMessages([]);
 		}
 		if (chanStatue === "Public") {
 			setCurrentChannel(channelSet);
@@ -180,6 +182,7 @@ const Chat = () => {
 				socket.emit("getChannelMeOne", channelSet, currentChannel);
 				setPass("ok");
 				setData("");
+				setMessages([]);
 			}
 		}
 	}
@@ -190,6 +193,7 @@ const Chat = () => {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")
 			setData("");
+			setMessages([]);
 		}
 	}
 

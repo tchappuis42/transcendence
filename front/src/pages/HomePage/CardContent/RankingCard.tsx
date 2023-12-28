@@ -26,7 +26,7 @@ const RankingCard = () => {
     }, [])
 
     return (
-        <div className="h-4/5 rounded-md">
+        <div className="h-4/5 rounded-md cursor-pointer">
             <div className="h-1/2 w-full flex justify-center items-center text-black/60 text-4xl md:text-5xl">
                 <h1>{rankNbr}</h1>
             </div>

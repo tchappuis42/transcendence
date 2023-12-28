@@ -37,7 +37,7 @@ const Navigation = ({ options }: Props) => {
 	return (
 		<div className="header">
 			{
-				options.map((option) => <NavigationItem option={option} />)
+				options.map((option) => <NavigationItem key={option.url} option={option} />)
 			}
 		</div>
 	);

@@ -9,11 +9,8 @@ import {
   import { InjectRepository } from '@nestjs/typeorm';
   import { UserService } from 'src/user/user.service';
   import { DMChannel } from '../entity/dmChannel.entity';
-  import { channel } from 'diagnostics_channel';
   import { Msg } from '../entity/Msg.entity';
-  import { User } from 'src/user/user.entity';
   import { UserDto } from 'src/user/dtos/UserDto';
-import { error } from 'console';
   
 
 @Injectable()

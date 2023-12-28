@@ -15,9 +15,9 @@ interface PongProps {
 }
 
 type Bonus = {
-	x : number;
-	y : number;
-	color : string
+	x: number;
+	y: number;
+	color: string
 }
 
 const PongTest: React.FC<PongProps> = ({ color, rules }) => {
@@ -34,7 +34,7 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 		y: 0,
 		width: 15,
 		height: 15,
-		color : "",
+		color: "",
 	})
 
 	const [Bonus, setBonus] = useState<Bonus | null>(null);
@@ -42,8 +42,8 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 	const [leftPaddle, setleftpaddle] = useState<Paddle>({
 		x: (grid * 2),
 		y: height / 2 - paddleHeight / 2,
-		paddleHeight : paddleHeight,
-		paddleWidth : 15,
+		paddleHeight: paddleHeight,
+		paddleWidth: 15,
 		color: "",
 		score: 0,
 	});
@@ -51,8 +51,8 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 	const [rightPaddle, setrightpaddle] = useState<Paddle>({
 		x: 750 - (grid * 3),
 		y: 585 / 2 - paddleHeight / 2,
-		paddleHeight : paddleHeight,
-		paddleWidth : 15,
+		paddleHeight: paddleHeight,
+		paddleWidth: 15,
 		color: "",
 		score: 0,
 	});
@@ -67,12 +67,6 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 			if (e.key === "ArrowDown" || e.key === "s") {
 				if (socket)
 					socket.emit("action", "down")
-			}
-
-			//debug
-			if (e.key === "q") {
-				if (socket)
-					socket.emit("action", "q")
 			}
 		}, [socket])
 
@@ -97,17 +91,17 @@ const PongTest: React.FC<PongProps> = ({ color, rules }) => {
 					...prevState,
 					y: data.playTwo,
 					score: data.score2,
-					paddleHeight : data.paddleTwoHeight,
-					paddleWidth : data.paddleTwoWidth,
-					color : data.paddleColorTwo
+					paddleHeight: data.paddleTwoHeight,
+					paddleWidth: data.paddleTwoWidth,
+					color: data.paddleColorTwo
 				}));
 				setleftpaddle((prevState) => ({
 					...prevState,
 					y: data.playOne,
 					score: data.score1,
-					paddleHeight : data.paddleOneHeight,
-					paddleWidth : data.paddleOneWidth,
-					color : data.paddleColorOne
+					paddleHeight: data.paddleOneHeight,
+					paddleWidth: data.paddleOneWidth,
+					color: data.paddleColorOne
 				}));
 				setBall((prevState) => ({ ...prevState, y: data.ballY, x: data.ballX, color: data.ballColor }));
 				console.log("data.color : ", data.ballColor);

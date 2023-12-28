@@ -31,11 +31,6 @@ export class GameGateway {
 			this.server.to(client.id).emit('game', game)
 	}
 
-	@SubscribeMessage('clean')
-	async clean(@ConnectedSocket() client: Socket) {
-		await this.gameService.clean(client);
-	}
-
 	@SubscribeMessage('gamelife')
 	gamelife(@ConnectedSocket() client: Socket) {
 		const user = client.data.user as UserDto;

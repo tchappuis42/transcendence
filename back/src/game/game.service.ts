@@ -111,18 +111,6 @@ export class GameService {
 			return room2;
 	}
 
-	//debug
-	async clean(client: Socket) {
-		this.waitingGame = null;
-		const room = this.findRoom(client)
-		if (room) {
-			room.socket1.leave(room.name)
-			room.socket2.leave(room.name)
-			clearInterval(room.intervalId);
-			this.rooms = this.rooms.filter((r) => r.name !== room.name)
-		}
-	}
-
 	//suprime la room
 	async cleanRoom(room: roomName, server: Server) {
 		if (room) {
@@ -169,10 +157,6 @@ export class GameService {
 			else if (data === 'ready') {
 				player.playerReady();
 			}
-
-			//debug
-			else if (data === 'q')
-				room.pong.q();
 		}
 	}
 

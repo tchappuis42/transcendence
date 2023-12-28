@@ -113,17 +113,7 @@ const slowDownPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.speed = tmpSpeeds[index];
         });
-    }, 5000);
-};
-
-const speedUpBall = (ball: Ball) => {
-
-    const tmpSpeed: number = ball.speed;
-    ball.speed = tmpSpeed * 1,5;
-
-    setTimeout(() => {
-        ball.speed = tmpSpeed;
-    }, 9000);
+    }, 10000);
 };
 
 const SmallPaddle = (paddles: Paddle[]) => {
@@ -138,7 +128,7 @@ const SmallPaddle = (paddles: Paddle[]) => {
         paddles.forEach((paddle, index) => {
             paddle.height = tmpSize[index];
         });
-    }, 6000);
+    }, 10000);
 };
 
 const invisiblePaddle = (paddles: Paddle[]) => {
@@ -153,12 +143,12 @@ const invisiblePaddle = (paddles: Paddle[]) => {
     delays.forEach(() => {
         setTimeout(() => {
             paddles[1].color = "";
-        }, 9000);
+        }, 12000);
     });
 };
 
 const invisibleBall = (ball: Ball) => {
-    const delays = [1000, 2000, 3000, 4000, 5000, 6000];
+    const delays = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
     
     delays.forEach((delay, index) => {
         setTimeout(() => {

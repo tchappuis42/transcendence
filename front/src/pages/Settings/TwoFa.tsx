@@ -44,11 +44,6 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
             fetchQrCode();
         }
         if (QRCodeBol) {
-            console.log("on set two fa a false");
-            // const setTwoFaFalse = async () => {
-            //     await axios.post("http://localhost:4000/user/twoFaFalse", {withCredentials:true})
-            // }
-            // setTwoFaFalse();
             setTwoFaStatus(false);
         }
     }

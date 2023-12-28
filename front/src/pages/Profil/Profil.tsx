@@ -41,7 +41,6 @@ export const Profil = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log("id = ", id)
 		if (String(id) !== String(account.id)) {
 			const getUsersByID = async () => {
 				try {
@@ -53,7 +52,6 @@ export const Profil = () => {
 					return (null);
 				}
 			}
-			console.log("user ===", user)
 			getUsersByID()
 		}
 		else

@@ -28,7 +28,7 @@ export class Pong {
 		this.isBonus = false
 		this.bonus = new Bonus()
 		if (bonusActivate)
-			this.intervalId = setInterval(() => this.bonusHandler(), 3000);
+			this.intervalId = setInterval(() => this.bonusHandler(), 5000);
 	}
 
 	pongLife() {

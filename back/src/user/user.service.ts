@@ -39,6 +39,11 @@ export class UserService {
 		return user;
 	}
 
+	async validateUserJwt(id: number): Promise<User> { //
+		const user = await this.usersRepository.findOne({ where: { id: id } })
+		return user;
+	}
+
 	async validateUserByName(name: string): Promise<User> {
 		const user = await this.usersRepository.findOne({ where: { username: name } })
 		if (!user) throw new NotFoundException("user not found")
@@ -124,7 +129,7 @@ export class UserService {
 		server.emit('status', status)
 	}
 
-	async StatueGameOff(userId: number, server: Server) {
+	async StatueGameOff(userId: number, server: Server) { //
 		const userStatue = await this.userStatue(userId)
 		if (userStatue === ConnctionState.InGame) {
 			await this.usersRepository.update(userId, { status: ConnctionState.Online })

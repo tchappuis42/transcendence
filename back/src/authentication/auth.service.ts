@@ -67,7 +67,7 @@ export class AuthService {
 		data.append('client_id', process.env.API_UID);
 		data.append('client_secret', process.env.API_SECRET);
 		data.append('code', code);
-		data.append('redirect_uri', process.env.API_REDIRECT_URL2);
+		data.append('redirect_uri', process.env.API_REDIRECT_URL);
 
 		try {
 			const response = await axios.post(url, data);
@@ -97,27 +97,30 @@ export class AuthService {
 	}
 
 	async loginOrCreate(loginname: string, infos: any = {}) {
-		const user = await this.usersRepository.findOne({ where: { identifiant: loginname } })
+		try {
+			const user = await this.usersRepository.findOne({ where: { identifiant: loginname } })
 
-		if (user != null) {
-			const payload = { sub: user.id, identifiant: user.identifiant };
-			return {
-				access_token: await this.jwtService.signAsync(payload),
-				user: user
+			if (user != null) {
+				const payload = { sub: user.id, identifiant: user.identifiant };
+				return {
+					access_token: await this.jwtService.signAsync(payload),
+					user: user
+				}
 			}
-		}
 
-		else {
-			let avatar = infos.image.link;
-			let password = undefined;
+			else {
+				let avatar = infos.image.link;
+				let password = undefined;
 
-			const user = await this.usersRepository.create({ identifiant: loginname, username: loginname, password: password, avatar: avatar });
-			const user2 = await this.usersRepository.save(user);
-			const payload = { sub: user2.id, identifiant: user2.identifiant };
-			return {
-				access_token: await this.jwtService.signAsync(payload),
-				user: user2
+				const user = await this.usersRepository.create({ identifiant: loginname, username: loginname, password: password, avatar: avatar });
+				const user2 = await this.usersRepository.save(user);
+				const payload = { sub: user2.id, identifiant: user2.identifiant };
+				return {
+					access_token: await this.jwtService.signAsync(payload),
+					user: user2
+				}
 			}
-		}
+		} catch { }
 	}
+
 }

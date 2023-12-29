@@ -100,7 +100,7 @@ export class AuthController {
 	@Get("/url")
 	async getUrlApi(): Promise<any> {
 		var authorize_url = process.env.API_AUTHORIZE;
-		var redirect_url = process.env.API_REDIRECT_URL;
+		var redirect_url = encodeURIComponent(process.env.API_REDIRECT_URL);
 		var client_uid = process.env.API_UID;
 
 		const url = `${authorize_url}?client_id=${client_uid}&redirect_uri=${redirect_url}&response_type=code`;

@@ -39,6 +39,8 @@ services:
         ports:
             - '3000:3000'
             - '80:80'
+        depends_on:
+            - back
         container_name: front
         # volumes:
         #     - "./front:/usr/src/app"

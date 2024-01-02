@@ -14,7 +14,7 @@ import { Friends } from 'src/friends/friends.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Friends]), JwtModule.register({
     global: true,
-    secret: 'test',
+    secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '60d' },
   }),
   PassportModule.register({

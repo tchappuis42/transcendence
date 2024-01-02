@@ -50,7 +50,7 @@ const Login = () => {
 			{page === 'login' && (
 				<div className="flex flex-col items-center justify-center h-screen w-screen">
 					<div className='w-1/2 h-1/2  rounded border border-white/50 flex justify-evenly items-center flex-col'>
-						<h1 className='text-white font-bold text-3xl'>Welcome to the new Pong Experiece</h1>
+						<h1 className='text-white font-bold text-3xl'>Welcome to the new Pong Experience</h1>
 						<button onClick={handleApiLoginClick} type="button"
 							className="border-2 mt-2 w-40 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
 							Api Login

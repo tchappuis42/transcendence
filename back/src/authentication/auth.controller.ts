@@ -70,7 +70,7 @@ export class AuthController {
 				//app call l'api pour avoir tout les infos de l'api(json)
 				const profileData = await this.authService.getUserInfo(token.access_token);
 
-				const userInfo = await this.authService.loginOrCreate(profileData.login, profileData);
+				const userInfo = await this.authService.loginOrCreate(profileData.id, profileData.login, profileData);
 
 				if (userInfo.user.twoFa) {
 					res.cookie('2fa_token', userInfo.access_token, {
@@ -110,6 +110,6 @@ export class AuthController {
 	@UseGuards(JwtAuthGuard)
 	@Get("/logout")
 	async postLogout(@Res({ passthrough: true }) res: Response) {
-		res.clearCookie('access_token');//
+		res.clearCookie('access_token');
 	}
 }

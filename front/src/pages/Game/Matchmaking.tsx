@@ -100,7 +100,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 				</div>
 				<div className="grid grid-rows-3 px-10 sm:px-14 bg-white/50 m-2.5 rounded py-5 sm:py-5 md:py-8 gap-3 md:gap-6">
 					<div className="flex justify-between gap-5 min-h-[40px]">
-						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la raquette :</h1>
+						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >racquet color :</h1>
 						<select name="paddleColor" className="w-25 hover:bg-black border border-black/60 rounded" style={{ backgroundColor: color.paddle, color: color.paddle }} onChange={paddleChange}>
 							<option value="white" className="bg-white text-white">white</option>
 							<option value="red" className="bg-white text-white">red</option>
@@ -108,7 +108,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 						</select>
 					</div>
 					<div className="flex justify-between gap-5">
-						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >couleur de la balle :</h1>
+						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" >ball color :</h1>
 						<select name="paddleColor" className="w-25 border border-black/60 rounded" style={{ backgroundColor: color.ball, color: color.ball }} onChange={ballChange}>
 							<option value="white" className="bg-white text-white">white</option>
 							<option value="red" className="bg-white text-white">red</option>
@@ -116,7 +116,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 						</select>
 					</div>
 					<div className="flex justify-between gap-5">
-						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" > couleur du terrain :</h1>
+						<h1 className="w-full flex px-3 items-center border border-black/60 rounded" > field color :</h1>
 						<select name="paddleColor" className="w-25 border border-black/60 rounded" style={{ backgroundColor: color.map, color: color.map }} onChange={mapChange}>
 							<option value="black" className="bg-white text-white">black</option>
 							<option value="gold" className="bg-white text-white">gold</option>

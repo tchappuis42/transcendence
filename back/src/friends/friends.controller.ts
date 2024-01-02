@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
 import { User } from 'src/user/user.entity';
 import { AcceptDto } from './dtos/AcceptDto';
+import { addFriendDto } from './dtos/addFriendDto';
 
 @Controller('friends')
 export class FriendsController {
@@ -12,7 +13,7 @@ export class FriendsController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/addFriend")
-	async addFriend(@Body() body: AcceptDto, @Req() req: Request) {
+	async addFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
 		return await this.frindsService.addFriend(user, body.id)
 	}
@@ -37,7 +38,7 @@ export class FriendsController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/removeFriend")
-	async removeFriend(@Body() body: AcceptDto, @Req() req: Request) {
+	async removeFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
 		return await this.frindsService.removeFriend(user, body.id)
 	}

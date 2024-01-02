@@ -18,18 +18,22 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	//connection
 	async handleConnection(@ConnectedSocket() client: Socket) {
-		Logger.log(client.id, "CLIENT CONNECTED")
-		const id = parseInt(client.handshake.query.user as string);
-		const user = await this.userService.validateUser(id);
-		client.data.user = user;
-		client.join(client.data.user.id.toString())
-		await this.userService.addUser(user.id, client, this.server);
+		try {
+			Logger.log(client.id, "CLIENT CONNECTED")
+			const id = parseInt(client.handshake.query.user as string);
+			const user = await this.userService.validateUser(id);
+			client.data.user = user;
+			client.join(client.data.user.id.toString())
+			await this.userService.addUser(user.id, client, this.server);
+		} catch { }
 	}
 
 	//deconnexionls
 	async handleDisconnect(client: Socket) {
-		Logger.log(client.id, "CLIENT DISCONNECTED")
-		await this.userService.removeUser(client, this.server);
-		client.leave(client.data.user.id.toString())
+		try {
+			Logger.log(client.id, "CLIENT DISCONNECTED")
+			await this.userService.removeUser(client, this.server);
+			client.leave(client.data.user.id.toString())
+		} catch { }
 	}
 }

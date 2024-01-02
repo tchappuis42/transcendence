@@ -1,0 +1,10 @@
+npx create-react-app my-app --template typescript // https://create-react-app.dev/docs/adding-typescript/ install react project avec typescript
+npm i axios // pour la connection avec l'api // probleme CORS  (Cross-Origin Resource Sharing)
+npm i react-router-dom // 
+npm start
+
+plugin react
+simple react snippets
+Reactjs code snippets // rsc
+
+fix pour la deuxième éval

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .level-user-component {
+        @apply h-full
+        grid grid-cols-4
+        rounded
+    }
+    .level-current-component {
+        @apply col-span-1 h-full
+        flex justify-start items-center
+        font-bold 
+    }
+    .level-buttons-component {
+        @apply row-span-1
+        h-full w-full
+        grid grid-rows-2
+    }
+
+}
+

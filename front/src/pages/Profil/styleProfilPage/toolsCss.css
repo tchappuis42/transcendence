@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .black-border-fine {
+        @apply border-2 border-solid
+        border-black
+    }
+    .black-border-large {
+        @apply border-4 border-solid
+        border-black
+    }
+    .gray-border {
+        @apply border border-solid
+        border-white
+    }
+
+    .black-border-separation-b {
+        @apply border-b border-solid
+        border-white
+    }
+    .black-border-separation-t {
+        @apply border-t border-solid
+        border-black
+    }
+    .black-border-separation-sl {
+        @apply border-l border-solid
+        border-white
+    }
+}

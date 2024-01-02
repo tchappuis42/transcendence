@@ -1,8 +1,7 @@
 interface FormProps {
 	data: {
-		email: string;
 		password: string;
-		username: string;
+		identifiant: string;
 		twoFa: boolean;
 	};
 	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

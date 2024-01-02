@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .top-bar {
+        @apply w-full h-16
+        sticky top-0
+        flex items-center justify-between
+        bg-gray-100 rounded
+    }
+    .profile-bar-menu {
+        @apply flex items-center justify-between
+    }
+    .profil-pictures-with-slanderous-menu {
+        @apply rounded
+        overflow-hidden
+    }
+    .menu-slanderous {
+        @apply origin-top-right absolute
+        right-0 mt-2 w-40
+        shadow-lg bg-white
+        ring-1 ring-black ring-opacity-5
+
+    }
+    .menu-slanderous-list {
+        @apply block py-2
+        text-sm text-gray-700
+        hover:bg-gray-100
+        hover:text-gray-900
+        cursor-pointer
+    }
+}

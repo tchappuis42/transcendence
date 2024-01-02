@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { Account } from "../types";
 import { useAccountStore } from "./store";
 import axios from "axios";
@@ -21,21 +21,21 @@ export function useAuth() {
 			break;
 		default:
 			status = AuthStatus.Authenticated;
-			break;
+			break;	
 	}
 
 	const authenticate = useCallback(async () => {
 		try {
-			const response = await axios.get<Account>("http://localhost:4000/user/me", { withCredentials: true });
+			const response = await axios.get<Account>("/api/user/me", { withCredentials: true });
 			setAccount(response.data);
 		} catch (error) {
 			setAccount(null);
 		}
 	}, []);
 
-	const login = useCallback(async (email: string, password: string) => {
+	const login = useCallback(async (username: string, password: string) => {
 		try {
-			const response = await axios.post("http://localhost:4000/authentication/login", { email, password }, { withCredentials: true });
+			const response = await axios.post("/api/authentication/login", { username, password }, { withCredentials: true });
 
 			if (response.data.message) {
 				authenticate();
@@ -44,13 +44,14 @@ export function useAuth() {
 				return true;
 			}
 		} catch (error) {
+			return error;
 			setAccount(null);
 			throw error;
 		}
 	}, []);
 
 	const logout = useCallback(async () => {
-		await axios.get("http://localhost:4000/authentication/logout", { withCredentials: true });
+		await axios.get("/api/authentication/logout", { withCredentials: true });
 		setAccount(null);
 	}, []);
 

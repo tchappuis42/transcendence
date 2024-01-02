@@ -6,11 +6,12 @@ import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
 import { TempJwtAuthGuard } from './auth.guard';
 import { tempJwtStrategy } from './auth.strategy';
+import { ChatService } from 'src/chat/chat.service';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
-  providers: [AuthService, UserService, TempJwtAuthGuard, tempJwtStrategy]
+  providers: [AuthService, UserService, TempJwtAuthGuard, tempJwtStrategy, ChatService]
 })
 export class AuthModule { }

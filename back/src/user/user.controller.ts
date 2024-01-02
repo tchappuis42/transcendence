@@ -1,14 +1,25 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor, UploadedFile, UseGuards, Res, Logger, Req } from '@nestjs/common';
+import { Controller, Get, Body, Post, UseInterceptors, ClassSerializerInterceptor, UseGuards, Req, Param, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './user.guard';
-import { Request, Response } from 'express';
-import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
 import { UserDto } from './dtos/UserDto';
+import { User } from './user.entity';
+import { AcceptDto } from 'src/friends/dtos/AcceptDto';
+import { FriendsService } from 'src/friends/friends.service';
+
+class changeObj {
+	value: string;
+	type: boolean;
+}
+
+class TwoFa {
+	code: string;
+	validation: number;
+}
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
+	constructor(private readonly userService: UserService, private readonly friendService: FriendsService) { }
 
 	@UseGuards(JwtAuthGuard)
 	@Get("/me")
@@ -17,26 +28,126 @@ export class UserController {
 		return req.user
 	}
 
-	@Post("/avatar")
-	@UseInterceptors(FileInterceptor('files'))
-	uploadFile(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
-		//console.log(file);
-		//async postAvatar(@Body() body : any){
-		return body
-	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get("/users")
 	async getUsers(@Req() req: Request) {
-		return req.user
+		const user = req.user as UserDto;
+		const users = await this.userService.usersListe(user.id);
+		return users
+	}
+
+	@Get("/ranking")
+	async getRanking() {
+		const rank = await this.userService.getRanking();
+		return rank;
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get("/2fa")
-	async get2fa(@Req() req: Request) {
+	@Get("/clear")
+	async clear(@Req() req: Request) {
+		const user = req.user as User;
+		this.userService.clearsocket(user.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/getUsersByName/:query")
+	@UseInterceptors(ClassSerializerInterceptor)
+	async getUsersByName(@Req() req: Request, @Param('query') query: string) {
 		const user = req.user as UserDto;
-		const code = await this.userService.generateTfaSecret(user.email);
-		const qrcode = this.userService.generateQrCode(code);
-		return qrcode
+
+		const foundUsers = await this.userService.searchUsers(user.id, query);
+		return foundUsers;
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/settings")
+	async changeSettings(@Body() body: changeObj, @Req() req: Request) {
+		const user = req.user as User
+		return await this.userService.changeSettings(user.id, body)
+	}
+
+	@Get('/byId/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserById(@Param() params: any) {
+		const userId = parseInt(params.id)
+		if (!userId)
+			throw new BadRequestException()
+		return await this.userService.getUserById(userId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/TwoFa")
+	async getQrCode(@Req() req: Request) {
+		const user = req.user as UserDto
+		const code = await this.userService.generateTfaSecret(user.id, user.username);
+		const qrcode = await this.userService.generateQrCode(code.otpauthUrl);
+		const twoFaObj = {
+			code: code.secret,
+			qrcode: qrcode,
+		}
+		return twoFaObj
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaKey")
+	async validateTwoFa(@Body() body: TwoFa, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.validateTwoFa(body, user.id)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaFalse")
+	async twoFaFalse(@Body() body: any, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.twoFaFalse(body, user.id)
+		return (true)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('block/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async blockById(@Req() req: Request, @Param('id') blockId: number) {
+		const user = req.user as User;
+		await this.friendService.removeFriend(user, blockId);
+		return await this.userService.blockbyId(user.id, blockId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('unblock/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async unblockById(@Req() req: Request, @Param('id') unblockId: number) {
+		const user = req.user as UserDto;
+		return await this.userService.unblockbyId(user.id, unblockId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('getUserBlockedOn')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserBlockedOn(@Req() req: Request) {
+		const user = req.user as UserDto;
+		return await this.userService.getUserBlockedOn(user.id, user.id);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('getUserBlocked')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserBlocked(@Req() req: Request) {
+		const user = req.user as UserDto;
+		return await this.userService.getUserBlocked(user.id);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('getUserBlockedId/:id')
+	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	async getUserBlockedId(@Req() req: Request, @Param('id') blockedId: number) {
+		const user = req.user as UserDto;
+		return await this.userService.getUserBlockedId(user.id, blockedId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get("/apiPic")
+	async apiPic(): Promise<any> {
+		var apiKey = process.env.PIC_UID;
+		return { apiKey };
 	}
 }

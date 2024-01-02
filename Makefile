@@ -1,6 +1,6 @@
 RM		= rm -rf
 
-all: up build
+all: build up 
 
 db: 
 		docker-compose build postgre
@@ -10,15 +10,15 @@ up:
 		docker-compose up -d
 
 build:
-		docker-compose --build
+		docker-compose build
 
-down:
+re:			clean all
+
+clean:		
 		docker-compose down
 
-re:			down all
-
-clean:		down
-		docker system prune -a -f
+fclean:
+		docker-compose down -v
 
 ps:
 		docker ps

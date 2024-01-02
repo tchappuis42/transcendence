@@ -11,14 +11,16 @@ import { join } from 'path';
 import { AuthModule } from './authentication/auth.module';
 import { GameModule } from './game/game.module';
 import { ChatModule } from './chat/chat.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
     UserModule,
-    TypeOrmModule.forRoot(typeormconfig),
+    TypeOrmModule.forRoot(typeormconfig,),
     AuthModule,
     GameModule,
     ChatModule,
+    FriendsModule,
     // CorsModule.forRoot({ origin: '*' })
     // MulterModule.register({dest: './files'}),
     //  ServeStaticModule.forRoot({rootPath: join(__dirname, '..', 'files')})

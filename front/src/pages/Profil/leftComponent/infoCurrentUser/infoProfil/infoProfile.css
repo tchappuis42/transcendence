@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .information-user-component {
+        @apply w-full font-sans
+        grid grid-cols-4 space-x-1
+    }
+    .profil-pictures-component {
+        @apply h-full col-span-1
+    }
+    .text-information-component {
+        @apply grid grid-cols-2 col-span-3
+    }
+
+    .profile-user {
+        @apply grid grid-cols-2 gap-2
+        h-[100px] w-full text-xs text-white font-sans
+    }
+    .img-user {
+        @apply aspect-4/5 h-full rounded object-cover shrink-0
+    }
+    .text-info {
+        @apply grid grid-cols-2 h-full w-full
+    }
+    .friend-component {
+        @apply grid grid-rows-2 h-full w-full
+    }
+    .friend-button-component {
+        @apply rounded hover:bg-blue-700 px-2 py-2
+        h-full w-full
+    }
+    .main-me-component {
+        @apply grid grid-cols-1 grid-rows-2 h-full
+        rounded items-center
+    }
+    .name-component {
+        @apply flex flex-row justify-start
+        align-middle px-4 py-4 h-full font-bold
+    }
+    .rank-component {
+        @apply grid grid-cols-2 h-full w-full
+    }
+    .rank-text {
+        @apply flex flex-row justify-start items-center
+        px-4 rounded h-full
+    }
+}

@@ -14,7 +14,7 @@ const SignupForm: React.FC<FormProps> = ({
 	const [qrCode, setQrCode] = useState("");
 	const signupSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		axios.post("http://localhost:4000/authentication/signup", data).then((response) => {
+		axios.post("/api/authentication/signup", data).then((response) => {
 			if (response.data.message) {
 				alert("user create")
 				settingPage("login")
@@ -40,19 +40,10 @@ const SignupForm: React.FC<FormProps> = ({
 					<label htmlFor="text">
 						<input className='input'
 							type="text"
-							name="username"
-							value={data.username}
+							name="identifiant"
+							value={data.identifiant}
 							onChange={handleChange}
 							placeholder='user'
-						/>
-					</label>
-					<label htmlFor="email">
-						<input className='input'
-							type="email"
-							name="email"
-							value={data.email}
-							onChange={handleChange}
-							placeholder='email@exemple.com'
 						/>
 					</label>
 					<label htmlFor="password">

@@ -1,7 +1,10 @@
-npm i react
-npm i axios
-npm i react-router-dom
-npm i zustand
-npm i --save-dev @types/react-modal
-npm i moment
+npm install
+# cmd pour dev front
 npm start
+
+# cmd pour prod front
+# apt install xsel
+# npm i -g serve
+
+# npm run build
+# serve -s build

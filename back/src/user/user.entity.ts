@@ -1,20 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Socket } from 'socket.io';
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  
+  @PrimaryColumn()
+  id: number
 
   @Column({ unique: true })
   username: string;
 
   @Column({ unique: true })
-  email: string;
+  @Exclude()
+  identifiant: string;
 
-  @Column({ default: "512x512bb.jpg" })
+  @Column({ default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" })
   avatar: string;
 
-  @Column()
+  @Column({nullable: true})
   @Exclude()
   password: string;
 
@@ -22,8 +25,20 @@ export class User {
   twoFa: boolean;
 
   @Column({ nullable: true })
+  @Exclude()
   twoFaSecret: string;
 
-  @Column({ default: false })
-  connected: boolean;
+  @Column({ type: 'simple-json', default: [] })
+  @Exclude()
+  socket: string[];
+
+  @Column({ type: 'simple-json', default: [] })
+  @Exclude()
+  blockedId: number[];
+
+  @Column({ default: 500 })
+  score: number;
+
+  @Column({ default: 0 })
+  status: number;
 }

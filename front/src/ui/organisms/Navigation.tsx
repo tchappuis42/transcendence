@@ -1,6 +1,6 @@
-import React, { SyntheticEvent } from 'react';
-import { NavLink } from 'react-router-dom';
-import NavDropDown from './NavDropDown';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useSocket } from "./SocketContext";
 
 type Props = {
 	options: Option[];
@@ -12,20 +12,34 @@ export type Option = {
 };
 
 const NavigationItem = ({ option }: { option: Option }) => {
-	return <NavLink to={option.url} className='link'>
+	return <NavLink to={option.url} className='link aria-[current=page]:text-blue-400'>
 		{option.label}
 	</NavLink >
 }
 
 const Navigation = ({ options }: Props) => {
+	const location = useLocation();
+
+
+	const [currentPage, setCurrentPage] = useState<string>(location.pathname);
+	const [previousPage, setPreviousPage] = useState<string>("");
+	const socket = useSocket();
+
+	useEffect(() => {
+		setPreviousPage(currentPage);
+		setCurrentPage(location.pathname);
+	}, [location, currentPage, previousPage]);
+
+	if (previousPage === '/chat' && currentPage !== '/chat') {
+		socket?.emit("leaveChat");
+	}
+
 	return (
 		<div className="header">
 			{
-				options.map((option) => <NavigationItem option={option} />)
+				options.map((option) => <NavigationItem key={option.url} option={option} />)
 			}
-			<NavDropDown />
 		</div>
 	);
 };
-
 export default Navigation;

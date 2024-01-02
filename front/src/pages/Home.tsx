@@ -1,19 +1,9 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Navigation from '../ui/organisms/Navigation';
 import Login from './Auth/Login';
 import { AuthStatus, useAuth } from '../ui/organisms/useAuth';
-import Testuser from './testuser';
-import { io } from 'socket.io-client';
-import { SocketProvider } from '../ui/organisms/SocketContext';
-
-
-const navigationOptions = [
-	{ label: 'home', url: '/' },
-	{ label: 'test', url: '/test' },
-	{ label: 'chat', url: '/chat' },
-	{ label: 'pong', url: '/pong' },
-];
+import { TopBar } from "./topBar/topBar";
+import Hometest from './HomePage/HomePage';
 
 const Home = () => {
 	const { status, authenticate } = useAuth();
@@ -24,7 +14,7 @@ const Home = () => {
 	}, []);
 
 	if (status === AuthStatus.Unknown) {
-		return <div></div>
+		return <div></div> 
 	}
 
 	if (status === AuthStatus.Guest) {
@@ -34,14 +24,14 @@ const Home = () => {
 	if (location.pathname === '/') {
 		return (
 			<div>
-				<Navigation options={navigationOptions} />
-				<Testuser />
+				<TopBar />
+				<Hometest />
 			</div >
 		);
 	}
 
 	return <div>
-		<Navigation options={navigationOptions} />
+		<TopBar />
 		<Outlet />
 	</div>
 };

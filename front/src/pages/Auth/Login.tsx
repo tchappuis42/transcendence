@@ -2,12 +2,12 @@ import { useState } from 'react';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import TwoFaForm from './TwofaForm';
+import axios from 'axios';
 
 const Login = () => {
 	const [data, setData] = useState({
-		email: "",
 		password: "",
-		username: "",
+		identifiant: "",
 		twoFa: false
 	});
 
@@ -32,18 +32,33 @@ const Login = () => {
 		setData({ ...data, twoFa: !data.twoFa })
 	}
 
+	const handleApiLoginClick = async () => {
+		try {
+			const response = await axios.get("/api/authentication/url");
+			if (response.data.statusCode === 302) {
+				window.location.href = response.data.url;
+			} else {
+				console.error('Unexpected response', response.data);
+			}
+		} catch (error) {
+			console.error('Error fetching URL', error);
+		}
+	};
+
 	return (
-		<div className='signup'>
+		<div className="flex h-screen items-center justify-center w-full min-h-[600px] ">
 			{page === 'login' && (
-				<LoginForm
-					data={data}
-					handleChange={handleChange}
-					settingPage={settingPage}
-					showPassword={showPassword}
-					togglePassword={togglePassword}
-				/>
+				<div className="flex flex-col items-center justify-center h-screen w-screen">
+					<div className='w-1/2 h-1/2  rounded border border-white/50 flex justify-evenly items-center flex-col'>
+						<h1 className='text-white font-bold text-3xl'>Welcome to the new Pong Experience</h1>
+						<button onClick={handleApiLoginClick} type="button"
+							className="border-2 mt-2 w-40 border-white hover:bg-slate-100 hover:text-black text-white font-bold  rounded-full shadow-black shadow-xl hover:transform hover:scale-110 transition duration-300">
+							Api Login
+						</button>
+					</div>
+				</div>
 			)}
-			{page === 'signup' && (
+			{/* {page === 'signup' && (
 				<SignupForm
 					data={data}
 					handleChange={handleChange}
@@ -52,7 +67,7 @@ const Login = () => {
 					togglePassword={togglePassword}
 					toggletfa={toggletfa}
 				/>
-			)}
+			)} */}
 			{page === 'twofa' && (
 				<TwoFaForm
 					settingPage={() => setPage("login")}

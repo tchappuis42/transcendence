@@ -96,10 +96,10 @@ export class AuthService {
 		}
 	}
 
-	async loginOrCreate(loginname: string, infos: any = {}) {
+	async loginOrCreate(id: number, loginname: string, infos: any = {}) {
 		try {
-			const user = await this.usersRepository.findOne({ where: { identifiant: loginname } })
-
+			const user = await this.usersRepository.findOne({ where: { id: id } })
+			
 			if (user != null) {
 				const payload = { sub: user.id, identifiant: user.identifiant };
 				return {
@@ -112,7 +112,7 @@ export class AuthService {
 				let avatar = infos.image.link;
 				let password = undefined;
 
-				const user = await this.usersRepository.create({ identifiant: loginname, username: loginname, password: password, avatar: avatar });
+				const user = await this.usersRepository.create({ id: id, identifiant: loginname, username: loginname, password: password, avatar: avatar });
 				const user2 = await this.usersRepository.save(user);
 				const payload = { sub: user2.id, identifiant: user2.identifiant };
 				return {

@@ -8,23 +8,9 @@ import { Game } from 'src/game/game.entity';
 import { Server, Socket } from 'socket.io';
 import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
-import { elementAt } from 'rxjs';
-import { getEnabledCategories } from 'trace_events';
-
-interface changeObj {
-	value: string;
-	type: boolean;
-}
-
-interface twoFa {
-	code: string;
-	validation: number;
-}
-
-interface validateTwoFa {
-	value: boolean;
-	secret: string;
-}
+import { TwoFaDto } from './dtos/TwoFaDto';
+import { settingsDto } from './dtos/settingdDto';
+import { validateTwoFaDto } from './dtos/validateTwoFaDto';
 
 @Injectable()
 export class UserService {
@@ -279,7 +265,7 @@ export class UserService {
 		return socket
 	}
 
-	async changeSettings(userId: number, body: changeObj) {
+	async changeSettings(userId: number, body: settingsDto) {
 		try {
 			if (body.type)
 				await this.usersRepository.update(userId, { avatar: body.value })
@@ -296,7 +282,7 @@ export class UserService {
 		}
 	}
 
-	async validateTwoFa(twoFa: twoFa, userId: number) {
+	async validateTwoFa(twoFa: TwoFaDto, userId: number) {
 		const isCodeValid = authenticator.verify({
 			token: twoFa.validation.toString(),
 			secret: twoFa.code,
@@ -307,7 +293,7 @@ export class UserService {
 		//await this.usersRepository.update(userId, { twoFaSecret: twoFa.code })
 	}
 
-	async twoFaFalse(twoFaStatus: validateTwoFa, userId: number) {
+	async twoFaFalse(twoFaStatus: validateTwoFaDto, userId: number) {
 		const response = await this.usersRepository.update(userId, { twoFa: twoFaStatus.value, twoFaSecret: twoFaStatus.secret })
 	}
 }

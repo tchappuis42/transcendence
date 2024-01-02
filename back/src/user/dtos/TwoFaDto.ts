@@ -1,9 +1,9 @@
 import { IsNotEmpty } from "class-validator";
 
-export class sockets {
+export class TwoFaDto {
 	@IsNotEmpty()
-	id: string;
+	code: string;
 
 	@IsNotEmpty()
-	userid: number;
+	validation: number;
 }

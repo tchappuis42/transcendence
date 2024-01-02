@@ -58,9 +58,9 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
           setAvatar(response.data.results[0].urls.small);
           setNewAvatar(response.data.results[0].urls.small);
           setError("");
-        } catch (error: any) {
-          console.error('Error fetching images:', error.response.data);
-          setError(error.response.data + " (50 req per hour)")
+        } catch (error: any) {   
+          console.error('Error fetching images');
+          setError("Error searching for image");
         }
       };
       handleSearch();

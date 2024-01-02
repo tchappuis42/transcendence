@@ -1,9 +1,6 @@
 import { IsNotEmpty } from "class-validator"
 
-export class AcceptDto {
+export class addFriendDto {
 	@IsNotEmpty()
 	id: number
-
-	@IsNotEmpty()
-	accept: boolean
 }

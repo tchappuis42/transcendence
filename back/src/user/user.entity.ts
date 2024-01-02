@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Socket } from 'socket.io';
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  
+  @PrimaryColumn()
+  id: number
 
   @Column({ unique: true })
   username: string;

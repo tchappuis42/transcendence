@@ -6,16 +6,9 @@ import { UserDto } from './dtos/UserDto';
 import { User } from './user.entity';
 import { AcceptDto } from 'src/friends/dtos/AcceptDto';
 import { FriendsService } from 'src/friends/friends.service';
-
-class changeObj {
-	value: string;
-	type: boolean;
-}
-
-class TwoFa {
-	code: string;
-	validation: number;
-}
+import { settingsDto } from './dtos/settingdDto';
+import { TwoFaDto } from './dtos/TwoFaDto';
+import { validateTwoFaDto } from './dtos/validateTwoFaDto';
 
 @Controller('user')
 export class UserController {
@@ -61,7 +54,7 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/settings")
-	async changeSettings(@Body() body: changeObj, @Req() req: Request) {
+	async changeSettings(@Body() body: settingsDto, @Req() req: Request) {
 		const user = req.user as User
 		return await this.userService.changeSettings(user.id, body)
 	}
@@ -90,14 +83,14 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaKey")
-	async validateTwoFa(@Body() body: TwoFa, @Req() req: Request) {
+	async validateTwoFa(@Body() body: TwoFaDto, @Req() req: Request) {
 		const user = req.user as UserDto
 		const validation = await this.userService.validateTwoFa(body, user.id)
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaFalse")
-	async twoFaFalse(@Body() body: any, @Req() req: Request) {
+	async twoFaFalse(@Body() body: validateTwoFaDto, @Req() req: Request) {
 		const user = req.user as UserDto
 		const validation = await this.userService.twoFaFalse(body, user.id)
 		return (true)

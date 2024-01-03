@@ -15,6 +15,8 @@ export class FriendsController {
 	@Post("/addFriend")
 	async addFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
+		if (body.id === user.id)
+			return { msg: "fuck jerome" }
 		return await this.frindsService.addFriend(user, body.id)
 	}
 
@@ -31,6 +33,8 @@ export class FriendsController {
 	@Post("acceptFriend")
 	async acceptFriend(@Body() body: AcceptDto, @Req() req: Request) {
 		const user = req.user as User
+		if (body.id === user.id)
+			return { msg: "fuck jerome" }
 		if (body.accept === true)
 			return await this.frindsService.acceptFriend(user, body.id)
 		return await this.frindsService.refuseFriend(user, body.id)
@@ -40,6 +44,8 @@ export class FriendsController {
 	@Post("/removeFriend")
 	async removeFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
+		if (body.id === user.id)
+			return { msg: "fuck jerome" }
 		return await this.frindsService.removeFriend(user, body.id)
 	}
 

@@ -9,6 +9,7 @@ import { FriendsService } from 'src/friends/friends.service';
 import { settingsDto } from './dtos/settingdDto';
 import { TwoFaDto } from './dtos/TwoFaDto';
 import { validateTwoFaDto } from './dtos/validateTwoFaDto';
+import { TwoFaFalseDto } from './dtos/TwoFaFalseDto';
 
 @Controller('user')
 export class UserController {
@@ -90,7 +91,7 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post("/twoFaFalse")
-	async twoFaFalse(@Body() body: validateTwoFaDto, @Req() req: Request) {
+	async twoFaFalse(@Body() body: TwoFaFalseDto, @Req() req: Request) {
 		const user = req.user as UserDto
 		const validation = await this.userService.twoFaFalse(body, user.id)
 		return (true)
@@ -141,6 +142,6 @@ export class UserController {
 	@Get("/apiPic")
 	async apiPic(): Promise<any> {
 		var apiKey = process.env.PIC_UID;
-		return {apiKey};
+		return { apiKey };
 	}
 }

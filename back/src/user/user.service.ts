@@ -10,7 +10,7 @@ import { sockets } from './dtos/socketsDto';
 import { ConnctionState } from './dtos/ConnectionStateEnum';
 import { TwoFaDto } from './dtos/TwoFaDto';
 import { settingsDto } from './dtos/settingdDto';
-import { validateTwoFaDto } from './dtos/validateTwoFaDto';
+import { TwoFaFalseDto } from './dtos/TwoFaFalseDto';
 
 @Injectable()
 export class UserService {
@@ -43,8 +43,7 @@ export class UserService {
 
 	async generateTfaSecret(id: number, username: string) {
 		const secret = authenticator.generateSecret();
-		const otpauthUrl = authenticator.keyuri(username, 'AUTH_APP_NAME', secret);
-		// await this.setTfaSecret(secret, id);
+		const otpauthUrl = authenticator.keyuri(username, 'Gojo\'s Transcendence', secret);
 		const secretTfaObj = {
 			secret: secret,
 			otpauthUrl: otpauthUrl
@@ -74,7 +73,6 @@ export class UserService {
 			newSocket.id = client.id
 			newSocket.userid = userId
 			this.Sockets.push(newSocket); //debug/
-			//user.socket.push(client.id)
 			user.socket = this.getsocketInArray(user.id)
 			await this.usersRepository.save(user);
 			const status = {
@@ -90,7 +88,6 @@ export class UserService {
 		const user = await this.usersRepository.findOne({ where: { id: client.data.user.id } });
 		if (user) {
 			user.socket = this.getsocketInArray(user.id)
-			//user.socket = user.socket.filter((socket) => socket !== client.id) ;
 			if (user.socket.length === 0) {
 				user.status = ConnctionState.Offline
 				Logger.log("user disconnected")
@@ -115,7 +112,7 @@ export class UserService {
 		server.emit('status', status)
 	}
 
-	async StatueGameOff(userId: number, server: Server) { //
+	async StatueGameOff(userId: number, server: Server) {
 		const userStatue = await this.userStatue(userId)
 		if (userStatue === ConnctionState.InGame) {
 			await this.usersRepository.update(userId, { status: ConnctionState.Online })
@@ -192,7 +189,6 @@ export class UserService {
 			where: [
 				{ username: ILike(`%${query}%`) },
 			],
-			//TODO Rajouter photo de profil
 			select: ['id', 'username', "avatar"],
 		});
 
@@ -290,10 +286,9 @@ export class UserService {
 		if (!isCodeValid) {
 			throw new UnauthorizedException('Wrong authentication code');
 		}
-		//await this.usersRepository.update(userId, { twoFaSecret: twoFa.code })
 	}
 
-	async twoFaFalse(twoFaStatus: validateTwoFaDto, userId: number) {
+	async twoFaFalse(twoFaStatus: TwoFaFalseDto, userId: number) {
 		const response = await this.usersRepository.update(userId, { twoFa: twoFaStatus.value, twoFaSecret: twoFaStatus.secret })
 	}
 }

@@ -374,11 +374,16 @@ export class ChatGateway {
 
 	@SubscribeMessage('changeStatue')
 	async changeStatue(@MessageBody() args1: string, @MessageBody() args2: boolean, @ConnectedSocket() client: Socket) {
-		const channel = await this.textChannelService.getChannelByName(args1[0]);
-		await this.textChannelService.changeStatue(channel, args2[1]);
-		const all_channels = await this.textChannelService.getAllChannels();
-		const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public" } } else { return { id: chan.id, name: chan.name, statue: "Private" } } });
-		this.server.emit("refreshChannelStatus", all);
+		try {
+			const user = client.data.user as UserDto;
+			const channel = await this.textChannelService.getChannelByName(args1[0]);
+			if (channel.owner.id === user.id) {
+				await this.textChannelService.changeStatue(channel, args2[1]);
+				const all_channels = await this.textChannelService.getAllChannels();
+				const all = all_channels.map((chan) => { if (chan.status === true) { return { id: chan.id, name: chan.name, statue: "Public" } } else { return { id: chan.id, name: chan.name, statue: "Private" } } });
+				this.server.emit("refreshChannelStatus", all);
+			}
+		} catch { }
 	}
 
 	/*@SubscribeMessage('setPassword')

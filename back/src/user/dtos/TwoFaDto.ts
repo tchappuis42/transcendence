@@ -5,6 +5,5 @@ export class TwoFaDto {
 	code: string;
 
 	@IsNotEmpty()
-	@IsNumber()
-	validation: number;
+	validation: string;
 }

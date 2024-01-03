@@ -89,11 +89,19 @@ export class UserController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Post("/twoFaFalse")
-	async twoFaFalse(@Body() body: TwoFaFalseDto, @Req() req: Request) {
+	@Get("/twoFaFalse")
+	async twoFaFalse(@Req() req: Request) {
 		const user = req.user as UserDto
-		const validation = await this.userService.twoFaFalse(body, user.id)
+		const validation = await this.userService.twoFaFalse(user.id)
 		return (true)
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("/twoFaTrue")
+	async twoFaTrue(@Body() body: TwoFaFalseDto, @Req() req: Request) {
+		const user = req.user as UserDto
+		const validation = await this.userService.twoFaTrue(user.id, body)
+	return (true)
 	}
 
 	@UseGuards(JwtAuthGuard)

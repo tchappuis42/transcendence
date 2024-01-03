@@ -5,6 +5,10 @@ import axios from "axios";
 import { createPortal } from "react-dom";
 import { useAuth } from "../../ui/organisms/useAuth";
 
+type validationObj = {
+    code: string,
+    validation: string,
+}
 
 interface TwoFa {
     code: string,
@@ -20,8 +24,8 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
 
     const { account } = useAccount();
     const [QRCodeBol, setQrCodeBol] = useState<boolean>(account.twoFa);
-    const [TwoFa, setTwoFa] = useState<TwoFa>();
-    const [codeValidation, setCodeValidation] = useState<number>()
+    const [TwoFa, setTwoFa] = useState<TwoFa | null>(null);
+    const [codeValidation, setCodeValidation] = useState<string>()
     const [error, setError] = useState<string>();
     const [codeValidated, setCodeValidated] = useState<boolean>(false);
     const { authenticate } = useAuth();
@@ -49,26 +53,28 @@ const TwoFa: React.FC<TwoFaProps> = ({ setTwoFaStatus, setSecret }) => {
     }
 
     const handleCodeValidation = (event: any) => {
-        const validationObj = {
-            code: TwoFa?.code,
-            validation: codeValidation,
-        }
-        const postTwoValidation = async () => {
-            try {
-                await axios.post("/api/user/twoFaKey", validationObj, { withCredentials: true })
-                setError("Success")
-                setCodeValidated(true);
-                setTwoFaStatus(true);
-                setSecret(TwoFa?.code);
+        if (TwoFa && codeValidation) {
+
+            const validationObj : validationObj = {
+                code: TwoFa?.code,
+                validation: codeValidation,
             }
-            catch (error: any) {
-                setError("Wrong code")
-                if (error.response.request.status === 401)
+            const postTwoValidation = async () => {
+                try {
+                    await axios.post("/api/user/twoFaKey", validationObj, { withCredentials: true })
+                    setError("Success")
+                    setCodeValidated(true);
+                    setTwoFaStatus(true);
+                    setSecret(TwoFa?.code);
+                }
+                catch (error: any) {
+                    setError("Wrong code")
+                    if (error.response.request.status === 401)
                     authenticate();
             }
         }
         postTwoValidation()
-
+    }   
     }
 
     const handlePopupClose = () => {

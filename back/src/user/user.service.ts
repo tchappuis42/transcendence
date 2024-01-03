@@ -91,13 +91,14 @@ export class UserService {
 			if (user.socket.length === 0) {
 				user.status = ConnctionState.Offline
 				Logger.log("user disconnected")
-			}
-			await this.usersRepository.save(user);
+			
 			const status = {
 				id: client.data.user.id,
 				status: ConnctionState.Offline
 			}
+		}
 			server.emit('status', status)
+			await this.usersRepository.save(user);
 		}
 	}
 
@@ -288,8 +289,11 @@ export class UserService {
 		}
 	}
 
-	async twoFaFalse(twoFaStatus: TwoFaFalseDto, userId: number) {
-		const response = await this.usersRepository.update(userId, { twoFa: twoFaStatus.value, twoFaSecret: twoFaStatus.secret })
+	async twoFaFalse(userId: number) {
+		const response = await this.usersRepository.update(userId, { twoFa: false, twoFaSecret: "" })
+	}
+	async twoFaTrue(userId: number, secret: TwoFaFalseDto) {
+		const response = await this.usersRepository.update(userId, { twoFa: true, twoFaSecret: secret.key })
 	}
 }
 

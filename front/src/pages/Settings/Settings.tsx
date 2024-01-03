@@ -13,6 +13,10 @@ interface changeObj {
     type: boolean;
 }
 
+type secret = {
+    key : string | undefined;
+}
+
 
 const Settings = () => {
 
@@ -30,7 +34,7 @@ const Settings = () => {
 
     useEffect(() => {
         if (socket) {
-            socket.on("game", (data) => {
+            socket.on("game", (data : any) => {
                 if (typeof data === 'object') {
                     navigate("/pong")
                 }
@@ -93,12 +97,16 @@ const Settings = () => {
         }
 
         if (account.twoFa !== twoFaStatus) {
-            const status = {
-                value: twoFaStatus,
-                secret: secret
-            };
+            if (twoFaStatus)
+            {
+                const secretKey : secret = {
+                    key : secret,
+                }
 
-            await axios.post("/api/user/twoFaFalse", status, { withCredentials: true });
+                await axios.post("/api/user/twoFaTrue", secretKey, { withCredentials: true });
+            }
+            else
+                await axios.get("/api/user/twoFaFalse", { withCredentials: true });
             account.twoFa = twoFaStatus;
         }
 

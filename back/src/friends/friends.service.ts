@@ -9,6 +9,7 @@ import { Server, Socket } from 'socket.io';
 import { ConnctionState } from 'src/user/dtos/ConnectionStateEnum';
 import { FriendDto } from './dtos/FriendDto';
 import { first } from 'rxjs';
+import { UserDto } from 'src/user/dtos/UserDto';
 
 @Injectable()
 @WebSocketGateway()
@@ -44,7 +45,7 @@ export class FriendsService {
 		const list = await this.friendsRepository.find({ where: [{ first_id: user.id }, { second_id: user.id }] })
 		if (!list)
 			throw new NotFoundException("user not found") // bonne erreur
-		const friends: FriendDto[] = list.map((friend) => {
+		const friends = list.map((friend) => {
 			if (friend.first_User.id === user.id) {
 				if (friend.friend_status === true)
 					return { friend_user: friend.second_User, friend_status: 0 }
@@ -56,7 +57,11 @@ export class FriendsService {
 				return { friend_user: friend.first_User, friend_status: 1 }
 			}
 		});
-		const filteredFriends = friends.filter(friend => !user.blockedId.some(id => friend.friend_user.id == id));
+		const filteredFriends = friends.filter(friend => !user.blockedId.some(id => friend.friend_user.id == id)).map(user => {
+			const { password, twoFaSecret, identifiant, socket, blockedId, ...p } = user.friend_user;
+			return { ...user, friend_user: p };
+		});
+
 		return filteredFriends;
 	}
 
@@ -119,13 +124,14 @@ export class FriendsService {
 		const Socket = await this.userservice.getSocketUser(send_id);
 		const data: FriendDto = {
 			friend_user: user,
-			friend_status: 1
+			friend_status: 1,
 		}
+		const { password, socket, twoFaSecret, blockedId, identifiant, ...newdata } = data.friend_user;
 		if (Socket) {
 			Socket.socket.forEach(socketId => {
 				this.server.sockets.sockets.forEach(socket => {
 					if (socket.id === socketId) {
-						socket.emit(event, data)
+						socket.emit(event, newdata)
 					}
 				})
 			})

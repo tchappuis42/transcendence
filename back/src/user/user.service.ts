@@ -11,6 +11,7 @@ import { ConnctionState } from './dtos/ConnectionStateEnum';
 import { TwoFaDto } from './dtos/TwoFaDto';
 import { settingsDto } from './dtos/settingdDto';
 import { TwoFaFalseDto } from './dtos/TwoFaFalseDto';
+import axios from 'axios';
 
 @Injectable()
 export class UserService {
@@ -262,10 +263,27 @@ export class UserService {
 		return socket
 	}
 
+	async checkImageUrl (url: string): Promise<boolean>  {
+		try {
+		  const response = await axios.head(url);
+		  const contentType = response.headers['content-type'];
+		  return contentType && contentType.startsWith('image/');
+		} catch (error) {
+		  console.error('Error checking image URL:', error);
+		  return false;
+		}
+	}
+
 	async changeSettings(userId: number, body: settingsDto) {
 		try {
 			if (body.type)
-				await this.usersRepository.update(userId, { avatar: body.value })
+			{
+				const isValidImageUrl = await this.checkImageUrl(body.value);
+				if (isValidImageUrl)
+					await this.usersRepository.update(userId, { avatar: body.value })
+				else
+					throw new BadRequestException("No valid image")
+			}
 			if (!body.type) {
 				if (body.value.length < 4 || body.value.length > 15)
 					throw new BadRequestException("Username must contain 3 to 15 caracter")

@@ -398,30 +398,38 @@ export class ChatGateway {
 			const user = client.data.user as UserDto;
 			const channel = await this.textChannelService.getChannelByName(args[0]);
 			let oldChannel: TextChannel;
-			if (args[2] !== "create a channel!")
-				oldChannel = await this.textChannelService.getChannelByName(args[2]);
+			if (args[2] !== "create a channel!") {
+				if ((await this.DMChannelService.getDMChannelMeForText(args[2])) == 0)
+					oldChannel = await this.textChannelService.getChannelByName(args[2]);
+			}
 			let passStatue: string;
 			if (channel.status === false) {
 				passStatue = await this.textChannelService.checkPassWord(channel, args[1]);
 			}
 			else
 				passStatue = "ok";
-			if (passStatue === "ko") {
-				client.leave(oldChannel.name);
-				await this.textChannelService.removeUserFromChannel(oldChannel, user.id)
+			if (passStatue === "ko" && args[2] !== "create a channel!") {
+				client.leave(args[2]);
+				if ((await this.DMChannelService.getDMChannelMeForText(args[2])) == 0)
+					await this.textChannelService.removeUserFromChannel(oldChannel, user.id)
 			}
 			const channelOut = await this.textChannelService.getChannelMe(args[0]);
 			const userAllOut = channelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
 			let oldChannelOut: TextChannel
 			let userAllOut2: { id: number; username: string; avatar: string; }[]
 			if (args[2] !== "create a channel!") {
-				oldChannelOut = await this.textChannelService.getChannelMe(args[2]);
-				userAllOut2 = oldChannelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+				if ((await this.DMChannelService.getDMChannelMeForText(args[2])) == 0) {
+					oldChannelOut = await this.textChannelService.getChannelMe(args[2]);
+					userAllOut2 = oldChannelOut.users.map((chan) => { return { id: chan.id, username: chan.username, avatar: chan.avatar } });
+				}
 			}
 			client.emit("checkPass", channel.name, passStatue, args[2]);//, userAllOut);
 			if (passStatue === "ko") {
-				this.server.to(oldChannel.name).emit('setUserInChannel', userAllOut2);
-				this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+				if ((await this.DMChannelService.getDMChannelMeForText(args[2])) == 0) {
+					this.server.to(oldChannel.name).emit('setUserInChannel', userAllOut2);
+					this.server.to(channel.name).emit('setUserInChannel', userAllOut);
+				}
+
 			}
 		} catch { }
 	}

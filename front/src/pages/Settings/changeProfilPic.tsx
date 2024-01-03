@@ -17,32 +17,16 @@ const ChangeProfilPic: React.FC<TwoFaProps> = ({ setNewAvatar }) => {
   const [error, setError] = useState<string>();
   const [stringToSearch, setStringToSearch] = useState<string>();
 
-
-  const checkImageUrl = async (url: string): Promise<boolean> => {
-    try {
-      const response = await axios.head(url);
-      const contentType = response.headers['content-type'];
-      return contentType && contentType.startsWith('image/');
-    } catch (error) {
-      console.error('Error checking image URL:', error);
-      return false;
-    }
-  };
-
   const handleImageLink = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const imageUrl = event.target.value;
     if (imageUrl.length === 0) {
       setError("");
       return
     }
-    const isValidImageUrl = await checkImageUrl(imageUrl);
-    if (!isValidImageUrl) {
-      setError('Not a valid image URL');
-    } else {
+
       setError('');
       setNewAvatar(imageUrl);
       setAvatar(imageUrl);
-    }
   };
 
 

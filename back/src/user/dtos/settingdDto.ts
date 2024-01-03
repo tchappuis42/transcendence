@@ -1,9 +1,10 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsBoolean } from "class-validator";
 
 export class settingsDto {
 	@IsNotEmpty()
 	value: string;
 
 	@IsNotEmpty()
+	@IsBoolean()
 	type: boolean;
 }

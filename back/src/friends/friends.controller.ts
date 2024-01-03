@@ -1,5 +1,5 @@
 
-import { Body, Controller, Post, Get, Param, UseGuards, Req, BadRequestException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, UseGuards, Req, BadRequestException, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtAuthGuard } from 'src/user/user.guard';
 import { Request } from 'express';
@@ -16,7 +16,7 @@ export class FriendsController {
 	async addFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
 		if (body.id === user.id)
-			return { msg: "fuck jerome" }
+			throw new BadRequestException('same person');
 		return await this.frindsService.addFriend(user, body.id)
 	}
 
@@ -34,7 +34,7 @@ export class FriendsController {
 	async acceptFriend(@Body() body: AcceptDto, @Req() req: Request) {
 		const user = req.user as User
 		if (body.id === user.id)
-			return { msg: "fuck jerome" }
+			throw new BadRequestException('same person');
 		if (body.accept === true)
 			return await this.frindsService.acceptFriend(user, body.id)
 		return await this.frindsService.refuseFriend(user, body.id)
@@ -45,16 +45,18 @@ export class FriendsController {
 	async removeFriend(@Body() body: addFriendDto, @Req() req: Request) {
 		const user = req.user as User
 		if (body.id === user.id)
-			return { msg: "fuck jerome" }
+			throw new BadRequestException('same person');
 		return await this.frindsService.removeFriend(user, body.id)
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Get("getFriendParId/:id")
 	@UseInterceptors(ClassSerializerInterceptor)
-	async getFriendParId(@Req() req: Request, @Param() params: any) {
+	async getFriendParId(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) id: number) {
 		const user = req.user as User
-		const friend = await this.frindsService.getFriendParId(user, params.id)
+		if (id === user.id)
+			throw new BadRequestException('same person');
+		const friend = await this.frindsService.getFriendParId(user, id)
 		return friend;
 	}
 }

@@ -62,11 +62,10 @@ export class UserController {
 
 	@Get('/byId/:id')
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
-	async getUserById(@Param() params: any) {
-		const userId = parseInt(params.id)
-		if (!userId)
+	async getUserById(@Param('id', ParseIntPipe, ParseIntPipe) id: number) {
+		if (!id)
 			throw new BadRequestException()
-		return await this.userService.getUserById(userId);
+		return await this.userService.getUserById(id);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -99,9 +98,11 @@ export class UserController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('block/:id')
-	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
+	@UseInterceptors(ClassSerializerInterceptor)  // pas renotvoyer le mdp
 	async blockById(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) blockId: number) {
 		const user = req.user as User;
+		if (blockId === user.id)
+			throw new BadRequestException('same person');
 		await this.friendService.removeFriend(user, blockId);
 		return await this.userService.blockbyId(user.id, blockId);
 	}
@@ -111,6 +112,8 @@ export class UserController {
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async unblockById(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) unblockId: number) {
 		const user = req.user as UserDto;
+		if (unblockId === user.id)
+			throw new BadRequestException('same person');
 		return await this.userService.unblockbyId(user.id, unblockId);
 	}
 
@@ -135,6 +138,8 @@ export class UserController {
 	@UseInterceptors(ClassSerializerInterceptor)  // pas revoyer le mdp
 	async getUserBlockedId(@Req() req: Request, @Param('id', ParseIntPipe, ParseIntPipe) blockedId: number) {
 		const user = req.user as UserDto;
+		if (blockedId === user.id)
+			throw new BadRequestException('same person');
 		return await this.userService.getUserBlockedId(user.id, blockedId);
 	}
 

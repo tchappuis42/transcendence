@@ -532,7 +532,15 @@ export class ChatGateway {
 				user.id,
 			);
 
-			const all = all_channels.map((chan) => { if (chan.block1 === false && chan.block2 === false) { return { id: chan.id, name: chan.name, statue: "Unblocked", user: chan.users } } else if ((chan.block1 || chan.block2) === true) { return { id: chan.id, name: chan.name, statue: "Blocked", user: chan.users } } });
+			const all = all_channels.map((chan) => { 
+			if (chan.block1 === false && chan.block2 === false) { 
+				const cleanUser1 = (({ id, username }) => ({ id, username }))(chan.users[0]);
+				const cleanUser2 = (({ id, username }) => ({ id, username }))(chan.users[1]);
+				return { id: chan.id, name: chan.name, statue: "Unblocked", user: [cleanUser1, cleanUser2] } } 
+			else if ((chan.block1 || chan.block2) === true) { 
+				const cleanUser1 = (({ id, username }) => ({ id, username }))(chan.users[0]);
+				const cleanUser2 = (({ id, username }) => ({ id, username }))(chan.users[1]);
+				return { id: chan.id, name: chan.name, statue: "Blocked", user: [cleanUser1, cleanUser2] } } });
 			if (user.id < user2.id)
 				client.emit('createDMChannel', all, channel.name, channel.user2[0].username);
 			else
@@ -558,10 +566,14 @@ export class ChatGateway {
 			);
 			const all = all_channels.map((chan) => {
 				if (((chan.user1[0].id === user.id) && chan.block1 === false) || ((chan.user2[0].id === user.id) && chan.block2 === false)) {
-					return { id: chan.id, name: chan.name, statue: "Unblocked", user: chan.users }
+					const cleanUser1 = (({ id, username }) => ({ id, username }))(chan.users[0]);
+					const cleanUser2 = (({ id, username }) => ({ id, username }))(chan.users[1]);
+					return { id: chan.id, name: chan.name, statue: "Unblocked", user:[cleanUser1, cleanUser2] }
 				}
 				else if (((chan.user1[0].id === user.id) && chan.block1 === true) || ((chan.user2[0].id === user.id) && chan.block2 === true)) {
-					return { id: chan.id, name: chan.name, statue: "Blocked", user: chan.users }
+					const cleanUser1 = (({ id, username }) => ({ id, username }))(chan.users[0]);
+					const cleanUser2 = (({ id, username }) => ({ id, username }))(chan.users[1]);
+					return { id: chan.id, name: chan.name, statue: "Blocked", user: [cleanUser1, cleanUser2]}
 				}
 			});
 			client.emit('refreshDMChannel', all)

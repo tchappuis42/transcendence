@@ -26,9 +26,10 @@ const FriendsToAdd = () => {
 	}, []);
 
 	useEffect(() => {
+		
 		if (socket) {
 			socket.on("friendRequest", (data) => {
-				setFriends((prevFriends) => [...prevFriends, data.friend_user])
+				setFriends((prevFriends) => [...prevFriends, data])
 			});
 		}
 		return () => {

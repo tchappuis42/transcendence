@@ -92,12 +92,12 @@ export class UserService {
 			if (user.socket.length === 0) {
 				user.status = ConnctionState.Offline
 				Logger.log("user disconnected")
-			
-			const status = {
-				id: client.data.user.id,
-				status: ConnctionState.Offline
+
+				const status = {
+					id: client.data.user.id,
+					status: ConnctionState.Offline
+				}
 			}
-		}
 			server.emit('status', status)
 			await this.usersRepository.save(user);
 		}
@@ -200,7 +200,7 @@ export class UserService {
 	}
 
 	async getSocketUser(userId: number) {
-		const userSocket = await this.usersRepository.findOne({ where: { id: userId }, select: { socket: true } })
+		const { password, twoFaSecret, ...userSocket } = await this.usersRepository.findOne({ where: { id: userId }, select: { socket: true } })
 		if (userSocket)
 			return userSocket
 		return null
@@ -263,21 +263,20 @@ export class UserService {
 		return socket
 	}
 
-	async checkImageUrl (url: string): Promise<boolean>  {
+	async checkImageUrl(url: string): Promise<boolean> {
 		try {
-		  const response = await axios.head(url);
-		  const contentType = response.headers['content-type'];
-		  return contentType && contentType.startsWith('image/');
+			const response = await axios.head(url);
+			const contentType = response.headers['content-type'];
+			return contentType && contentType.startsWith('image/');
 		} catch (error) {
-		  console.error('Error checking image URL:', error);
-		  return false;
+			console.error('Error checking image URL:', error);
+			return false;
 		}
 	}
 
 	async changeSettings(userId: number, body: settingsDto) {
 		try {
-			if (body.type)
-			{
+			if (body.type) {
 				const isValidImageUrl = await this.checkImageUrl(body.value);
 				if (isValidImageUrl)
 					await this.usersRepository.update(userId, { avatar: body.value })

@@ -6,6 +6,7 @@ import { Request } from 'express';
 import { User } from 'src/user/user.entity';
 import { AcceptDto } from './dtos/AcceptDto';
 import { addFriendDto } from './dtos/addFriendDto';
+import { UserDto } from 'src/user/dtos/UserDto';
 
 @Controller('friends')
 export class FriendsController {

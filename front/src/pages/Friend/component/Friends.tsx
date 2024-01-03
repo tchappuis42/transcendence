@@ -29,13 +29,13 @@ const Friends = () => {
 						.sort((a, b) => b.status - a.status))
 			});
 			socket.on("friend", (data) => {
-				const friend = friends.find((friend) => friend.id === data.friend_user.id)
+				const friend = friends.find((friend) => friend.id === data.id)
 				if (!friend) {
-					setFriends((prevFriends) => [...prevFriends, data.friend_user]
+					setFriends((prevFriends) => [...prevFriends, data]
 						.sort((a, b) => b.status - a.status))
 				}
 				else
-					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.friend_user.id))
+					setFriends((prevFriends) => prevFriends.filter(friend => friend.id !== data.id))
 			});
 		}
 		return () => {

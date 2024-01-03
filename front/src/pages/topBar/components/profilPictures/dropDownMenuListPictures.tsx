@@ -51,7 +51,7 @@ export const DropDownMenuListPictures = ({ height, width }: Props) => {
 								Profil
 						</li>
 						<li className="cursor-pointer flex border-b border-gray-300 h-10 items-center" onClick={() => handleNav("/settings", account.id)}>
-								Paramètres
+								Settings
 						</li>
 						<li className="cursor-pointer flex border-b border-gray-300 h-10 items-center" onClick={LogoutSubmit}>
 							Logout

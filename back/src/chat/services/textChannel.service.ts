@@ -21,7 +21,7 @@ const temporary = 3 * 60 * 1000;
 
 @Injectable()
 export class TextChannelService {
-  
+
   constructor(
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
@@ -38,7 +38,7 @@ export class TextChannelService {
     @InjectRepository(BannedUser)
     private readonly bannedUserRepository: Repository<BannedUser>,
 
-  ) {}
+  ) { }
 
   async createChannel(
     namechannel: string,
@@ -46,12 +46,24 @@ export class TextChannelService {
     passWorld: string,
   ): Promise<TextChannel> {
     const admin = await this.userService.validateUser(userId);
-    
+
     if (namechannel == undefined)
       throw new HttpException(
         'TextChannel name needs to be specified',
         HttpStatus.FORBIDDEN,
-        );
+      );
+
+    if (!namechannel)
+      throw new HttpException(
+        'The name of TextChannel needs to be specified',
+        HttpStatus.FORBIDDEN,
+      );
+
+    if (namechannel === "")
+      throw new HttpException(
+        'The name of TextChannel needs to be specified',
+        HttpStatus.FORBIDDEN,
+      );
 
     if (
       await this.textChannelRepository.findOne({
@@ -63,7 +75,7 @@ export class TextChannelService {
         HttpStatus.FORBIDDEN,
       );
 
-      const cryptPassword = await bcrypt.hash(passWorld, 10);
+    const cryptPassword = await bcrypt.hash(passWorld, 10);
 
     const currentChannel = this.textChannelRepository.create({
       name: namechannel,
@@ -128,9 +140,9 @@ export class TextChannelService {
     let channel = null;
     if (channelName)
       channel = await this.textChannelRepository.findOne({
-        where: {name: channelName}
+        where: { name: channelName }
       });
-      if (!channel)
+    if (!channel)
       throw new HttpException('TextChannel not found', HttpStatus.NOT_FOUND);
     return channel;
   }
@@ -144,8 +156,8 @@ export class TextChannelService {
 
     const unresolved: Promise<TextChannel>[] = uncompleted.map((channel) =>
       this.getChannel(channel.id, [
-				'users',
-			]),
+        'users',
+      ]),
     );
     return await Promise.all(unresolved);
   }
@@ -160,7 +172,8 @@ export class TextChannelService {
       throw new HttpException(
         'User isnt owner in channel',
         HttpStatus.FORBIDDEN,
-      )};
+      )
+    };
 
     await this.msgRepository.remove(channel.msgs);
     await this.mutedUserRepository.remove(channel.muted);
@@ -172,33 +185,33 @@ export class TextChannelService {
     const user = await this.userService.validateUser(userId);
     const curchannel = await this.getChannel(
       channel.id, [
-				'users',
-			]
+      'users',
+    ]
     );
-/*
-    if (!(curchannel.adminId.find((admin1) => admin1.id == admin.id))) {
-      throw new HttpException(
-        'User isnt admin in channel',
-        HttpStatus.FORBIDDEN,
-      )};
-*/
-    
+    /*
+        if (!(curchannel.adminId.find((admin1) => admin1.id == admin.id))) {
+          throw new HttpException(
+            'User isnt admin in channel',
+            HttpStatus.FORBIDDEN,
+          )};
+    */
+
     if (!curchannel.users.find((user1) => user1.id == user.id)) {
-     // throw new HttpException('User already in channel', HttpStatus.CONFLICT);
-    
-    
-    await this.textChannelRepository
-      .createQueryBuilder()
-      .relation(TextChannel, 'users')
-      .of(curchannel)
-      .add(user);
+      // throw new HttpException('User already in channel', HttpStatus.CONFLICT);
+
+
+      await this.textChannelRepository
+        .createQueryBuilder()
+        .relation(TextChannel, 'users')
+        .of(curchannel)
+        .add(user);
     }
   }
 
   async getAllChannels(): Promise<TextChannel[]> {
     const channels = await this.textChannelRepository.find();
     //channels
-    
+
     return channels;
   }
 
@@ -210,27 +223,27 @@ export class TextChannelService {
     const curchannel = await this.getChannel(channel.id, [
       'users',
     ]);
-/*
-    if (user.id == curchannel.owner.id)
-      throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
-
-    if (!(curchannel.adminId.find((admin1) => admin1.id == admin.id))) {
-      throw new HttpException(
-        'User isnt admin in channel',
-        HttpStatus.FORBIDDEN,
-      )};
-*/
+    /*
+        if (user.id == curchannel.owner.id)
+          throw new HttpException('Cannot kick an owner', HttpStatus.FORBIDDEN);
+    
+        if (!(curchannel.adminId.find((admin1) => admin1.id == admin.id))) {
+          throw new HttpException(
+            'User isnt admin in channel',
+            HttpStatus.FORBIDDEN,
+          )};
+    */
     const index = curchannel.users.findIndex((user1) => user1.id == user.id);
     if (index != -1) {
-   //   throw new HttpException('User not in channel', HttpStatus.NOT_FOUND);
-    curchannel.users.splice(index, 1);
-    
-    try {
-      await this.textChannelRepository.save(curchannel);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      //   throw new HttpException('User not in channel', HttpStatus.NOT_FOUND);
+      curchannel.users.splice(index, 1);
+
+      try {
+        await this.textChannelRepository.save(curchannel);
+      } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
     }
-   }
   }
 
   async addAdmin(
@@ -248,8 +261,9 @@ export class TextChannelService {
       throw new HttpException(
         'User isnt admin in channel',
         HttpStatus.FORBIDDEN,
-      )};
-  
+      )
+    };
+
     if (curchannel.adminId.find((admin1) => admin1.id == user.id))
       throw new HttpException('User already in admin', HttpStatus.CONFLICT);
 
@@ -279,7 +293,8 @@ export class TextChannelService {
       throw new HttpException(
         'User isnt admin in channel',
         HttpStatus.FORBIDDEN,
-      )};
+      )
+    };
 
     if (curchannel.owner.id == user.id)
       throw new HttpException('User is a owner, owner is a god', HttpStatus.CONFLICT);
@@ -288,7 +303,7 @@ export class TextChannelService {
     if (index == -1)
       throw new HttpException('User is not in a admin groupe in this channel', HttpStatus.NOT_FOUND);
     curchannel.adminId.splice(index, 1);
-    
+
     try {
       await this.textChannelRepository.save(curchannel);
     } catch (error) {
@@ -301,38 +316,38 @@ export class TextChannelService {
     channel_name: string,
     userId: number,
   ): Promise<void> {
-      const channel = await this.getChannelMe(channel_name);
-      const user = await this.userService.validateUser(userId);
+    const channel = await this.getChannelMe(channel_name);
+    const user = await this.userService.validateUser(userId);
 
-      const msg = this.msgRepository.create({
-        message: message,
-        username: user.username,
-        userId: userId,
-      });
+    const msg = this.msgRepository.create({
+      message: message,
+      username: user.username,
+      userId: userId,
+    });
 
-      try {
-        await this.msgRepository.save(msg);
-        await this.textChannelRepository
-          .createQueryBuilder()
-          .relation(TextChannel, 'msgs')
-          .of(channel)
-          .add(msg);
-      } catch (error) {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-      }
+    try {
+      await this.msgRepository.save(msg);
+      await this.textChannelRepository
+        .createQueryBuilder()
+        .relation(TextChannel, 'msgs')
+        .of(channel)
+        .add(msg);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async changeStatue(
     channel: TextChannel,
     status: boolean,
-   ): Promise<void> {
-    await this.textChannelRepository.update(channel.id, {status} )
-  
-   /* try {
-      await this.textChannelRepository.save(channel);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }*/
+  ): Promise<void> {
+    await this.textChannelRepository.update(channel.id, { status })
+
+    /* try {
+       await this.textChannelRepository.save(channel);
+     } catch (error) {
+       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+     }*/
   }
 
   /*async setPassword(
@@ -365,13 +380,13 @@ export class TextChannelService {
     channel: TextChannel,
     pass: string,
   ): Promise<string> {
-    if (!pass) 
+    if (!pass)
       return "ko";
-    
-      if ((await bcrypt.compare(pass, channel.password)) === true)
-        return "ok";
-      else
-        return "ko";
+
+    if ((await bcrypt.compare(pass, channel.password)) === true)
+      return "ok";
+    else
+      return "ko";
   }
 
   async changePass(
@@ -384,10 +399,10 @@ export class TextChannelService {
     }
 
     if ((await bcrypt.compare(oldPass, channel.password)) === true) {
-      if (!newPass){
+      if (!newPass) {
         return 0;
       }
-      
+
       try {
         const password = await bcrypt.hash(newPass, 10);
         await this.textChannelRepository.update(channel.id, { password });
@@ -405,7 +420,7 @@ export class TextChannelService {
     userMute: UserDto,
     Time: number,
   ) {
-    if (channel.owner == userMute){
+    if (channel.owner == userMute) {
       throw new HttpException(
         'User is owner and thus cannot be muted',
         HttpStatus.FORBIDDEN,
@@ -426,25 +441,25 @@ export class TextChannelService {
 
     if (channel.muted.find((user1) => user1.id == userMute.id))
       throw new HttpException('User is already muted', HttpStatus.FORBIDDEN);
-    
+
     const temp = Time * 60 * 1000;
-    
+
     const time = new Date(Date.now() + temp);
     const muted = this.mutedUserRepository.create({
-        endOfMute: time,
-        userId: userMute.id,
-        channel: channel.name,
+      endOfMute: time,
+      userId: userMute.id,
+      channel: channel.name,
     });
-  
+
     try {
-        await this.mutedUserRepository.save(muted);
-        await this.textChannelRepository
-          .createQueryBuilder()
-          .relation(TextChannel, 'muted')
-          .of(channel)
-          .add(muted);
+      await this.mutedUserRepository.save(muted);
+      await this.textChannelRepository
+        .createQueryBuilder()
+        .relation(TextChannel, 'muted')
+        .of(channel)
+        .add(muted);
     } catch (error) {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
 
   }
@@ -463,7 +478,7 @@ export class TextChannelService {
     userBan: UserDto,
     Time: number,
   ) {
-    if (channel.owner == userBan){
+    if (channel.owner == userBan) {
       throw new HttpException(
         'User is owner and thus cannot be muted',
         HttpStatus.FORBIDDEN,
@@ -492,23 +507,23 @@ export class TextChannelService {
       throw new HttpException('User is already banned', HttpStatus.FORBIDDEN);
 
     const temp = isTime * 60 * 1000;
-    
+
     const time = new Date(Date.now() + temp);
     const banned = this.bannedUserRepository.create({
-        endOfBan: time,
-        userId: userBan.id,
-        channel: channel.name,
+      endOfBan: time,
+      userId: userBan.id,
+      channel: channel.name,
     });
-  
+
     try {
-        await this.bannedUserRepository.save(banned);
-        await this.textChannelRepository
-          .createQueryBuilder()
-          .relation(TextChannel, 'banned')
-          .of(channel)
-          .add(banned);
+      await this.bannedUserRepository.save(banned);
+      await this.textChannelRepository
+        .createQueryBuilder()
+        .relation(TextChannel, 'banned')
+        .of(channel)
+        .add(banned);
     } catch (error) {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 

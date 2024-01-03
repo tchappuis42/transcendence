@@ -128,15 +128,15 @@ const Settings = () => {
                     <div className="w-4/5 h-1/5  flex flex-col justify-center items-center">
                         <h1 className="text-white font-bold">Change your username</h1>
                         <input type="text" placeholder={account.username} className="mt-2 px-4 py-2 bg-white text-black rounded-md" onChange={handleChangeUsername} />
-                        {error && <h2 className="text-red-500">{error}</h2>}
                     </div>
                     {/* ChangeProfilPic */}
                     <ChangeProfilPic setNewAvatar={setNewAvatar} />
                     <TwoFa setTwoFaStatus={setTwoFaStatus} setSecret={setSecret} />
-                    <div className="w-full flex justify-center items-center p-8">
+                    <div className="w-full flex justify-center flex-col items-center p-8">
                         <Button className="w-32 h-8 rounded p-2 text-white" variant="outlined" onClick={handleValidation}>
                             Save
                         </Button>
+                        {error && <h2 className="text-red-500">{error}</h2>}
                     </div>
                 </div>
             </div>

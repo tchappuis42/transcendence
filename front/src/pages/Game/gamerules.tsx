@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSocket } from "../../ui/organisms/SocketContext";
 
 const GameRules = () => {
 	const socket = useSocket();
 	const [rules, setRules] = useState(true)
+	const [countDown, setCountDown] = useState(60);
 
 	const Rules = () => {
 		setRules(false)
@@ -11,7 +12,16 @@ const GameRules = () => {
 			socket.emit("action", "ready")
 	};
 
-
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+		  setCountDown((prev : number) => prev - 1);
+		}, 1000);
+		if (countDown === 0) {
+		  clearInterval(intervalId);
+		}
+		return () => clearInterval(intervalId);
+	  }, [countDown]);
+	  
 	return <div>
 		{rules &&
 			<div className="absolute inset-0 flex pt-8 justify-center">
@@ -21,6 +31,7 @@ const GameRules = () => {
 					<h2 className="text-lg sm:text-xl md:text-2xl">The first player to reach ten points wins the game</h2>
 					<h2 className="py-6 text-lg sm:text-xl sm:py-8 md:text-2xl md:py-10">Press Ready to start</h2>
 					<span className="text-2xl hover:font-semibold cursor-pointer hover:text-red-600 sm:text-3xl md:text-4xl" onClick={Rules}>Ready</span>
+					<h1>{countDown}</h1>
 				</div>
 			</div>
 		}

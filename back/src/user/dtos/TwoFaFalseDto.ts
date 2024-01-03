@@ -1,8 +1,7 @@
-import { IsNotEmpty } from "class-validator";
+import { IsBoolean, IsNotEmpty } from "class-validator";
 
 export class TwoFaFalseDto {
 	@IsNotEmpty()
-	value: boolean;
 
-	secret: string;
+	key: string;
 }

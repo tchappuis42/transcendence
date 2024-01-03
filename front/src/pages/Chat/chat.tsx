@@ -67,7 +67,6 @@ const Chat = () => {
 		}
 		if (socket) {
 			socket.on("getChannelMeOne", (Id, chanName, status, owner) => {
-				setDM_Chann(true);
 				setOwner(owner);
 				setChannelStatus(status)
 				//	if (status) {
@@ -172,6 +171,7 @@ const Chat = () => {
 	}
 
 	function takeChan(channelSet: string, chanStatue: string, password?: string) {
+		setDM_Chann(true);
 		if (chanStatue !== "Public") {
 			setCurrentChannel(channelSet);
 			if (socket)
@@ -190,7 +190,6 @@ const Chat = () => {
 	}
 
 	function takeDMChan(channelSet: string) {
-		setCurrentChannel(channelSet)
 		if (socket) {
 			socket.emit("getDMChannelMe", channelSet, currentChannel);
 			setPass("ok")

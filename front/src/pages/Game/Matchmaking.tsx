@@ -55,16 +55,16 @@ const Matchmaking: React.FC<MatchmakingProps> = ({
 				}
 				if (typeof data === 'number') {
 					if (data === 1)
-						setsearch("recherche de match")
+						setsearch("match search")
 					else if (data === 2)
-						setsearch("trouver un match")
+						setsearch("find a match")
 					else
-						setError("vous etes deja en rechecher de partie")
+						setError("you're already looking for a game")
 				}
 			});
 			socket.on("info", (data) => {
 				if (typeof data === 'number')
-					setsearch("recherche de match")
+					setsearch("match search")
 			});
 		}
 		return () => {

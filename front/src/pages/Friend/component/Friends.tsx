@@ -29,7 +29,6 @@ const Friends = () => {
 						.sort((a, b) => b.status - a.status))
 			});
 			socket.on("friend", (data) => {
-				console.log("friend.tsx = ", data)
 				const friend = friends.find((friend) => friend.id === data.id)
 				if (!friend) {
 					setFriends((prevFriends) => [...prevFriends, data]
